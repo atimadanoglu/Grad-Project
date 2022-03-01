@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Grad-Project</string>
+    <string name="project_name">Apartopolis</string>
+    <string name="email_address">email address</string>
+    <string name="password">password</string>
+    <string name="log_in">LOG IN</string>
+    <string name="you_don_t_have_an_account">You don\'t have an account? </string>
+    <string name="sign_up_here">Sign_up_here</string>
+    <string name="todo">TODO</string>
 </resources>
