@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,10 +8,14 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/primary_color"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:layout_width="32dp"
@@ -20,16 +24,17 @@
             android:layout_marginStart="20dp"
             android:contentDescription="@string/todo"
             android:src="@drawable/notification_icon" />
+
         <TextView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:text="@string/ap"
-            android:textSize="40sp"
-            android:fontFamily="@font/title_font"
-            android:textColor="@color/secondary_color"
             android:layout_gravity="center"
+            android:layout_marginStart="127dp"
+            android:fontFamily="@font/title_font"
             android:gravity="center"
-            android:layout_marginStart="127dp" />
+            android:text="@string/ap"
+            android:textColor="@color/secondary_color"
+            android:textSize="40sp" />
 
         <TextView
             android:layout_width="45dp"
@@ -44,84 +49,105 @@
         <ImageView
             android:layout_width="34dp"
             android:layout_height="34dp"
-            android:src="@drawable/account_icon"
             android:layout_gravity="center"
-            android:layout_marginEnd="20dp"
             android:layout_marginStart="20dp"
-            android:contentDescription="@string/todo" />
-"
+            android:layout_marginEnd="20dp"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/account_icon" />
+        "
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout5"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="610dp"
         android:background="@color/secondary_color"
-        android:orientation="vertical"></LinearLayout>
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentContainerView"
+            android:name="com.graduationproject.grad_project.view.Admin.HomeFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_home" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/primary_color"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
+        app:layout_constraintVertical_bias="1.0">
+
         <TextView
-            android:id="@+id/homeClick"
+            android:id="@+id/homeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/home"
-            android:fontFamily="@font/titillium_web"
-            android:textColor="@color/secondary_color"
-            android:drawablePadding="-3dp"
             android:layout_gravity="center"
+            android:layout_marginStart="13dp"
+            android:drawablePadding="-3dp"
+            android:fontFamily="@font/titillium_web"
             android:gravity="center"
-            android:layout_marginStart="10dp"
+            android:text="@string/home"
+            android:textColor="@color/secondary_color"
             app:drawableTopCompat="@drawable/county_icon" />
 
         <TextView
-            android:id="@+id/announcementClick"
+            android:id="@+id/announcementButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:drawablePadding="-3dp"
+            android:fontFamily="@font/titillium_web"
             android:text="@string/announcements"
             android:textColor="@color/secondary_color"
-            android:fontFamily="@font/titillium_web"
-            android:layout_gravity="center"
-            android:drawablePadding="-3dp"
-            android:layout_marginStart="20dp"
             app:drawableTopCompat="@drawable/email_icon" />
 
         <Button
+            android:id="@+id/menuButton"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_gravity="top"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="15dp"
             android:background="@drawable/menu_button"
             android:drawableStart="@drawable/menu_icon"
             android:paddingStart="10dp"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         <TextView
-            android:id="@+id/residentsClick"
+            android:id="@+id/residentsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/secondary_color"
-            android:text="@string/resident"
-            android:fontFamily="@font/titillium_web"
             android:layout_gravity="center"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="15dp"
             android:drawablePadding="-3dp"
+            android:fontFamily="@font/titillium_web"
+            android:text="@string/resident"
+            android:textColor="@color/secondary_color"
             app:drawableTopCompat="@drawable/resident_s_icon" />
 
         <TextView
-            android:id="@+id/expendituresClick"
+            android:id="@+id/expendituresButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/secondary_color"
-            android:text="@string/expenditures"
-            android:fontFamily="@font/titillium_web"
+            android:layout_marginStart="15dp"
             android:layout_gravity="center"
-            android:layout_marginStart="20dp"
             android:drawablePadding="-3dp"
+            android:fontFamily="@font/titillium_web"
+            android:text="@string/expenditures"
+            android:textColor="@color/secondary_color"
             app:drawableTopCompat="@drawable/expenditure_icon" />
 
     </LinearLayout>
-</LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
