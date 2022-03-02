@@ -16,6 +16,25 @@
             android:name=".view.LoginActivity"
             android:exported="false" />
         <activity
+            android:name=".view.Admin.HomePageAdminActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".view.SiteInformationResidentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.SiteInformationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.NewAccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.SignUpMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.MainActivity"
             android:exported="true" >
             <intent-filter>
