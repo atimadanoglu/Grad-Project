@@ -8,7 +8,7 @@
     tools:context=".view.AdministratorNewAccountActivity">
 
     <Button
-        android:id="@+id/backToChoosingUserPageButton"
+        android:id="@+id/backToResidentNewAccountActivityButton"
         android:layout_width="60dp"
         android:layout_height="30dp"
         android:layout_marginStart="29dp"
@@ -36,10 +36,10 @@
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backToChoosingUserPageButton" />
+        app:layout_constraintTop_toBottomOf="@+id/backToResidentNewAccountActivityButton" />
 
     <EditText
-        android:id="@+id/TextPersonName"
+        android:id="@+id/fullNameText"
         android:layout_width="300dp"
         android:layout_height="48dp"
         android:layout_marginTop="70dp"
@@ -58,7 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <EditText
-        android:id="@+id/phoneNumber"
+        android:id="@+id/phoneNumberText"
         android:layout_width="300dp"
         android:layout_height="48dp"
         android:layout_marginTop="30dp"
@@ -74,7 +74,7 @@
         android:textColorHint="@color/secondary_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/fullNameText" />
 
     <EditText
         android:id="@+id/TextEmailAddress"
@@ -95,7 +95,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/phoneNumberText" />
 
     <EditText
         android:id="@+id/TextPassword"
@@ -118,7 +118,7 @@
         app:layout_constraintTop_toBottomOf="@+id/TextEmailAddress" />
 
     <Button
-        android:id="@+id/nextClick"
+        android:id="@+id/nextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -133,6 +133,7 @@
         android:text="@string/next"
         android:textColor="@color/primary_color"
         android:textSize="20sp"
+        android:onClick="goToSiteInformationActivityPageClicked"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TextPassword" />
@@ -146,13 +147,13 @@
         android:layout_marginEnd="11dp"
         android:text="@string/not_the_first_time_here"
         android:textColor="@color/secondary_color"
-        app:layout_constraintEnd_toStartOf="@+id/logInClickable"
+        app:layout_constraintEnd_toStartOf="@+id/goToLoginPageButton"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nextClick" />
+        app:layout_constraintTop_toBottomOf="@+id/nextButton" />
 
     <TextView
-        android:id="@+id/logInClickable"
+        android:id="@+id/goToLoginPageButton"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:fontFamily="@font/titillium_web_bold"
