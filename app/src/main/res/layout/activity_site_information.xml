@@ -8,7 +8,7 @@
     tools:context=".view.SiteInformationActivity">
 
     <Button
-        android:id="@+id/backButtonNewAccountClick"
+        android:id="@+id/backToChoosingUserPageButton"
         android:layout_width="60dp"
         android:layout_height="30dp"
         android:layout_marginStart="29dp"
@@ -36,7 +36,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.178"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backButtonNewAccountClick" />
+        app:layout_constraintTop_toBottomOf="@+id/backToChoosingUserPageButton" />
 
     <EditText
         android:id="@+id/siteNameText"
@@ -50,6 +50,7 @@
         android:drawableStart="@drawable/ic_site_icon"
         android:drawablePadding="10dp"
         android:hint="@string/site_name"
+        android:autofillHints="siteName"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,6 +68,7 @@
         android:drawablePadding="10dp"
         android:ems="10"
         android:hint="@string/city"
+        android:autofillHints="cityName"
         android:inputType="textPersonName"
         android:textColorHint="@color/secondary_color"
         app:layout_constraintStart_toStartOf="parent"
@@ -83,6 +85,7 @@
         android:textColor="@color/secondary_color"
         android:textColorHint="@color/secondary_color"
         android:hint="@string/block_count"
+        android:autofillHints="blockCount"
         android:inputType="textPersonName"
         android:drawableStart="@drawable/block_icon"
         android:drawablePadding="10dp"
@@ -99,6 +102,7 @@
         android:backgroundTint="@color/secondary_color"
         android:ems="10"
         android:hint="@string/flat_count"
+        android:autofillHints="flatCount"
         android:inputType="textPersonName"
         android:textColorHint="@color/secondary_color"
         android:textColor="@color/secondary_color"
@@ -122,6 +126,7 @@
         android:drawablePadding="10dp"
         android:ems="10"
         android:hint="@string/county"
+        android:autofillHints="countyName"
         android:inputType="textPersonName"
         android:textColorHint="@color/secondary_color"
         app:layout_constraintBottom_toBottomOf="@+id/cityText"

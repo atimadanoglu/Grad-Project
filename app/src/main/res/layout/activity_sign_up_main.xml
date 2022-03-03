@@ -43,13 +43,14 @@
         android:drawableStart="@drawable/navigate_before_icon"
         android:paddingStart="5dp"
         android:paddingEnd="0dp"
+        android:onClick="backToLoginPageButtonClicked"
         app:layout_constraintEnd_toStartOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     <Button
-        android:id="@+id/adminClick"
+        android:id="@+id/adminButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/button"
@@ -64,12 +65,13 @@
         android:shadowColor="@color/black"
         android:shadowDx="-1"
         android:shadowRadius="1"
+        android:onClick="goToAdminNewAccountPageButtonClicked"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <Button
-        android:id="@+id/residentClick"
+        android:id="@+id/residentButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/button"
@@ -84,8 +86,9 @@
         android:shadowColor="@color/black"
         android:shadowDy="-1"
         android:shadowRadius="1"
+        android:onClick="goToResidentNewAccountPageButtonClicked"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adminClick" />
+        app:layout_constraintTop_toBottomOf="@+id/adminButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
