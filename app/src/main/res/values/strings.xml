@@ -37,7 +37,12 @@
     <string name="home">Home</string>
     <string name="announcements">Announcements</string>
     <string name="residents">Residents</string>
+    <string name="add_new_announcement">Add new announcement</string>
     <string name="todo">TODO</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title">Title</string>
+    <string name="content">Content</string>
+    <string name="share">share</string>
+    <string name="take_photo">Take photo</string>
 
 </resources>

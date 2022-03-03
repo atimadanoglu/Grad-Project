@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".view.Admin.AddAnnouncementFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_new_announcement"
+        android:textColor="@color/primary_color"
+        android:layout_margin="20dp"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:fontFamily="@font/titillium_web_bold"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded_corner">
+
+        <EditText
+            android:id="@+id/titleInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:autofillHints=""
+            android:background="@color/transparent"
+            android:backgroundTint="@color/secondary_color"
+            android:hint="@string/title"
+            android:padding="10dp"
+            android:textColor="@color/secondary_color"
+            android:textColorHint="@color/secondary_color"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <EditText
+            android:id="@+id/contentInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/content"
+            android:textColor="@color/secondary_color"
+            android:background="@color/transparent"
+            android:backgroundTint="@color/secondary_color"
+            android:textColorHint="@color/secondary_color"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:gravity="top"
+            android:lines="10"
+            android:autofillHints="" />
+        <TextView
+            android:id="@+id/takePhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/secondary_color"
+            android:text="@string/take_photo"
+            android:padding="10dp"
+            android:textSize="17sp"
+            android:fontFamily="@font/titillium_web"
+            android:background="#3EFFFFFF"
+            android:layout_margin="10dp"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:textAlignment="center"
+            app:drawableStartCompat="@drawable/camera_icon" />
+
+    <ImageView
+        android:id="@+id/picture"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/picture_icon"
+        android:contentDescription="TODO" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/shareAnnouncementButton"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="@string/share"
+        android:textColor="@color/secondary_color"
+        android:background="@drawable/add_button"
+        android:layout_gravity="center" />
+</LinearLayout>
+</layout>
