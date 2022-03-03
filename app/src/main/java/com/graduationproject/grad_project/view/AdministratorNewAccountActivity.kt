@@ -2,12 +2,15 @@ package com.graduationproject.grad_project.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.graduationproject.grad_project.R
-import com.graduationproject.grad_project.model.Site
 
-class MainActivity : AppCompatActivity() {
+class AdministratorNewAccountActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_administrator_new_account)
     }
+
+    fun backToChoosingUserPageButtonClicked(view: View) {}
+    fun goToLoginPageButtonClicked(view: View) {}
 }
