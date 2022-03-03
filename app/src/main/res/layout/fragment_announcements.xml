@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.Admin.AnnouncementsFragment"
+    android:background="@color/secondary_color"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/titleOfAnnouncement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/titillium_web_bold"
+        android:text="@string/announcements"
+        android:textColor="@color/primary_color"
+        android:textSize="25sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/announcementRecyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/addAnnouncementButton"
+        android:layout_below="@+id/titleOfAnnouncement"/>
+
+    <Button
+        android:id="@+id/addAnnouncementButton"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/add_button"
+        android:text="Add new announcement"
+        android:textColor="@color/secondary_color" />
+</RelativeLayout>
+</layout>
