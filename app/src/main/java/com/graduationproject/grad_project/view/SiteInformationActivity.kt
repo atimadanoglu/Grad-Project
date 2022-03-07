@@ -64,7 +64,9 @@ class SiteInformationActivity : AppCompatActivity() {
                 "flatCount" to flatCount,
             )
 
-            if (city.isEmpty() || district.isEmpty() || siteName.isEmpty() || blockCount == 0 || flatCount == 0) {
+            if (city.isEmpty() || district.isEmpty() || siteName.isEmpty() ||
+                binding.blockCountText.text.isEmpty() || binding.flatCountText.text.isEmpty()
+            ) {
                 Toast.makeText(this, "Lütfen gerekli tüm kısımları doldurunuz!!!", Toast.LENGTH_LONG).show()
             } else {
                 auth.createUserWithEmailAndPassword(email!!, password!!).addOnSuccessListener {
@@ -72,6 +74,7 @@ class SiteInformationActivity : AppCompatActivity() {
 
                     db.collection("sites").add(site)
                         .addOnSuccessListener {
+                            Log.d(TAG, "Site document successfully written!")
                             id = it.id // site document reference
                             // added admin collection into last document
                             db.collection("sites").document(id)
@@ -83,13 +86,16 @@ class SiteInformationActivity : AppCompatActivity() {
                                 }
                         }
                         .addOnFailureListener {
+                            Log.w(TAG, "Site document couldn't be written", it)
                             Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
                         }
 
                     val intent = Intent(this, HomePageAdminActivity::class.java)
                     startActivity(intent)
                     finish()
+
                 }.addOnFailureListener {
+                    Log.w(TAG, "User couldn't be created", it)
                     Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
                 }
 
