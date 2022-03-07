@@ -12,7 +12,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.graduationproject.grad_project.databinding.ActivitySiteInformationBinding
-import com.graduationproject.grad_project.model.Administrator
 import com.graduationproject.grad_project.view.Admin.HomePageAdminActivity
 
 class SiteInformationActivity : AppCompatActivity() {
@@ -36,25 +35,43 @@ class SiteInformationActivity : AppCompatActivity() {
     }
 
     fun signUpButtonClicked(view: View) {
-        val i = intent.extras
-        if (i != null) {
-            val fullName = i.getString("fullName")
-            val phoneNumber = i.getString("phoneNumber")
-            val email = i.getString("email")
-            val password = i.getString("password")
+        if (binding.cityText.text.isBlank() || binding.countyText.text.isBlank() || binding.siteNameText.text.isBlank() ||
+            binding.flatCountText.text.isBlank() || binding.blockCountText.text.isBlank()
+        ) {
+            Toast.makeText(this, "Lütfen gerekli tüm kısımları doldurunuz!!!", Toast.LENGTH_LONG).show()
+        } else {
+            val i = intent.extras
+            var fullName = ""
+            var phoneNumber = ""
+            var email = ""
+            var password = ""
+            val admin = hashMapOf(
+                "fullName" to "",
+                "phoneNumber" to "",
+                "email" to "",
+                "password" to "",
+                "uid" to ""
+            )
+
+            if (i != null) {
+                println("intent içindeyim")
+                fullName = i.getString("fullName").toString()
+                phoneNumber = i.getString("phoneNumber").toString()
+                email = i.getString("email").toString()
+                password = i.getString("password").toString()
+                admin["fullName"] = fullName
+                admin["phoneNumber"] = phoneNumber
+                admin["email"] = email
+                admin["password"] = password
+            }
+
+            println("karşı tarafa bilgi aktardım")
+
             val city = binding.cityText.text.toString()
             val district = binding.countyText.text.toString()
             val siteName = binding.siteNameText.text.toString()
             val blockCount = binding.blockCountText.text.toString().toInt()
             val flatCount = binding.flatCountText.text.toString().toInt()
-
-            val admin = hashMapOf(
-                "fullName" to fullName,
-                "email" to email,
-                "phoneNumber" to phoneNumber,
-                "password" to password,
-                "adminKey" to "abcdef"
-            )
 
             val site = hashMapOf(
                 "siteName" to siteName,
@@ -64,42 +81,38 @@ class SiteInformationActivity : AppCompatActivity() {
                 "flatCount" to flatCount,
             )
 
-            if (city.isEmpty() || district.isEmpty() || siteName.isEmpty() ||
-                binding.blockCountText.text.isEmpty() || binding.flatCountText.text.isEmpty()
-            ) {
-                Toast.makeText(this, "Lütfen gerekli tüm kısımları doldurunuz!!!", Toast.LENGTH_LONG).show()
-            } else {
-                auth.createUserWithEmailAndPassword(email!!, password!!).addOnSuccessListener {
-                    admin["uid"] = auth.currentUser?.uid
-                    db.collection("sites").document("siteName:$siteName-city:$city-district:$district").set(site)
-                        .addOnSuccessListener {
-                            Log.d(TAG, "Site document successfully written!")
-                        }
-                        .addOnFailureListener {
-                            Log.w(TAG, "Site document couldn't be written", it)
-                            Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
-                        }
+            auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener { result ->
+                db.collection("sites")
+                    .document("siteName:$siteName-city:$city-district:$district").set(site)
+                    .addOnSuccessListener {
+                        Log.d(TAG, "Site document successfully written!")
+                    }
+                    .addOnFailureListener {
+                        Log.w(TAG, "Site document couldn't be written", it)
+                        Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
+                    }
 
-                    val intent = Intent(this, HomePageAdminActivity::class.java)
-                    startActivity(intent)
-                    finish()
-
-                }.addOnFailureListener {
-                    Log.w(TAG, "User couldn't be created", it)
-                    Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
-                }
-                // added admin collection into last document
-                if (fullName != null) {
-                    db.collection("sites").document("siteName:$siteName-city:$city-district:$district")
-                        .collection("administrator").document("adminName:$fullName").set(admin)
-                        .addOnSuccessListener {
-                            Log.d(TAG, "Administrator document successfully written!")
-                        }.addOnFailureListener { e ->
-                            Log.w(TAG, "Error writing document", e)
-                        }
-                }
-
+                val intent = Intent(this, HomePageAdminActivity::class.java)
+                startActivity(intent)
+                finish()
+            }.addOnFailureListener {
+                Log.w(TAG, "User couldn't be created", it)
+                Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
             }
+
+            val uid = auth.currentUser?.uid
+            admin.replace("uid", uid.toString())
+            println(admin["uid"])
+
+            db.collection("sites").document("siteName:$siteName-city:$city-district:$district")
+                .collection("administrator").document("adminName:$fullName").set(admin)
+                .addOnSuccessListener {
+                    Log.d(TAG, "Administrator document successfully written!")
+                }.addOnFailureListener { e ->
+                    Log.w(TAG, "Error writing document", e)
+                }
+
+
         }
 
     }
