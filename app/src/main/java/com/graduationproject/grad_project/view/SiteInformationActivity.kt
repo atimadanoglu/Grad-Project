@@ -70,20 +70,10 @@ class SiteInformationActivity : AppCompatActivity() {
                 Toast.makeText(this, "Lütfen gerekli tüm kısımları doldurunuz!!!", Toast.LENGTH_LONG).show()
             } else {
                 auth.createUserWithEmailAndPassword(email!!, password!!).addOnSuccessListener {
-                    var id: String
-
-                    db.collection("sites").add(site)
+                    admin["uid"] = auth.currentUser?.uid
+                    db.collection("sites").document("siteName:$siteName-city:$city-district:$district").set(site)
                         .addOnSuccessListener {
                             Log.d(TAG, "Site document successfully written!")
-                            id = it.id // site document reference
-                            // added admin collection into last document
-                            db.collection("sites").document(id)
-                                .collection("administrator").add(admin)
-                                .addOnSuccessListener {
-                                    Log.d(TAG, "Administrator document successfully written!")
-                                }.addOnFailureListener { e ->
-                                    Log.w(TAG, "Error writing document", e)
-                                }
                         }
                         .addOnFailureListener {
                             Log.w(TAG, "Site document couldn't be written", it)
@@ -97,6 +87,16 @@ class SiteInformationActivity : AppCompatActivity() {
                 }.addOnFailureListener {
                     Log.w(TAG, "User couldn't be created", it)
                     Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
+                }
+                // added admin collection into last document
+                if (fullName != null) {
+                    db.collection("sites").document("siteName:$siteName-city:$city-district:$district")
+                        .collection("administrator").document("adminName:$fullName").set(admin)
+                        .addOnSuccessListener {
+                            Log.d(TAG, "Administrator document successfully written!")
+                        }.addOnFailureListener { e ->
+                            Log.w(TAG, "Error writing document", e)
+                        }
                 }
 
             }

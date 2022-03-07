@@ -76,7 +76,7 @@
         app:layout_constraintTop_toBottomOf="@+id/siteNameText" />
 
     <EditText
-        android:id="@+id/blockCountText"
+        android:id="@+id/blockNoText"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
@@ -94,7 +94,7 @@
         app:layout_constraintTop_toBottomOf="@+id/cityText" />
 
     <EditText
-        android:id="@+id/flatCountText"
+        android:id="@+id/flatNoText"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="41dp"
@@ -109,10 +109,10 @@
         android:textColor="@color/secondary_color"
         android:drawableStart="@drawable/flat_count_icon"
         android:drawablePadding="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/blockCountText"
+        app:layout_constraintBottom_toBottomOf="@+id/blockNoText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/blockCountText"
+        app:layout_constraintStart_toEndOf="@+id/blockNoText"
         app:layout_constraintTop_toBottomOf="@+id/countyText" />
 
     <EditText

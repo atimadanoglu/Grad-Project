@@ -30,7 +30,7 @@ class ResidentNewAccountActivity : AppCompatActivity() {
             binding.fullNameText.text.isEmpty()) {
             Toast.makeText(this, "Lütfen gerekli tüm kısımları doldurunuz!!!", Toast.LENGTH_LONG).show()
         } else {
-            val intent = Intent(this, SiteInformationActivity::class.java).apply {
+            val intent = Intent(this, SiteInformationResidentActivity::class.java).apply {
                 putExtra("fullName", binding.fullNameText.text.toString())
                 putExtra("phoneNumber",binding.phoneNumberText.text.toString())
                 putExtra("email",binding.TextEmailAddress.text.toString())

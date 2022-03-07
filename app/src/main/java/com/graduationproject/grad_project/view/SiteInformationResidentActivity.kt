@@ -39,6 +39,7 @@ class SiteInformationResidentActivity : AppCompatActivity() {
         val intent = Intent(this, ResidentNewAccountActivity::class.java)
         startActivity(intent)
     }
+
     fun signUpButtonClicked(view: View) {
 
         val i = intent.extras
@@ -50,27 +51,19 @@ class SiteInformationResidentActivity : AppCompatActivity() {
             val city = binding.cityText.text.toString()
             val district = binding.countyText.text.toString()
             val siteName = binding.siteNameText.text.toString()
-            val blockCount = binding.blockCountText.text.toString().toInt()
-            val flatCount = binding.flatCountText.text.toString().toInt()
+            val blockNo = binding.blockNoText.text.toString().toInt()
+            val flatNo = binding.flatNoText.text.toString().toInt()
 
-            val admin = hashMapOf(
+            val resident = hashMapOf(
                 "fullName" to fullName,
                 "email" to email,
                 "phoneNumber" to phoneNumber,
                 "password" to password,
-                "adminKey" to "abcdef"
             )
 
-            val site = hashMapOf(
-                "siteName" to siteName,
-                "city" to city,
-                "district" to district,
-                "blockCount" to blockCount,
-                "flatCount" to flatCount,
-            )
 
             if (city.isEmpty() || district.isEmpty() || siteName.isEmpty() ||
-                binding.blockCountText.text.isEmpty() || binding.flatCountText.text.isEmpty()
+                binding.blockNoText.text.isEmpty() || binding.flatNoText.text.isEmpty()
             ) {
                 Toast.makeText(
                     this,
@@ -79,25 +72,18 @@ class SiteInformationResidentActivity : AppCompatActivity() {
                 ).show()
             } else {
                 auth.createUserWithEmailAndPassword(email!!, password!!).addOnSuccessListener {
-                    var id: String
+                    resident["uid"] = auth.currentUser?.uid
+                    if (fullName != null) {
+                        db.collection("sites").document("siteName:$siteName-city:$city-district:$district")
+                            .collection("residents").document("blockNo:$blockNo-flatNo:$flatNo-fullName:$fullName")
+                            .set(resident)
+                            .addOnSuccessListener {
+                                Log.d(TAG, "Resident document successfully written!")
+                            }.addOnFailureListener { e ->
+                                Log.w(TAG, "Error writing document", e)
+                            }
+                    }
 
-                    db.collection("sites").add(site)
-                        .addOnSuccessListener {
-                            Log.d(TAG, "Site document successfully written!")
-                            id = it.id // site document reference
-                            // added admin collection into last document
-                            db.collection("sites").document(id)
-                                .collection("administrator").add(admin)
-                                .addOnSuccessListener {
-                                    Log.d(TAG, "Administrator document successfully written!")
-                                }.addOnFailureListener { e ->
-                                    Log.w(TAG, "Error writing document", e)
-                                }
-                        }
-                        .addOnFailureListener {
-                            Log.w(TAG, "Site document couldn't be written", it)
-                            Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
-                        }
                     // TODO: Gidilen aktivite değiştirilecek
                     val intent = Intent(this, HomePageAdminActivity::class.java)
                     startActivity(intent)
