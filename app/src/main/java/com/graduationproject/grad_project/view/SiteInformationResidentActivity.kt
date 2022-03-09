@@ -12,6 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.graduationproject.grad_project.databinding.ActivitySiteInformationResidentBinding
+import com.graduationproject.grad_project.view.resident.HomePageResidentActivity
 import java.io.Serializable
 
 class SiteInformationResidentActivity : AppCompatActivity() {
@@ -58,6 +59,7 @@ class SiteInformationResidentActivity : AppCompatActivity() {
             var email = ""
             var password = ""
             val resident = hashMapOf<String, Any>()
+
             if (i != null) {
                 println("intent içindeyim")
                 fullName = i.getString("fullName").toString()
@@ -68,12 +70,13 @@ class SiteInformationResidentActivity : AppCompatActivity() {
                 resident["phoneNumber"] = phoneNumber
                 resident["email"] = email
                 resident["password"] = password
+                resident["typeOfUser"] = "resident"
             }
 
             val city = binding.cityText.text.toString()
             val district = binding.countyText.text.toString()
             val siteName = binding.siteNameText.text.toString()
-            val blockNo = binding.blockNoText.text.toString().toInt()
+            val blockNo = binding.blockNoText.text.toString()
             val flatNo = binding.flatNoText.text.toString().toInt()
 
             val site = hashMapOf(
@@ -89,7 +92,7 @@ class SiteInformationResidentActivity : AppCompatActivity() {
                 Log.d(TAG, "User successfully created!")
                 resident["uid"] = auth.currentUser?.uid.toString()
 
-                db.collection("residents").document("siteName:$siteName-blockNo:$blockNo-flatNo:$flatNo-fullName:$fullName")
+                db.collection("residents").document(email)
                     .set(resident)
                     .addOnSuccessListener {
                         Log.d(TAG, "Resident document successfully written!")
@@ -98,7 +101,7 @@ class SiteInformationResidentActivity : AppCompatActivity() {
                     }
 
                 // TODO: Gidilen aktivite değiştirilecek homepageAdmin ekle
-                val intent = Intent(this, LoginActivity::class.java)
+                val intent = Intent(this, HomePageResidentActivity::class.java)
                 startActivity(intent)
                 finish()
             }.addOnFailureListener {

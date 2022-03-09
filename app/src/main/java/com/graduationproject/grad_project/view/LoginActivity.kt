@@ -7,12 +7,16 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.graduationproject.grad_project.databinding.ActivityLoginBinding
+import com.graduationproject.grad_project.view.admin.HomePageAdminActivity
+import com.graduationproject.grad_project.view.resident.HomePageResidentActivity
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityLoginBinding
     private lateinit var myAuth: FirebaseAuth
+    private lateinit var db : FirebaseFirestore
 
     companion object {
         private const val TAG = "LoginActivity"
@@ -25,15 +29,16 @@ class LoginActivity : AppCompatActivity() {
         setContentView(view)
 
         myAuth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
 
         val currentUser = myAuth.currentUser
-        if (currentUser != null) {
+        /*if (currentUser != null) {
             //TODO
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this, HomePageAdminActivity::class.java)
             startActivity(intent)
             finish()
         }
-
+*/
     }
 
     fun signUpHereButtonClicked(view: View) {
@@ -52,16 +57,39 @@ class LoginActivity : AppCompatActivity() {
             myAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
                     Log.d(TAG, "User successfully logged in!")
-                    //TODO
-                    val intent = Intent(this, LoginActivity::class.java)
-                    startActivity(intent)
-                    finish()
                 }.addOnFailureListener {
                     Toast.makeText(this, it.localizedMessage,Toast.LENGTH_LONG).show()
                     Log.w(TAG, "Sign-in Error!", it)
                 }
+
+            val currentUser = myAuth.currentUser?.uid
+            db.collection("administrators").document(email)
+                .get()
+                .addOnSuccessListener {
+                    if (it.get("typeOfUser") != null) {
+                        Log.d(TAG, "Found a user with that email address on admin collection!")
+                        val intent = Intent(this, HomePageAdminActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+
+                }.addOnFailureListener {
+                    Log.w(TAG, "Error while searching a user with that email!!!", it)
+                }
+
+            db.collection("residents").document(email)
+                .get()
+                .addOnSuccessListener {
+                    if (it.get("typeOfUser") != null) {
+                        Log.d(TAG, "Found a user with that email address on resident collection!")
+                        val intent = Intent(this, HomePageResidentActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                }.addOnFailureListener {
+                    Log.w(TAG, "Error while searching a user with that email!!!", it)
+                }
+
         }
-
-
     }
 }

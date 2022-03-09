@@ -12,6 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.graduationproject.grad_project.databinding.ActivitySiteInformationBinding
+import com.graduationproject.grad_project.view.admin.HomePageAdminActivity
 
 class SiteInformationActivity : AppCompatActivity() {
 
@@ -62,12 +63,13 @@ class SiteInformationActivity : AppCompatActivity() {
                 admin["phoneNumber"] = phoneNumber
                 admin["email"] = email
                 admin["password"] = password
+                admin["typeOfUser"] = "admin"
             }
 
             val city = binding.cityText.text.toString()
             val district = binding.countyText.text.toString()
             val siteName = binding.siteNameText.text.toString()
-            val blockCount = binding.blockCountText.text.toString().toInt()
+            val blockCount = binding.blockCountText.text.toString()
             val flatCount = binding.flatCountText.text.toString().toInt()
 
             val site = hashMapOf(
@@ -88,8 +90,7 @@ class SiteInformationActivity : AppCompatActivity() {
                         Log.w(TAG, "Site document couldn't be written", it)
                         Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
                     }
-//TODO
-                val intent = Intent(this, LoginActivity::class.java)
+                val intent = Intent(this, HomePageAdminActivity::class.java)
                 startActivity(intent)
                 finish()
             }.addOnFailureListener {
@@ -98,11 +99,11 @@ class SiteInformationActivity : AppCompatActivity() {
             }
 
             val uid = auth.currentUser?.uid
-            admin.replace("uid", uid.toString())
-            println(admin["uid"])
+            admin["uid"] = uid.toString()
 
-            db.collection("sites").document("siteName:$siteName-city:$city-district:$district")
-                .collection("admin").document("admin").set(admin)
+            db.collection("administrators")
+                .document(email)
+                .set(admin)
                 .addOnSuccessListener {
                     Log.d(TAG, "Administrator document successfully written!")
                 }.addOnFailureListener { e ->
