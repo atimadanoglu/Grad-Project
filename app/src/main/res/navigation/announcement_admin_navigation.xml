@@ -6,24 +6,16 @@
     app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/announcementsFragment"
-        android:name="com.graduationproject.grad_project.view.Admin.AnnouncementsFragment"
-        android:label="AnnouncementsFragment" >
-        <action
-            android:id="@+id/action_announcementsFragment_to_addAnnouncementFragment"
-            app:destination="@id/addAnnouncementFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/addAnnouncementFragment"
-        android:name="com.graduationproject.grad_project.view.Admin.AddAnnouncementFragment"
-        android:label="AddAnnouncementFragment" >
-        <action
-            android:id="@+id/action_addAnnouncementFragment_to_announcementsFragment"
-            app:destination="@id/announcementsFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/homeFragment"
-        android:name="com.graduationproject.grad_project.view.Admin.HomeFragment"
+        android:name="com.graduationproject.grad_project.view.admin.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/announcementsFragment"
+        android:name="com.graduationproject.grad_project.view.admin.AnnouncementsFragment"
+        android:label="AnnouncementsFragment" />
+    <fragment
+        android:id="@+id/addAnnouncementFragment"
+        android:name="com.graduationproject.grad_project.view.admin.AddAnnouncementFragment"
+        android:label="AddAnnouncementFragment" />
 </navigation>

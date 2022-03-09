@@ -10,14 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GradProject">
         <activity
-            android:name=".view.ResidentNewAccountActivity"
+            android:name=".view.SignUpMainActivity"
             android:exported="false" />
         <activity
-            android:name=".view.SignUpMainActivity"
+            android:name=".view.ResidentNewAccountActivity"
             android:exported="false" />
         <activity
             android:name=".view.admin.HomePageAdminActivity"
             android:exported="false" />
+
         <activity
             android:name=".view.SiteInformationResidentActivity"
             android:exported="false" />

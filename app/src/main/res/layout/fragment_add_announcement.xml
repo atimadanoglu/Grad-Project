@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".view.Admin.AddAnnouncementFragment">
+    tools:context=".view.admin.AddAnnouncementFragment">
 
     <TextView
         android:layout_width="match_parent"
@@ -85,7 +85,8 @@
         android:layout_height="wrap_content"
         android:text="@string/share"
         android:textColor="@color/secondary_color"
-        android:background="@drawable/add_button"
+        android:background="@drawable/button"
+        android:backgroundTint="@color/primary_color"
         android:layout_gravity="center" />
 </LinearLayout>
 </layout>

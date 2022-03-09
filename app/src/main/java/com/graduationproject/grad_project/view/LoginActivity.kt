@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.graduationproject.grad_project.databinding.ActivityLoginBinding
-import com.graduationproject.grad_project.view.admin.HomePageAdminActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -29,7 +28,8 @@ class LoginActivity : AppCompatActivity() {
 
         val currentUser = myAuth.currentUser
         if (currentUser != null) {
-            val intent = Intent(this, HomePageAdminActivity::class.java)
+            //TODO
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }
@@ -52,7 +52,8 @@ class LoginActivity : AppCompatActivity() {
             myAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
                     Log.d(TAG, "User successfully logged in!")
-                    val intent = Intent(this, HomePageAdminActivity::class.java)
+                    //TODO
+                    val intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
                     finish()
                 }.addOnFailureListener {
