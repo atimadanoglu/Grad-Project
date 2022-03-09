@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:orientation="horizontal"
+            android:background="@drawable/recycleview_background">
+
+            <LinearLayout
+                android:id="@+id/account_info_linearLayout"
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/account_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:hint="@string/account_name"
+                    android:textSize="22sp"
+                    android:paddingTop="15dp"
+                    android:textColor="@color/primary_color"
+                    android:textColorHint="@color/primary_color"
+                    android:fontFamily="@font/titillium_web_bold"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp"
+                            android:hint="@string/x_blok"
+                            android:textSize="14sp"
+                            android:textColorHint="@color/primary_color"
+                            android:fontFamily="@font/titillium_web"
+                            android:textColor="@color/primary_color"
+                            android:paddingStart="30dp"
+                            android:gravity="center_vertical"/>
+                        <TextView
+                            android:id="@+id/flat_no_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/primary_color"
+                            android:hint="@string/no_01"
+                            android:textSize="14sp"
+                            android:textColorHint="@color/primary_color"
+                            android:fontFamily="@font/titillium_web"
+                            android:layout_marginStart="10dp"
+                            android:gravity="center_vertical"/>
+
+                    </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/debt_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/line"
+                android:textColorHint="@color/primary_color"
+                android:textColor="@color/primary_color"
+                android:fontFamily="@font/titillium_web_bold"
+                android:textSize="17sp"
+                android:paddingTop="10dp"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

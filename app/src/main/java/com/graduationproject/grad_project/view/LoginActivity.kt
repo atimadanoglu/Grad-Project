@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -20,9 +21,10 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+//        binding = ActivityLoginBinding.inflate(layoutInflater)
+//        val view = binding.root
+//        setContentView(view)
+        setContentView(R.layout.activity_list_resident_for_admin)
 
         myAuth = FirebaseAuth.getInstance()
 

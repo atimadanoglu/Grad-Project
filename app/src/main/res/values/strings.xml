@@ -57,5 +57,9 @@
     <string name="ba_l_k">Başlık</string>
     <string name="erik">İçerik</string>
     <string name="account_type">Hesap Tipi</string>
+    <string name="x_blok">X-Blok</string>
+    <string name="no_01">No: 01</string>
+    <string name="line">-</string>
+    <string name="buradan_ara">Buradan Ara</string>
 
 </resources>
