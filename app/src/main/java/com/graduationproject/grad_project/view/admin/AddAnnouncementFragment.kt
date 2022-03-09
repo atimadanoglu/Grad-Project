@@ -1,4 +1,4 @@
-package com.graduationproject.grad_project.view.admin
+package com.graduationproject.grad_project.view.Admin
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.graduationproject.grad_project.R
 
-class HomeFragment : Fragment() {
+
+class AddAnnouncementFragment : Fragment() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -18,6 +20,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        return inflater.inflate(R.layout.fragment_add_announcement, container, false)
     }
+
 }
