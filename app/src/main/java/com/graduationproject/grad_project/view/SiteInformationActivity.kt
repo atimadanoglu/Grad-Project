@@ -12,7 +12,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.graduationproject.grad_project.databinding.ActivitySiteInformationBinding
-import com.graduationproject.grad_project.view.admin.HomePageAdminActivity
 
 class SiteInformationActivity : AppCompatActivity() {
 
@@ -89,8 +88,8 @@ class SiteInformationActivity : AppCompatActivity() {
                         Log.w(TAG, "Site document couldn't be written", it)
                         Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
                     }
-
-                val intent = Intent(this, HomePageAdminActivity::class.java)
+//TODO
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
             }.addOnFailureListener {
