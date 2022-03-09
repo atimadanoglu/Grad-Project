@@ -12,7 +12,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.graduationproject.grad_project.databinding.ActivitySiteInformationResidentBinding
-import com.graduationproject.grad_project.view.admin.HomePageAdminActivity
 import java.io.Serializable
 
 class SiteInformationResidentActivity : AppCompatActivity() {
@@ -98,8 +97,8 @@ class SiteInformationResidentActivity : AppCompatActivity() {
                         Log.w(TAG, "Error writing document", e)
                     }
 
-                // TODO: Gidilen aktivite değiştirilecek
-                val intent = Intent(this, HomePageAdminActivity::class.java)
+                // TODO: Gidilen aktivite değiştirilecek homepageAdmin ekle
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
             }.addOnFailureListener {
