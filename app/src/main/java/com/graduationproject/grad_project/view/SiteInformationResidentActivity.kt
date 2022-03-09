@@ -11,9 +11,9 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.ActivitySiteInformationResidentBinding
-import com.graduationproject.grad_project.view.Admin.HomePageAdminActivity
+import com.graduationproject.grad_project.view.admin.HomePageAdminActivity
+import java.io.Serializable
 
 class SiteInformationResidentActivity : AppCompatActivity() {
 
@@ -58,7 +58,7 @@ class SiteInformationResidentActivity : AppCompatActivity() {
             var phoneNumber = ""
             var email = ""
             var password = ""
-            val resident = hashMapOf<String, String>()
+            val resident = hashMapOf<String, Any>()
             if (i != null) {
                 println("intent içindeyim")
                 fullName = i.getString("fullName").toString()
@@ -71,20 +71,26 @@ class SiteInformationResidentActivity : AppCompatActivity() {
                 resident["password"] = password
             }
 
-            println("karşı tarafa bilgi aktardım")
-
             val city = binding.cityText.text.toString()
             val district = binding.countyText.text.toString()
             val siteName = binding.siteNameText.text.toString()
             val blockNo = binding.blockNoText.text.toString().toInt()
             val flatNo = binding.flatNoText.text.toString().toInt()
 
+            val site = hashMapOf(
+                "siteName" to siteName,
+                "city" to city,
+                "district" to district,
+                "blockNo" to blockNo,
+                "flatNo" to flatNo
+            )
+            resident["siteInfo"] = site
+
             auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
                 Log.d(TAG, "User successfully created!")
                 resident["uid"] = auth.currentUser?.uid.toString()
 
-                db.collection("sites").document("siteName:$siteName-city:$city-district:$district")
-                    .collection("residents").document("blockNo:$blockNo-flatNo:$flatNo-fullName:$fullName")
+                db.collection("residents").document("siteName:$siteName-blockNo:$blockNo-flatNo:$flatNo-fullName:$fullName")
                     .set(resident)
                     .addOnSuccessListener {
                         Log.d(TAG, "Resident document successfully written!")

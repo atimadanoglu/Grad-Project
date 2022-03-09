@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.Admin.HomePageAdminActivity"
+    tools:context=".view.admin.HomePageAdminActivity"
     android:orientation="vertical">
 
     <LinearLayout
@@ -37,12 +37,12 @@
             android:textSize="40sp" />
 
         <TextView
+            android:id="@+id/accountName"
             android:layout_width="45dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="65dp"
             android:fontFamily="@font/titillium_web"
-            android:text="@string/account_name"
             android:textColor="@color/secondary_color"
             android:textSize="12sp" />
 
@@ -54,7 +54,7 @@
             android:layout_marginEnd="20dp"
             android:contentDescription="@string/todo"
             android:src="@drawable/account_icon" />
-        "
+
 
     </LinearLayout>
 
@@ -70,7 +70,7 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerView"
-            android:name="com.graduationproject.grad_project.view.Admin.HomeFragment"
+            android:name="com.graduationproject.grad_project.view.admin.HomeFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:layout="@layout/fragment_home" />

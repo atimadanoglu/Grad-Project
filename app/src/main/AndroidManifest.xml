@@ -16,7 +16,7 @@
             android:name=".view.SignUpMainActivity"
             android:exported="false" />
         <activity
-            android:name=".view.Admin.HomePageAdminActivity"
+            android:name=".view.admin.HomePageAdminActivity"
             android:exported="false" />
         <activity
             android:name=".view.SiteInformationResidentActivity"

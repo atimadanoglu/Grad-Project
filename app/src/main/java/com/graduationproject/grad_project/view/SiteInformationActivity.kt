@@ -12,7 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.graduationproject.grad_project.databinding.ActivitySiteInformationBinding
-import com.graduationproject.grad_project.view.Admin.HomePageAdminActivity
+import com.graduationproject.grad_project.view.admin.HomePageAdminActivity
 
 class SiteInformationActivity : AppCompatActivity() {
 
@@ -65,8 +65,6 @@ class SiteInformationActivity : AppCompatActivity() {
                 admin["password"] = password
             }
 
-            println("karşı tarafa bilgi aktardım")
-
             val city = binding.cityText.text.toString()
             val district = binding.countyText.text.toString()
             val siteName = binding.siteNameText.text.toString()
@@ -81,7 +79,7 @@ class SiteInformationActivity : AppCompatActivity() {
                 "flatCount" to flatCount,
             )
 
-            auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener { result ->
+            auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
                 db.collection("sites")
                     .document("siteName:$siteName-city:$city-district:$district").set(site)
                     .addOnSuccessListener {
@@ -105,7 +103,7 @@ class SiteInformationActivity : AppCompatActivity() {
             println(admin["uid"])
 
             db.collection("sites").document("siteName:$siteName-city:$city-district:$district")
-                .collection("administrator").document("adminName:$fullName").set(admin)
+                .collection("admin").document("admin").set(admin)
                 .addOnSuccessListener {
                     Log.d(TAG, "Administrator document successfully written!")
                 }.addOnFailureListener { e ->
