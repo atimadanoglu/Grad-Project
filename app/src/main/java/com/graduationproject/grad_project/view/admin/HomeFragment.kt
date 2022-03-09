@@ -1,4 +1,4 @@
-package com.graduationproject.grad_project.view.Admin
+package com.graduationproject.grad_project.view.admin
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

@@ -8,7 +8,7 @@
     android:background="@color/primary_color">
 
     <Button
-        android:id="@+id/backButtonNewAccountClick"
+        android:id="@+id/backToResidentNewAccountActivityButton"
         android:layout_width="60dp"
         android:layout_height="30dp"
         android:layout_marginStart="29dp"
@@ -18,6 +18,7 @@
         android:drawableStart="@drawable/navigate_before_icon"
         android:paddingStart="5dp"
         android:paddingEnd="0dp"
+        android:onClick="backToResidentNewAccountActivityButtonClicked"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
@@ -36,7 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.178"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backButtonNewAccountClick" />
+        app:layout_constraintTop_toBottomOf="@+id/backToResidentNewAccountActivityButton" />
 
     <EditText
         android:id="@+id/siteNameText"
@@ -50,7 +51,8 @@
         android:drawableStart="@drawable/ic_site_icon"
         android:drawablePadding="10dp"
         android:hint="@string/site_name"
-        android:inputType="textPersonName"
+        android:autofillHints="siteName"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -67,13 +69,14 @@
         android:drawablePadding="10dp"
         android:ems="10"
         android:hint="@string/city"
-        android:inputType="textPersonName"
+        android:autofillHints="cityName"
+        android:inputType="text"
         android:textColorHint="@color/secondary_color"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/siteNameText" />
 
     <EditText
-        android:id="@+id/blockCountText"
+        android:id="@+id/blockNoText"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
@@ -83,14 +86,15 @@
         android:textColor="@color/secondary_color"
         android:textColorHint="@color/secondary_color"
         android:hint="@string/block_no"
-        android:inputType="textPersonName"
+        android:autofillHints="blockNo"
+        android:inputType="numberDecimal"
         android:drawableStart="@drawable/block_icon"
         android:drawablePadding="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cityText" />
 
     <EditText
-        android:id="@+id/flatCountText"
+        android:id="@+id/flatNoText"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="41dp"
@@ -99,15 +103,16 @@
         android:backgroundTint="@color/secondary_color"
         android:ems="10"
         android:hint="@string/flat_no"
-        android:inputType="textPersonName"
+        android:autofillHints="flatNo"
+        android:inputType="numberDecimal"
         android:textColorHint="@color/secondary_color"
         android:textColor="@color/secondary_color"
         android:drawableStart="@drawable/flat_count_icon"
         android:drawablePadding="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/blockCountText"
+        app:layout_constraintBottom_toBottomOf="@+id/blockNoText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/blockCountText"
+        app:layout_constraintStart_toEndOf="@+id/blockNoText"
         app:layout_constraintTop_toBottomOf="@+id/countyText" />
 
     <EditText
@@ -122,6 +127,7 @@
         android:drawablePadding="10dp"
         android:ems="10"
         android:hint="@string/county"
+        android:autofillHints="countName"
         android:inputType="textPersonName"
         android:textColorHint="@color/secondary_color"
         app:layout_constraintBottom_toBottomOf="@+id/cityText"
@@ -141,6 +147,7 @@
         android:text="@string/sign_up"
         android:textAllCaps="false"
         android:textSize="20sp"
+        android:onClick="signUpButtonClicked"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

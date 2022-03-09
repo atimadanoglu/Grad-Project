@@ -10,14 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GradProject">
         <activity
-            android:name=".view.Admin.HomePageAdminActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.SignUpMainActivity"
             android:exported="false" />
         <activity
-            android:name=".view.LoginActivity"
+            android:name=".view.ResidentNewAccountActivity"
             android:exported="false" />
+        <activity
+            android:name=".view.admin.HomePageAdminActivity"
+            android:exported="false" />
+
         <activity
             android:name=".view.SiteInformationResidentActivity"
             android:exported="false" />
@@ -25,16 +26,10 @@
             android:name=".view.SiteInformationActivity"
             android:exported="false" />
         <activity
-            android:name=".view.NewAccountActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.SignUpMainActivity"
+            android:name=".view.AdministratorNewAccountActivity"
             android:exported="false" />
         <activity
             android:name=".view.LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

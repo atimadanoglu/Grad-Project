@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary_color"
-    tools:context=".view.NewAccountActivity">
+    tools:context=".view.AdministratorNewAccountActivity">
 
     <Button
-        android:id="@+id/backButtonNewAccountClick"
+        android:id="@+id/backToResidentNewAccountActivityButton"
         android:layout_width="60dp"
         android:layout_height="30dp"
         android:layout_marginStart="29dp"
@@ -18,6 +18,7 @@
         android:drawableStart="@drawable/navigate_before_icon"
         android:paddingStart="5dp"
         android:paddingEnd="0dp"
+        android:onClick="backToChoosingUserPageButtonClicked"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
@@ -35,10 +36,10 @@
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backButtonNewAccountClick" />
+        app:layout_constraintTop_toBottomOf="@+id/backToResidentNewAccountActivityButton" />
 
     <EditText
-        android:id="@+id/TextPersonName"
+        android:id="@+id/fullNameText"
         android:layout_width="300dp"
         android:layout_height="48dp"
         android:layout_marginTop="70dp"
@@ -57,7 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/phoneNumberText"
         android:layout_width="300dp"
         android:layout_height="48dp"
         android:layout_marginTop="30dp"
@@ -68,12 +69,12 @@
         android:ems="10"
         android:fontFamily="@font/titillium_web"
         android:hint="@string/phone_number"
-        android:inputType="textPersonName"
+        android:inputType="phone"
         android:textColor="@color/secondary_color"
         android:textColorHint="@color/secondary_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/fullNameText" />
 
     <EditText
         android:id="@+id/TextEmailAddress"
@@ -94,7 +95,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintTop_toBottomOf="@+id/phoneNumberText" />
 
     <EditText
         android:id="@+id/TextPassword"
@@ -117,14 +118,13 @@
         app:layout_constraintTop_toBottomOf="@+id/TextEmailAddress" />
 
     <Button
-        android:id="@+id/nextClick"
+        android:id="@+id/nextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:background="@drawable/button"
         android:drawableEnd="@drawable/navigate_next_icon"
         android:fontFamily="@font/titillium_web_bold"
-        android:onClick="@string/next_click"
         android:paddingStart="75dp"
         android:paddingEnd="60dp"
         android:shadowColor="@color/black"
@@ -133,6 +133,7 @@
         android:text="@string/next"
         android:textColor="@color/primary_color"
         android:textSize="20sp"
+        android:onClick="goToSiteInformationActivityPageClicked"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TextPassword" />
@@ -146,17 +147,17 @@
         android:layout_marginEnd="11dp"
         android:text="@string/not_the_first_time_here"
         android:textColor="@color/secondary_color"
-        app:layout_constraintEnd_toStartOf="@+id/logInClickable"
+        app:layout_constraintEnd_toStartOf="@+id/goToLoginPageButton"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nextClick" />
+        app:layout_constraintTop_toBottomOf="@+id/nextButton" />
 
     <TextView
-        android:id="@+id/logInClickable"
+        android:id="@+id/goToLoginPageButton"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:fontFamily="@font/titillium_web_bold"
-        android:onClick="@string/log_in_Clickable"
+        android:onClick="goToLoginPageButtonClicked"
         android:text="@string/log_in."
         android:textColor="@color/secondary_color"
         app:layout_constraintBaseline_toBaselineOf="@+id/notFirstTextView"

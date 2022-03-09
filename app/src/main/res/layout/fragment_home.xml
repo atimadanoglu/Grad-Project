@@ -5,7 +5,7 @@
 <FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.Admin.HomeFragment">
+    tools:context=".view.admin.HomeFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -113,7 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="75dp"
             android:fontFamily="@font/titillium_web"
-            android:text="-"
+            android:hint="-"
             android:textColor="@color/primary_color"
             android:textSize="24sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView8"
@@ -125,7 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="75dp"
             android:fontFamily="@font/titillium_web"
-            android:text="-"
+            android:hint="-"
             android:textColor="@color/primary_color"
             android:textSize="24sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView9"
@@ -137,7 +137,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="75dp"
             android:fontFamily="@font/titillium_web"
-            android:text="-"
+            android:hint="-"
             android:textColor="@color/primary_color"
             android:textSize="24sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView10"
@@ -149,7 +149,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="75dp"
             android:fontFamily="@font/titillium_web"
-            android:text="-"
+            android:hint="-"
             android:textColor="@color/primary_color"
             android:textSize="24sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView11"
