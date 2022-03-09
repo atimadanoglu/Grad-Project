@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/homeFragment"
+        android:title="@string/home"
+        android:icon="@drawable/county_icon"
+        />
+
+    <item android:id="@+id/announcementsFragment"
+        android:title="@string/announcements"
+        android:icon="@drawable/email_icon" />
+
+    <item android:id="@+id/miResidents"
+        android:title="@string/residents"
+        android:icon="@drawable/resident_s_icon"/>
+
+    <item android:id="@+id/miExpenditures"
+        android:title="@string/expenditures"
+        android:icon="@drawable/expenditure_icon"/>
+
+</menu>

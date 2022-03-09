@@ -1,39 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.Admin.AnnouncementsFragment"
-    android:background="@color/secondary_color"
-    android:padding="20dp">
-
-    <TextView
-        android:id="@+id/titleOfAnnouncement"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="@font/titillium_web_bold"
-        android:text="@string/announcements"
-        android:textColor="@color/primary_color"
-        android:textSize="25sp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/announcementRecyclerview"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/addAnnouncementButton"
-        android:layout_below="@+id/titleOfAnnouncement"/>
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/addAnnouncementButton"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/add_button"
-        android:text="Add new announcement"
-        android:textColor="@color/secondary_color" />
-</RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".view.Admin.AnnouncementsFragment"
+            android:background="@color/secondary_color"
+            android:padding="20dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/announcementRecyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/addAnnouncementButton"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp" />
+
+            <Button
+                android:id="@+id/addAnnouncementButton"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/button"
+                android:backgroundTint="@color/primary_color"
+                android:text="@string/add_new_announcement"
+                android:textColor="@color/secondary_color" />
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
