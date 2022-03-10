@@ -61,5 +61,10 @@
     <string name="no_01">No: 01</string>
     <string name="line">-</string>
     <string name="buradan_ara">Buradan Ara</string>
+    <string name="herkes">Herkes</string>
+    <string name="tutar">tutar</string>
+    <string name="ekle">Ekle</string>
+    <string name="bor_ekle">BORÇ EKLE</string>
+    <string name="tl">TL</string>
 
 </resources>

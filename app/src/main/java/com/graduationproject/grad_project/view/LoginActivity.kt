@@ -21,10 +21,10 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        binding = ActivityLoginBinding.inflate(layoutInflater)
-//        val view = binding.root
-//        setContentView(view)
-        setContentView(R.layout.activity_list_resident_for_admin)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
 
         myAuth = FirebaseAuth.getInstance()
 

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.admin.ListResidentForAdminActivity">
+    tools:context=".view.admin.ResidentsListForAdminFragment">
 
     <EditText
         android:id="@+id/editTextTextPersonName"
@@ -44,11 +46,26 @@
         android:layout_height="51dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="25dp"
-        android:contentDescription="@string/todo"
         android:background="@drawable/search_button"
+        android:contentDescription="@string/todo"
         app:layout_constraintBottom_toTopOf="@+id/recyclerview"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/search_icon"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="290dp"
+        android:layout_marginBottom="30dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/add_icon"
+        android:contentDescription="@string/todo"
+        android:focusable="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
