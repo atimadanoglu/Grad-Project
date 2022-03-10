@@ -45,13 +45,7 @@ class SiteInformationActivity : AppCompatActivity() {
             var phoneNumber = ""
             var email = ""
             var password = ""
-            val admin = hashMapOf(
-                "fullName" to "",
-                "phoneNumber" to "",
-                "email" to "",
-                "password" to "",
-                "uid" to ""
-            )
+            val admin = HashMap<String, Any>()
 
             if (i != null) {
                 println("intent içindeyim")
@@ -100,6 +94,7 @@ class SiteInformationActivity : AppCompatActivity() {
 
             val uid = auth.currentUser?.uid
             admin["uid"] = uid.toString()
+            admin["siteInfo"] = site
 
             db.collection("administrators")
                 .document(email)

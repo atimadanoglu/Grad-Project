@@ -8,7 +8,10 @@ import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.ActivityLoginBinding
+import com.graduationproject.grad_project.databinding.FragmentAnnouncementsBinding
+import com.graduationproject.grad_project.view.admin.AnnouncementsFragment
 import com.graduationproject.grad_project.view.admin.HomePageAdminActivity
 import com.graduationproject.grad_project.view.resident.HomePageResidentActivity
 
@@ -17,6 +20,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding : ActivityLoginBinding
     private lateinit var myAuth: FirebaseAuth
     private lateinit var db : FirebaseFirestore
+    private lateinit var bindingLogin : FragmentAnnouncementsBinding
 
     companion object {
         private const val TAG = "LoginActivity"
@@ -28,17 +32,17 @@ class LoginActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+
         myAuth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
         val currentUser = myAuth.currentUser
-        /*if (currentUser != null) {
+       /* if (currentUser != null) {
             //TODO
             val intent = Intent(this, HomePageAdminActivity::class.java)
             startActivity(intent)
             finish()
-        }
-*/
+        }*/
     }
 
     fun signUpHereButtonClicked(view: View) {

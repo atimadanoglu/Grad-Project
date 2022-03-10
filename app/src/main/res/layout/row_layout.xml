@@ -6,7 +6,7 @@
     android:layout_marginBottom="2dp">
 
     <TextView
-        android:id="@+id/title_text"
+        android:id="@+id/item_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -17,7 +17,7 @@
         android:textSize="26sp" />
 
     <TextView
-        android:id="@+id/content_text"
+        android:id="@+id/item_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
