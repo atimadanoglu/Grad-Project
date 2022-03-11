@@ -32,7 +32,6 @@ class LoginActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-
         myAuth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
