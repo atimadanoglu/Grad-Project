@@ -41,6 +41,18 @@ class AnnouncementsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         println("onViewCreated")
+
+        binding.addAnnouncementButton.setOnClickListener {
+            // You need to use parentFragmentManager on fragments
+            val fragmentManager = parentFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+
+            val addAnnouncementsFragment = AddAnnouncementFragment()
+            // It provides to get back to previous page
+            val back = fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.replace(R.id.hostFragment, addAnnouncementsFragment).commit()
+        }
+
         retrieveAndShowAnnouncements()
     }
 
@@ -70,6 +82,8 @@ class AnnouncementsFragment : Fragment() {
             }
         }
     }
+
+
 
 
 }

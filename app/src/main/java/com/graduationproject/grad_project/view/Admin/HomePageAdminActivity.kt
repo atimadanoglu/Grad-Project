@@ -31,7 +31,9 @@ class HomePageAdminActivity : AppCompatActivity() {
         val fragmentTransaction = fragmentManager.beginTransaction()
 
         val announcementsFragment = AnnouncementsFragment()
+        val back = fragmentTransaction.addToBackStack(null)
         fragmentTransaction.replace(R.id.hostFragment, announcementsFragment).commit()
+
     }
 
 
