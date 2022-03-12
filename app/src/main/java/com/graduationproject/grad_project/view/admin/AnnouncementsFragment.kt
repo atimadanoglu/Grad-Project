@@ -17,7 +17,6 @@ class AnnouncementsFragment : Fragment() {
     private var _binding : FragmentAnnouncementsBinding? = null
     private val binding get() = _binding!!
 
-    private var announcements : ArrayList<Announcement>? = null
     private var announcementRecyclerViewAdapter : AnnouncementRecyclerViewAdapter? = null
     private lateinit var db : FirebaseFirestore
     private lateinit var auth: FirebaseAuth
@@ -26,13 +25,12 @@ class AnnouncementsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-        println("oncreate")
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentAnnouncementsBinding.inflate(inflater, container, false)
         return binding.root
@@ -40,7 +38,6 @@ class AnnouncementsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        println("onViewCreated")
 
         binding.addAnnouncementButton.setOnClickListener {
             // You need to use parentFragmentManager on fragments
@@ -50,7 +47,7 @@ class AnnouncementsFragment : Fragment() {
             val addAnnouncementsFragment = AddAnnouncementFragment()
             // It provides to get back to previous page
             val back = fragmentTransaction.addToBackStack(null)
-            fragmentTransaction.replace(R.id.hostFragment, addAnnouncementsFragment).commit()
+            fragmentTransaction.replace(R.id.mainFragmentContainerView, addAnnouncementsFragment).commit()
         }
 
         retrieveAndShowAnnouncements()
@@ -72,8 +69,6 @@ class AnnouncementsFragment : Fragment() {
                                     document.get("title") as String,
                                     document.get("content") as String
                                 ))
-                                println(document.get("title"))
-                                println(document.get("content"))
                             }
                             announcementRecyclerViewAdapter = AnnouncementRecyclerViewAdapter(announcements)
                             binding.announcementRecyclerview.adapter = announcementRecyclerViewAdapter

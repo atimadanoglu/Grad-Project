@@ -65,7 +65,6 @@ class LoginActivity : AppCompatActivity() {
                     Log.w(TAG, "Sign-in Error!", it)
                 }
 
-            val currentUser = myAuth.currentUser?.uid
             db.collection("administrators").document(email)
                 .get()
                 .addOnSuccessListener {
@@ -75,7 +74,6 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(intent)
                         finish()
                     }
-
                 }.addOnFailureListener {
                     Log.w(TAG, "Error while searching a user with that email!!!", it)
                 }

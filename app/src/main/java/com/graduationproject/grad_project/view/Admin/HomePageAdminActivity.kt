@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import androidx.core.view.get
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.graduationproject.grad_project.R
@@ -25,14 +28,15 @@ class HomePageAdminActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
+        // Switching fragments from bottom navigation
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.mainFragmentContainerView) as NavHostFragment
+        val navController = navHostFragment.navController
+        findViewById<BottomNavigationView>(R.id.bottom_navigation)
+            .setupWithNavController(navController)
+
+
         retrieveAndUpdateHeaderInfoFromDB()
-
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-
-        val announcementsFragment = AnnouncementsFragment()
-        val back = fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.replace(R.id.hostFragment, announcementsFragment).commit()
 
     }
 

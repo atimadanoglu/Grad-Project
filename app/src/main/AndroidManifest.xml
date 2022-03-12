@@ -10,10 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GradProject">
         <activity
-            android:name=".view.admin.ListResidentForAdminActivity"
+            android:name=".view.admin.HomePageAdminActivity"
             android:exported="false" />
         <activity
-            android:name=".view.admin.HomePageAdminActivity"
+            android:name=".view.resident.HomePageResidentActivity"
             android:exported="false" />
         <activity
             android:name=".view.SignUpMainActivity"
@@ -40,9 +40,6 @@
             </intent-filter>
         </activity>
 
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

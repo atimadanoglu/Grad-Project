@@ -45,7 +45,6 @@ class SiteInformationActivity : AppCompatActivity() {
             var phoneNumber = ""
             var email = ""
             var password = ""
-            val admin = HashMap<String, Any>()
 
             if (i != null) {
                 println("intent içindeyim")
@@ -53,11 +52,6 @@ class SiteInformationActivity : AppCompatActivity() {
                 phoneNumber = i.getString("phoneNumber").toString()
                 email = i.getString("email").toString()
                 password = i.getString("password").toString()
-                admin["fullName"] = fullName
-                admin["phoneNumber"] = phoneNumber
-                admin["email"] = email
-                admin["password"] = password
-                admin["typeOfUser"] = "admin"
             }
 
             val city = binding.cityText.text.toString()
@@ -92,9 +86,21 @@ class SiteInformationActivity : AppCompatActivity() {
                 Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
             }
 
+            // Write admin info into DB
             val uid = auth.currentUser?.uid
-            admin["uid"] = uid.toString()
-            admin["siteInfo"] = site
+            val admin = hashMapOf(
+                "fullName" to fullName,
+                "phoneNumber" to phoneNumber,
+                "email" to email,
+                "password" to password,
+                "typeOfUser" to "Administrator",
+                "siteName" to siteName,
+                "city" to city,
+                "district" to district,
+                "blockCount" to blockCount,
+                "flatCount" to flatCount,
+                "uid" to uid.toString()
+            )
 
             db.collection("administrators")
                 .document(email)
@@ -102,10 +108,8 @@ class SiteInformationActivity : AppCompatActivity() {
                 .addOnSuccessListener {
                     Log.d(TAG, "Administrator document successfully written!")
                 }.addOnFailureListener { e ->
-                    Log.w(TAG, "Error writing document", e)
+                    Log.w(TAG, "Error writing admin info document", e)
                 }
-
-
         }
 
     }

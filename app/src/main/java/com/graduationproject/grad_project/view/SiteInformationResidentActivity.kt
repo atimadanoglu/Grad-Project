@@ -58,7 +58,6 @@ class SiteInformationResidentActivity : AppCompatActivity() {
             var phoneNumber = ""
             var email = ""
             var password = ""
-            val resident = hashMapOf<String, Any>()
 
             if (i != null) {
                 println("intent içindeyim")
@@ -66,11 +65,6 @@ class SiteInformationResidentActivity : AppCompatActivity() {
                 phoneNumber = i.getString("phoneNumber").toString()
                 email = i.getString("email").toString()
                 password = i.getString("password").toString()
-                resident["fullName"] = fullName
-                resident["phoneNumber"] = phoneNumber
-                resident["email"] = email
-                resident["password"] = password
-                resident["typeOfUser"] = "resident"
             }
 
             val city = binding.cityText.text.toString()
@@ -79,14 +73,18 @@ class SiteInformationResidentActivity : AppCompatActivity() {
             val blockNo = binding.blockNoText.text.toString()
             val flatNo = binding.flatNoText.text.toString().toInt()
 
-            val site = hashMapOf(
+            val resident = hashMapOf(
+                "fullName" to fullName,
+                "phoneNumber" to phoneNumber,
+                "email" to email,
+                "password" to password,
+                "typeOfUser" to "Resident",
                 "siteName" to siteName,
                 "city" to city,
                 "district" to district,
                 "blockNo" to blockNo,
                 "flatNo" to flatNo
             )
-            resident["siteInfo"] = site
 
             auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
                 Log.d(TAG, "User successfully created!")
@@ -97,10 +95,8 @@ class SiteInformationResidentActivity : AppCompatActivity() {
                     .addOnSuccessListener {
                         Log.d(TAG, "Resident document successfully written!")
                     }.addOnFailureListener { e ->
-                        Log.w(TAG, "Error writing document", e)
+                        Log.w(TAG, "Error writing resident info document", e)
                     }
-
-                // TODO: Gidilen aktivite değiştirilecek homepageAdmin ekle
                 val intent = Intent(this, HomePageResidentActivity::class.java)
                 startActivity(intent)
                 finish()
