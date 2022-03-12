@@ -87,7 +87,7 @@
         android:textColorHint="@color/secondary_color"
         android:hint="@string/block_no"
         android:autofillHints="blockNo"
-        android:inputType="numberDecimal"
+        android:inputType="text"
         android:drawableStart="@drawable/block_icon"
         android:drawablePadding="10dp"
         app:layout_constraintStart_toStartOf="parent"

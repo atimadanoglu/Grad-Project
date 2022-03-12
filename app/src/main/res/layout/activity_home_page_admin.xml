@@ -9,35 +9,39 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-
-        android:layout_width="match_parent"
+        android:id="@+id/homeLayout"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        tools:context=".view.admin.HomePageAdminActivity"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:context=".view.admin.HomePageAdminActivity">
 
-        <fragment
-            android:id="@+id/hostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/mainFragmentContainerView"
             android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="3dp"
             app:defaultNavHost="true"
-            app:navGraph ="@navigation/announcement_admin_navigation"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:navGraph="@navigation/admin_home_navigation" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
             android:background="@color/primary_color"
-            app:menu="@menu/bottom_nav_menu"
-            app:itemTextColor="@color/secondary_color"
             app:itemIconTint="@color/secondary_color"
+            app:itemTextColor="@color/secondary_color"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/hostFragment"/>
+            app:layout_constraintTop_toBottomOf="@+id/mainFragmentContainerView"
+            app:menu="@menu/bottom_nav_menu" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

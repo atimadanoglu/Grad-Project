@@ -10,11 +10,11 @@
         android:title="@string/announcements"
         android:icon="@drawable/email_icon" />
 
-    <item android:id="@+id/miResidents"
+    <item android:id="@+id/residentsListForAdminFragment"
         android:title="@string/residents"
         android:icon="@drawable/resident_s_icon"/>
 
-    <item android:id="@+id/miExpenditures"
+    <item android:id="@+id/expendituresFragment"
         android:title="@string/expenditures"
         android:icon="@drawable/expenditure_icon"/>
 
