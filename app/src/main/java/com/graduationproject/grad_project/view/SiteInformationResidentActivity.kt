@@ -78,12 +78,13 @@ class SiteInformationResidentActivity : AppCompatActivity() {
                 "phoneNumber" to phoneNumber,
                 "email" to email,
                 "password" to password,
-                "typeOfUser" to "Resident",
+                "typeOfUser" to "Sakin",
                 "siteName" to siteName,
                 "city" to city,
                 "district" to district,
                 "blockNo" to blockNo,
-                "flatNo" to flatNo
+                "flatNo" to flatNo,
+                "debt" to 0.0
             )
 
             auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
@@ -105,14 +106,6 @@ class SiteInformationResidentActivity : AppCompatActivity() {
                 Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
             }
         }
-
-
-
-
-
-
-
-
 
     }
 }

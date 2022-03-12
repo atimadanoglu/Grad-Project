@@ -38,6 +38,7 @@ class HomePageAdminActivity : AppCompatActivity() {
 
         retrieveAndUpdateHeaderInfoFromDB()
 
+
     }
 
 

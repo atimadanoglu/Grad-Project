@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
                 <TextView
-                    android:id="@+id/account_name"
+                    android:id="@+id/account_name_list_item"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:hint="@string/account_name"
@@ -39,6 +39,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/block_no_text_list_item"
                             android:layout_width="wrap_content"
                             android:layout_height="20dp"
                             android:hint="@string/x_blok"
@@ -49,7 +50,7 @@
                             android:paddingStart="30dp"
                             android:gravity="center_vertical"/>
                         <TextView
-                            android:id="@+id/flat_no_text"
+                            android:id="@+id/flat_no_text_list_item"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textColor="@color/primary_color"
@@ -65,7 +66,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/debt_text"
+                android:id="@+id/debt_text_list_item"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:hint="@string/line"

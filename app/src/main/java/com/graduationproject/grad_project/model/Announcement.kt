@@ -1,5 +1,5 @@
 package com.graduationproject.grad_project.model
 
 data class Announcement(
-    var title : String,
-    var content : String)
+    val title : String,
+    val content : String)
