@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="10dp"
-        tools:context=".view.admin.AddAnnouncementFragment">
+        tools:context=".view.admin.AddExpendituresFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearBox"
@@ -29,6 +29,7 @@
                 android:background="@drawable/back_green_button"
                 android:drawableStart="@drawable/back_arrow_green_icon"
                 android:paddingStart="5dp"
+                android:paddingEnd="5dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
@@ -45,12 +46,31 @@
                 android:hint="@string/title"
                 android:inputType="text"
                 android:paddingStart="20dp"
+                android:paddingEnd="20dp"
                 android:textColor="@color/primary_color"
                 android:textColorHint="@color/primary_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.49"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView5"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <EditText
+                android:id="@+id/titleInput2"
+                android:layout_width="115dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="11dp"
+                android:autofillHints=""
+                android:background="@drawable/search_box"
+                android:hint="@string/tutar"
+                android:inputType="text"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textColor="@color/primary_color"
+                android:textColorHint="@color/primary_color"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/contentInput"
                 tools:ignore="TouchTargetSizeCheck" />
 
             <EditText
@@ -67,6 +87,7 @@
                 android:inputType="textMultiLine"
                 android:lines="5"
                 android:paddingStart="20dp"
+                android:paddingEnd="20dp"
                 android:paddingTop="10dp"
                 android:textColor="@color/primary_color"
                 android:textColorHint="@color/primary_color"
@@ -77,35 +98,33 @@
             <TextView
                 android:id="@+id/takePhoto"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="11dp"
                 android:background="@color/primary_color"
-                android:drawablePadding="10dp"
+                android:backgroundTint="@color/primary_color"
+                android:drawablePadding="6dp"
                 android:fontFamily="@font/titillium_web"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="@string/take_photo"
+                android:text="@string/fatura_ekle"
                 android:textAlignment="center"
                 android:textColor="@color/secondary_color"
-                android:textSize="17sp"
+                android:textSize="14sp"
                 app:drawableStartCompat="@drawable/camera_icon"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/contentInput" />
+                app:layout_constraintTop_toBottomOf="@+id/titleInput2" />
 
             <ImageView
                 android:id="@+id/picture_view"
                 android:layout_width="146dp"
                 android:layout_height="138dp"
                 android:layout_gravity="end"
-                android:layout_marginStart="21dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginEnd="30dp"
                 android:contentDescription="@string/todo"
-                android:src="@drawable/photo_icon"
+                android:src="@drawable/document_scanner_icon"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.8"
-                app:layout_constraintStart_toEndOf="@+id/takePhoto"
                 app:layout_constraintTop_toBottomOf="@+id/contentInput" />
 
             <TextView
@@ -115,7 +134,7 @@
                 android:layout_marginTop="50dp"
                 android:fontFamily="@font/titillium_web_bold"
                 android:gravity="center"
-                android:text="@string/add_new_announcement"
+                android:text="@string/Gider_Ekle"
                 android:textColor="@color/primary_color"
                 android:textSize="25sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -125,11 +144,9 @@
             <Button
                 android:id="@+id/shareAnnouncementButton"
                 android:layout_width="120dp"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_gravity="center"
-                android:layout_marginStart="110dp"
-                android:layout_marginEnd="110dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="15dp"
                 android:background="@drawable/button"
                 android:backgroundTint="@color/primary_color"
                 android:text="@string/share"

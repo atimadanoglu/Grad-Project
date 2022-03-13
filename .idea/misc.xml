@@ -22,6 +22,8 @@
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/drawable-anydpi/resident_icon.xml" value="0.1915" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1915" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/drawable/add_button.xml" value="0.279" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/drawable/add_debt_icon.xml" value="0.35" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/drawable/assessment_icon.xml" value="0.35" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/drawable/back_button_style.xml" value="0.2355" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/drawable/back_green_button.xml" value="0.35" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/drawable/block_icon.xml" value="0.35" />
@@ -55,8 +57,12 @@
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/activity_site_information_resident.xml" value="0.20208333333333334" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/add_debt_item.xml" value="0.2572463768115942" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/drawer_header.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/expenditures_item.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_add_announcement.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_add_expenditures.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_add_expenditures_fragment.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_announcements.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_expenditures.xml" value="0.4" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_home.xml" value="0.264" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_residents_list_for_admin.xml" value="0.33" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/header_navigation_drawer.xml" value="0.21240942028985507" />
@@ -66,6 +72,7 @@
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/show_message_info_for_admin.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/menu/announcement_more_menu.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/menu/expenditures_menu.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/menu/more_menu.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/menu/nav_menu.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/menu/resident_list_menu.xml" value="0.38697916666666665" />
