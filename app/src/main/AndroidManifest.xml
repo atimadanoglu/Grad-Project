@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GradProject">
         <activity
+            android:name=".view.admin.Send_message"
+            android:exported="false" />
+        <activity
             android:name=".view.admin.HomePageAdminActivity"
             android:exported="false" />
         <activity
@@ -39,7 +42,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
