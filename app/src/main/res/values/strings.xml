@@ -73,5 +73,10 @@
     <string name="sil">SİL</string>
     <string name="bilgi">BİLGİ</string>
     <string name="duyuru_bilgisi">Duyuru Bilgisi</string>
+    <string name="gider_ekle">gider ekle</string>
+    <string name="tarih">Tarih</string>
+    <string name="fatura_ekle">Fatura ekle</string>
+    <string name="gider_tipi">Gider Tipi</string>
+    <string name="Gider_Ekle">Gider Ekle</string>
 
 </resources>
