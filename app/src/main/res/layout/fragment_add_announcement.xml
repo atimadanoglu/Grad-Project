@@ -10,73 +10,79 @@
         android:padding="10dp"
         tools:context=".view.admin.AddAnnouncementFragment">
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:layout_marginBottom="16dp"
-            android:fontFamily="@font/titillium_web_bold"
-            android:gravity="center"
-            android:text="@string/add_new_announcement"
-            android:textColor="@color/primary_color"
-            android:textSize="25sp"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <LinearLayout
-            android:id="@+id/linearLayout3"
-            android:layout_width="366dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/rounded_corner"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearBox"
+            android:layout_width="340dp"
+            android:layout_height="520dp"
+            android:background="@drawable/search_box"
             android:orientation="vertical"
-            android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.488"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:backgroundTint="@color/background_gray">
+
+            <Button
+                android:id="@+id/backButtonToAnnouncement"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/back_green_button"
+                android:drawableStart="@drawable/back_arrow_green_icon"
+                android:paddingStart="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             <EditText
                 android:id="@+id/titleInput"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="30dp"
                 android:autofillHints=""
-                android:background="@color/transparent"
-                android:backgroundTint="@color/secondary_color"
+                android:background="@drawable/search_box"
                 android:hint="@string/title"
                 android:inputType="text"
-                android:padding="10dp"
-                android:textColor="@color/secondary_color"
-                android:textColorHint="@color/secondary_color"
+                android:paddingStart="20dp"
+                android:textColor="@color/primary_color"
+                android:textColorHint="@color/primary_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.49"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView5"
                 tools:ignore="TouchTargetSizeCheck" />
 
             <EditText
                 android:id="@+id/contentInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginEnd="30dp"
                 android:autofillHints=""
-                android:background="@color/transparent"
-                android:backgroundTint="@color/secondary_color"
+                android:background="@drawable/search_box"
                 android:gravity="top"
                 android:hint="@string/content"
                 android:inputType="textMultiLine"
                 android:lines="5"
-                android:padding="10dp"
-                android:textColor="@color/secondary_color"
-                android:textColorHint="@color/secondary_color" />
+                android:paddingStart="20dp"
+                android:paddingTop="10dp"
+                android:textColor="@color/primary_color"
+                android:textColorHint="@color/primary_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/titleInput" />
 
             <TextView
                 android:id="@+id/takePhoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="#3EFFFFFF"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/primary_color"
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/titillium_web"
                 android:gravity="center"
@@ -85,34 +91,56 @@
                 android:textAlignment="center"
                 android:textColor="@color/secondary_color"
                 android:textSize="17sp"
-                app:drawableStartCompat="@drawable/camera_icon" />
+                app:drawableStartCompat="@drawable/camera_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/contentInput" />
 
             <ImageView
-                android:id="@+id/picture"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_margin="10dp"
+                android:id="@+id/picture_view"
+                android:layout_width="146dp"
+                android:layout_height="138dp"
+                android:layout_gravity="end"
+                android:layout_marginStart="21dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
                 android:contentDescription="@string/todo"
-                android:src="@drawable/picture_icon" />
-        </LinearLayout>
+                android:src="@drawable/photo_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.8"
+                app:layout_constraintStart_toEndOf="@+id/takePhoto"
+                app:layout_constraintTop_toBottomOf="@+id/contentInput" />
 
-        <Button
-            android:id="@+id/shareAnnouncementButton"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="65dp"
-            android:background="@drawable/button"
-            android:backgroundTint="@color/primary_color"
-            android:text="@string/share"
-            android:textColor="@color/secondary_color"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-            app:layout_constraintVertical_bias="0.847"
-            tools:ignore="TouchTargetSizeCheck" />
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:fontFamily="@font/titillium_web_bold"
+                android:gravity="center"
+                android:text="@string/add_new_announcement"
+                android:textColor="@color/primary_color"
+                android:textSize="25sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/shareAnnouncementButton"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="110dp"
+                android:layout_marginEnd="110dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/button"
+                android:backgroundTint="@color/primary_color"
+                android:text="@string/share"
+                android:textColor="@color/secondary_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="TouchTargetSizeCheck" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
