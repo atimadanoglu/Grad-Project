@@ -29,6 +29,7 @@ class HomePageAdminActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         // Switching fragments from bottom navigation
+
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.mainFragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
@@ -36,7 +37,9 @@ class HomePageAdminActivity : AppCompatActivity() {
             .setupWithNavController(navController)
 
 
+
         retrieveAndUpdateHeaderInfoFromDB()
+
 
     }
 

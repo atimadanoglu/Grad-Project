@@ -12,13 +12,8 @@ class AnnouncementRecyclerViewAdapter(private val announcements : ArrayList<Anno
     RecyclerView.Adapter<AnnouncementRecyclerViewAdapter.RowHolder>() {
 
     class RowHolder(view : View) : RecyclerView.ViewHolder(view) {
-        val title : TextView
-        val content : TextView
-
-        init {
-            title = itemView.findViewById(R.id.item_title)
-            content = itemView.findViewById(R.id.item_content)
-        }
+        private val title : TextView = itemView.findViewById(R.id.item_title)
+        private val content : TextView = itemView.findViewById(R.id.item_content)
 
         fun bind(announcement: Announcement) {
             title.text = announcement.title

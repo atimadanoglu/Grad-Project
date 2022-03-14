@@ -94,9 +94,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/contentInput" />
 
             <ImageView
-                android:id="@+id/picture_view"
-                android:layout_width="146dp"
-                android:layout_height="138dp"
+                android:id="@+id/selectPicture"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_margin="10dp"
                 android:layout_gravity="end"
                 android:layout_marginStart="21dp"
                 android:layout_marginTop="20dp"

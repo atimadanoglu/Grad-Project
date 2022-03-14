@@ -6,9 +6,4 @@ class Administrator(
     override var password: String,
     override var phoneNumber: String,
     private var adminKey: String
-) : User() {
-    init {
-        authorizationToAdminInterface = true
-    }
-
-}
+) : User()

@@ -44,8 +44,8 @@
             android:text="@string/tl"
             android:textColor="@color/primary_color"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/debt_text"
-            app:layout_constraintStart_toEndOf="@+id/debt_text" />
+            app:layout_constraintBottom_toBottomOf="@+id/debt_text_list_item"
+            app:layout_constraintStart_toEndOf="@+id/debt_text_list_item" />
 
         <View
             android:id="@+id/lineView"
@@ -81,7 +81,7 @@
             android:importantForAutofill="no" />
 
         <EditText
-            android:id="@+id/flat_no_text"
+            android:id="@+id/flat_no_text_list_item"
             android:layout_width="114dp"
             android:layout_height="48dp"
             android:layout_alignParentStart="true"
@@ -116,13 +116,13 @@
             android:textColor="@color/primary_color"
             android:textColorHint="@color/primary_color"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/flat_no_text"
+            app:layout_constraintEnd_toStartOf="@+id/flat_no_text_list_item"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fullName"
             android:importantForAutofill="no" />
 
         <EditText
-            android:id="@+id/debt_text"
+            android:id="@+id/debt_text_list_item"
             android:layout_width="114dp"
             android:layout_height="48dp"
             android:layout_marginStart="20dp"
@@ -150,7 +150,7 @@
             android:textSize="17sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/debt_text" />
+            app:layout_constraintTop_toBottomOf="@+id/debt_text_list_item" />
 
         <Button
             android:id="@+id/add_button"

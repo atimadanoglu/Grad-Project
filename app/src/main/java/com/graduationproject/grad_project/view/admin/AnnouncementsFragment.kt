@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.graduationproject.grad_project.R
@@ -70,6 +71,7 @@ class AnnouncementsFragment : Fragment() {
                                     document.get("content") as String
                                 ))
                             }
+                            binding.announcementRecyclerview.layoutManager = LinearLayoutManager(this.context)
                             announcementRecyclerViewAdapter = AnnouncementRecyclerViewAdapter(announcements)
                             binding.announcementRecyclerview.adapter = announcementRecyclerViewAdapter
                         }

@@ -93,7 +93,7 @@ class SiteInformationActivity : AppCompatActivity() {
                 "phoneNumber" to phoneNumber,
                 "email" to email,
                 "password" to password,
-                "typeOfUser" to "Administrator",
+                "typeOfUser" to "Yönetici",
                 "siteName" to siteName,
                 "city" to city,
                 "district" to district,
