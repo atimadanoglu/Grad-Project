@@ -2,12 +2,15 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.admin.AddAnnouncementFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
-        tools:context=".view.admin.AddAnnouncementFragment">
+        android:padding="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearBox"
@@ -29,6 +32,7 @@
                 android:background="@drawable/back_green_button"
                 android:drawableStart="@drawable/back_arrow_green_icon"
                 android:paddingStart="5dp"
+                android:paddingEnd="5dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
@@ -45,6 +49,7 @@
                 android:hint="@string/title"
                 android:inputType="text"
                 android:paddingStart="20dp"
+                android:paddingEnd="10dp"
                 android:textColor="@color/primary_color"
                 android:textColorHint="@color/primary_color"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -67,6 +72,7 @@
                 android:inputType="textMultiLine"
                 android:lines="5"
                 android:paddingStart="20dp"
+                android:paddingEnd="10dp"
                 android:paddingTop="10dp"
                 android:textColor="@color/primary_color"
                 android:textColorHint="@color/primary_color"
@@ -95,8 +101,8 @@
 
             <ImageView
                 android:id="@+id/selectPicture"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:layout_margin="10dp"
                 android:layout_gravity="end"
                 android:layout_marginStart="21dp"
@@ -142,4 +148,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 </layout>
