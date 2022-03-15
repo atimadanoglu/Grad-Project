@@ -9,44 +9,17 @@
         android:id="@+id/homeFragment"
         android:name="com.graduationproject.grad_project.view.admin.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_announcementsFragment"
-            app:destination="@id/announcementsFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/announcementsFragment"
         android:name="com.graduationproject.grad_project.view.admin.AnnouncementsFragment"
-        android:label="AnnouncementsFragment" >
-        <action
-            android:id="@+id/action_announcementsFragment_to_residentsListForAdminFragment"
-            app:destination="@id/residentsListForAdminFragment" />
-        <action
-            android:id="@+id/action_announcementsFragment_to_addAnnouncementFragment"
-            app:destination="@id/addAnnouncementFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/expendituresFragment"
-        android:name="com.graduationproject.grad_project.ExpendituresFragment"
-        android:label="fragment_expenditures"
-        tools:layout="@layout/fragment_expenditures" />
+        android:label="AnnouncementsFragment" />
     <fragment
         android:id="@+id/residentsListForAdminFragment"
         android:name="com.graduationproject.grad_project.view.admin.ResidentsListForAdminFragment"
-        android:label="ResidentsListForAdminFragment" >
-        <action
-            android:id="@+id/action_residentsListForAdminFragment_to_expendituresFragment"
-            app:destination="@id/expendituresFragment" />
-    </fragment>
+        android:label="ResidentsListForAdminFragment" />
     <fragment
-        android:id="@+id/addAnnouncementFragment"
-        android:name="com.graduationproject.grad_project.view.admin.AddAnnouncementFragment"
-        android:label="AddAnnouncementFragment" >
-        <action
-            android:id="@+id/action_addAnnouncementFragment_to_announcementsFragment"
-            app:destination="@id/announcementsFragment" />
-        <action
-            android:id="@+id/action_addAnnouncementFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-    </fragment>
+        android:id="@+id/expendituresFragment"
+        android:name="com.graduationproject.grad_project.view.admin.ExpendituresFragment"
+        android:label="ExpendituresFragment" />
 </navigation>
