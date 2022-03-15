@@ -78,5 +78,16 @@
     <string name="fatura_ekle">Fatura ekle</string>
     <string name="gider_tipi">Gider Tipi</string>
     <string name="Gider_Ekle">Gider Ekle</string>
+    <string name="talep_oluştur">Talep Oluştur</string>
+    <string name="borc_odeme">Borç ödeme</string>
+    <string name="oylama">Oylama</string>
+    <string name="borcum">Borcum</string>
+    <string name="taleplerim">Taleplerim</string>
+    <string name="fab_add_request">fab_add_request</string>
+    <string name="konu">Konu</string>
+    <string name="oneri">Öneri</string>
+    <string name="sikayet">Şikayet</string>
+    <string name="turu">Türü</string>
+    <string name="talep_bilgisi">Talep Bilgisi</string>
 
 </resources>

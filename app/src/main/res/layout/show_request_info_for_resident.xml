@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearBox"
         android:layout_width="340dp"
-        android:layout_height="520dp"
+        android:layout_height="355dp"
         android:background="@drawable/search_box"
         android:backgroundTint="@color/background_gray"
         android:orientation="vertical"
@@ -19,7 +19,7 @@
 
 
         <Button
-            android:id="@+id/backButtonToAnnouncement"
+            android:id="@+id/backButtonToRequests"
             android:layout_width="60dp"
             android:layout_height="30dp"
             android:layout_marginStart="20dp"
@@ -27,7 +27,7 @@
             android:background="@drawable/back_green_button"
             android:drawableStart="@drawable/back_arrow_green_icon"
             android:paddingStart="5dp"
-            android:paddingEnd="5dp"
+            android:paddingEnd="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
@@ -40,7 +40,7 @@
             android:layout_marginTop="60dp"
             android:layout_marginEnd="137dp"
             android:fontFamily="@font/nunito_sans_bold"
-            android:text="@string/duyuru_bilgisi"
+            android:text="@string/talep_bilgisi"
             android:textColor="@color/primary_color"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -63,60 +63,62 @@
 
         <TextView
             android:id="@+id/title_text"
-            android:layout_width="match_parent"
+            android:layout_width="177dp"
             android:layout_height="48dp"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/search_box"
+            android:fontFamily="@font/amiri"
+            android:hint="@string/konu"
+            android:importantForAutofill="no"
+            android:paddingStart="20dp"
+            android:paddingEnd="2dp"
+            android:textColor="@color/primary_color"
+            android:textColorHint="@color/primary_color"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lineView" />
+
+        <TextView
+            android:id="@+id/type_text"
+            android:layout_width="100dp"
+            android:layout_height="48dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="30dp"
             android:background="@drawable/search_box"
             android:fontFamily="@font/amiri"
-            android:hint="@string/title"
+            android:hint="@string/turu"
             android:importantForAutofill="no"
-            android:textSize="18sp"
             android:paddingStart="20dp"
-            android:paddingEnd="10dp"
+            android:paddingEnd="5dp"
             android:textColor="@color/primary_color"
             android:textColorHint="@color/primary_color"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lineView" />
 
         <TextView
             android:id="@+id/content_text"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="160dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="30dp"
             android:background="@drawable/search_box"
             android:fontFamily="@font/amiri"
             android:gravity="start"
             android:hint="@string/content"
-            android:textSize="15sp"
+            android:textSize="18sp"
             android:importantForAutofill="no"
             android:paddingStart="20dp"
             android:paddingEnd="10dp"
             android:textColor="@color/primary_color"
             android:textColorHint="@color/primary_color"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_text" />
-
-        <ImageView
-            android:id="@+id/picture_view"
-            android:layout_width="146dp"
-            android:layout_height="138dp"
-            android:layout_gravity="end"
-            android:contentDescription="@string/todo"
-            android:src="@drawable/photo_icon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/content_text" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

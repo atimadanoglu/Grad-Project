@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/resident_home_navigation"
+    app:startDestination="@id/homeResidentFragment">
+
+    <fragment
+        android:id="@+id/homeResidentFragment"
+        android:name="com.graduationproject.grad_project.HomeResidentFragment"
+        android:label="fragment_home_resident"
+        tools:layout="@layout/fragment_home_resident" />
+    <fragment
+        android:id="@+id/requestFragment"
+        android:name="com.graduationproject.grad_project.RequestFragment"
+        android:label="fragment_add_request"
+        tools:layout="@layout/fragment_request" >
+        <action
+            android:id="@+id/action_requestFragment_to_addRequestFragment"
+            app:destination="@id/addRequestFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/payDebtFragment"
+        android:name="com.graduationproject.grad_project.PayDebtFragment"
+        android:label="fragment_pay_debt"
+        tools:layout="@layout/fragment_pay_debt" />
+    <fragment
+        android:id="@+id/votingFragment"
+        android:name="com.graduationproject.grad_project.VotingFragment"
+        android:label="fragment_voting"
+        tools:layout="@layout/fragment_voting" />
+    <fragment
+        android:id="@+id/addRequestFragment"
+        android:name="com.graduationproject.grad_project.AddRequestFragment"
+        android:label="fragment_add_request"
+        tools:layout="@layout/fragment_add_request" >
+        <action
+            android:id="@+id/action_addRequestFragment_to_requestFragment"
+            app:destination="@id/requestFragment" />
+    </fragment>
+</navigation>
