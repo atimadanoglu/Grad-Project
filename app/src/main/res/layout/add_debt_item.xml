@@ -10,7 +10,6 @@
         android:layout_width="300dp"
         android:layout_height="400dp"
         android:layout_gravity="center"
-        android:background="@drawable/search_box"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +25,7 @@
             android:layout_marginTop="27dp"
             android:layout_marginEnd="137dp"
             android:fontFamily="@font/nunito_sans_bold"
-            android:text="@string/bor_ekle"
+            android:text="@string/borç_ekle"
             android:textColor="@color/primary_color"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -60,7 +59,7 @@
             app:layout_constraintTop_toBottomOf="@+id/title_text" />
 
         <EditText
-            android:id="@+id/full_name_add_debt"
+            android:id="@+id/titleOfSendMessage"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginStart="20dp"
@@ -99,10 +98,10 @@
             android:textColorHint="@color/primary_color"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/full_name_add_debt" />
+            app:layout_constraintTop_toBottomOf="@+id/titleOfSendMessage" />
 
         <EditText
-            android:id="@+id/block_no_add_debt"
+            android:id="@+id/contentOfSendMessage"
             android:layout_width="114dp"
             android:layout_height="48dp"
             android:layout_marginStart="20dp"
@@ -118,7 +117,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/flat_no_add_debt"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/full_name_add_debt"
+            app:layout_constraintTop_toBottomOf="@+id/titleOfSendMessage"
             android:importantForAutofill="no" />
 
         <EditText
@@ -133,7 +132,7 @@
             android:hint="@string/tutar"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/block_no_add_debt"
+            app:layout_constraintTop_toBottomOf="@+id/contentOfSendMessage"
             android:inputType="numberDecimal"
             android:importantForAutofill="no" />
 

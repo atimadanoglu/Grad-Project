@@ -6,7 +6,11 @@
         android:icon="@drawable/message_icon"/>
 
     <item android:id="@+id/add_debt"
-        android:title="@string/bor_ekle"
+        android:title="@string/borç_ekle"
+        android:icon="@drawable/add_debt_icon"/>
+
+    <item android:id="@+id/delete_debt"
+        android:title="@string/borç_sil"
         android:icon="@drawable/add_debt_icon"/>
 
 </menu>

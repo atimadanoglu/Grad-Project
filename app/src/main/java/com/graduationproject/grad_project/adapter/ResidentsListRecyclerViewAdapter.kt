@@ -7,12 +7,16 @@ import android.view.*
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.tasks.Task
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.model.SiteResident
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class ResidentsListRecyclerViewAdapter(private var residents : ArrayList<SiteResident>,
                                        private val context: Context,
@@ -20,6 +24,10 @@ class ResidentsListRecyclerViewAdapter(private var residents : ArrayList<SiteRes
                                        private val auth: FirebaseAuth,
                                        ) :
     RecyclerView.Adapter<ResidentsListRecyclerViewAdapter.ViewHolder>() {
+
+    companion object {
+        private val TAG = "ResidentsListRecyclerViewAdapter"
+    }
 
     class ViewHolder(view : View) : RecyclerView.ViewHolder(view) {
         val accountName : TextView = itemView.findViewById(R.id.account_name_text_list_item)
@@ -54,7 +62,7 @@ class ResidentsListRecyclerViewAdapter(private var residents : ArrayList<SiteRes
         val addDebtLayout = LayoutInflater.from(view.context).inflate(R.layout.add_debt_item, null)
         AlertDialog.Builder(view.context)
             .setView(addDebtLayout)
-            .setPositiveButton(R.string.bor_ekle) { dialog,_ ->
+            .setPositiveButton(R.string.borç_ekle) { dialog, _ ->
                 val debt = addDebtLayout.findViewById<EditText>(R.id.debt_amount_add_debt)
                 getAdminInfo(auth.currentUser?.email.toString()).addOnSuccessListener { admin ->
                     getResident(admin, residents[residentPosition].blockNo, residents[residentPosition].flatNo).addOnSuccessListener { resident ->
@@ -74,8 +82,43 @@ class ResidentsListRecyclerViewAdapter(private var residents : ArrayList<SiteRes
             }.create().show()
     }
 
-    private fun sendMessage() {
-        TODO()
+    private fun sendMessage(view: View, residentPosition: Int) {
+        val sendMessageLayout = LayoutInflater.from(view.context).inflate(R.layout.send_message_item, null)
+        AlertDialog.Builder(view.context)
+            .setView(sendMessageLayout)
+            .setPositiveButton(R.string.gönder) { dialog,_ ->
+                getAdminInfo(auth.currentUser?.email.toString()).addOnSuccessListener { admin ->
+                    getResident(admin, residents[residentPosition].blockNo, residents[residentPosition].flatNo).addOnSuccessListener { resident ->
+                        for (a in resident) {
+                            val title = sendMessageLayout.findViewById<EditText>(R.id.titleOfSendMessage)
+                            val content = sendMessageLayout.findViewById<EditText>(R.id.contentOfSendMessage)
+                            val message: HashMap<String, Any> = hashMapOf(
+                                "title" to title.text.toString(),
+                                "content" to content.text.toString(),
+                                "date" to Timestamp(Date())
+                            )
+                            storeMessageIntoDB(message, residentPosition)
+                        }
+                        notifyItemChanged(residentPosition)
+                        dialog.dismiss()
+                    }
+                }
+            }.setNegativeButton(R.string.iptal) { dialog, _ ->
+                Toast.makeText(this.context, "Mesaj gönderme iptal edildi!", Toast.LENGTH_LONG).show()
+            }.create().show()
+    }
+
+    private fun storeMessageIntoDB(message: HashMap<String, Any>, position: Int) {
+         db.collection("residents")
+            .document(residents[position].email)
+            .collection("messages")
+            .document()
+            .set(message)
+            .addOnSuccessListener {
+                Log.d(TAG, "Message successfully shared!")
+            }.addOnFailureListener {
+                Log.w(TAG, "Message written FAILED!")
+            }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -89,12 +132,7 @@ class ResidentsListRecyclerViewAdapter(private var residents : ArrayList<SiteRes
                         true
                     }
                     R.id.send_message -> {
-                        val sendMessageLayout = LayoutInflater.from(this.context).inflate(R.layout.activity_send_message, null)
-                        AlertDialog.Builder(view.context, R.id.add_debt)
-                            .setView(sendMessageLayout)
-                            .setPositiveButton("Ok") { dialog,_ ->
-
-                            }.create().show()
+                        sendMessage(view, position)
                         true
                     }
                     else -> false

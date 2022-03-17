@@ -54,8 +54,8 @@
     <string name="pending_approval">Onay bekleyenler</string>
     <string name="open_nav_drawer">nav drawer aç</string>
     <string name="close_nav_drawer">nav drawer kapat</string>
-    <string name="ba_l_k">Başlık</string>
-    <string name="erik">İçerik</string>
+    <string name="başlık">Başlık</string>
+    <string name="içerik">İçerik</string>
     <string name="account_type">Hesap Tipi</string>
     <string name="x_blok">X-Blok</string>
     <string name="no_01">No: 01</string>
@@ -64,12 +64,12 @@
     <string name="herkes">Herkes</string>
     <string name="tutar">tutar</string>
     <string name="ekle">Ekle</string>
-    <string name="bor_ekle">BORÇ EKLE</string>
+    <string name="borç_ekle">BORÇ EKLE</string>
     <string name="tl">TL</string>
     <string name="iptal">iptal</string>
     <string name="mesaj_gönder">MESAJ GÖNDER</string>
-    <string name="g_nder">gönder</string>
-    <string name="mesaj_g_nder">Mesaj Gönder</string>
+    <string name="gönder">gönder</string>
+    <string name="mesaj_g_nder">Gönder</string>
     <string name="sil">SİL</string>
     <string name="bilgi">BİLGİ</string>
     <string name="duyuru_bilgisi">Duyuru Bilgisi</string>
@@ -78,5 +78,6 @@
     <string name="fatura_ekle">Fatura ekle</string>
     <string name="gider_tipi">Gider Tipi</string>
     <string name="Gider_Ekle">Gider Ekle</string>
+    <string name="borç_sil">BORÇ SİL</string>
 
 </resources>
