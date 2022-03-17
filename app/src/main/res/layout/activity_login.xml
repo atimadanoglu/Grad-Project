@@ -61,13 +61,12 @@
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
         android:autofillHints=""
-
         android:backgroundTint="@color/secondary_color"
         android:drawableStart="@drawable/password_icon"
         android:drawablePadding="15dp"
         android:ems="10"
         android:fontFamily="@font/titillium_web"
-
+        android:textColor="@color/secondary_color"
         android:hint="@string/password"
         android:inputType="textPassword"
         android:minHeight="48dp"
