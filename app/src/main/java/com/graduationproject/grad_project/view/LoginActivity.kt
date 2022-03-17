@@ -20,7 +20,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding : ActivityLoginBinding
     private lateinit var myAuth: FirebaseAuth
     private lateinit var db : FirebaseFirestore
-    private lateinit var bindingLogin : FragmentAnnouncementsBinding
+    private var typeOfUser: String = ""
+
 
     companion object {
         private const val TAG = "LoginActivity"
@@ -31,17 +32,30 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
         myAuth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
+        checkUserType()
+    }
 
+    private fun checkUserType() {
         val currentUser = myAuth.currentUser
-       /* if (currentUser != null) {
-            //TODO
-            val intent = Intent(this, HomePageAdminActivity::class.java)
-            startActivity(intent)
-            finish()
-        }*/
+        if (currentUser != null) {
+            db.collection("administrators")
+                .document(currentUser.email.toString())
+                .get()
+                .addOnSuccessListener { resident ->
+                    val typeOfUser = resident["typeOfUser"] as String
+                    if (typeOfUser == "Yönetici") {
+                        val intent = Intent(this, HomePageAdminActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                }.addOnFailureListener {
+                    val intent = Intent(this, HomePageResidentActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+        }
     }
 
     fun signUpHereButtonClicked(view: View) {

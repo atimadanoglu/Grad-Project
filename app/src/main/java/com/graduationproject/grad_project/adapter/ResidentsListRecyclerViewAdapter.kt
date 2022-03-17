@@ -25,6 +25,7 @@ class ResidentsListRecyclerViewAdapter(private var residents : ArrayList<SiteRes
                                        ) :
     RecyclerView.Adapter<ResidentsListRecyclerViewAdapter.ViewHolder>() {
 
+    private val residentRef = db.collection("residents")
     companion object {
         private val TAG = "ResidentsListRecyclerViewAdapter"
     }
@@ -109,8 +110,7 @@ class ResidentsListRecyclerViewAdapter(private var residents : ArrayList<SiteRes
     }
 
     private fun storeMessageIntoDB(message: HashMap<String, Any>, position: Int) {
-         db.collection("residents")
-            .document(residents[position].email)
+         residentRef.document(residents[position].email)
             .collection("messages")
             .document()
             .set(message)
@@ -144,8 +144,7 @@ class ResidentsListRecyclerViewAdapter(private var residents : ArrayList<SiteRes
     }
 
     private fun deleteDebtFromDB(email: String, debt: Double) {
-        db.collection("residents")
-            .document(email)
+        residentRef.document(email)
             .update("debt", debt)
             .addOnSuccessListener {
                 Log.d(TAG, "Resident's debt successfully deleted")
@@ -178,12 +177,12 @@ class ResidentsListRecyclerViewAdapter(private var residents : ArrayList<SiteRes
         }
     }
 
-
-
     override fun getItemCount(): Int {
         return residents.count()
     }
 
+    // It filters the residents' list on recyclerView according to
+    // written string and notifies the adapter from this situation
     fun filterList(list: ArrayList<SiteResident>) {
         residents = list
         notifyDataSetChanged()
@@ -194,8 +193,9 @@ class ResidentsListRecyclerViewAdapter(private var residents : ArrayList<SiteRes
             .document(email)
             .get()
     }
+
     private fun getResident(adminInfo: DocumentSnapshot, blockNo: String, flatNo: Int): Task<QuerySnapshot> {
-        return db.collection("residents")
+        return residentRef
             .whereEqualTo("city", adminInfo["city"])
             .whereEqualTo("district", adminInfo["district"])
             .whereEqualTo("siteName", adminInfo["siteName"])
@@ -203,8 +203,9 @@ class ResidentsListRecyclerViewAdapter(private var residents : ArrayList<SiteRes
             .whereEqualTo("flatNo" ,flatNo)
             .get()
     }
+
     private fun updateDebtInfo(email: String, debt: Double): Task<Void> {
-        return db.collection("residents")
+        return residentRef
             .document(email)
             .update("debt", debt)
             .addOnSuccessListener {
