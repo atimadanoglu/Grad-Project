@@ -1,22 +1,28 @@
 package com.graduationproject.grad_project.view.admin
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.adapter.ResidentsListRecyclerViewAdapter
+import com.graduationproject.grad_project.databinding.AddDebtItemBinding
 import com.graduationproject.grad_project.databinding.FragmentResidentsListForAdminBinding
 import com.graduationproject.grad_project.model.Site
 import com.graduationproject.grad_project.model.SiteResident
+import android.view.Menu as Menu1
 
 class ResidentsListForAdminFragment : Fragment() {
 
@@ -27,7 +33,6 @@ class ResidentsListForAdminFragment : Fragment() {
     private lateinit var db : FirebaseFirestore
     private lateinit var auth : FirebaseAuth
     private val siteResidents = ArrayList<SiteResident>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +59,7 @@ class ResidentsListForAdminFragment : Fragment() {
         return binding.root
     }
 
-    // It gives the filtered result
+    // It gives the filtered result of residents
     private fun filter(newText: String?) {
         val filteredList = ArrayList<SiteResident>()
         for (resident in siteResidents) {
@@ -114,7 +119,13 @@ class ResidentsListForAdminFragment : Fragment() {
 
     private fun adaptResidentsListRecyclerView(siteResidents: ArrayList<SiteResident>) {
         binding.recyclerview.layoutManager = LinearLayoutManager(this.context)
-        residentsListRecyclerViewAdapter = ResidentsListRecyclerViewAdapter(siteResidents)
+        residentsListRecyclerViewAdapter =
+            this.context?.let { ResidentsListRecyclerViewAdapter(
+                siteResidents,
+                it,
+                db,
+                auth
+                ) }
         binding.recyclerview.adapter = residentsListRecyclerViewAdapter
     }
 

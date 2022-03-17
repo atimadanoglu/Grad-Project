@@ -44,8 +44,8 @@
             android:text="@string/tl"
             android:textColor="@color/primary_color"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/debt_text_list_item"
-            app:layout_constraintStart_toEndOf="@+id/debt_text_list_item" />
+            app:layout_constraintBottom_toBottomOf="@+id/debt_amount_add_debt"
+            app:layout_constraintStart_toEndOf="@+id/debt_amount_add_debt" />
 
         <View
             android:id="@+id/lineView"
@@ -60,28 +60,28 @@
             app:layout_constraintTop_toBottomOf="@+id/title_text" />
 
         <EditText
-            android:id="@+id/fullName"
+            android:id="@+id/full_name_add_debt"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="30dp"
             android:background="@drawable/search_box"
             android:fontFamily="@font/amiri"
             android:hint="@string/full_name"
+            android:importantForAutofill="no"
             android:inputType="text"
             android:paddingStart="20dp"
             android:textColor="@color/primary_color"
             android:textColorHint="@color/primary_color"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lineView"
-            android:importantForAutofill="no" />
+            app:layout_constraintTop_toBottomOf="@+id/lineView" />
 
         <EditText
-            android:id="@+id/flat_no_text_list_item"
+            android:id="@+id/flat_no_add_debt"
             android:layout_width="114dp"
             android:layout_height="48dp"
             android:layout_alignParentStart="true"
@@ -92,17 +92,17 @@
             android:background="@drawable/search_box"
             android:fontFamily="@font/amiri"
             android:hint="@string/flat_no"
-            android:paddingStart="20dp"
+            android:importantForAutofill="no"
             android:inputType="number"
+            android:paddingStart="20dp"
             android:textColor="@color/primary_color"
             android:textColorHint="@color/primary_color"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fullName"
-            android:importantForAutofill="no" />
+            app:layout_constraintTop_toBottomOf="@+id/full_name_add_debt" />
 
         <EditText
-            android:id="@+id/blok_no_text"
+            android:id="@+id/block_no_add_debt"
             android:layout_width="114dp"
             android:layout_height="48dp"
             android:layout_marginStart="20dp"
@@ -116,13 +116,13 @@
             android:textColor="@color/primary_color"
             android:textColorHint="@color/primary_color"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/flat_no_text_list_item"
+            app:layout_constraintEnd_toStartOf="@+id/flat_no_add_debt"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fullName"
+            app:layout_constraintTop_toBottomOf="@+id/full_name_add_debt"
             android:importantForAutofill="no" />
 
         <EditText
-            android:id="@+id/debt_text_list_item"
+            android:id="@+id/debt_amount_add_debt"
             android:layout_width="114dp"
             android:layout_height="48dp"
             android:layout_marginStart="20dp"
@@ -130,11 +130,11 @@
             android:background="@drawable/search_box"
             android:fontFamily="@font/amiri"
             android:paddingStart="20dp"
-            android:text="@string/tutar"
+            android:hint="@string/tutar"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/blok_no_text"
-            android:inputType="number"
+            app:layout_constraintTop_toBottomOf="@+id/block_no_add_debt"
+            android:inputType="numberDecimal"
             android:importantForAutofill="no" />
 
         <RadioButton
@@ -150,7 +150,8 @@
             android:textSize="17sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/debt_text_list_item" />
+            app:layout_constraintTop_toBottomOf="@+id/debt_amount_add_debt" />
+<!--
 
         <Button
             android:id="@+id/add_button"
@@ -183,6 +184,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
+-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

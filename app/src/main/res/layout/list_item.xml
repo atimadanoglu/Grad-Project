@@ -41,7 +41,7 @@
                 android:paddingStart="30dp"
                 android:gravity="center_vertical"/>
             <TextView
-                android:id="@+id/flat_no_text_list_item"
+                android:id="@+id/flat_no_add_debt"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textColor="@color/primary_color"
@@ -57,7 +57,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/debt_text_list_item"
+        android:id="@+id/debt_amount_add_debt"
         android:layout_width="80dp"
         android:layout_height="match_parent"
         android:hint="@string/line"
@@ -74,6 +74,7 @@
         android:layout_height="match_parent"
         android:src="@drawable/more_horiz"
         android:layout_marginEnd="10dp"
-        android:contentDescription="@string/todo"/>
+        android:contentDescription="@string/todo"
+        />
 
 </LinearLayout>

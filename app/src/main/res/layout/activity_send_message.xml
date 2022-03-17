@@ -49,7 +49,7 @@
             app:layout_constraintTop_toBottomOf="@+id/title_text" />
 
         <EditText
-            android:id="@+id/fullName"
+            android:id="@+id/full_name_add_debt"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginStart="20dp"
@@ -70,7 +70,7 @@
             android:importantForAutofill="no" />
 
         <EditText
-            android:id="@+id/blok_no_text"
+            android:id="@+id/block_no_add_debt"
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:layout_marginStart="20dp"
@@ -88,7 +88,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fullName" />
+            app:layout_constraintTop_toBottomOf="@+id/full_name_add_debt" />
 
         <Button
             android:id="@+id/send_button"
