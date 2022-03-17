@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.admin.Send_message">
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearBox"
         android:layout_width="300dp"
-        android:layout_height="400dp"
-        android:background="@drawable/search_box"
+        android:layout_height="300dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,7 +48,7 @@
             app:layout_constraintTop_toBottomOf="@+id/title_text" />
 
         <EditText
-            android:id="@+id/fullName"
+            android:id="@+id/titleOfSendMessage"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginStart="20dp"
@@ -70,7 +69,7 @@
             android:importantForAutofill="no" />
 
         <EditText
-            android:id="@+id/blok_no_text"
+            android:id="@+id/contentOfSendMessage"
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:layout_marginStart="20dp"
@@ -88,38 +87,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fullName" />
-
-        <Button
-            android:id="@+id/send_button"
-            android:layout_width="100dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/menu_button"
-            android:fontFamily="@font/nunito_sans_bold"
-            android:text="@string/g_nder"
-            android:textColor="@color/secondary_color"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <Button
-            android:id="@+id/cancel_button"
-            android:layout_width="100dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/menu_button"
-            android:fontFamily="@font/nunito_sans_bold"
-            android:text="@string/iptal"
-            android:textColor="@color/secondary_color"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/titleOfSendMessage" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

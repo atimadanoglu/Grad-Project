@@ -2,28 +2,27 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.admin.ResidentsListForAdminFragment">
 
-    <EditText
-        android:id="@+id/editTextTextPersonName"
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchBar"
         android:layout_width="300dp"
         android:layout_height="51dp"
-        android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="25dp"
         android:background="@drawable/search_box"
         android:ems="10"
-        android:hint="@string/buradan_ara"
         android:importantForAutofill="no"
-        android:inputType="textPersonName"
+        android:inputType="text"
         android:paddingStart="20dp"
+        app:defaultQueryHint="Burada arayınız"
         app:layout_constraintBottom_toTopOf="@+id/recyclerview"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:searchHintIcon="@drawable/search_icon" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
@@ -40,19 +39,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/list_item" />
-
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="51dp"
-        android:layout_height="51dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="25dp"
-        android:background="@drawable/search_button"
-        android:contentDescription="@string/todo"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerview"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/search_icon"
-        tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
