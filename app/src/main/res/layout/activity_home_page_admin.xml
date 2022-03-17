@@ -12,7 +12,6 @@
         android:id="@+id/homeLayout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         tools:context=".view.admin.HomePageAdminActivity">
 
         <androidx.fragment.app.FragmentContainerView

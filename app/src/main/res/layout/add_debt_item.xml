@@ -59,7 +59,7 @@
             app:layout_constraintTop_toBottomOf="@+id/title_text" />
 
         <EditText
-            android:id="@+id/titleOfSendMessage"
+            android:id="@+id/account_name_list_item"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginStart="20dp"
@@ -71,6 +71,7 @@
             android:importantForAutofill="no"
             android:inputType="text"
             android:paddingStart="20dp"
+            android:paddingEnd="5dp"
             android:textColor="@color/primary_color"
             android:textColorHint="@color/primary_color"
             android:textStyle="bold"
@@ -91,17 +92,18 @@
             android:background="@drawable/search_box"
             android:fontFamily="@font/amiri"
             android:hint="@string/flat_no"
-            android:importantForAutofill="no"
-            android:inputType="number"
+
             android:paddingStart="20dp"
+            android:paddingEnd="5dp"
+            android:inputType="number"
             android:textColor="@color/primary_color"
             android:textColorHint="@color/primary_color"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleOfSendMessage" />
-
+            app:layout_constraintTop_toBottomOf="@+id/account_name_list_item"
+            
         <EditText
-            android:id="@+id/contentOfSendMessage"
+            android:id="@+id/block_no_text_list_item"
             android:layout_width="114dp"
             android:layout_height="48dp"
             android:layout_marginStart="20dp"
@@ -112,12 +114,14 @@
             android:hint="@string/block_no"
             android:inputType="text"
             android:paddingStart="20dp"
+            android:paddingEnd="5dp"
             android:textColor="@color/primary_color"
             android:textColorHint="@color/primary_color"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/flat_no_add_debt"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleOfSendMessage"
+
+            app:layout_constraintTop_toBottomOf="@+id/account_name_list_item"
             android:importantForAutofill="no" />
 
         <EditText
@@ -130,10 +134,13 @@
             android:fontFamily="@font/amiri"
             android:paddingStart="20dp"
             android:hint="@string/tutar"
+            app:layout_constraintStart_toStartOf="parent"
+            android:inputType="numberDecimal"
+
+            android:paddingEnd="5dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contentOfSendMessage"
-            android:inputType="numberDecimal"
+            app:layout_constraintTop_toBottomOf="@+id/block_no_text_list_item"
             android:importantForAutofill="no" />
 
         <RadioButton
