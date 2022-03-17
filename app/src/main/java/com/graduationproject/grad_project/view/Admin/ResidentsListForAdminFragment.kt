@@ -22,6 +22,7 @@ import com.graduationproject.grad_project.databinding.AddDebtItemBinding
 import com.graduationproject.grad_project.databinding.FragmentResidentsListForAdminBinding
 import com.graduationproject.grad_project.model.Site
 import com.graduationproject.grad_project.model.SiteResident
+import kotlin.collections.ArrayList
 import android.view.Menu as Menu1
 
 class ResidentsListForAdminFragment : Fragment() {

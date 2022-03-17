@@ -13,11 +13,13 @@
         <item android:title="@string/pending_approval"
             android:icon="@drawable/person_add_icon"/>
 
-    <item android:title="@string/account">
+    <item android:title="@string/account"
+        android:id="@+id/sub_menu">
         <menu>
             <item android:title="@string/setting"
                 android:icon="@drawable/ic_outline_settings_24"/>
             <item android:title="@string/log_out"
+                android:id="@+id/sign_out"
                 android:icon="@drawable/logout_icon"/>
         </menu>
     </item>
