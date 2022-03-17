@@ -1,19 +1,22 @@
 package com.graduationproject.grad_project.view.admin
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.widget.TextView
-import androidx.core.view.get
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.ActivityHomePageAdminBinding
+import com.graduationproject.grad_project.view.LoginActivity
 
-class HomePageAdminActivity : AppCompatActivity() {
+class HomePageAdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var binding : ActivityHomePageAdminBinding
     private lateinit var db : FirebaseFirestore
@@ -36,11 +39,11 @@ class HomePageAdminActivity : AppCompatActivity() {
         findViewById<BottomNavigationView>(R.id.bottom_navigation)
             .setupWithNavController(navController)
 
-
-
         retrieveAndUpdateHeaderInfoFromDB()
-
-
+        // Initialized navigation view
+        val navigationView: NavigationView = findViewById(R.id.navigation_view)
+        // Used implements OnNavigationItemSelectedListener(), it gave us that method
+        navigationView.setNavigationItemSelectedListener(this)
     }
 
 
@@ -78,6 +81,20 @@ class HomePageAdminActivity : AppCompatActivity() {
                     }
             }
         }
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.sign_out -> {
+                println("signout içerisi")
+                auth.signOut()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+
+        return true
     }
 
 }

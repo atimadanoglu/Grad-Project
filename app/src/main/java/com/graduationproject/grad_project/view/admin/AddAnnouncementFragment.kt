@@ -60,9 +60,13 @@ class AddAnnouncementFragment : Fragment() {
 
         binding.shareAnnouncementButton.setOnClickListener(shareAnnouncementButtonClicked)
         binding.selectPicture.setOnClickListener(selectImageButtonClicked)
+        binding.backButtonToAnnouncement.setOnClickListener {
+            goToPreviousPage()
+        }
+
     }
 
-    private fun shareAnnouncementButtonClicked() {
+    private fun shareAnnouncementButtonClicked(view: View) {
         val currentUser = auth.currentUser
 
         val announcement = getAnnouncementInfo()
@@ -81,7 +85,7 @@ class AddAnnouncementFragment : Fragment() {
                 }
             shareAnnouncementWithResidents()
             uploadImage()
-            goToPreviousPage()
+
         }
 
     }
@@ -93,7 +97,7 @@ class AddAnnouncementFragment : Fragment() {
     }
 
     private val shareAnnouncementButtonClicked = View.OnClickListener {
-        shareAnnouncementButtonClicked()
+        shareAnnouncementButtonClicked(it)
     }
 
     private fun registerLauncher() {
@@ -220,7 +224,6 @@ class AddAnnouncementFragment : Fragment() {
 
     private fun goToPreviousPage() {
         val fragmentManager = parentFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.mainFragmentContainerView, AnnouncementsFragment()).commit()
+        fragmentManager.popBackStack()
     }
 }
