@@ -33,7 +33,7 @@ class ResidentsListRecyclerViewAdapter(private var residents : ArrayList<SiteRes
         val accountName : TextView = itemView.findViewById(R.id.account_name_text_list_item)
         val block : TextView = itemView.findViewById(R.id.block_no_text_list_item)
         val flatNo : TextView = itemView.findViewById(R.id.flat_no_add_debt)
-        val debtText : TextView = itemView.findViewById(R.id.debt_amount_add_debt)
+        val debtText : TextView = itemView.findViewById(R.id.deleted_amount_delete_debt)
         val menu : ImageView = itemView.findViewById(R.id.more_icon_button)
 
 
@@ -63,7 +63,7 @@ class ResidentsListRecyclerViewAdapter(private var residents : ArrayList<SiteRes
         AlertDialog.Builder(view.context)
             .setView(addDebtLayout)
             .setPositiveButton(R.string.borç_ekle) { dialog, _ ->
-                val debt = addDebtLayout.findViewById<EditText>(R.id.debt_amount_add_debt)
+                val debt = addDebtLayout.findViewById<EditText>(R.id.deleted_amount_delete_debt)
                 getAdminInfo(auth.currentUser?.email.toString()).addOnSuccessListener { admin ->
                     getResident(admin, residents[residentPosition].blockNo, residents[residentPosition].flatNo).addOnSuccessListener { resident ->
                         for (a in resident) {
@@ -121,6 +121,39 @@ class ResidentsListRecyclerViewAdapter(private var residents : ArrayList<SiteRes
             }
     }
 
+    private fun deleteDebt(view: View, residentPosition: Int) {
+        val deleteDebtLayout = LayoutInflater.from(view.context).inflate(R.layout.delete_debt_item, null)
+        AlertDialog.Builder(view.context)
+            .setView(deleteDebtLayout)
+            .setPositiveButton(R.string.borç_sil) { dialog,_ ->
+                getAdminInfo(auth.currentUser?.email.toString()).addOnSuccessListener { admin ->
+                    getResident(admin, residents[residentPosition].blockNo, residents[residentPosition].flatNo)
+                        .addOnSuccessListener { resident ->
+                            for (a in resident) {
+                                val email = a["email"] as String
+                                val deletedAmount = deleteDebtLayout.findViewById<EditText>(R.id.deleted_amount_delete_debt)
+                                var residentDebt = a["debt"] as Double
+                                residentDebt -= deletedAmount.text.toString().toDouble()
+                                deleteDebtFromDB(email, residentDebt)
+                            }
+                        }
+                }
+            }.setNegativeButton(R.string.iptal) { dialog, _ ->
+                Toast.makeText(this.context, "Borç silme iptal edildi!", Toast.LENGTH_LONG).show()
+            }.create().show()
+    }
+
+    private fun deleteDebtFromDB(email: String, debt: Double) {
+        db.collection("residents")
+            .document(email)
+            .update("debt", debt)
+            .addOnSuccessListener {
+                Log.d(TAG, "Resident's debt successfully deleted")
+            }.addOnFailureListener {
+                Log.w(TAG, "Deleting resident's debt FAILED!")
+            }
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(residents[position])
         holder.menu.setOnClickListener { view ->
@@ -133,6 +166,10 @@ class ResidentsListRecyclerViewAdapter(private var residents : ArrayList<SiteRes
                     }
                     R.id.send_message -> {
                         sendMessage(view, position)
+                        true
+                    }
+                    R.id.delete_debt -> {
+                        deleteDebt(view, position)
                         true
                     }
                     else -> false

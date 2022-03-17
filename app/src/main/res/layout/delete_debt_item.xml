@@ -7,9 +7,9 @@
 
 
     <EditText
-        android:id="@+id/debt_amount_add_debt"
+        android:id="@+id/deleted_amount_delete_debt"
         android:layout_width="114dp"
-        android:layout_height="0dp"
+        android:layout_height="50dp"
         android:layout_marginStart="148dp"
         android:layout_marginBottom="337dp"
         android:background="@drawable/search_box"
@@ -34,9 +34,10 @@
         android:text="@string/tl"
         android:textColor="@color/primary_color"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/debt_amount_add_debt"
-        app:layout_constraintStart_toEndOf="@+id/debt_amount_add_debt"
-        app:layout_constraintTop_toTopOf="@+id/debt_amount_add_debt" />
+        app:layout_constraintBottom_toBottomOf="@+id/deleted_amount_delete_debt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/deleted_amount_delete_debt"
+        app:layout_constraintTop_toTopOf="@+id/deleted_amount_delete_debt" />
 
     <TextView
         android:id="@+id/title_text"
@@ -50,8 +51,8 @@
         android:textColor="@color/primary_color"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/debt_amount_add_debt"
-        app:layout_constraintStart_toStartOf="@+id/debt_amount_add_debt"
+        app:layout_constraintBottom_toTopOf="@+id/deleted_amount_delete_debt"
+        app:layout_constraintStart_toStartOf="@+id/deleted_amount_delete_debt"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

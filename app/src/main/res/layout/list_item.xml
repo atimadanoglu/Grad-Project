@@ -57,7 +57,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/debt_amount_add_debt"
+        android:id="@+id/deleted_amount_delete_debt"
         android:layout_width="80dp"
         android:layout_height="match_parent"
         android:hint="@string/line"

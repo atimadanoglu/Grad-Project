@@ -43,8 +43,8 @@
             android:text="@string/tl"
             android:textColor="@color/primary_color"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/debt_amount_add_debt"
-            app:layout_constraintStart_toEndOf="@+id/debt_amount_add_debt" />
+            app:layout_constraintBottom_toBottomOf="@+id/deleted_amount_delete_debt"
+            app:layout_constraintStart_toEndOf="@+id/deleted_amount_delete_debt" />
 
         <View
             android:id="@+id/lineView"
@@ -121,7 +121,7 @@
             android:importantForAutofill="no" />
 
         <EditText
-            android:id="@+id/debt_amount_add_debt"
+            android:id="@+id/deleted_amount_delete_debt"
             android:layout_width="114dp"
             android:layout_height="48dp"
             android:layout_marginStart="20dp"
@@ -149,7 +149,7 @@
             android:textSize="17sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/debt_amount_add_debt" />
+            app:layout_constraintTop_toBottomOf="@+id/deleted_amount_delete_debt" />
 <!--
 
         <Button
