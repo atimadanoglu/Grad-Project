@@ -11,6 +11,6 @@
 
     <item android:id="@+id/delete_debt"
         android:title="@string/borç_sil"
-        android:icon="@drawable/add_debt_icon"/>
+        android:icon="@drawable/delete_icon" />
 
 </menu>

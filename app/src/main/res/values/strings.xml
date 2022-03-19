@@ -90,6 +90,16 @@
     <string name="sikayet">Şikayet</string>
     <string name="turu">Türü</string>
     <string name="talep_bilgisi">Talep Bilgisi</string>
+    <string name="borc_adi">Borç adı</string>
+    <string name="borc_sıl">BORÇ SİL</string>
+    <string name="silme_nedeni">Silme nedeni</string>
+    <string name="gelen_mesajlar">Gelen Mesajlar</string>
+    <string name="site_giderleri">Site giderleri</string>
+    <string name="oylama_sonuclar">Oylama sonuçları</string>
+    <string name="aktivasyon_kodu">aktivasyon kodu</string>
+    <string name="bildirimleri_temizle">Bildirimleri temizle</string>
+    <string name="mesajlar_sil">Mesajları sil</string>
+
     <string name="aç">Aç</string>
     <string name="kapat">Kapat</string>
 </resources>
