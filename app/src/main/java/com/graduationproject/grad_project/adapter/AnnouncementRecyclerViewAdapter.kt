@@ -8,14 +8,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.commit
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.model.Announcement
-import com.graduationproject.grad_project.view.admin.ShowAnnouncementInfoForAdminFragment
 import com.squareup.picasso.Picasso
 
 class AnnouncementRecyclerViewAdapter(private val announcements : ArrayList<Announcement>,
@@ -25,18 +23,17 @@ class AnnouncementRecyclerViewAdapter(private val announcements : ArrayList<Anno
 
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
+    private val adminRef = db.collection("administrators")
 
     class RowHolder(view : View) : RecyclerView.ViewHolder(view) {
         private val title : TextView = itemView.findViewById(R.id.item_title_announcement)
         private val content : TextView = itemView.findViewById(R.id.item_content_announcement)
         val menu: ImageView = itemView.findViewById(R.id.more_icon_button_for_announcement)
 
-
         fun bind(announcement: Announcement) {
             title.text = announcement.title
             content.text = announcement.content
         }
-
     }
 
     // This is for each row.
@@ -53,23 +50,19 @@ class AnnouncementRecyclerViewAdapter(private val announcements : ArrayList<Anno
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.announcementInfo -> {
-                        val fragmentManager = (context as AppCompatActivity).supportFragmentManager
-                        fragmentManager.commit {
-                            replace(R.id.mainFragmentContainerView, ShowAnnouncementInfoForAdminFragment())
-                            setReorderingAllowed(true)
-                            addToBackStack(null)
-                        }
-                        val showAnnouncementInfoForAdminFragment = ShowAnnouncementInfoForAdminFragment()
-                        showAnnouncementInfoForAdminFragment.showAnnouncement(announcements, position)
+                        val showAnnouncementLayout = LayoutInflater.from(view.context).inflate(R.layout.show_announcement_info_for_admin, null)
+                        showAnnouncement(showAnnouncementLayout, position)
+                        AlertDialog.Builder(view.context)
+                            .setView(showAnnouncementLayout)
+                            .setPositiveButton("Tamam") { dialog, _ ->
+                            }.create().show()
                         true
                     }
                     R.id.deleteAnnouncement -> {
-                        db.collection("administrators")
-                            .document(auth.currentUser?.email.toString())
+                        adminRef.document(auth.currentUser?.email.toString())
                             .collection("announcements")
                             .document(announcements[position].id)
                             .delete()
-
                         notifyItemChanged(position)
                         true
                     }
@@ -78,6 +71,17 @@ class AnnouncementRecyclerViewAdapter(private val announcements : ArrayList<Anno
             }
         }
     }
+
+    private fun showAnnouncement(showAnnouncementLayout: View, position: Int) {
+        val announcementTitle = showAnnouncementLayout.findViewById<TextView>(R.id.announcement_title_text)
+        val announcementContent = showAnnouncementLayout.findViewById<TextView>(R.id.announcement_content_text)
+        val announcementPic = showAnnouncementLayout.findViewById<ImageView>(R.id.announcement_image_view)
+
+        announcementTitle.text = announcements[position].title
+        announcementContent.text = announcements[position].content
+        Picasso.get().load(announcements[position].pictureDownloadUri).into(announcementPic)
+    }
+
 
     override fun getItemCount(): Int {
         return announcements.count()

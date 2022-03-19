@@ -8,8 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.core.OrderBy
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.adapter.AnnouncementRecyclerViewAdapter
 import com.graduationproject.grad_project.databinding.FragmentAnnouncementsBinding
@@ -60,6 +63,7 @@ class AnnouncementsFragment : Fragment() {
                 db.collection("administrators")
                     .document(it)
                     .collection("announcements")
+                    .orderBy("date", Query.Direction.DESCENDING)
                     .get()
                     .addOnSuccessListener { documents ->
                         for (document in documents) {
