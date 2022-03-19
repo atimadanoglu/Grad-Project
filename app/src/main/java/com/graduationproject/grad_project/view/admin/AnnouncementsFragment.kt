@@ -1,10 +1,11 @@
 package com.graduationproject.grad_project.view.admin
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.view.*
+import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -51,6 +52,8 @@ class AnnouncementsFragment : Fragment() {
             fragmentTransaction.replace(R.id.mainFragmentContainerView, addAnnouncementsFragment).commit()
         }
 
+
+
         retrieveAndShowAnnouncements()
     }
 
@@ -68,11 +71,15 @@ class AnnouncementsFragment : Fragment() {
                             if (document != null) {
                                 announcements.add(Announcement(
                                     document.get("title") as String,
-                                    document.get("content") as String
+                                    document.get("content") as String,
+                                    document.get("pictureUri") as String,
+                                    document.get("id") as String
                                 ))
                             }
                             binding.announcementRecyclerview.layoutManager = LinearLayoutManager(this.context)
-                            announcementRecyclerViewAdapter = AnnouncementRecyclerViewAdapter(announcements)
+                            announcementRecyclerViewAdapter = this.context?.let { context ->
+                                AnnouncementRecyclerViewAdapter(announcements, context)
+                            }
                             binding.announcementRecyclerview.adapter = announcementRecyclerViewAdapter
                         }
                     }

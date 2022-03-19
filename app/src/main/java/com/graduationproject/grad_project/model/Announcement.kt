@@ -1,5 +1,11 @@
 package com.graduationproject.grad_project.model
 
-data class Announcement(
+import android.net.Uri
+
+class Announcement(
     val title : String,
-    val content : String)
+    val content : String,
+    val pictureDownloadUri: String,
+    val id: String
+    ) {
+}

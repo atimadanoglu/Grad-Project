@@ -16,12 +16,14 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
-import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.FragmentAddAnnouncementBinding
 import java.util.*
 import kotlin.collections.HashMap
@@ -76,7 +78,7 @@ class AddAnnouncementFragment : Fragment() {
             db.collection("administrators")
                 .document(it1)
                 .collection("announcements")
-                .document()
+                .document(announcement["id"] as String)
                 .set(announcement)
                 .addOnSuccessListener {
                     Log.d("AddAnnouncementFragment", "Announcement document successfully written!")
@@ -85,7 +87,7 @@ class AddAnnouncementFragment : Fragment() {
                 }
             shareAnnouncementWithResidents()
             uploadImage()
-
+            goToPreviousPage()
         }
 
     }
@@ -165,9 +167,13 @@ class AddAnnouncementFragment : Fragment() {
 
 
     private fun getAnnouncementInfo(): HashMap<String, Any> {
+        val uuid = UUID.randomUUID()
+
         return hashMapOf(
             "title" to binding.titleInput.text.toString(),
             "content" to binding.contentInput.text.toString(),
+            "pictureUri" to selectedPicture.toString(),
+            "id" to uuid.toString(),
             "date" to Timestamp(Date())
         )
     }
@@ -182,6 +188,7 @@ class AddAnnouncementFragment : Fragment() {
                 .addOnSuccessListener {
                     val adminInfo = it
                     Log.d("admin","Admin info retrieved")
+
                     db.collection("residents")
                         .whereEqualTo("city", adminInfo["city"])
                         .whereEqualTo("district", adminInfo["district"])
@@ -197,13 +204,12 @@ class AddAnnouncementFragment : Fragment() {
 
                             val announcement = getAnnouncementInfo()
 
-                            /*
-                            todo : You should send push notifications to users instead of saving
-                             the notifications into their DB collection. All are ready here.
-                              Only you will send push notification to users by using their emails.
-                               And try to save the announcements into sites collection and retrieve
-                                them into announcements for site residents
-                            */
+
+                            // TODO: You should send push notifications to users instead of saving
+                            // the notifications into their DB collection. All are ready here.
+                             // Only you will send push notification to users by using their emails.
+                              // And try to save the announcements into sites collection and retrieve
+                             //  them into announcements for site residents
                             for (emailOfResident in emails) {
                                 db.collection("residents")
                                     .document(emailOfResident)
@@ -212,8 +218,8 @@ class AddAnnouncementFragment : Fragment() {
                                     .set(announcement)
                                     .addOnSuccessListener {
                                         Log.d("AddAnnouncementFragment", "Announcement write is SUCCESSFUL!")
-                                    }.addOnFailureListener {
-                                        Log.w("AddAnnouncementFragment", "Announcement write is UNSUCCESSFUL!", it)
+                                    }.addOnFailureListener { exception ->
+                                        Log.w("AddAnnouncementFragment", "Announcement write is UNSUCCESSFUL!", exception)
                                     }
                             }
                         }

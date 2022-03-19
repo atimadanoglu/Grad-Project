@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.WindowManager
 import android.widget.TextView
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -21,6 +23,7 @@ class HomePageAdminActivity : AppCompatActivity(), NavigationView.OnNavigationIt
     private lateinit var binding : ActivityHomePageAdminBinding
     private lateinit var db : FirebaseFirestore
     private lateinit var auth : FirebaseAuth
+    private lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +34,15 @@ class HomePageAdminActivity : AppCompatActivity(), NavigationView.OnNavigationIt
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
-        // Switching fragments from bottom navigation
+        // To show toggle icon on actionBar
+        makeToggle()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true) // to display icon on action bar
 
+        // Switching fragments from bottom navigation
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.mainFragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
-        findViewById<BottomNavigationView>(R.id.bottom_navigation)
-            .setupWithNavController(navController)
+        binding.bottomNavigation.setupWithNavController(navController)
 
         retrieveAndUpdateHeaderInfoFromDB()
         // Initialized navigation view
@@ -46,6 +51,23 @@ class HomePageAdminActivity : AppCompatActivity(), NavigationView.OnNavigationIt
         navigationView.setNavigationItemSelectedListener(this)
     }
 
+    private fun makeToggle() {
+        toggle = ActionBarDrawerToggle(
+            this,
+            binding.drawerLayout,
+            R.string.aç,
+            R.string.kapat
+        )
+        binding.drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (toggle.onOptionsItemSelected(item)) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     // Retrieve fullName, user type and email from db
     private fun retrieveAndUpdateHeaderInfoFromDB() {
@@ -93,7 +115,6 @@ class HomePageAdminActivity : AppCompatActivity(), NavigationView.OnNavigationIt
                 finish()
             }
         }
-
         return true
     }
 

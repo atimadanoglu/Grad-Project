@@ -18,7 +18,7 @@
         android:backgroundTint="@color/background_gray">
 
         <TextView
-            android:id="@+id/title_text"
+            android:id="@+id/announcement_title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -56,7 +56,7 @@
             android:background="@color/primary_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_text" />
+            app:layout_constraintTop_toBottomOf="@+id/announcement_title_text" />
 
         <EditText
             android:id="@+id/account_name_list_item"

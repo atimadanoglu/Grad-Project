@@ -19,6 +19,7 @@
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/delete_debt_item.xml" value="0.37182971014492755" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/drawer_header.xml" value="0.38405797101449274" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_add_announcement.xml" value="0.38405797101449274" />
+        <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_add_expenditures.xml" value="0.2015625" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_announcement.xml" value="0.38405797101449274" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_announcements.xml" value="0.33" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_deneme.xml" value="0.38405797101449274" />
@@ -28,9 +29,12 @@
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_resident_list.xml" value="0.38405797101449274" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_residents_list.xml" value="0.38405797101449274" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_residents_list_for_admin.xml" value="0.33" />
+        <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_show_announcement_info_for_admin.xml" value="0.37182971014492755" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/list_item.xml" value="0.36231884057971014" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/row_layout.xml" value="0.38405797101449274" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/send_message_item.xml" value="0.37182971014492755" />
+        <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/show_message_info_for_admin.xml" value="0.37182971014492755" />
+        <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/show_request_info_for_resident.xml" value="0.37182971014492755" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/menu/announcement_more_menu.xml" value="0.33" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/menu/bottom_nav_resident_menu.xml" value="0.38697916666666665" />

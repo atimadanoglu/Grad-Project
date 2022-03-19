@@ -90,5 +90,6 @@
     <string name="sikayet">Şikayet</string>
     <string name="turu">Türü</string>
     <string name="talep_bilgisi">Talep Bilgisi</string>
-
+    <string name="aç">Aç</string>
+    <string name="kapat">Kapat</string>
 </resources>

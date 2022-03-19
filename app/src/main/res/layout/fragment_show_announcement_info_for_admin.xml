@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".view.admin.ShowAnnouncementInfoForAdminFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearBox"
@@ -62,7 +63,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <TextView
-            android:id="@+id/title_text"
+            android:id="@+id/announcement_title_text"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginStart="20dp"
@@ -84,7 +85,7 @@
             app:layout_constraintTop_toBottomOf="@+id/lineView" />
 
         <TextView
-            android:id="@+id/content_text"
+            android:id="@+id/announcement_content_text"
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:layout_marginStart="20dp"
@@ -104,7 +105,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_text" />
+            app:layout_constraintTop_toBottomOf="@+id/announcement_title_text" />
 
         <ImageView
             android:id="@+id/picture_view"
@@ -116,7 +117,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/content_text" />
+            app:layout_constraintTop_toBottomOf="@+id/announcement_content_text" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
