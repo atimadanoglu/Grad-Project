@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
@@ -24,6 +25,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
+import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.FragmentAddAnnouncementBinding
 import java.util.*
 import kotlin.collections.HashMap
@@ -70,7 +72,6 @@ class AddAnnouncementFragment : Fragment() {
 
     private fun shareAnnouncementButtonClicked(view: View) {
         val currentUser = auth.currentUser
-
         val announcement = getAnnouncementInfo()
 
         // Write announcement to DB
@@ -89,7 +90,6 @@ class AddAnnouncementFragment : Fragment() {
             uploadImage()
             goToPreviousPage()
         }
-
     }
 
     private val selectImageButtonClicked = View.OnClickListener { p0 ->
@@ -165,7 +165,6 @@ class AddAnnouncementFragment : Fragment() {
         }
     }
 
-
     private fun getAnnouncementInfo(): HashMap<String, Any> {
         val uuid = UUID.randomUUID()
 
@@ -177,7 +176,6 @@ class AddAnnouncementFragment : Fragment() {
             "date" to Timestamp(Date())
         )
     }
-
 
     private fun shareAnnouncementWithResidents() {
         auth.currentUser?.email?.let { email ->
@@ -227,9 +225,11 @@ class AddAnnouncementFragment : Fragment() {
         }
     }
 
-
     private fun goToPreviousPage() {
-        val fragmentManager = parentFragmentManager
-        fragmentManager.popBackStack()
+        val navHostFragment =
+            activity?.supportFragmentManager?.findFragmentById(R.id.mainFragmentContainerView) as NavHostFragment
+        val navController = navHostFragment.navController
+        val action = AddAnnouncementFragmentDirections.actionAddAnnouncementFragmentToAnnouncementsFragment()
+        navController.navigate(action)
     }
 }

@@ -13,6 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.ActivityHomePageAdminBinding
@@ -24,6 +25,11 @@ class HomePageAdminActivity : AppCompatActivity(), NavigationView.OnNavigationIt
     private lateinit var db : FirebaseFirestore
     private lateinit var auth : FirebaseAuth
     private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var adminReference: CollectionReference
+
+    companion object {
+        private const val TAG = "HomePageAdminActivity"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +39,7 @@ class HomePageAdminActivity : AppCompatActivity(), NavigationView.OnNavigationIt
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-
+        adminReference = db.collection("administrators")
         // To show toggle icon on actionBar
         makeToggle()
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // to display icon on action bar
@@ -47,7 +53,7 @@ class HomePageAdminActivity : AppCompatActivity(), NavigationView.OnNavigationIt
         retrieveAndUpdateHeaderInfoFromDB()
         // Initialized navigation view
         val navigationView: NavigationView = findViewById(R.id.navigation_view)
-        // Used implements OnNavigationItemSelectedListener(), it gave us that method
+        // Used implements OnNavigationItemSelectedListener(), it gave us onNavigationItemSelected(item: MenuItem) method
         navigationView.setNavigationItemSelectedListener(this)
     }
 
@@ -63,6 +69,7 @@ class HomePageAdminActivity : AppCompatActivity(), NavigationView.OnNavigationIt
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // it enables toggle button
         if (toggle.onOptionsItemSelected(item)) {
             return true
         }
@@ -71,7 +78,6 @@ class HomePageAdminActivity : AppCompatActivity(), NavigationView.OnNavigationIt
 
     // Retrieve fullName, user type and email from db
     private fun retrieveAndUpdateHeaderInfoFromDB() {
-
         // if you don't do this operation, you will get a NPE
         val header = binding.navigationView.getHeaderView(0)
 
@@ -80,20 +86,13 @@ class HomePageAdminActivity : AppCompatActivity(), NavigationView.OnNavigationIt
         val headerAccountType : TextView? = header.findViewById<TextView>(R.id.headerAccountType)
         val headerEmailAddress : TextView? = header.findViewById<TextView>(R.id.headerEmailAddress)
 
-        if (headerAccountName == null) {
-            println("account name is null")
-        } else {
-            println("is not null")
-        }
-
         val currentUser = auth.currentUser
         if (currentUser != null) {
             currentUser.email?.let { email ->
-                db.collection("administrators")
-                    .document(email)
+                adminReference.document(email)
                     .get()
                     .addOnSuccessListener { result ->
-                        Log.d("HomePageAdminActivity", "Reading user info is successful!!!")
+                        Log.d(TAG, "Reading user info is successful!!!")
                         println("result is $result")
                         if (result != null) {
                             headerAccountName!!.text = result["fullName"] as String
@@ -108,7 +107,6 @@ class HomePageAdminActivity : AppCompatActivity(), NavigationView.OnNavigationIt
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.sign_out -> {
-                println("signout içerisi")
                 auth.signOut()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)

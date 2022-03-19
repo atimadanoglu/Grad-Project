@@ -6,6 +6,7 @@ import android.view.*
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -41,19 +42,13 @@ class AnnouncementsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val navHostFragment =
+            activity?.supportFragmentManager?.findFragmentById(R.id.mainFragmentContainerView) as NavHostFragment
+        val navController = navHostFragment.navController
         binding.addAnnouncementButton.setOnClickListener {
-            // You need to use parentFragmentManager on fragments
-            val fragmentManager = parentFragmentManager
-            val fragmentTransaction = fragmentManager.beginTransaction()
-
-            val addAnnouncementsFragment = AddAnnouncementFragment()
-            // It provides to get back to previous page
-            val back = fragmentTransaction.addToBackStack(null)
-            fragmentTransaction.replace(R.id.mainFragmentContainerView, addAnnouncementsFragment).commit()
+            val action = AnnouncementsFragmentDirections.actionAnnouncementsFragmentToAddAnnouncementFragment()
+            navController.navigate(action)
         }
-
-
-
         retrieveAndShowAnnouncements()
     }
 
