@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/item_title"
+            android:id="@+id/item_title_announcement"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:hint="@string/title"
@@ -30,7 +30,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/item_content"
+                android:id="@+id/item_content_announcement"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/content"
@@ -47,11 +47,11 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/more_icon_button"
+        android:id="@+id/more_icon_button_for_announcement"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/more_horiz"
         android:layout_marginEnd="10dp"
-        android:contentDescription="@string/todo"/>
+        android:contentDescription="@string/todo"
+        android:src="@drawable/more_horiz" />
 
 </LinearLayout>

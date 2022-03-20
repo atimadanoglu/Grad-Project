@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/announcementInfoDialog"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,21 +17,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-
-        <Button
-            android:id="@+id/backButtonToAnnouncement"
-            android:layout_width="60dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/back_green_button"
-            android:drawableStart="@drawable/back_arrow_green_icon"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         <TextView
             android:id="@+id/textView"
@@ -62,7 +48,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <TextView
-            android:id="@+id/title_text"
+            android:id="@+id/announcement_title_text"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginStart="20dp"
@@ -84,7 +70,7 @@
             app:layout_constraintTop_toBottomOf="@+id/lineView" />
 
         <TextView
-            android:id="@+id/content_text"
+            android:id="@+id/announcement_content_text"
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:layout_marginStart="20dp"
@@ -104,10 +90,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_text" />
+            app:layout_constraintTop_toBottomOf="@+id/announcement_title_text" />
 
         <ImageView
-            android:id="@+id/picture_view"
+            android:id="@+id/announcement_image_view"
             android:layout_width="146dp"
             android:layout_height="138dp"
             android:layout_gravity="end"
@@ -116,7 +102,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/content_text" />
+            app:layout_constraintTop_toBottomOf="@+id/announcement_content_text" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

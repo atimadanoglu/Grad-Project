@@ -100,4 +100,6 @@
     <string name="bildirimleri_temizle">Bildirimleri temizle</string>
     <string name="mesajlar_sil">Mesajları sil</string>
 
+    <string name="aç">Aç</string>
+    <string name="kapat">Kapat</string>
 </resources>

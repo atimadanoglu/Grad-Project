@@ -16,10 +16,15 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.NavHostFragment
+import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.FragmentAddAnnouncementBinding
@@ -35,14 +40,19 @@ class AddAnnouncementFragment : Fragment() {
     private lateinit var auth : FirebaseAuth
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var permissionLauncher: ActivityResultLauncher<String> // Manifest.permission.READ_EXTERNAL_STORAGE is a String
-    var selectedPicture : Uri? = null
+    private var selectedPicture : Uri? = null
     private lateinit var storage : FirebaseStorage
+    private lateinit var adminRef: CollectionReference
+    private lateinit var residentRef: CollectionReference
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
         storage = FirebaseStorage.getInstance()
+        adminRef = db.collection("administrators")
+        residentRef = db.collection("residents")
         registerLauncher()
     }
 
@@ -66,28 +76,37 @@ class AddAnnouncementFragment : Fragment() {
 
     }
 
-    private fun shareAnnouncementButtonClicked(view: View) {
+    private fun shareAnnouncementButtonClicked() {
         val currentUser = auth.currentUser
-
         val announcement = getAnnouncementInfo()
-
-        // Write announcement to DB
-        currentUser?.email?.let { it1 ->
-            db.collection("administrators")
-                .document(it1)
-                .collection("announcements")
-                .document()
-                .set(announcement)
-                .addOnSuccessListener {
-                    Log.d("AddAnnouncementFragment", "Announcement document successfully written!")
-                }.addOnFailureListener {
-                    Log.w("AddAnnouncementFragment", "Announcement document failed while being written!", it)
-                }
-            shareAnnouncementWithResidents()
-            uploadImage()
-
+        val title = binding.titleInput.text
+        val content = binding.contentInput.text
+        if (title.isBlank() || content.isBlank()) {
+            Toast.makeText(this.context, "Lütfen boş alanları doldurunuz!", Toast.LENGTH_LONG).show()
+        } else {
+            // Write announcement to DB
+            currentUser?.email?.let { email ->
+                adminRef.document(email)
+                    .collection("announcements")
+                    .document(announcement["id"] as String)
+                    .set(announcement)
+                    .addOnSuccessListener {
+                        Log.d(
+                            "AddAnnouncementFragment",
+                            "Announcement document successfully written!"
+                        )
+                    }.addOnFailureListener {
+                        Log.w(
+                            "AddAnnouncementFragment",
+                            "Announcement document failed while being written!",
+                            it
+                        )
+                    }
+                shareAnnouncementWithResidents()
+                uploadImage()
+                goToPreviousPage()
+            }
         }
-
     }
 
     private val selectImageButtonClicked = View.OnClickListener { p0 ->
@@ -97,7 +116,7 @@ class AddAnnouncementFragment : Fragment() {
     }
 
     private val shareAnnouncementButtonClicked = View.OnClickListener {
-        shareAnnouncementButtonClicked(it)
+        shareAnnouncementButtonClicked()
     }
 
     private fun registerLauncher() {
@@ -132,10 +151,10 @@ class AddAnnouncementFragment : Fragment() {
         ) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 Snackbar.make(view, "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Give permission", View.OnClickListener {
+                    .setAction("Give permission") {
                         //request permission
                         permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    }).show()
+                    }.show()
             } else {
                 // request permission
                 permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -163,57 +182,51 @@ class AddAnnouncementFragment : Fragment() {
         }
     }
 
-
     private fun getAnnouncementInfo(): HashMap<String, Any> {
+        val uuid = UUID.randomUUID()
+
         return hashMapOf(
             "title" to binding.titleInput.text.toString(),
             "content" to binding.contentInput.text.toString(),
+            "pictureUri" to selectedPicture.toString(),
+            "id" to uuid.toString(),
             "date" to Timestamp(Date())
         )
     }
 
-
     private fun shareAnnouncementWithResidents() {
         auth.currentUser?.email?.let { email ->
-            db.collection("administrators")
-                .document(email)
-                .get()
-
+           adminRef.document(email).get()
                 .addOnSuccessListener {
                     val adminInfo = it
                     Log.d("admin","Admin info retrieved")
-                    db.collection("residents")
-                        .whereEqualTo("city", adminInfo["city"])
+
+                    residentRef.whereEqualTo("city", adminInfo["city"])
                         .whereEqualTo("district", adminInfo["district"])
                         .whereEqualTo("siteName", adminInfo["siteName"])
                         .get()
-
                         .addOnSuccessListener { residents ->
                             Log.d("AddAnnouncementFragment", "get() successfully worked")
                             val emails = mutableListOf<String>()
                             for (resident in residents) {
                                 emails.add(resident["email"] as String)
                             }
-
                             val announcement = getAnnouncementInfo()
 
-                            /*
-                            todo : You should send push notifications to users instead of saving
-                             the notifications into their DB collection. All are ready here.
-                              Only you will send push notification to users by using their emails.
-                               And try to save the announcements into sites collection and retrieve
-                                them into announcements for site residents
-                            */
+                            // TODO: You should send push notifications to users instead of saving
+                            // the notifications into their DB collection. All are ready here.
+                             // Only you will send push notification to users by using their emails.
+                              // And try to save the announcements into sites collection and retrieve
+                             //  them into announcements for site residents
                             for (emailOfResident in emails) {
-                                db.collection("residents")
-                                    .document(emailOfResident)
+                                residentRef.document(emailOfResident)
                                     .collection("announcements")
                                     .document()
                                     .set(announcement)
                                     .addOnSuccessListener {
                                         Log.d("AddAnnouncementFragment", "Announcement write is SUCCESSFUL!")
-                                    }.addOnFailureListener {
-                                        Log.w("AddAnnouncementFragment", "Announcement write is UNSUCCESSFUL!", it)
+                                    }.addOnFailureListener { exception ->
+                                        Log.w("AddAnnouncementFragment", "Announcement write is UNSUCCESSFUL!", exception)
                                     }
                             }
                         }
@@ -221,9 +234,11 @@ class AddAnnouncementFragment : Fragment() {
         }
     }
 
-
     private fun goToPreviousPage() {
-        val fragmentManager = parentFragmentManager
-        fragmentManager.popBackStack()
+        val navHostFragment =
+            activity?.supportFragmentManager?.findFragmentById(R.id.mainFragmentContainerView) as NavHostFragment
+        val navController = navHostFragment.navController
+        val action = AddAnnouncementFragmentDirections.actionAddAnnouncementFragmentToAnnouncementsFragment()
+        navController.navigate(action)
     }
 }
