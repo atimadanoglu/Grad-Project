@@ -4,6 +4,7 @@ plugins {
     id 'com.google.gms.google-services'
     id 'androidx.navigation.safeargs.kotlin'
     id 'kotlin-kapt'
+    id 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 }
 
 android {
@@ -73,5 +74,9 @@ dependencies {
 
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+
+    //oneSignal
+    implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
 
 }
