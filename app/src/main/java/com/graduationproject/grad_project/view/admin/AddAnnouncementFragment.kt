@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
@@ -39,14 +40,19 @@ class AddAnnouncementFragment : Fragment() {
     private lateinit var auth : FirebaseAuth
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var permissionLauncher: ActivityResultLauncher<String> // Manifest.permission.READ_EXTERNAL_STORAGE is a String
-    var selectedPicture : Uri? = null
+    private var selectedPicture : Uri? = null
     private lateinit var storage : FirebaseStorage
+    private lateinit var adminRef: CollectionReference
+    private lateinit var residentRef: CollectionReference
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
         storage = FirebaseStorage.getInstance()
+        adminRef = db.collection("administrators")
+        residentRef = db.collection("residents")
         registerLauncher()
     }
 
@@ -70,25 +76,36 @@ class AddAnnouncementFragment : Fragment() {
 
     }
 
-    private fun shareAnnouncementButtonClicked(view: View) {
+    private fun shareAnnouncementButtonClicked() {
         val currentUser = auth.currentUser
         val announcement = getAnnouncementInfo()
-
-        // Write announcement to DB
-        currentUser?.email?.let { it1 ->
-            db.collection("administrators")
-                .document(it1)
-                .collection("announcements")
-                .document(announcement["id"] as String)
-                .set(announcement)
-                .addOnSuccessListener {
-                    Log.d("AddAnnouncementFragment", "Announcement document successfully written!")
-                }.addOnFailureListener {
-                    Log.w("AddAnnouncementFragment", "Announcement document failed while being written!", it)
-                }
-            shareAnnouncementWithResidents()
-            uploadImage()
-            goToPreviousPage()
+        val title = binding.titleInput.text
+        val content = binding.contentInput.text
+        if (title.isBlank() || content.isBlank()) {
+            Toast.makeText(this.context, "Lütfen boş alanları doldurunuz!", Toast.LENGTH_LONG).show()
+        } else {
+            // Write announcement to DB
+            currentUser?.email?.let { email ->
+                adminRef.document(email)
+                    .collection("announcements")
+                    .document(announcement["id"] as String)
+                    .set(announcement)
+                    .addOnSuccessListener {
+                        Log.d(
+                            "AddAnnouncementFragment",
+                            "Announcement document successfully written!"
+                        )
+                    }.addOnFailureListener {
+                        Log.w(
+                            "AddAnnouncementFragment",
+                            "Announcement document failed while being written!",
+                            it
+                        )
+                    }
+                shareAnnouncementWithResidents()
+                uploadImage()
+                goToPreviousPage()
+            }
         }
     }
 
@@ -99,7 +116,7 @@ class AddAnnouncementFragment : Fragment() {
     }
 
     private val shareAnnouncementButtonClicked = View.OnClickListener {
-        shareAnnouncementButtonClicked(it)
+        shareAnnouncementButtonClicked()
     }
 
     private fun registerLauncher() {
@@ -134,10 +151,10 @@ class AddAnnouncementFragment : Fragment() {
         ) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 Snackbar.make(view, "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Give permission", View.OnClickListener {
+                    .setAction("Give permission") {
                         //request permission
                         permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    }).show()
+                    }.show()
             } else {
                 // request permission
                 permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -179,29 +196,22 @@ class AddAnnouncementFragment : Fragment() {
 
     private fun shareAnnouncementWithResidents() {
         auth.currentUser?.email?.let { email ->
-            db.collection("administrators")
-                .document(email)
-                .get()
-
+           adminRef.document(email).get()
                 .addOnSuccessListener {
                     val adminInfo = it
                     Log.d("admin","Admin info retrieved")
 
-                    db.collection("residents")
-                        .whereEqualTo("city", adminInfo["city"])
+                    residentRef.whereEqualTo("city", adminInfo["city"])
                         .whereEqualTo("district", adminInfo["district"])
                         .whereEqualTo("siteName", adminInfo["siteName"])
                         .get()
-
                         .addOnSuccessListener { residents ->
                             Log.d("AddAnnouncementFragment", "get() successfully worked")
                             val emails = mutableListOf<String>()
                             for (resident in residents) {
                                 emails.add(resident["email"] as String)
                             }
-
                             val announcement = getAnnouncementInfo()
-
 
                             // TODO: You should send push notifications to users instead of saving
                             // the notifications into their DB collection. All are ready here.
@@ -209,8 +219,7 @@ class AddAnnouncementFragment : Fragment() {
                               // And try to save the announcements into sites collection and retrieve
                              //  them into announcements for site residents
                             for (emailOfResident in emails) {
-                                db.collection("residents")
-                                    .document(emailOfResident)
+                                residentRef.document(emailOfResident)
                                     .collection("announcements")
                                     .document()
                                     .set(announcement)
