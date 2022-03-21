@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/homeFragment"
+    <item android:id="@+id/homeResidentFragment"
         android:title="@string/home"
         android:icon="@drawable/county_icon"/>
 
-    <item android:id="@+id/announcementsFragment"
+    <item android:id="@+id/requestsFragment"
         android:title="@string/taleplerim"
         android:icon="@drawable/request_icon" />
 
-    <item android:id="@+id/residentsListForAdminFragment"
+    <item android:id="@+id/payDebtFragment"
         android:title="@string/borc_odeme"
         android:icon="@drawable/credit_card_icon"/>
 
-    <item android:id="@+id/expendituresFragment"
+    <item android:id="@+id/votingFragment"
         android:title="@string/oylama"
         android:icon="@drawable/vote_icon"/>
 

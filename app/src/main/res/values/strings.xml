@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Grad-Project</string>
     <string name="project_name">Apartopolis</string>
-    <string name="email_address">email adres</string>
+    <string name="email_address">email adresi</string>
     <string name="password">şifre</string>
     <string name="log_in">GİRİŞ</string>
 
@@ -102,4 +102,6 @@
 
     <string name="aç">Aç</string>
     <string name="kapat">Kapat</string>
+    <string name="yönetici">Yönetici</string>
+    <string name="sakin">Sakin</string>
 </resources>

@@ -10,14 +10,18 @@ import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.ActivityHomePageAdminBinding
 import com.graduationproject.grad_project.view.LoginActivity
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 class HomePageAdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -79,27 +83,32 @@ class HomePageAdminActivity : AppCompatActivity(), NavigationView.OnNavigationIt
     // Retrieve fullName, user type and email from db
     private fun retrieveAndUpdateHeaderInfoFromDB() {
         // if you don't do this operation, you will get a NPE
-        val header = binding.navigationView.getHeaderView(0)
-
-        // You need to take header as a reference, otherwise it won't work
-        val headerAccountName : TextView? = header.findViewById<TextView>(R.id.headerAccountName)
-        val headerAccountType : TextView? = header.findViewById<TextView>(R.id.headerAccountType)
-        val headerEmailAddress : TextView? = header.findViewById<TextView>(R.id.headerEmailAddress)
-
         val currentUser = auth.currentUser
+        runBlocking {
+            delay(500L)
+        }
         if (currentUser != null) {
-            currentUser.email?.let { email ->
-                adminReference.document(email)
-                    .get()
-                    .addOnSuccessListener { result ->
-                        Log.d(TAG, "Reading user info is successful!!!")
-                        println("result is $result")
-                        if (result != null) {
-                            headerAccountName!!.text = result["fullName"] as String
-                            headerAccountType!!.text = result["typeOfUser"] as String
-                            headerEmailAddress!!.text = result["email"] as String
-                        }
-                    }
+            setHeader()
+        }
+    }
+
+    private fun setHeader() {
+        val header = binding.navigationView.getHeaderView(0)
+        val currentUser = auth.currentUser
+        // You need to take header as a reference, otherwise it won't work
+        val headerAccountName: TextView? = header.findViewById(R.id.headerAccountName)
+        val headerAccountType: TextView? = header.findViewById(R.id.headerAccountType)
+        val headerEmailAddress: TextView? = header.findViewById(R.id.headerEmailAddress)
+
+        if (currentUser != null) {
+            if (headerAccountName != null) {
+                headerAccountName.text = currentUser.displayName
+            }
+            if (headerAccountType != null) {
+                headerAccountType.text = R.string.yönetici.toString()
+            }
+            if (headerEmailAddress != null) {
+                headerEmailAddress.text = currentUser.email
             }
         }
     }
