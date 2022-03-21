@@ -16,7 +16,6 @@
         android:layout_marginEnd="23dp"
         android:background="@drawable/back_button_style"
         android:drawableStart="@drawable/navigate_before_icon"
-        android:onClick="backToChoosingUserPageButtonClicked"
         android:paddingStart="5dp"
         android:paddingEnd="0dp"
         app:layout_constraintStart_toStartOf="parent"

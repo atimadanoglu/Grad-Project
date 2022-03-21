@@ -23,9 +23,10 @@ class AdministratorNewAccountActivity : AppCompatActivity() {
         setContentView(view)
 
         db = Firebase.firestore
+        binding.backToResidentNewAccountActivityButton.setOnClickListener { backToChoosingUserPageButtonClicked() }
     }
 
-    fun backToChoosingUserPageButtonClicked(view: View) {
+    fun backToChoosingUserPageButtonClicked() {
         val intent = Intent(this, SignUpMainActivity::class.java)
         startActivity(intent)
     }
