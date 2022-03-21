@@ -8,7 +8,9 @@ import android.view.View
 import android.widget.Toast
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -126,6 +128,10 @@ class SiteInformationResidentActivity : AppCompatActivity() {
                 resident["uid"] = auth.currentUser?.uid.toString()
                 savePlayerId(resident)
                 saveResidentIntoDB(resident, user["email"].toString())
+                updateUserInfo(resident)
+                val intent = Intent(this, HomePageResidentActivity::class.java)
+                startActivity(intent)
+                finish()
             }.addOnFailureListener {
                 Log.w(TAG, "User couldn't be created", it)
                 Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
@@ -136,6 +142,14 @@ class SiteInformationResidentActivity : AppCompatActivity() {
         val uuid = UUID.randomUUID().toString()
         OneSignal.setExternalUserId(uuid)
         resident["player_id"] = uuid
+    }
+
+    private fun updateUserInfo(resident: HashMap<String, Any?>) {
+        val currentUser = auth.currentUser
+        val profileUpdates = userProfileChangeRequest {
+            displayName = resident["fullName"].toString()
+        }
+        currentUser?.updateProfile(profileUpdates)
     }
 
     private fun saveResidentIntoDB(resident: HashMap<String, Any?>, email: String) {
