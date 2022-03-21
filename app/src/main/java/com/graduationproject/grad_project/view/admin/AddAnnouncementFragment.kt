@@ -28,6 +28,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.FragmentAddAnnouncementBinding
+import kotlinx.coroutines.CoroutineScope
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -44,6 +45,10 @@ class AddAnnouncementFragment : Fragment() {
     private lateinit var storage : FirebaseStorage
     private lateinit var adminRef: CollectionReference
     private lateinit var residentRef: CollectionReference
+
+    companion object {
+        private const val TAG = "AddAnnouncementFragment"
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,16 +96,9 @@ class AddAnnouncementFragment : Fragment() {
                     .document(announcement["id"] as String)
                     .set(announcement)
                     .addOnSuccessListener {
-                        Log.d(
-                            "AddAnnouncementFragment",
-                            "Announcement document successfully written!"
-                        )
+                        Log.d(TAG, "Announcement document successfully written!")
                     }.addOnFailureListener {
-                        Log.w(
-                            "AddAnnouncementFragment",
-                            "Announcement document failed while being written!",
-                            it
-                        )
+                        Log.w(TAG, "Announcement document failed while being written!", it)
                     }
                 shareAnnouncementWithResidents()
                 uploadImage()
@@ -194,17 +192,47 @@ class AddAnnouncementFragment : Fragment() {
         )
     }
 
+    private fun getResidents(adminInfo: DocumentSnapshot): Task<QuerySnapshot> {
+        return residentRef.whereEqualTo("city", adminInfo["city"])
+            .whereEqualTo("district", adminInfo["district"])
+            .whereEqualTo("siteName", adminInfo["siteName"])
+            .get()
+    }
+
+
     private fun shareAnnouncementWithResidents() {
         auth.currentUser?.email?.let { email ->
-           adminRef.document(email).get()
+            adminRef.document(email).get()
                 .addOnSuccessListener {
                     val adminInfo = it
-                    Log.d("admin","Admin info retrieved")
-
-                    residentRef.whereEqualTo("city", adminInfo["city"])
-                        .whereEqualTo("district", adminInfo["district"])
-                        .whereEqualTo("siteName", adminInfo["siteName"])
-                        .get()
+                    Log.d("admin", "Admin info retrieved")
+                    getResidents(adminInfo)
+                        .addOnSuccessListener { residents ->
+                            Log.d(TAG, "get() successfully worked")
+                            val emails = mutableListOf<String>()
+                            for (resident in residents) {
+                                emails.add(resident["email"] as String)
+                            }
+                            val announcement = getAnnouncementInfo()
+                            for (emailOfResident in emails) {
+                                residentRef.document(emailOfResident)
+                                    .collection("announcements")
+                                    .document()
+                                    .set(announcement)
+                                    .addOnSuccessListener {
+                                        Log.d(
+                                            "AddAnnouncementFragment",
+                                            "Announcement write is SUCCESSFUL!"
+                                        )
+                                    }.addOnFailureListener { exception ->
+                                        Log.w(
+                                            "AddAnnouncementFragment",
+                                            "Announcement write is UNSUCCESSFUL!",
+                                            exception
+                                        )
+                                    }
+                            }
+                            /*  getResidents()
                         .addOnSuccessListener { residents ->
                             Log.d("AddAnnouncementFragment", "get() successfully worked")
                             val emails = mutableListOf<String>()
@@ -228,7 +256,7 @@ class AddAnnouncementFragment : Fragment() {
                                     }.addOnFailureListener { exception ->
                                         Log.w("AddAnnouncementFragment", "Announcement write is UNSUCCESSFUL!", exception)
                                     }
-                            }
+                            }*/
                         }
                 }
         }
