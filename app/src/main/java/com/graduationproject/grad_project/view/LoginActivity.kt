@@ -46,6 +46,7 @@ class LoginActivity : AppCompatActivity() {
         binding.signUpHereTextButton.setOnClickListener { signUpHereButtonClicked() }
     }
 
+    // Check that if there is any admin user in admin collection with that email
     private fun checkAdminCollection(email: String): Task<DocumentSnapshot> {
         return db.collection("administrators")
             .document(email)
@@ -77,6 +78,8 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
+    // Check whether user is an admin or a resident
+    // According to that, direct the users their page
     private fun checkUserType() {
         val currentUser = myAuth.currentUser
         if (currentUser != null) {

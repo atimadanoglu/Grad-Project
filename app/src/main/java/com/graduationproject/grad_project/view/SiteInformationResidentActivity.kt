@@ -71,23 +71,25 @@ class SiteInformationResidentActivity : AppCompatActivity() {
         val city = binding.cityText.text.toString()
         val district = binding.countyText.text.toString()
         val siteName = binding.siteNameText.text.toString()
-        val blockCount = binding.blockNoText.text.toString()
-        val flatCount = binding.flatNoText.text.toString().toInt()
+        val blockNo = binding.blockNoText.text.toString()
+        val flatNo = binding.flatNoText.text.toString().toInt()
 
         return hashMapOf(
             "siteName" to siteName,
             "city" to city,
             "district" to district,
-            "blockCount" to blockCount,
-            "flatCount" to flatCount,
+            "blockNo" to blockNo,
+            "flatNo" to flatNo,
         )
     }
 
-    fun signUpButtonClicked() {
+    private fun isBlank(): Boolean {
+        return binding.cityText.text.isBlank() || binding.countyText.text.isBlank() || binding.siteNameText.text.isBlank() ||
+                binding.flatNoText.text.isBlank() || binding.blockNoText.text.isBlank()
+    }
 
-        if (binding.cityText.text.isBlank() || binding.countyText.text.isBlank() || binding.siteNameText.text.isBlank() ||
-            binding.flatNoText.text.isBlank() || binding.blockNoText.text.isBlank()
-        ) {
+    private fun signUpButtonClicked() {
+        if (isBlank()) {
             println("I am in the toast")
             Toast.makeText(
                 this,
@@ -95,7 +97,6 @@ class SiteInformationResidentActivity : AppCompatActivity() {
                 Toast.LENGTH_SHORT
             ).show()
         } else {
-
             val user = getUserData()
             val site = getSiteData()
 
@@ -112,20 +113,23 @@ class SiteInformationResidentActivity : AppCompatActivity() {
                 "flatNo" to site["flatNo"],
                 "debt" to 0.0
             )
+            createResident(user, resident)
+        }
 
-            auth.createUserWithEmailAndPassword(user["email"].toString(), user["password"].toString())
-                .addOnSuccessListener {
+    }
+
+    private fun createResident(user: HashMap<String, String>,
+                               resident: HashMap<String, Any?>) {
+        auth.createUserWithEmailAndPassword(user["email"].toString(), user["password"].toString())
+            .addOnSuccessListener {
                 Log.d(TAG, "User successfully created!")
                 resident["uid"] = auth.currentUser?.uid.toString()
                 savePlayerId(resident)
                 saveResidentIntoDB(resident, user["email"].toString())
-
             }.addOnFailureListener {
                 Log.w(TAG, "User couldn't be created", it)
                 Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
             }
-        }
-
     }
 
     private fun savePlayerId(resident: HashMap<String, Any?>) {

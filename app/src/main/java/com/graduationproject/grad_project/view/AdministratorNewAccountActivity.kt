@@ -24,21 +24,36 @@ class AdministratorNewAccountActivity : AppCompatActivity() {
 
         db = Firebase.firestore
         binding.backToResidentNewAccountActivityButton.setOnClickListener { backToChoosingUserPageButtonClicked() }
+        binding.nextButton.setOnClickListener { goToSiteInformationActivityPageClicked() }
+        binding.goToLoginPageButton.setOnClickListener { goToLoginPageButtonClicked() }
     }
 
-    fun backToChoosingUserPageButtonClicked() {
+    private fun backToChoosingUserPageButtonClicked() {
         val intent = Intent(this, SignUpMainActivity::class.java)
         startActivity(intent)
     }
-    fun goToLoginPageButtonClicked(view: View) {
+
+    private fun goToLoginPageButtonClicked() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
     }
-    fun goToSiteInformationActivityPageClicked(view: View) {
-        if (binding.TextEmailAddress.text.isEmpty() ||
-            binding.TextPassword.text.isEmpty() ||
-            binding.phoneNumberText.text.isEmpty() ||
-            binding.fullNameText.text.isEmpty()) {
+
+    private fun isBlank(): Boolean {
+        return binding.TextEmailAddress.text.isBlank() ||
+                binding.TextPassword.text.isBlank() ||
+                binding.phoneNumberText.text.isBlank() ||
+                binding.fullNameText.text.isBlank()
+    }
+
+    private fun isAdminKeyCorrect(): Boolean {
+        return binding.ActivationKey.text.toString() == "qwerty"
+    }
+
+    private fun goToSiteInformationActivityPageClicked() {
+        if (!isAdminKeyCorrect()) {
+            Toast.makeText(this, "Yönetici aktivasyon anahtarını doğru girin!", Toast.LENGTH_LONG).show()
+        }
+        if (isBlank()) {
             Toast.makeText(this, "Lütfen gerekli tüm kısımları doldurunuz!!!", Toast.LENGTH_LONG).show()
         } else {
             val intent = Intent(this, SiteInformationActivity::class.java).apply {
