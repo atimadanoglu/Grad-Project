@@ -5,15 +5,13 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".ApplicationClass"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GradProject">
-        <activity
-            android:name=".view.admin.Send_message"
-            android:exported="false" />
         <activity
             android:name=".view.admin.HomePageAdminActivity"
             android:exported="false" />

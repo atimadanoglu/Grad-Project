@@ -6,12 +6,15 @@ buildscript {
     repositories {
         google()  // Google's Maven repository
         mavenCentral()
+        gradlePluginPortal()
+        jcenter()
     }
 
     dependencies {
         classpath 'com.google.gms:google-services:4.3.10'  // Google Services plugin
         def nav_version = "2.4.1"
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
+        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:0.14.0'
     }
 }
 
@@ -25,6 +28,7 @@ allprojects {
     repositories {
         google()  // Google's Maven repository
         mavenCentral()
+        jcenter()
     }
 }
 

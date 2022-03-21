@@ -98,35 +98,34 @@ class ResidentsListForAdminFragment : Fragment() {
                     .addOnSuccessListener { residents ->
                         Log.d("AddAnnouncementFragment", "get() successfully worked")
                         for (resident in residents) {
-                            addResident(siteResidents, resident)
-                            adaptResidentsListRecyclerView(siteResidents)
+                            if (resident != null) {
+                                addResident(siteResidents, resident)
+                            }
                         }
+                        adaptResidentsListRecyclerView(siteResidents)
                     }
             }
         }
     }
 
     private fun addResident(siteResidents: ArrayList<SiteResident>, resident: QueryDocumentSnapshot) {
-        siteResidents.add(SiteResident(
-            fullName = resident.get("fullName") as String,
-            email = resident.get("email") as String,
-            password = resident.get("password") as String,
-            phoneNumber = resident.get("phoneNumber") as String,
-            blockNo = resident.get("blockNo") as String,
-            flatNo = resident.get("flatNo").toString().toInt(),
-            debt = resident.get("debt") as Double
-        ))
+        siteResidents.add(
+            SiteResident(
+                fullName = resident.get("fullName") as String,
+                email = resident.get("email") as String,
+                password = resident.get("password") as String,
+                phoneNumber = resident.get("phoneNumber") as String,
+                blockNo = resident.get("blockNo") as String,
+                flatNo = resident.get("flatNo").toString().toInt(),
+                debt = resident.get("debt") as Double
+            )
+        )
     }
 
     private fun adaptResidentsListRecyclerView(siteResidents: ArrayList<SiteResident>) {
         binding.recyclerview.layoutManager = LinearLayoutManager(this.context)
         residentsListRecyclerViewAdapter =
-            this.context?.let { ResidentsListRecyclerViewAdapter(
-                siteResidents,
-                it,
-                db,
-                auth
-                ) }
+            this.context?.let { ResidentsListRecyclerViewAdapter(siteResidents, it, db, auth) }
         binding.recyclerview.adapter = residentsListRecyclerViewAdapter
     }
 

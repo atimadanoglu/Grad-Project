@@ -18,7 +18,6 @@
         android:drawableStart="@drawable/navigate_before_icon"
         android:paddingStart="5dp"
         android:paddingEnd="0dp"
-        android:onClick="backToResidentNewAccountActivityButtonClicked"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
@@ -147,7 +146,6 @@
         android:text="@string/sign_up"
         android:textAllCaps="false"
         android:textSize="20sp"
-        android:onClick="signUpButtonClicked"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
