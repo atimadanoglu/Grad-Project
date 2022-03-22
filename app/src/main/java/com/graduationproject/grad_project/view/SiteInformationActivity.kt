@@ -6,13 +6,17 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.graduationproject.grad_project.databinding.ActivitySiteInformationBinding
 import com.graduationproject.grad_project.view.admin.HomePageAdminActivity
 import com.onesignal.OneSignal
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -139,12 +143,24 @@ class SiteInformationActivity : AppCompatActivity() {
         admin["player_id"] = uuid
     }
 
+    private fun updateUserInfo(admin: HashMap<String, Any?>) {
+        val currentUser = auth.currentUser
+        val profileUpdates = userProfileChangeRequest {
+            displayName = admin["fullName"].toString()
+        }
+        currentUser?.updateProfile(profileUpdates)
+    }
+
     private fun saveAdminIntoDB(admin: HashMap<String, Any?>, email: String) {
         db.collection("administrators")
             .document(email)
             .set(admin)
             .addOnSuccessListener {
                 Log.d(TAG, "Administrator document successfully written!")
+                updateUserInfo(admin)
+                runBlocking {
+                    delay(500L)
+                }
                 val intent = Intent(this, HomePageAdminActivity::class.java)
                 startActivity(intent)
                 finish()

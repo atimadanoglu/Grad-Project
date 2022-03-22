@@ -87,21 +87,25 @@ class LoginActivity : AppCompatActivity() {
                 .document(currentUser.email.toString())
                 .get()
                 .addOnSuccessListener { admin ->
-                    val intent = Intent(this, HomePageAdminActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    if (admin["typeOfUser"] == "Yönetici") {
+                        val intent = Intent(this, HomePageAdminActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
                 }.addOnFailureListener {
-                    db.collection("residents")
-                        .document(currentUser.email.toString())
-                        .get()
-                        .addOnSuccessListener {
-                            Log.d(TAG, "Found a resident!")
-                            val intent = Intent(this, HomePageResidentActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        }.addOnFailureListener {
-                            Log.w(TAG, "While checking user type, we couldn't find any resident!")
-                        }
+                    Log.w(TAG, "While checking user type, we couldn't find any admin!")
+                }
+            db.collection("residents")
+                .document(currentUser.email.toString())
+                .get()
+                .addOnSuccessListener {
+                    if (it["typeOfUser"] == "Sakin") {
+                        val intent = Intent(this, HomePageResidentActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                }.addOnFailureListener {
+                    Log.w(TAG, "While checking user type, we couldn't find any resident!")
                 }
         } else {
             println("there is no signed-in user")

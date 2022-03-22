@@ -11,7 +11,7 @@
         android:label="fragment_home_resident"
         tools:layout="@layout/fragment_home_resident" />
     <fragment
-        android:id="@+id/requestFragment"
+        android:id="@+id/requestsFragment"
         android:name="com.graduationproject.grad_project.RequestFragment"
         android:label="fragment_add_request"
         tools:layout="@layout/fragment_request" >
@@ -36,6 +36,6 @@
         tools:layout="@layout/fragment_add_request" >
         <action
             android:id="@+id/action_addRequestFragment_to_requestFragment"
-            app:destination="@id/requestFragment" />
+            app:destination="@id/requestsFragment" />
     </fragment>
 </navigation>
