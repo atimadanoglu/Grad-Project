@@ -2,21 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-        <item android:title="@string/notification"
+        <item android:id="@+id/notificationsAdminFragment"
+            android:title="@string/notification"
             android:icon="@drawable/notification_icon"/>
-        <item android:title="@string/voting"
+        <item android:id="@+id/votingAdminFragment"
+            android:title="@string/voting"
             android:icon="@drawable/assessment_icon"/>
         <item android:title="@string/services"
+            android:id="@+id/servicesAdminFragment"
             android:icon="@drawable/perm_phone_icon"/>
         <item android:title="@string/meeting"
+            android:id="@+id/meetingAdminFragment"
             android:icon="@drawable/videocam_icon"/>
         <item android:title="@string/pending_approval"
+            android:id="@+id/pendingApprovalsAdminFragment"
             android:icon="@drawable/person_add_icon"/>
 
     <item android:title="@string/account"
         android:id="@+id/sub_menu">
         <menu>
             <item android:title="@string/setting"
+                android:id="@+id/settingsAdminFragment"
                 android:icon="@drawable/ic_outline_settings_24"/>
             <item android:title="@string/log_out"
                 android:id="@+id/sign_out"
