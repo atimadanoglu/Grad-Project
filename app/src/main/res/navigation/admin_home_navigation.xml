@@ -34,4 +34,34 @@
             android:id="@+id/action_addAnnouncementFragment_to_announcementsFragment"
             app:destination="@id/announcementsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/notificationsAdminFragment"
+        android:name="com.graduationproject.grad_project.view.admin.NotificationsAdminFragment"
+        android:label="fragment_notifications_admin"
+        tools:layout="@layout/fragment_notifications_admin" />
+    <fragment
+        android:id="@+id/votingAdminFragment"
+        android:name="com.graduationproject.grad_project.view.admin.VotingAdminFragment"
+        android:label="fragment_voting_admin"
+        tools:layout="@layout/fragment_voting_admin" />
+    <fragment
+        android:id="@+id/servicesAdminFragment"
+        android:name="com.graduationproject.grad_project.view.admin.ServicesAdminFragment"
+        android:label="fragment_services_admin"
+        tools:layout="@layout/fragment_services_admin" />
+    <fragment
+        android:id="@+id/meetingAdminFragment"
+        android:name="com.graduationproject.grad_project.view.admin.MeetingAdminFragment"
+        android:label="fragment_meeting_admin"
+        tools:layout="@layout/fragment_meeting_admin" />
+    <fragment
+        android:id="@+id/pendingApprovalsAdminFragment"
+        android:name="com.graduationproject.grad_project.view.admin.PendingApprovalsAdminFragment"
+        android:label="fragment_pending_approvals_admin"
+        tools:layout="@layout/fragment_pending_approvals_admin" />
+    <fragment
+        android:id="@+id/settingsAdminFragment"
+        android:name="com.graduationproject.grad_project.view.admin.SettingsAdminFragment"
+        android:label="fragment_settings_admin"
+        tools:layout="@layout/fragment_settings_admin" />
 </navigation>

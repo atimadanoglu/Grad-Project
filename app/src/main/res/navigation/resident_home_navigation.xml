@@ -25,11 +25,6 @@
         android:label="fragment_pay_debt"
         tools:layout="@layout/fragment_pay_debt" />
     <fragment
-        android:id="@+id/votingFragment"
-        android:name="com.graduationproject.grad_project.VotingFragment"
-        android:label="fragment_voting"
-        tools:layout="@layout/fragment_voting" />
-    <fragment
         android:id="@+id/addRequestFragment"
         android:name="com.graduationproject.grad_project.AddRequestFragment"
         android:label="fragment_add_request"
@@ -38,4 +33,42 @@
             android:id="@+id/action_addRequestFragment_to_requestFragment"
             app:destination="@id/requestsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/notificationResidentFragment"
+        android:name="com.graduationproject.grad_project.view.resident.NotificationResidentFragment"
+        android:label="NotificationResidentFragment" />
+    <fragment
+        android:id="@+id/incomingMessagesResidentFragment2"
+        android:name="com.graduationproject.grad_project.view.resident.IncomingMessagesResidentFragment"
+        android:label="IncomingMessagesResidentFragment" />
+    <fragment
+        android:id="@+id/siteExpendituresResidentFragment"
+        android:name="com.graduationproject.grad_project.view.resident.SiteExpendituresResidentFragment"
+        android:label="fragment_site_expenditures_resident"
+        tools:layout="@layout/fragment_site_expenditures_resident" />
+    <fragment
+        android:id="@+id/servicesResidentFragment"
+        android:name="com.graduationproject.grad_project.view.resident.ServicesResidentFragment"
+        android:label="fragment_services_resident"
+        tools:layout="@layout/fragment_services_resident" />
+    <fragment
+        android:id="@+id/votingResultsResidentFragment"
+        android:name="com.graduationproject.grad_project.view.resident.VotingResultsResidentFragment"
+        android:label="fragment_voting_results_resident"
+        tools:layout="@layout/fragment_voting_results_resident" />
+    <fragment
+        android:id="@+id/meetingsResidentFragment"
+        android:name="com.graduationproject.grad_project.view.resident.MeetingsResidentFragment"
+        android:label="fragment_meetings_resident"
+        tools:layout="@layout/fragment_meetings_resident" />
+    <fragment
+        android:id="@+id/settingsResidentFragment"
+        android:name="com.graduationproject.grad_project.view.resident.SettingsResidentFragment"
+        android:label="fragment_settings_resident"
+        tools:layout="@layout/fragment_settings_resident" />
+    <fragment
+        android:id="@+id/voteResidentFragment"
+        android:name="com.graduationproject.grad_project.view.resident.VoteResidentFragment"
+        android:label="fragment_vote_resident"
+        tools:layout="@layout/fragment_vote_resident" />
 </navigation>
