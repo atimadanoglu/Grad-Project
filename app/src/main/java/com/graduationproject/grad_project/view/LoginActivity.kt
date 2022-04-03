@@ -82,6 +82,9 @@ class LoginActivity : AppCompatActivity() {
     // According to that, direct the users their page
     private fun checkUserType() {
         val currentUser = myAuth.currentUser
+/*
+        myAuth.signOut()
+*/
         if (currentUser != null) {
             db.collection("administrators")
                 .document(currentUser.email.toString())

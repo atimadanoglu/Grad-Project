@@ -126,7 +126,6 @@ class SiteInformationResidentActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 Log.d(TAG, "User successfully created!")
                 resident["uid"] = auth.currentUser?.uid.toString()
-                savePlayerId(resident)
                 saveResidentIntoDB(resident, user["email"].toString())
                 updateUserInfo(resident)
                 val intent = Intent(this, HomePageResidentActivity::class.java)
@@ -138,11 +137,6 @@ class SiteInformationResidentActivity : AppCompatActivity() {
             }
     }
 
-    private fun savePlayerId(resident: HashMap<String, Any?>) {
-        val uuid = UUID.randomUUID().toString()
-        OneSignal.setExternalUserId(uuid)
-        resident["player_id"] = uuid
-    }
 
     private fun updateUserInfo(resident: HashMap<String, Any?>) {
         val currentUser = auth.currentUser

@@ -2,13 +2,15 @@ package com.graduationproject.grad_project.view.admin
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +18,11 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
@@ -25,12 +31,23 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.installations.FirebaseInstallations
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.storage.FirebaseStorage
+import com.graduationproject.grad_project.FirebaseService
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.FragmentAddAnnouncementBinding
-import kotlinx.coroutines.CoroutineScope
+import com.graduationproject.grad_project.model.Administrator
+import com.graduationproject.grad_project.model.Announcement
+import com.graduationproject.grad_project.model.Notification
+import com.graduationproject.grad_project.model.PushNotification
+import com.graduationproject.grad_project.viewmodel.AddAnnouncementViewModel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import java.lang.Exception
 import java.util.*
-import kotlin.collections.HashMap
 
 
 class AddAnnouncementFragment : Fragment() {
@@ -45,6 +62,7 @@ class AddAnnouncementFragment : Fragment() {
     private lateinit var storage : FirebaseStorage
     private lateinit var adminRef: CollectionReference
     private lateinit var residentRef: CollectionReference
+    private lateinit var viewModel: AddAnnouncementViewModel
 
     companion object {
         private const val TAG = "AddAnnouncementFragment"
@@ -67,13 +85,23 @@ class AddAnnouncementFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentAddAnnouncementBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(this)[AddAnnouncementViewModel::class.java]
+
+        binding.shareAnnouncementButton.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                shareAnnouncementButtonClicked()
+            }
+        }
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.shareAnnouncementButton.setOnClickListener(shareAnnouncementButtonClicked)
+
+
+
         binding.selectPicture.setOnClickListener(selectImageButtonClicked)
         binding.backButtonToAnnouncement.setOnClickListener {
             goToPreviousPage()
@@ -81,7 +109,7 @@ class AddAnnouncementFragment : Fragment() {
 
     }
 
-    private fun shareAnnouncementButtonClicked() {
+    private suspend fun shareAnnouncementButtonClicked() {
         val currentUser = auth.currentUser
         val announcement = getAnnouncementInfo()
         val title = binding.titleInput.text
@@ -93,7 +121,7 @@ class AddAnnouncementFragment : Fragment() {
             currentUser?.email?.let { email ->
                 adminRef.document(email)
                     .collection("announcements")
-                    .document(announcement["id"] as String)
+                    .document(announcement.id)
                     .set(announcement)
                     .addOnSuccessListener {
                         Log.d(TAG, "Announcement document successfully written!")
@@ -102,8 +130,43 @@ class AddAnnouncementFragment : Fragment() {
                     }
                 shareAnnouncementWithResidents()
                 uploadImage()
+                this.context?.let {
+                    viewModel.registerTheDeviceAndTopicAndSendItToUsers(
+                        it,
+                        TAG,
+                        getTopicName(email),
+                        getNotificationInfo()
+                    )
+                }
+              /*  FirebaseService.sharedPreferences = context?.getSharedPreferences("getSharedPreferences", MODE_PRIVATE)
+                FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                        return@OnCompleteListener
+                    }
+
+                    // Get new FCM registration token
+                    val token = task.result
+
+                    // Log and toast
+                    FirebaseService.token = token
+                    Toast.makeText(this.context, token, Toast.LENGTH_SHORT).show()
+                })
+                val topic = getTopicName(email)
+                topic?.let { FirebaseMessaging.getInstance().subscribeToTopic(it) }
+                topic?.let {
+                    FirebaseService.token?.let { it1 ->
+                        PushNotification(
+                            getNotificationInfo(),
+                            it1
+                        ).also { pushNotification ->
+                            viewModel.sendNotification(pushNotification)
+                        }
+                    }
+                }*/
                 goToPreviousPage()
             }
+
         }
     }
 
@@ -113,9 +176,6 @@ class AddAnnouncementFragment : Fragment() {
         }
     }
 
-    private val shareAnnouncementButtonClicked = View.OnClickListener {
-        shareAnnouncementButtonClicked()
-    }
 
     private fun registerLauncher() {
         activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -180,15 +240,45 @@ class AddAnnouncementFragment : Fragment() {
         }
     }
 
-    private fun getAnnouncementInfo(): HashMap<String, Any> {
+    private fun getAnnouncementInfo(): Announcement {
         val uuid = UUID.randomUUID()
+        return Announcement(
+            binding.titleInput.text.toString(),
+            binding.contentInput.text.toString(),
+            selectedPicture.toString(),
+            uuid.toString(),
+            Timestamp(Date())
+        )
+    }
 
-        return hashMapOf(
-            "title" to binding.titleInput.text.toString(),
-            "content" to binding.contentInput.text.toString(),
-            "pictureUri" to selectedPicture.toString(),
-            "id" to uuid.toString(),
-            "date" to Timestamp(Date())
+    private suspend fun getTopicName(email: String): String? {
+        return try {
+            val snapshot = getAdmin(email)
+            var topic = ""
+            if (snapshot != null) {
+                val admin = snapshot.toObject<Administrator>()
+                println("${admin?.city}")
+                if (admin != null) {
+                    println("${admin.uid}")
+                }
+                //siteName:${site["siteName"]}-city:${site["city"]}-district:${site["district"]}
+                topic = "siteName:${admin?.siteName}-city:${admin?.city}-district:${admin?.district}"
+            }
+            topic
+        } catch (e: Exception) {
+            Log.e(TAG, e.message.toString())
+            null
+        }
+    }
+
+    private fun getNotificationInfo(): Notification {
+        val uuid = UUID.randomUUID()
+        return Notification(
+            binding.titleInput.text.toString(),
+            binding.contentInput.text.toString(),
+            selectedPicture.toString(),
+            uuid.toString(),
+            Timestamp(Date())
         )
     }
 
@@ -199,66 +289,58 @@ class AddAnnouncementFragment : Fragment() {
             .get()
     }
 
+    private suspend fun getAdmin(email: String): DocumentSnapshot? {
+        return try {
+            val admin = adminRef.document(email)
+                .get()
+                .await()
+            admin
+        } catch (e: Exception) {
+            null
+        }
+    }
 
-    private fun shareAnnouncementWithResidents() {
-        auth.currentUser?.email?.let { email ->
-            adminRef.document(email).get()
-                .addOnSuccessListener {
+    private suspend fun shareAnnouncementWithResidents(): Boolean {
+        return try {
+            auth.currentUser?.email?.let { email ->
+                getAdmin(email).also {
                     val adminInfo = it
                     Log.d("admin", "Admin info retrieved")
-                    getResidents(adminInfo)
-                        .addOnSuccessListener { residents ->
-                            Log.d(TAG, "get() successfully worked")
-                            val emails = mutableListOf<String>()
-                            for (resident in residents) {
-                                emails.add(resident["email"] as String)
+                    if (adminInfo != null) {
+                        getResidents(adminInfo)
+                            .addOnSuccessListener { residents ->
+                                Log.d(TAG, "get() successfully worked")
+                                val emails = arrayListOf<String>()
+                                for (resident in residents) {
+                                    emails.add(resident["email"] as String)
+                                }
+                                val notification = getAnnouncementInfo()
+                                for (emailOfResident in emails) {
+                                    residentRef.document(emailOfResident)
+                                        .collection("notifications")
+                                        .document(notification.id)
+                                        .set(notification)
+                                        .addOnSuccessListener {
+                                            Log.d(
+                                                TAG,
+                                                "Announcement write is SUCCESSFUL!"
+                                            )
+                                        }.addOnFailureListener { exception ->
+                                            Log.w(
+                                                TAG,
+                                                "Announcement write is UNSUCCESSFUL!",
+                                                exception
+                                            )
+                                        }
+                                }
                             }
-                            val announcement = getAnnouncementInfo()
-                            for (emailOfResident in emails) {
-                                residentRef.document(emailOfResident)
-                                    .collection("announcements")
-                                    .document()
-                                    .set(announcement)
-                                    .addOnSuccessListener {
-                                        Log.d(
-                                            "AddAnnouncementFragment",
-                                            "Announcement write is SUCCESSFUL!"
-                                        )
-                                    }.addOnFailureListener { exception ->
-                                        Log.w(
-                                            "AddAnnouncementFragment",
-                                            "Announcement write is UNSUCCESSFUL!",
-                                            exception
-                                        )
-                                    }
-                            }
-                            /*  getResidents()
-                        .addOnSuccessListener { residents ->
-                            Log.d("AddAnnouncementFragment", "get() successfully worked")
-                            val emails = mutableListOf<String>()
-                            for (resident in residents) {
-                                emails.add(resident["email"] as String)
-                            }
-                            val announcement = getAnnouncementInfo()
-
-                            // TODO: You should send push notifications to users instead of saving
-                            // the notifications into their DB collection. All are ready here.
-                             // Only you will send push notification to users by using their emails.
-                              // And try to save the announcements into sites collection and retrieve
-                             //  them into announcements for site residents
-                            for (emailOfResident in emails) {
-                                residentRef.document(emailOfResident)
-                                    .collection("announcements")
-                                    .document()
-                                    .set(announcement)
-                                    .addOnSuccessListener {
-                                        Log.d("AddAnnouncementFragment", "Announcement write is SUCCESSFUL!")
-                                    }.addOnFailureListener { exception ->
-                                        Log.w("AddAnnouncementFragment", "Announcement write is UNSUCCESSFUL!", exception)
-                                    }
-                            }*/
-                        }
+                    }
                 }
+            }
+            true
+        } catch (e: Exception) {
+            Log.e(TAG, e.message.toString())
+            false
         }
     }
 

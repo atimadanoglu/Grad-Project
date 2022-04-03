@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.FragmentNotificationResidentBinding
+import com.graduationproject.grad_project.firebase.NotificationOperations
 import com.graduationproject.grad_project.model.Announcement
 import com.graduationproject.grad_project.model.Notification
 import com.squareup.picasso.Picasso
@@ -35,7 +36,7 @@ class NotificationsRecyclerViewAdapter(private val notifications: ArrayList<Noti
 
         fun bind(notification: Notification) {
             title.text = notification.title
-            content.text = notification.content
+            content.text = notification.message
         }
     }
 
@@ -55,15 +56,13 @@ class NotificationsRecyclerViewAdapter(private val notifications: ArrayList<Noti
                         showNotification(showAnnouncementLayout, position)
                         AlertDialog.Builder(view.context)
                             .setView(showAnnouncementLayout)
-                            .setPositiveButton("Tamam") { dialog, _ ->
+                            .setPositiveButton("Tamam") { _, _ ->
                             }.create().show()
                         true
                     }
                     R.id.deleteAnnouncement -> {
-                        adminRef.document(auth.currentUser?.email.toString())
-                            .collection("announcements")
-                            .document(notifications[position].id)
-                            .delete()
+                        NotificationOperations
+                            .deleteNotificationInAPosition(adminRef, auth, notifications, position)
                         notifyItemChanged(position)
                         true
                     }
@@ -79,7 +78,7 @@ class NotificationsRecyclerViewAdapter(private val notifications: ArrayList<Noti
         val notificationPic = showNotificationLayout.findViewById<ImageView>(R.id.announcement_image_view)
 
         notificationTitle.text = notifications[position].title
-        notificationContent.text = notifications[position].content
+        notificationContent.text = notifications[position].message
         Picasso.get().load(notifications[position].pictureUri).into(notificationPic)
     }
 
