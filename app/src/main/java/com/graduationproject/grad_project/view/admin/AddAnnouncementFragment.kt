@@ -22,55 +22,36 @@ import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.storage.FirebaseStorage
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.FragmentAddAnnouncementBinding
-import com.graduationproject.grad_project.model.Announcement
+import com.graduationproject.grad_project.firebase.AnnouncementOperations
+import com.graduationproject.grad_project.firebase.AnnouncementOperations.shareAnnouncementWithResidents
+import com.graduationproject.grad_project.firebase.StorageOperations.uploadImage
 import com.graduationproject.grad_project.model.Notification
+import com.graduationproject.grad_project.onesignal.OneSignalOperations.postNotification
+import com.graduationproject.grad_project.onesignal.OneSignalOperations.takePlayerIDs
 import com.graduationproject.grad_project.viewmodel.AddAnnouncementViewModel
-import com.onesignal.OneSignal
-import com.onesignal.OneSignal.PostNotificationResponseHandler
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
-import org.json.JSONStringer
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class AddAnnouncementFragment : Fragment() {
 
     private var _binding : FragmentAddAnnouncementBinding? = null
     private val binding get() = _binding!!
-    private lateinit var db : FirebaseFirestore
     private lateinit var auth : FirebaseAuth
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var permissionLauncher: ActivityResultLauncher<String> // Manifest.permission.READ_EXTERNAL_STORAGE is a String
     private var selectedPicture : Uri? = null
-    private lateinit var storage : FirebaseStorage
-    private lateinit var adminRef: CollectionReference
-    private lateinit var residentRef: CollectionReference
+
     private lateinit var viewModel: AddAnnouncementViewModel
 
     companion object {
         private const val TAG = "AddAnnouncementFragment"
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        db = FirebaseFirestore.getInstance()
-        auth = FirebaseAuth.getInstance()
-        storage = FirebaseStorage.getInstance()
-        adminRef = db.collection("administrators")
-        residentRef = db.collection("residents")
         registerLauncher()
     }
 
@@ -80,6 +61,7 @@ class AddAnnouncementFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentAddAnnouncementBinding.inflate(inflater, container, false)
+        val view = binding.root
         viewModel = ViewModelProvider(this)[AddAnnouncementViewModel::class.java]
 
         binding.shareAnnouncementButton.setOnClickListener {
@@ -87,46 +69,31 @@ class AddAnnouncementFragment : Fragment() {
                 shareAnnouncementButtonClicked()
             }
         }
-        binding.selectPicture.setOnClickListener(selectImageButtonClicked)
+        binding.selectPicture.setOnClickListener { selectImageButtonClicked(view) }
         binding.backButtonToAnnouncement.setOnClickListener { goToPreviousPage() }
-        return binding.root
+        return view
     }
 
-    private fun saveAnnouncementIntoDB(adminEmail: String, announcementID: String, announcement: Announcement) {
-        try {
-            lifecycleScope.launch(Dispatchers.IO) {
-                adminRef.document(adminEmail)
-                    .collection("announcements")
-                    .document(announcementID)
-                    .set(announcement)
-                    .await()
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, e.toString())
-        }
+    private fun isBlank(): Boolean {
+        return binding.titleInput.text.isBlank() || binding.contentInput.text.isBlank()
     }
 
     private suspend fun shareAnnouncementButtonClicked() {
         val currentUser = auth.currentUser
-        val announcement = getAnnouncementInfo()
-        val title = binding.titleInput.text
-        val content = binding.contentInput.text
-        if (title.isBlank() || content.isBlank()) {
-            Toast.makeText(this.context, "Lütfen boş alanları doldurunuz!", Toast.LENGTH_LONG).show()
+        val notification = getNotificationInfo()
+        if (isBlank()) {
+            Toast.makeText(this.context, R.string.boşluklarıDoldur, Toast.LENGTH_LONG).show()
         } else {
             try {
                 currentUser?.email?.let { email ->
-                    saveAnnouncementIntoDB(email, announcement.id, announcement)
-                    println("shareannouncementresident üstyü")
+                    AnnouncementOperations.saveAnnouncementIntoDB(email, notification.id, notification)
+                    shareAnnouncementWithResidents(notification)
 
-                    shareAnnouncementWithResidents()
-                    println("shareAnnouncemnets altı")
-
-                    uploadImage()
+                    uploadImage(selectedPicture)
 
                     lifecycleScope.launch {
                         val playerIDs = takePlayerIDs(email)
-                        postNotification(playerIDs, announcement)
+                        postNotification(playerIDs, notification)
                     }
                     goToPreviousPage()
                 }
@@ -135,70 +102,6 @@ class AddAnnouncementFragment : Fragment() {
             }
         }
     }
-
-    /**
-     * It will be used to send push notification to residents by using
-     * their player_ids
-     * @param adminEmail It's for taking the admin's info from db
-     * * */
-    private suspend fun takePlayerIDs(adminEmail: String): ArrayList<String> {
-        val admin = getAdmin(adminEmail)
-        val residents = admin?.let { getResidents(it) }
-        val residentDocuments = residents?.documents
-        val playerIDs = arrayListOf<String>()
-        if (residentDocuments != null) {
-            for (document in residentDocuments) {
-                playerIDs.add(document["player_id"].toString())
-            }
-        }
-        return playerIDs
-    }
-
-    private fun createJsonObjectForNotification(title: String, message: String, playerIDs: ArrayList<String>): JSONObject {
-        val jsonObject = JSONObject(
-            "{'headings': {'en': '$title'}," +
-                    "'contents': {'en': '$message'}," +
-                    "'include_player_ids': '[]'}"
-        )
-        val jsonArray = JSONArray()
-        for(playerID in playerIDs) {
-            jsonArray.put(playerID)
-        }
-        jsonObject.put("include_player_ids", jsonArray)
-        return jsonObject
-    }
-
-    private fun postNotification(
-        playerIDs: ArrayList<String>,
-        announcement: Announcement
-    ) {
-        try {
-            val pushNotificationJsonOneSignal =
-                createJsonObjectForNotification(announcement.title, announcement.message, playerIDs)
-            OneSignal.postNotification(
-                pushNotificationJsonOneSignal,
-                object : PostNotificationResponseHandler {
-                    override fun onSuccess(response: JSONObject) {
-                        Log.i("OneSignalExample", "postNotification Success: $response")
-                    }
-
-                    override fun onFailure(response: JSONObject) {
-                        Log.e("OneSignalExample", "postNotification Failure: $response")
-                    }
-                })
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
-
-
-    }
-
-    private val selectImageButtonClicked = View.OnClickListener { p0 ->
-        if (p0 != null) {
-            selectImageButtonClicked(p0)
-        }
-    }
-
 
     private fun registerLauncher() {
         activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -247,38 +150,6 @@ class AddAnnouncementFragment : Fragment() {
         }
     }
 
-    private fun uploadImage() {
-        val uuid = UUID.randomUUID()
-        val imageName = "$uuid.jpeg"
-        val reference = storage.reference
-        val imageReference = reference.child("announcementDocuments").child(imageName)
-
-        if (selectedPicture != null) {
-            try {
-                imageReference.putFile(selectedPicture!!).addOnSuccessListener {
-                    Log.d(tag, "Images successfully uploaded!")
-                }.addOnFailureListener {
-                    Log.w(tag, it.localizedMessage, it)
-                    Toast.makeText(this.context, it.localizedMessage, Toast.LENGTH_LONG).show()
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, e.toString())
-            }
-
-        }
-    }
-
-    private fun getAnnouncementInfo(): Announcement {
-        val uuid = UUID.randomUUID()
-        return Announcement(
-            binding.titleInput.text.toString(),
-            binding.contentInput.text.toString(),
-            selectedPicture.toString(),
-            uuid.toString(),
-            Timestamp(Date())
-        )
-    }
-
     private fun getNotificationInfo(): Notification {
         val uuid = UUID.randomUUID()
         return Notification(
@@ -288,70 +159,6 @@ class AddAnnouncementFragment : Fragment() {
             uuid.toString(),
             Timestamp(Date())
         )
-    }
-
-    private suspend fun getResidents(adminInfo: DocumentSnapshot): QuerySnapshot? {
-        return residentRef.whereEqualTo("city", adminInfo["city"])
-            .whereEqualTo("district", adminInfo["district"])
-            .whereEqualTo("siteName", adminInfo["siteName"])
-            .get().await()
-    }
-
-    private suspend fun getAdmin(email: String): DocumentSnapshot? {
-        return try {
-            val admin = adminRef.document(email)
-                .get()
-                .await()
-            admin
-        } catch (e: Exception) {
-            Log.e(TAG, e.toString())
-            null
-        }
-    }
-
-    private suspend fun saveNotificationIntoResidentDB(emailsOfResidents: ArrayList<String>, notification: Announcement) {
-        for (emailOfResident in emailsOfResidents) {
-            try {
-                residentRef.document(emailOfResident)
-                    .collection("notifications")
-                    .document(notification.id)
-                    .set(notification)
-                    .addOnSuccessListener {
-                        Log.d(TAG, "Announcement write is SUCCESSFUL!")
-                    }.addOnFailureListener { exception ->
-                        Log.w(TAG, "Announcement write is UNSUCCESSFUL!", exception)
-                    }.await()
-            } catch (e: Exception) {
-                Log.e(TAG, e.toString())
-            }
-        }
-    }
-
-    private suspend fun shareAnnouncementWithResidents() {
-        try {
-            val email = auth.currentUser?.email
-            email?.let {
-                getAdmin(email).also {
-                    val adminInfo = it
-                    adminInfo?.let {
-                        getResidents(adminInfo).also { residents ->
-                            Log.d(TAG, "get() successfully worked")
-                            val emails = arrayListOf<String>()
-
-                            if (residents != null) {
-                                for (resident in residents) {
-                                    emails.add(resident["email"] as String)
-                                }
-                            }
-                            val notification = getAnnouncementInfo()
-                            saveNotificationIntoResidentDB(emails, notification)
-                        }
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, e.message.toString())
-        }
     }
 
     private fun goToPreviousPage() {

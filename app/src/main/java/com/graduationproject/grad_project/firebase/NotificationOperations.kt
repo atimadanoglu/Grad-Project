@@ -6,10 +6,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.RemoteMessage
+import com.graduationproject.grad_project.model.Announcement
 import com.graduationproject.grad_project.model.Notification
+import com.graduationproject.grad_project.view.admin.AddAnnouncementFragment
 import com.onesignal.OneSignal
+import kotlinx.coroutines.tasks.await
 
-object NotificationOperations {
+object NotificationOperations: FirebaseConstants() {
 
     private const val TAG = "NotificationOperations"
 
@@ -29,6 +32,23 @@ object NotificationOperations {
                     Log.w(TAG, "Deleting announcement is UNSUCCESSFUL!")
                 }
             }
+    }
+    suspend fun saveNotificationIntoResidentDB(emailsOfResidents: ArrayList<String>, notification: Notification) {
+        for (emailOfResident in emailsOfResidents) {
+            try {
+                residentRef.document(emailOfResident)
+                    .collection("notifications")
+                    .document(notification.id)
+                    .set(notification)
+                    .addOnSuccessListener {
+                        Log.d(TAG, "Announcement write is SUCCESSFUL!")
+                    }.addOnFailureListener { exception ->
+                        Log.w(TAG, "Announcement write is UNSUCCESSFUL!", exception)
+                    }.await()
+            } catch (e: Exception) {
+                Log.e(TAG, e.toString())
+            }
+        }
     }
 
 }
