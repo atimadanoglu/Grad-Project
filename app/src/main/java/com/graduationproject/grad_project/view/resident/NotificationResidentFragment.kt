@@ -5,23 +5,27 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.graduationproject.grad_project.adapter.AnnouncementRecyclerViewAdapter
 import com.graduationproject.grad_project.adapter.NotificationsRecyclerViewAdapter
 import com.graduationproject.grad_project.databinding.FragmentNotificationResidentBinding
-import com.graduationproject.grad_project.model.Announcement
 import com.graduationproject.grad_project.model.Notification
+import com.graduationproject.grad_project.viewmodel.NotificationsResidentViewModel
+import kotlinx.coroutines.launch
 
 
 class NotificationResidentFragment : Fragment() {
 
     private var _binding: FragmentNotificationResidentBinding? = null
     private val binding get() = _binding!!
-    private var notificationsRecyclerViewAdapter: NotificationsRecyclerViewAdapter? = null
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+    private var notificationsRecyclerViewAdapter: NotificationsRecyclerViewAdapter? = null
+    private val viewModel: NotificationsResidentViewModel by viewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,9 +33,19 @@ class NotificationResidentFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentNotificationResidentBinding.inflate(inflater, container, false)
+        val view = binding.root
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-        return binding.root
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        lifecycleScope.launch {
+            auth.currentUser?.email?.let { viewModel.retrieveNotifications(it) }
+        }
+        viewModel.notifications.value?.let { adaptThisFragmentWithRecyclerView(it) }
+        observeLiveData()
     }
 
     private fun adaptThisFragmentWithRecyclerView(notifications: ArrayList<Notification>) {
@@ -42,5 +56,12 @@ class NotificationResidentFragment : Fragment() {
         binding.notificationRecyclerview.adapter = notificationsRecyclerViewAdapter
     }
 
+    private fun observeLiveData() {
+        viewModel.notifications.observe(viewLifecycleOwner) { notifications ->
+            notifications?.let {
+                notificationsRecyclerViewAdapter?.updateNotificationList(notifications)
+            }
+        }
+    }
 
 }

@@ -4,11 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
@@ -17,7 +14,6 @@ import com.google.firebase.ktx.Firebase
 import com.graduationproject.grad_project.databinding.ActivitySiteInformationResidentBinding
 import com.graduationproject.grad_project.view.resident.HomePageResidentActivity
 import com.onesignal.OneSignal
-import java.util.*
 import kotlin.collections.HashMap
 
 class SiteInformationResidentActivity : AppCompatActivity() {
@@ -120,12 +116,19 @@ class SiteInformationResidentActivity : AppCompatActivity() {
 
     }
 
+    private fun savePlayerId(resident: HashMap<String, Any?>) {
+        val deviceState = OneSignal.getDeviceState()
+        val userId = deviceState?.userId
+        resident["player_id"] = userId
+    }
+
     private fun createResident(user: HashMap<String, String>,
                                resident: HashMap<String, Any?>) {
         auth.createUserWithEmailAndPassword(user["email"].toString(), user["password"].toString())
             .addOnSuccessListener {
                 Log.d(TAG, "User successfully created!")
                 resident["uid"] = auth.currentUser?.uid.toString()
+                savePlayerId(resident)
                 saveResidentIntoDB(resident, user["email"].toString())
                 updateUserInfo(resident)
                 val intent = Intent(this, HomePageResidentActivity::class.java)

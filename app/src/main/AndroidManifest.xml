@@ -14,14 +14,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GradProject">
-        <service android:name=".FirebaseService"
-            android:permission="com.google.android.c2dm.permission.SEND"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
         <activity
             android:name=".view.admin.HomePageAdminActivity"
             android:exported="false" />

@@ -5,17 +5,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.core.View
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.graduationproject.grad_project.databinding.ActivitySiteInformationBinding
 import com.graduationproject.grad_project.view.admin.HomePageAdminActivity
+import com.onesignal.OneSignal
 import kotlinx.coroutines.*
 import java.util.*
 
@@ -118,6 +117,7 @@ class SiteInformationActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 val uid = it.user?.uid
                 admin["uid"] = uid.toString()
+                savePlayerId()
                 db.collection("sites")
                     .document("siteName:${site["siteName"]}-city:${site["city"]}-district:${site["district"]}").set(site)
                     .addOnSuccessListener {
@@ -135,35 +135,11 @@ class SiteInformationActivity : AppCompatActivity() {
             }
     }
 
-    /*private fun savePlayerId() {
-        val uuid = UUID.randomUUID().toString()
-        admin["player_id"] = uuid
-        OneSignal.setExternalUserId(
-            uuid,
-            object : OSExternalUserIdUpdateCompletionHandler {
-                override fun onSuccess(results: JSONObject) {
-                    try {
-                        if (results.has("push") && results.getJSONObject("push").has("success")) {
-                            val isPushSuccess = results.getJSONObject("push").getBoolean("success")
-                            OneSignal.onesignalLog(
-                                OneSignal.LOG_LEVEL.VERBOSE,
-                                "Set external user id for push status: $isPushSuccess"
-                            )
-                        }
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
-                    }
-                }
-                override fun onFailure(error: ExternalIdError) {
-                    // The results will contain channel failure statuses
-                    // Use this to detect if external_user_id was not set and retry when a better network connection is made
-                    OneSignal.onesignalLog(
-                        OneSignal.LOG_LEVEL.VERBOSE,
-                        "Set external user id done with error: $error"
-                    )
-                }
-            })
-    }*/
+    private fun savePlayerId() {
+        val deviceState = OneSignal.getDeviceState()
+        val userId = deviceState?.userId
+        admin["player_id"] = userId
+    }
 
     private fun updateUserInfo() {
         val currentUser = auth.currentUser
@@ -193,17 +169,5 @@ class SiteInformationActivity : AppCompatActivity() {
         val intent = Intent(this, AdministratorNewAccountActivity::class.java)
         startActivity(intent)
     }
-/*
-    override fun onOSSubscriptionChanged(stateChanges: OSSubscriptionStateChanges?) {
-        if (!stateChanges?.from?.isSubscribed!! &&
-            stateChanges.to.isSubscribed
-        ) {
-            AlertDialog.Builder(this)
-                .setMessage("You've successfully subscribed to push notifications!")
-                .show()
-            // get player ID
-            stateChanges.to.userId
-        }
-        Log.i("Debug", "onOSSubscriptionChanged: $stateChanges")
-    }*/
+
 }

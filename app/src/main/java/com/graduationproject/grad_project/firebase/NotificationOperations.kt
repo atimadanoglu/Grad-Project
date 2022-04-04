@@ -1,13 +1,17 @@
 package com.graduationproject.grad_project.firebase
 
 import android.util.Log
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.Query
 import com.graduationproject.grad_project.model.Notification
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import java.util.*
+import kotlin.collections.ArrayList
 
 object NotificationOperations: FirebaseConstants() {
 
@@ -53,6 +57,37 @@ object NotificationOperations: FirebaseConstants() {
                     Log.e(TAG, e.toString())
                 }
             }
+        }
+    }
+
+    suspend fun orderNotificationsByDateAndFetch(email: String, notifications: ArrayList<Notification>): ArrayList<Notification> {
+        return try {
+            residentRef.document(email)
+                .collection("notifications")
+                .orderBy("date", Query.Direction.DESCENDING)
+                .get()
+                .addOnSuccessListener { documents ->
+                    Log.d(TAG, "Retrieved notifications data successfully!")
+                    for (document in documents) {
+                        if (document != null) {
+                            notifications.add(
+                                Notification(
+                                    document.get("title") as String,
+                                    document.get("message") as String,
+                                    document.get("pictureUri") as String,
+                                    document.get("id") as String,
+                                    Timestamp(Date())
+                                )
+                            )
+                        }
+                    }
+                }.addOnFailureListener {
+                    Log.e(TAG, it.toString())
+                }.await()
+            notifications
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+            arrayListOf()
         }
     }
 

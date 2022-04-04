@@ -90,6 +90,12 @@ class NotificationsRecyclerViewAdapter(private val notifications: ArrayList<Noti
         return popupMenu
     }
 
+    fun updateNotificationList(newNotifications: ArrayList<Notification>) {
+        notifications.clear()
+        notifications.addAll(newNotifications)
+        notifyDataSetChanged()
+    }
+
 
     override fun getItemCount(): Int {
         return notifications.count()
