@@ -1,12 +1,12 @@
 package com.graduationproject.grad_project.view
 
+import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,16 +15,18 @@ import com.google.firebase.ktx.Firebase
 import com.graduationproject.grad_project.databinding.ActivitySiteInformationBinding
 import com.graduationproject.grad_project.view.admin.HomePageAdminActivity
 import com.onesignal.OneSignal
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import java.util.*
-import kotlin.collections.HashMap
+
 
 class SiteInformationActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivitySiteInformationBinding
     private lateinit var db: FirebaseFirestore
     private lateinit var auth : FirebaseAuth
+    private var user: HashMap<String, String> = hashMapOf()
+    private var site: HashMap<String, Any> = hashMapOf()
+    private var admin: HashMap<String, Any?> = hashMapOf()
 
     companion object {
         private const val TAG = "SiteInformationActivity"
@@ -90,10 +92,10 @@ class SiteInformationActivity : AppCompatActivity() {
         if (isBlank()) {
             Toast.makeText(this, "Lütfen gerekli tüm kısımları doldurunuz!!!", Toast.LENGTH_LONG).show()
         } else {
-            val user = getUserData()
-            val site = getSiteData()
+            user = getUserData()
+            site = getSiteData()
 
-            val admin: HashMap<String, Any?> = hashMapOf(
+            admin = hashMapOf(
                 "fullName" to user["fullName"],
                 "phoneNumber" to user["phoneNumber"],
                 "email" to user["email"],
@@ -105,45 +107,41 @@ class SiteInformationActivity : AppCompatActivity() {
                 "blockCount" to site["blockCount"],
                 "flatCount" to site["flatCount"]
             )
-            createUser(user, site, admin)
+            createUser()
         }
 
     }
 
-    private fun createUser(
-        user: HashMap<String, String>,
-        site: HashMap<String, Any>,
-        admin: HashMap<String, Any?>
-    ) {
+    private fun createUser() = CoroutineScope(Dispatchers.IO).launch {
         auth.createUserWithEmailAndPassword(user["email"].toString(), user["password"].toString())
             .addOnSuccessListener {
                 val uid = it.user?.uid
                 admin["uid"] = uid.toString()
+                savePlayerId()
                 db.collection("sites")
                     .document("siteName:${site["siteName"]}-city:${site["city"]}-district:${site["district"]}").set(site)
                     .addOnSuccessListener {
                         Log.d(TAG, "Site document successfully written!")
-                        savePlayerId(admin)
                         // Write admin info into DB
-                        saveAdminIntoDB(admin, admin["email"].toString())
+                        saveAdminIntoDB(admin["email"].toString(), this@SiteInformationActivity)
                     }
                     .addOnFailureListener { exception ->
                         Log.w(TAG, "Site document couldn't be written", exception)
-                        Toast.makeText(this, exception.localizedMessage, Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@SiteInformationActivity, exception.localizedMessage, Toast.LENGTH_LONG).show()
                     }
             }.addOnFailureListener {
                 Log.w(TAG, "User couldn't be created", it)
-                Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@SiteInformationActivity, it.localizedMessage, Toast.LENGTH_LONG).show()
             }
     }
 
-    private fun savePlayerId(admin: HashMap<String, Any?>) {
-        val uuid = UUID.randomUUID().toString()
-        OneSignal.setExternalUserId(uuid)
-        admin["player_id"] = uuid
+    private fun savePlayerId() {
+        val deviceState = OneSignal.getDeviceState()
+        val userId = deviceState?.userId
+        admin["player_id"] = userId
     }
 
-    private fun updateUserInfo(admin: HashMap<String, Any?>) {
+    private fun updateUserInfo() {
         val currentUser = auth.currentUser
         val profileUpdates = userProfileChangeRequest {
             displayName = admin["fullName"].toString()
@@ -151,21 +149,18 @@ class SiteInformationActivity : AppCompatActivity() {
         currentUser?.updateProfile(profileUpdates)
     }
 
-    private fun saveAdminIntoDB(admin: HashMap<String, Any?>, email: String) {
+    private fun saveAdminIntoDB(email: String, activity: Activity) = CoroutineScope(Dispatchers.IO).launch {
         db.collection("administrators")
             .document(email)
             .set(admin)
             .addOnSuccessListener {
                 Log.d(TAG, "Administrator document successfully written!")
-                updateUserInfo(admin)
-                runBlocking {
-                    delay(500L)
-                }
-                val intent = Intent(this, HomePageAdminActivity::class.java)
+                updateUserInfo()
+                val intent = Intent(activity, HomePageAdminActivity::class.java)
                 startActivity(intent)
                 finish()
             }.addOnFailureListener { e ->
-                Toast.makeText(this, "Yönetici oluşturulamadı!", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, "Yönetici oluşturulamadı!", Toast.LENGTH_LONG).show()
                 Log.w(TAG, "Error as writing admin info document", e)
             }
     }
@@ -174,4 +169,5 @@ class SiteInformationActivity : AppCompatActivity() {
         val intent = Intent(this, AdministratorNewAccountActivity::class.java)
         startActivity(intent)
     }
+
 }

@@ -3,22 +3,20 @@ package com.graduationproject.grad_project.view
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.graduationproject.grad_project.databinding.ActivityLoginBinding
 import com.graduationproject.grad_project.view.admin.HomePageAdminActivity
 import com.graduationproject.grad_project.view.resident.HomePageResidentActivity
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class LoginActivity : AppCompatActivity() {
 
@@ -42,73 +40,101 @@ class LoginActivity : AppCompatActivity() {
         adminRef = db.collection("administrators")
         residentRef = db.collection("residents")
         checkUserType()
-        binding.LogIn.setOnClickListener { loginButtonClicked() }
+        binding.LogIn.setOnClickListener {
+            lifecycleScope.launch {
+                loginButtonClicked()
+            }
+        }
         binding.signUpHereTextButton.setOnClickListener { signUpHereButtonClicked() }
     }
 
     // Check that if there is any admin user in admin collection with that email
-    private fun checkAdminCollection(email: String): Task<DocumentSnapshot> {
-        return db.collection("administrators")
-            .document(email)
-            .get()
-            .addOnSuccessListener {
-                Log.d(TAG, "Found a user with that email address on admin collection!")
-                if (it["typeOfUser"] == "Yönetici") {
-                    val intent = Intent(this, HomePageAdminActivity::class.java)
-                    startActivity(intent)
-                    finish()
+    private fun checkAdminCollection(email: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val user = db.collection("administrators").document(email)
+                    .get()
+                    .await()
+                println("${user["typeOfUser"]}")
+                if (user["typeOfUser"] == "Yönetici") {
+                    println("yönetici içreisindeyim")
+                    goToAdminHomePage()
                 }
-            }.addOnFailureListener {
-                Log.w(TAG, "There is no user on admin collection!!", it)
+            } catch (e: Exception) {
+                Log.e(TAG, e.toString())
             }
+        }
     }
 
-    private fun checkResidentsCollection(email: String): Task<DocumentSnapshot> {
-        return db.collection("residents").document(email)
-            .get()
-            .addOnSuccessListener {
-                Log.d(TAG, "Found a user with that email address in resident collection!")
-                if (it["typeOfUser"] == "Sakin") {
-                    val intent = Intent(this, HomePageResidentActivity::class.java)
-                    startActivity(intent)
-                    finish()
+    private fun checkResidentsCollection(email: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val user = db.collection("residents").document(email)
+                    .get()
+                    .await()
+                println("${user["typeOfUser"]}")
+
+                if (user["typeOfUser"] == "Sakin") {
+                    println("sakin içerisindeyim")
+                    goToResidentHomePage()
                 }
-            }.addOnFailureListener {
-                Log.w(TAG, "There is no user in resident collection", it)
+            } catch (e: Exception) {
+                Log.e(TAG, e.toString())
             }
+        }
     }
+
+    private fun goToAdminHomePage() {
+        val intent = Intent(this, HomePageAdminActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun goToResidentHomePage() {
+        val intent = Intent(this, HomePageResidentActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
 
     // Check whether user is an admin or a resident
     // According to that, direct the users their page
     private fun checkUserType() {
+/*
+        myAuth.signOut()
+*/
         val currentUser = myAuth.currentUser
         if (currentUser != null) {
-            db.collection("administrators")
-                .document(currentUser.email.toString())
-                .get()
-                .addOnSuccessListener { admin ->
-                    if (admin["typeOfUser"] == "Yönetici") {
-                        val intent = Intent(this, HomePageAdminActivity::class.java)
-                        startActivity(intent)
-                        finish()
+            lifecycleScope.launch {
+                try {
+                    val admin = db.collection("administrators")
+                        .document(currentUser.email.toString())
+                        .get().await()
+                    admin?.let {
+                        if (it["typeOfUser"] == "Yönetici") {
+                            goToAdminHomePage()
+                        }
                     }
-                }.addOnFailureListener {
-                    Log.w(TAG, "While checking user type, we couldn't find any admin!")
+                } catch (e: Exception) {
+                    Log.e(TAG, e.toString())
                 }
-            db.collection("residents")
-                .document(currentUser.email.toString())
-                .get()
-                .addOnSuccessListener {
-                    if (it["typeOfUser"] == "Sakin") {
-                        val intent = Intent(this, HomePageResidentActivity::class.java)
-                        startActivity(intent)
-                        finish()
+                launch {
+                    try {
+                        val resident = db.collection("residents")
+                            .document(currentUser.email.toString())
+                            .get().await()
+                        resident?.let {
+                            if (it["typeOfUser"] == "Sakin") {
+                                goToResidentHomePage()
+                            }
+                        }
+                    } catch (e: Exception) {
+                        Log.e(TAG, e.toString())
                     }
-                }.addOnFailureListener {
-                    Log.w(TAG, "While checking user type, we couldn't find any resident!")
                 }
+            }
         } else {
-            println("there is no signed-in user")
+            Log.d(TAG, "There is no signed-in user!!!")
         }
     }
 
@@ -117,7 +143,7 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun loginButtonClicked() {
+    private suspend fun loginButtonClicked() {
 
         val email = binding.TextEmailAddress.text.toString()
         val password = binding.TextPassword.text.toString()
@@ -126,9 +152,12 @@ class LoginActivity : AppCompatActivity() {
             Toast.makeText(this, "Lütfen gerekli alanları doldurunuz!!!", Toast.LENGTH_LONG)
                 .show()
         } else {
-            signIn(email, password).onSuccessTask {
+            try {
+                signIn(email, password).await()
                 checkAdminCollection(email)
                 checkResidentsCollection(email)
+            } catch (e: Exception) {
+                Log.e(TAG, e.toString())
             }
         }
     }

@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.tasks.Task
@@ -19,6 +20,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.ActivityHomePageAdminBinding
+import com.graduationproject.grad_project.databinding.DrawerHeaderBinding
 import com.graduationproject.grad_project.view.LoginActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -84,9 +86,6 @@ class HomePageAdminActivity : AppCompatActivity(), NavigationView.OnNavigationIt
     private fun retrieveAndUpdateHeaderInfoFromDB() {
         // if you don't do this operation, you will get a NPE
         val currentUser = auth.currentUser
-        runBlocking {
-            delay(500L)
-        }
         if (currentUser != null) {
             setHeader()
         }
@@ -94,23 +93,23 @@ class HomePageAdminActivity : AppCompatActivity(), NavigationView.OnNavigationIt
 
     private fun setHeader() {
         val header = binding.navigationView.getHeaderView(0)
-        val currentUser = auth.currentUser
+
         // You need to take header as a reference, otherwise it won't work
         val headerAccountName: TextView? = header.findViewById(R.id.headerAccountName)
         val headerAccountType: TextView? = header.findViewById(R.id.headerAccountType)
         val headerEmailAddress: TextView? = header.findViewById(R.id.headerEmailAddress)
-
-        if (currentUser != null) {
-            if (headerAccountName != null) {
-                headerAccountName.text = currentUser.displayName
-            }
-            if (headerAccountType != null) {
-                headerAccountType.text = R.string.yönetici.toString()
-            }
-            if (headerEmailAddress != null) {
-                headerEmailAddress.text = currentUser.email
+        auth.currentUser.also {
+            if (it != null) {
+                if (headerAccountName != null) {
+                    headerAccountName.text = it.displayName
+                }
+                headerAccountType?.setText(R.string.yönetici)
+                if (headerEmailAddress != null) {
+                    headerEmailAddress.text = it.email
+                }
             }
         }
+
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

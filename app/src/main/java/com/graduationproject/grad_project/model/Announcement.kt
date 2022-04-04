@@ -1,9 +1,11 @@
 package com.graduationproject.grad_project.model
 
-class Announcement(
-    val title : String,
-    val content : String,
-    val pictureDownloadUri: String,
-    val id: String
-    ) {
-}
+import com.google.firebase.Timestamp
+
+data class Announcement(
+    val title: String,
+    val message: String,
+    val pictureUri: String,
+    val id: String,
+    val date: Timestamp
+)
