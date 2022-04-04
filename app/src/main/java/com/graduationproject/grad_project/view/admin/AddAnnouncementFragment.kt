@@ -2,10 +2,7 @@ package com.graduationproject.grad_project.view.admin
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -22,8 +19,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
@@ -31,23 +26,23 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.installations.FirebaseInstallations
-import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.storage.FirebaseStorage
-import com.graduationproject.grad_project.FirebaseService
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.FragmentAddAnnouncementBinding
-import com.graduationproject.grad_project.model.Administrator
 import com.graduationproject.grad_project.model.Announcement
 import com.graduationproject.grad_project.model.Notification
-import com.graduationproject.grad_project.model.PushNotification
 import com.graduationproject.grad_project.viewmodel.AddAnnouncementViewModel
+import com.onesignal.OneSignal
+import com.onesignal.OneSignal.PostNotificationResponseHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import java.lang.Exception
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
+import org.json.JSONStringer
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class AddAnnouncementFragment : Fragment() {
@@ -92,21 +87,23 @@ class AddAnnouncementFragment : Fragment() {
                 shareAnnouncementButtonClicked()
             }
         }
-
+        binding.selectPicture.setOnClickListener(selectImageButtonClicked)
+        binding.backButtonToAnnouncement.setOnClickListener { goToPreviousPage() }
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-
-
-        binding.selectPicture.setOnClickListener(selectImageButtonClicked)
-        binding.backButtonToAnnouncement.setOnClickListener {
-            goToPreviousPage()
+    private fun saveAnnouncementIntoDB(adminEmail: String, announcementID: String, announcement: Announcement) {
+        try {
+            lifecycleScope.launch(Dispatchers.IO) {
+                adminRef.document(adminEmail)
+                    .collection("announcements")
+                    .document(announcementID)
+                    .set(announcement)
+                    .await()
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
         }
-
     }
 
     private suspend fun shareAnnouncementButtonClicked() {
@@ -117,57 +114,83 @@ class AddAnnouncementFragment : Fragment() {
         if (title.isBlank() || content.isBlank()) {
             Toast.makeText(this.context, "Lütfen boş alanları doldurunuz!", Toast.LENGTH_LONG).show()
         } else {
-            // Write announcement to DB
-            currentUser?.email?.let { email ->
-                adminRef.document(email)
-                    .collection("announcements")
-                    .document(announcement.id)
-                    .set(announcement)
-                    .addOnSuccessListener {
-                        Log.d(TAG, "Announcement document successfully written!")
-                    }.addOnFailureListener {
-                        Log.w(TAG, "Announcement document failed while being written!", it)
+            try {
+                currentUser?.email?.let { email ->
+                    saveAnnouncementIntoDB(email, announcement.id, announcement)
+                    println("shareannouncementresident üstyü")
+
+                    shareAnnouncementWithResidents()
+                    println("shareAnnouncemnets altı")
+
+                    uploadImage()
+
+                    lifecycleScope.launch {
+                        val playerIDs = takePlayerIDs(email)
+                        postNotification(playerIDs, announcement)
                     }
-                shareAnnouncementWithResidents()
-                uploadImage()
-                this.context?.let {
-                    viewModel.registerTheDeviceAndTopicAndSendItToUsers(
-                        it,
-                        TAG,
-                        getTopicName(email),
-                        getNotificationInfo()
-                    )
+                    goToPreviousPage()
                 }
-              /*  FirebaseService.sharedPreferences = context?.getSharedPreferences("getSharedPreferences", MODE_PRIVATE)
-                FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-                    if (!task.isSuccessful) {
-                        Log.w(TAG, "Fetching FCM registration token failed", task.exception)
-                        return@OnCompleteListener
-                    }
-
-                    // Get new FCM registration token
-                    val token = task.result
-
-                    // Log and toast
-                    FirebaseService.token = token
-                    Toast.makeText(this.context, token, Toast.LENGTH_SHORT).show()
-                })
-                val topic = getTopicName(email)
-                topic?.let { FirebaseMessaging.getInstance().subscribeToTopic(it) }
-                topic?.let {
-                    FirebaseService.token?.let { it1 ->
-                        PushNotification(
-                            getNotificationInfo(),
-                            it1
-                        ).also { pushNotification ->
-                            viewModel.sendNotification(pushNotification)
-                        }
-                    }
-                }*/
-                goToPreviousPage()
+            } catch (e: Exception) {
+                Log.e(TAG, e.toString())
             }
-
         }
+    }
+
+    /**
+     * It will be used to send push notification to residents by using
+     * their player_ids
+     * @param adminEmail It's for taking the admin's info from db
+     * * */
+    private suspend fun takePlayerIDs(adminEmail: String): ArrayList<String> {
+        val admin = getAdmin(adminEmail)
+        val residents = admin?.let { getResidents(it) }
+        val residentDocuments = residents?.documents
+        val playerIDs = arrayListOf<String>()
+        if (residentDocuments != null) {
+            for (document in residentDocuments) {
+                playerIDs.add(document["player_id"].toString())
+            }
+        }
+        return playerIDs
+    }
+
+    private fun createJsonObjectForNotification(title: String, message: String, playerIDs: ArrayList<String>): JSONObject {
+        val jsonObject = JSONObject(
+            "{'headings': {'en': '$title'}," +
+                    "'contents': {'en': '$message'}," +
+                    "'include_player_ids': '[]'}"
+        )
+        val jsonArray = JSONArray()
+        for(playerID in playerIDs) {
+            jsonArray.put(playerID)
+        }
+        jsonObject.put("include_player_ids", jsonArray)
+        return jsonObject
+    }
+
+    private fun postNotification(
+        playerIDs: ArrayList<String>,
+        announcement: Announcement
+    ) {
+        try {
+            val pushNotificationJsonOneSignal =
+                createJsonObjectForNotification(announcement.title, announcement.message, playerIDs)
+            OneSignal.postNotification(
+                pushNotificationJsonOneSignal,
+                object : PostNotificationResponseHandler {
+                    override fun onSuccess(response: JSONObject) {
+                        Log.i("OneSignalExample", "postNotification Success: $response")
+                    }
+
+                    override fun onFailure(response: JSONObject) {
+                        Log.e("OneSignalExample", "postNotification Failure: $response")
+                    }
+                })
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+
+
     }
 
     private val selectImageButtonClicked = View.OnClickListener { p0 ->
@@ -231,12 +254,17 @@ class AddAnnouncementFragment : Fragment() {
         val imageReference = reference.child("announcementDocuments").child(imageName)
 
         if (selectedPicture != null) {
-            imageReference.putFile(selectedPicture!!).addOnSuccessListener {
-                Log.d(tag, "Images successfully uploaded!")
-            }.addOnFailureListener {
-                Log.w(tag, it.localizedMessage, it)
-                Toast.makeText(this.context, it.localizedMessage, Toast.LENGTH_LONG).show()
+            try {
+                imageReference.putFile(selectedPicture!!).addOnSuccessListener {
+                    Log.d(tag, "Images successfully uploaded!")
+                }.addOnFailureListener {
+                    Log.w(tag, it.localizedMessage, it)
+                    Toast.makeText(this.context, it.localizedMessage, Toast.LENGTH_LONG).show()
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, e.toString())
             }
+
         }
     }
 
@@ -251,26 +279,6 @@ class AddAnnouncementFragment : Fragment() {
         )
     }
 
-    private suspend fun getTopicName(email: String): String? {
-        return try {
-            val snapshot = getAdmin(email)
-            var topic = ""
-            if (snapshot != null) {
-                val admin = snapshot.toObject<Administrator>()
-                println("${admin?.city}")
-                if (admin != null) {
-                    println("${admin.uid}")
-                }
-                //siteName:${site["siteName"]}-city:${site["city"]}-district:${site["district"]}
-                topic = "siteName:${admin?.siteName}-city:${admin?.city}-district:${admin?.district}"
-            }
-            topic
-        } catch (e: Exception) {
-            Log.e(TAG, e.message.toString())
-            null
-        }
-    }
-
     private fun getNotificationInfo(): Notification {
         val uuid = UUID.randomUUID()
         return Notification(
@@ -282,11 +290,11 @@ class AddAnnouncementFragment : Fragment() {
         )
     }
 
-    private fun getResidents(adminInfo: DocumentSnapshot): Task<QuerySnapshot> {
+    private suspend fun getResidents(adminInfo: DocumentSnapshot): QuerySnapshot? {
         return residentRef.whereEqualTo("city", adminInfo["city"])
             .whereEqualTo("district", adminInfo["district"])
             .whereEqualTo("siteName", adminInfo["siteName"])
-            .get()
+            .get().await()
     }
 
     private suspend fun getAdmin(email: String): DocumentSnapshot? {
@@ -296,51 +304,53 @@ class AddAnnouncementFragment : Fragment() {
                 .await()
             admin
         } catch (e: Exception) {
+            Log.e(TAG, e.toString())
             null
         }
     }
 
-    private suspend fun shareAnnouncementWithResidents(): Boolean {
-        return try {
-            auth.currentUser?.email?.let { email ->
+    private suspend fun saveNotificationIntoResidentDB(emailsOfResidents: ArrayList<String>, notification: Announcement) {
+        for (emailOfResident in emailsOfResidents) {
+            try {
+                residentRef.document(emailOfResident)
+                    .collection("notifications")
+                    .document(notification.id)
+                    .set(notification)
+                    .addOnSuccessListener {
+                        Log.d(TAG, "Announcement write is SUCCESSFUL!")
+                    }.addOnFailureListener { exception ->
+                        Log.w(TAG, "Announcement write is UNSUCCESSFUL!", exception)
+                    }.await()
+            } catch (e: Exception) {
+                Log.e(TAG, e.toString())
+            }
+        }
+    }
+
+    private suspend fun shareAnnouncementWithResidents() {
+        try {
+            val email = auth.currentUser?.email
+            email?.let {
                 getAdmin(email).also {
                     val adminInfo = it
-                    Log.d("admin", "Admin info retrieved")
-                    if (adminInfo != null) {
-                        getResidents(adminInfo)
-                            .addOnSuccessListener { residents ->
-                                Log.d(TAG, "get() successfully worked")
-                                val emails = arrayListOf<String>()
+                    adminInfo?.let {
+                        getResidents(adminInfo).also { residents ->
+                            Log.d(TAG, "get() successfully worked")
+                            val emails = arrayListOf<String>()
+
+                            if (residents != null) {
                                 for (resident in residents) {
                                     emails.add(resident["email"] as String)
                                 }
-                                val notification = getAnnouncementInfo()
-                                for (emailOfResident in emails) {
-                                    residentRef.document(emailOfResident)
-                                        .collection("notifications")
-                                        .document(notification.id)
-                                        .set(notification)
-                                        .addOnSuccessListener {
-                                            Log.d(
-                                                TAG,
-                                                "Announcement write is SUCCESSFUL!"
-                                            )
-                                        }.addOnFailureListener { exception ->
-                                            Log.w(
-                                                TAG,
-                                                "Announcement write is UNSUCCESSFUL!",
-                                                exception
-                                            )
-                                        }
-                                }
                             }
+                            val notification = getAnnouncementInfo()
+                            saveNotificationIntoResidentDB(emails, notification)
+                        }
                     }
                 }
             }
-            true
         } catch (e: Exception) {
             Log.e(TAG, e.message.toString())
-            false
         }
     }
 
