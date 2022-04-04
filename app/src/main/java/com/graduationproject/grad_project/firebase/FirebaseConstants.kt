@@ -32,7 +32,7 @@ open class FirebaseConstants {
     protected val auth: FirebaseAuth by lazy {
         FirebaseAuth.getInstance()
     }
-    protected val storage: FirebaseStorage by lazy {
+    private val storage: FirebaseStorage by lazy {
         FirebaseStorage.getInstance()
     }
 

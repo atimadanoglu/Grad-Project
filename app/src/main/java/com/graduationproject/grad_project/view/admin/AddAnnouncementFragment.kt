@@ -16,20 +16,16 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.FragmentAddAnnouncementBinding
-import com.graduationproject.grad_project.firebase.AnnouncementOperations
-import com.graduationproject.grad_project.firebase.AnnouncementOperations.shareAnnouncementWithResidents
-import com.graduationproject.grad_project.firebase.StorageOperations.uploadImage
 import com.graduationproject.grad_project.model.Notification
-import com.graduationproject.grad_project.onesignal.OneSignalOperations.postNotification
-import com.graduationproject.grad_project.onesignal.OneSignalOperations.takePlayerIDs
 import com.graduationproject.grad_project.viewmodel.AddAnnouncementViewModel
 import kotlinx.coroutines.launch
 import java.util.*
@@ -44,15 +40,10 @@ class AddAnnouncementFragment : Fragment() {
     private lateinit var permissionLauncher: ActivityResultLauncher<String> // Manifest.permission.READ_EXTERNAL_STORAGE is a String
     private var selectedPicture : Uri? = null
 
-    private lateinit var viewModel: AddAnnouncementViewModel
+    private val viewModel: AddAnnouncementViewModel by viewModels()
 
     companion object {
         private const val TAG = "AddAnnouncementFragment"
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        registerLauncher()
     }
 
     override fun onCreateView(
@@ -62,11 +53,12 @@ class AddAnnouncementFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentAddAnnouncementBinding.inflate(inflater, container, false)
         val view = binding.root
-        viewModel = ViewModelProvider(this)[AddAnnouncementViewModel::class.java]
-
+        registerLauncher()
+        auth = FirebaseAuth.getInstance()
+        updateUI()
         binding.shareAnnouncementButton.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
-                shareAnnouncementButtonClicked()
+                shareAnnouncementButtonClicked(view)
             }
         }
         binding.selectPicture.setOnClickListener { selectImageButtonClicked(view) }
@@ -74,11 +66,23 @@ class AddAnnouncementFragment : Fragment() {
         return view
     }
 
+    private fun updateUI() {
+        val title = binding.titleInput.text
+        val content = binding.contentInput.text
+        viewModel.setTitle(title.toString())
+        viewModel.setContent(content.toString())
+        if (selectedPicture != null) {
+            viewModel.setSelectedPicture(selectedPicture)
+        }
+        binding.titleInput.setText(viewModel.title)
+        binding.contentInput.setText(viewModel.content)
+    }
+
     private fun isBlank(): Boolean {
         return binding.titleInput.text.isBlank() || binding.contentInput.text.isBlank()
     }
 
-    private suspend fun shareAnnouncementButtonClicked() {
+    private suspend fun shareAnnouncementButtonClicked(view: View) {
         val currentUser = auth.currentUser
         val notification = getNotificationInfo()
         if (isBlank()) {
@@ -86,15 +90,7 @@ class AddAnnouncementFragment : Fragment() {
         } else {
             try {
                 currentUser?.email?.let { email ->
-                    AnnouncementOperations.saveAnnouncementIntoDB(email, notification.id, notification)
-                    shareAnnouncementWithResidents(notification)
-
-                    uploadImage(selectedPicture)
-
-                    lifecycleScope.launch {
-                        val playerIDs = takePlayerIDs(email)
-                        postNotification(playerIDs, notification)
-                    }
+                    viewModel.makeShareAnnouncementOperation(email, notification, view)
                     goToPreviousPage()
                 }
             } catch (e: Exception) {
@@ -109,6 +105,7 @@ class AddAnnouncementFragment : Fragment() {
                 val intentFromResult = result.data
                 if (intentFromResult != null) {
                     selectedPicture = intentFromResult.data
+                    viewModel.setSelectedPicture(selectedPicture)
                 }
             }
         }
@@ -162,10 +159,7 @@ class AddAnnouncementFragment : Fragment() {
     }
 
     private fun goToPreviousPage() {
-        val navHostFragment =
-            activity?.supportFragmentManager?.findFragmentById(R.id.mainFragmentContainerView) as NavHostFragment
-        val navController = navHostFragment.navController
         val action = AddAnnouncementFragmentDirections.actionAddAnnouncementFragmentToAnnouncementsFragment()
-        navController.navigate(action)
+        findNavController().navigate(action)
     }
 }
