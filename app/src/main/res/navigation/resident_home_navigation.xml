@@ -38,7 +38,7 @@
         android:name="com.graduationproject.grad_project.view.resident.NotificationResidentFragment"
         android:label="NotificationResidentFragment" />
     <fragment
-        android:id="@+id/incomingMessagesResidentFragment2"
+        android:id="@+id/incomingMessagesResidentFragment"
         android:name="com.graduationproject.grad_project.view.resident.IncomingMessagesResidentFragment"
         android:label="IncomingMessagesResidentFragment" />
     <fragment

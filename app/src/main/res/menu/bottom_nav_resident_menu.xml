@@ -13,7 +13,7 @@
         android:title="@string/borc_odeme"
         android:icon="@drawable/credit_card_icon"/>
 
-    <item android:id="@+id/votingFragment"
+    <item android:id="@+id/voteResidentFragment"
         android:title="@string/oylama"
         android:icon="@drawable/vote_icon"/>
 

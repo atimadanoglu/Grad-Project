@@ -1,34 +1,13 @@
 package com.graduationproject.grad_project.viewmodel
 
-import android.Manifest
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
-import android.provider.MediaStore
-import android.util.Log
 import android.view.View
-import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.messaging.FirebaseMessaging
-import com.google.gson.Gson
-import com.graduationproject.grad_project.FirebaseService
-import com.graduationproject.grad_project.RetrofitInstance
 import com.graduationproject.grad_project.firebase.AnnouncementOperations
 import com.graduationproject.grad_project.firebase.StorageOperations
 import com.graduationproject.grad_project.model.Notification
-import com.graduationproject.grad_project.model.PushNotification
 import com.graduationproject.grad_project.onesignal.OneSignalOperations
-import com.graduationproject.grad_project.view.admin.AddAnnouncementFragment
 import kotlinx.coroutines.*
 
 class AddAnnouncementViewModel: ViewModel() {
@@ -70,7 +49,7 @@ class AddAnnouncementViewModel: ViewModel() {
 
         StorageOperations.uploadImage(view, selectedPicture)
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
             val playerIDs = OneSignalOperations.takePlayerIDs(email)
             OneSignalOperations.postNotification(playerIDs, notification)
         }
