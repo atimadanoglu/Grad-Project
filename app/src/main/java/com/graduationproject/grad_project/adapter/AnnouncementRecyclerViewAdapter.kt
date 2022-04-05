@@ -32,7 +32,7 @@ class AnnouncementRecyclerViewAdapter(private val announcements : ArrayList<Anno
 
         fun bind(announcement: Announcement) {
             title.text = announcement.title
-            content.text = announcement.content
+            content.text = announcement.message
         }
     }
 
@@ -78,8 +78,8 @@ class AnnouncementRecyclerViewAdapter(private val announcements : ArrayList<Anno
         val announcementPic = showAnnouncementLayout.findViewById<ImageView>(R.id.announcement_image_view)
 
         announcementTitle.text = announcements[position].title
-        announcementContent.text = announcements[position].content
-        Picasso.get().load(announcements[position].pictureDownloadUri).into(announcementPic)
+        announcementContent.text = announcements[position].message
+        Picasso.get().load(announcements[position].pictureUri).into(announcementPic)
     }
 
 

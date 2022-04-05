@@ -1,6 +1,5 @@
 package com.graduationproject.grad_project.view.admin
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -21,6 +20,8 @@ import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.adapter.AnnouncementRecyclerViewAdapter
 import com.graduationproject.grad_project.databinding.FragmentAnnouncementsBinding
 import com.graduationproject.grad_project.model.Announcement
+import java.util.*
+import kotlin.collections.ArrayList
 
 class AnnouncementsFragment : Fragment() {
 
@@ -76,9 +77,10 @@ class AnnouncementsFragment : Fragment() {
                         announcements.add(
                             Announcement(
                                 document.get("title") as String,
-                                document.get("content") as String,
+                                document.get("message") as String,
                                 document.get("pictureUri") as String,
-                                document.get("id") as String
+                                document.get("id") as String,
+                                Timestamp(Date())
                             )
                         )
                     }

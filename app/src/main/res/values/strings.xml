@@ -115,4 +115,6 @@
     <string name="yes">Evet</string>
     <string name="_66">%66</string>
     <string name="test">test</string>
+    <string name="boşluklarıDoldur">Lütfen boşlukları doldurunuz!</string>
+    <string name="tamam">Tamam</string>
 </resources>
