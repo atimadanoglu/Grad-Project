@@ -3,7 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="75dp"
-    android:background="@color/background_gray"
+    android:background="@drawable/recycleview_background"
     android:layout_marginBottom="15dp">
 
     <LinearLayout
@@ -33,24 +33,25 @@
                 android:id="@+id/block_no_text_list_item"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:hint="@string/x_blok"
-                android:textSize="14sp"
-                android:textColorHint="@color/primary_color"
                 android:fontFamily="@font/titillium_web"
-                android:textColor="@color/primary_color"
+                android:gravity="center_vertical"
+                android:hint="@string/x_blok"
                 android:paddingStart="30dp"
-                android:gravity="center_vertical"/>
+                android:textColor="@color/primary_color"
+                android:textColorHint="@color/primary_color"
+                android:textSize="14sp" />
+
             <TextView
                 android:id="@+id/flat_no_add_debt"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textColor="@color/primary_color"
-                android:hint="@string/no_01"
-                android:textSize="14sp"
-                android:textColorHint="@color/primary_color"
-                android:fontFamily="@font/titillium_web"
                 android:layout_marginStart="10dp"
-                android:gravity="center_vertical"/>
+                android:fontFamily="@font/titillium_web"
+                android:gravity="center_vertical"
+                android:hint="@string/no_01"
+                android:textColor="@color/primary_color"
+                android:textColorHint="@color/primary_color"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
