@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-
+    <group android:checkableBehavior="single">
         <item android:id="@+id/notificationsAdminFragment"
             android:title="@string/notification"
             android:icon="@drawable/notification_icon"/>
@@ -18,17 +18,19 @@
             android:id="@+id/pendingApprovalsAdminFragment"
             android:icon="@drawable/person_add_icon"/>
 
-    <item android:title="@string/account"
-        android:id="@+id/sub_menu">
-        <menu>
-            <item android:title="@string/setting"
-                android:id="@+id/settingsAdminFragment"
-                android:icon="@drawable/ic_outline_settings_24"/>
-            <item android:title="@string/log_out"
-                android:id="@+id/sign_out"
-                android:icon="@drawable/logout_icon"/>
-        </menu>
-    </item>
-
+        <item android:title="@string/account"
+            android:id="@+id/sub_menu">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item android:title="@string/setting"
+                        android:id="@+id/settingsAdminFragment"
+                        android:icon="@drawable/ic_outline_settings_24"/>
+                    <item android:title="@string/log_out"
+                        android:id="@+id/sign_out"
+                        android:icon="@drawable/logout_icon"/>
+                </group>
+            </menu>
+        </item>
+    </group>
 
 </menu>
