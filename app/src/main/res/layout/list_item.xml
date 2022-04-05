@@ -70,10 +70,9 @@
 
     <ImageView
         android:id="@+id/more_icon_button"
-        android:layout_width="80dp"
+        android:layout_width="50dp"
         android:layout_height="match_parent"
         android:src="@drawable/more_horiz"
-        android:layout_marginStart="10dp"
         android:contentDescription="@string/todo"
         />
 
