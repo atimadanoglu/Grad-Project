@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_signUpMainFragment_to_adminNewAccountFragment"
             app:destination="@id/adminNewAccountFragment" />
+        <action
+            android:id="@+id/action_signUpMainFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <activity
         android:id="@+id/homePageAdminActivity"
@@ -49,6 +52,9 @@
         <action
             android:id="@+id/action_residentNewAccountFragment_to_residentSiteInformationFragment"
             app:destination="@id/residentSiteInformationFragment" />
+        <action
+            android:id="@+id/action_residentNewAccountFragment_to_signUpMainFragment"
+            app:destination="@id/signUpMainFragment" />
     </fragment>
     <fragment
         android:id="@+id/adminNewAccountFragment"
@@ -58,6 +64,9 @@
         <action
             android:id="@+id/action_adminNewAccountFragment_to_adminSiteInformationFragment"
             app:destination="@id/adminSiteInformationFragment" />
+        <action
+            android:id="@+id/action_adminNewAccountFragment_to_signUpMainFragment"
+            app:destination="@id/signUpMainFragment" />
     </fragment>
     <fragment
         android:id="@+id/residentSiteInformationFragment"
@@ -79,6 +88,9 @@
         <argument
             android:name="password"
             app:argType="string" />
+        <action
+            android:id="@+id/action_residentSiteInformationFragment_to_residentNewAccountFragment"
+            app:destination="@id/residentNewAccountFragment" />
     </fragment>
     <fragment
         android:id="@+id/adminSiteInformationFragment"
@@ -100,5 +112,8 @@
         <argument
             android:name="password"
             app:argType="string" />
+        <action
+            android:id="@+id/action_adminSiteInformationFragment_to_adminNewAccountFragment"
+            app:destination="@id/adminNewAccountFragment" />
     </fragment>
 </navigation>
