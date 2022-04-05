@@ -1,6 +1,7 @@
 package com.graduationproject.grad_project.firebase
 
 import android.util.Log
+import com.google.firebase.FirebaseException
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
@@ -10,6 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -17,11 +19,9 @@ object NotificationOperations: FirebaseConstants() {
 
     private const val TAG = "NotificationOperations"
 
-    fun deleteNotificationInAPosition(adminRef: CollectionReference,
-                           auth: FirebaseAuth,
+    fun deleteNotificationInAPosition(
                            notifications: ArrayList<Notification>,
-                           position: Int
-                           ) {
+                           position: Int) {
         CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
             try {
                 adminRef.document(auth.currentUser?.email.toString())
@@ -34,13 +34,13 @@ object NotificationOperations: FirebaseConstants() {
                         } else {
                             Log.w(TAG, "Deleting announcement is UNSUCCESSFUL!")
                         }
-                    }.await()
+                    }
             } catch (e: Exception) {
                 Log.e(TAG, e.toString())
             }
         }
     }
-    suspend fun saveNotificationIntoResidentDB(emailsOfResidents: ArrayList<String>, notification: Notification) {
+    fun saveNotificationIntoResidentDB(emailsOfResidents: ArrayList<String>, notification: Notification) {
         CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
             for (emailOfResident in emailsOfResidents) {
                 try {
@@ -52,7 +52,7 @@ object NotificationOperations: FirebaseConstants() {
                             Log.d(TAG, "Announcement write is SUCCESSFUL!")
                         }.addOnFailureListener { exception ->
                             Log.w(TAG, "Announcement write is UNSUCCESSFUL!", exception)
-                        }.await()
+                        }
                 } catch (e: Exception) {
                     Log.e(TAG, e.toString())
                 }
@@ -60,34 +60,49 @@ object NotificationOperations: FirebaseConstants() {
         }
     }
 
-    suspend fun orderNotificationsByDateAndFetch(email: String, notifications: ArrayList<Notification>): ArrayList<Notification> {
-        return try {
-            residentRef.document(email)
-                .collection("notifications")
-                .orderBy("date", Query.Direction.DESCENDING)
-                .get()
-                .addOnSuccessListener { documents ->
-                    Log.d(TAG, "Retrieved notifications data successfully!")
-                    for (document in documents) {
-                        if (document != null) {
-                            notifications.add(
-                                Notification(
-                                    document.get("title") as String,
-                                    document.get("message") as String,
-                                    document.get("pictureUri") as String,
-                                    document.get("id") as String,
-                                    Timestamp(Date())
-                                )
-                            )
+    fun deleteAllNotificationsForResident(email: String) {
+       CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
+            try {
+                residentRef.document(email)
+                    .collection("notifications")
+                    .get()
+                    .addOnSuccessListener {
+                        it.forEach {  document ->
+                            document.reference.delete()
                         }
                     }
-                }.addOnFailureListener {
-                    Log.e(TAG, it.toString())
-                }.await()
-            notifications
-        } catch (e: Exception) {
-            Log.e(TAG, e.toString())
-            arrayListOf()
+                Log.d(TAG, "Deleting notifications operation is SUCCESSFUL!")
+            } catch (e: FirebaseException) {
+                Log.e(TAG, e.toString())
+            }
+        }
+    }
+
+
+    suspend fun orderNotificationsByDateAndFetch(email: String): ArrayList<Notification> {
+        return withContext(Dispatchers.IO + coroutineExceptionHandler) {
+            try {
+                val notifications = arrayListOf<Notification>()
+                residentRef.document(email)
+                    .collection("notifications")
+                    .orderBy("date", Query.Direction.DESCENDING)
+                    .get()
+                    .await().forEach { document->
+                        notifications.add(
+                            Notification(
+                                document.get("title") as String,
+                                document.get("message") as String,
+                                document.get("pictureUri") as String,
+                                document.get("id") as String,
+                                Timestamp(Date())
+                            )
+                        )
+                    }
+                notifications
+            } catch (e: Exception) {
+                Log.e(TAG, e.toString())
+                arrayListOf()
+            }
         }
     }
 

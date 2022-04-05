@@ -8,26 +8,19 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.graduationproject.grad_project.R
-import com.graduationproject.grad_project.databinding.FragmentNotificationResidentBinding
 import com.graduationproject.grad_project.firebase.NotificationOperations
-import com.graduationproject.grad_project.model.Announcement
 import com.graduationproject.grad_project.model.Notification
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class NotificationsRecyclerViewAdapter(private val notifications: ArrayList<Notification>,
-                                       private val context: Context,
-                                       db: FirebaseFirestore,
-                                       private val auth: FirebaseAuth,
-                                       layoutInflater: LayoutInflater):
+                                       private val context: Context):
     RecyclerView.Adapter<NotificationsRecyclerViewAdapter.RowHolder>() {
-
-    val binding: FragmentNotificationResidentBinding = FragmentNotificationResidentBinding.inflate(layoutInflater)
-    private val adminRef = db.collection("administrators")
 
     class RowHolder(view: View): RecyclerView.ViewHolder(view) {
         private val title : TextView = itemView.findViewById(R.id.item_title_announcement)
@@ -54,15 +47,15 @@ class NotificationsRecyclerViewAdapter(private val notifications: ArrayList<Noti
                     R.id.announcementInfo -> {
                         val showAnnouncementLayout = LayoutInflater.from(view.context).inflate(R.layout.show_announcement_info_for_admin, null)
                         showNotification(showAnnouncementLayout, position)
-                        AlertDialog.Builder(view.context)
+                        MaterialAlertDialogBuilder(context)
                             .setView(showAnnouncementLayout)
-                            .setPositiveButton("Tamam") { _, _ ->
+                            .setPositiveButton(R.string.tamam) { _, _ ->
                             }.create().show()
                         true
                     }
                     R.id.deleteAnnouncement -> {
                         NotificationOperations
-                            .deleteNotificationInAPosition(adminRef, auth, notifications, position)
+                            .deleteNotificationInAPosition(notifications, position)
                         notifyItemChanged(position)
                         true
                     }
@@ -95,7 +88,6 @@ class NotificationsRecyclerViewAdapter(private val notifications: ArrayList<Noti
         notifications.addAll(newNotifications)
         notifyDataSetChanged()
     }
-
 
     override fun getItemCount(): Int {
         return notifications.count()
