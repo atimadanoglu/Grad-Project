@@ -1,13 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primary_color"
     tools:context=".ResidentNewAccountFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <Button
+        android:id="@+id/backToResidentNewAccountActivityButton"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="23dp"
+        android:background="@drawable/back_button_style"
+        android:drawableStart="@drawable/navigate_before_icon"
+        android:paddingStart="5dp"
+        android:paddingEnd="0dp"
+        android:onClick="backToChoosingUserPageButtonClicked"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="146dp"
+        android:layout_height="112dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="210dp"
+        android:fontFamily="@font/titillium_web_bold"
+        android:text="@string/new_account"
+        android:textColor="@color/secondary_color"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/backToResidentNewAccountActivityButton" />
+
+    <EditText
+        android:id="@+id/fullNameText"
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="70dp"
+        android:autofillHints=""
+        android:backgroundTint="@color/secondary_color"
+        android:drawableStart="@drawable/person_icon"
+        android:drawablePadding="15dp"
+        android:ems="10"
+        android:fontFamily="@font/titillium_web"
+        android:hint="@string/full_name"
+        android:inputType="textPersonName"
+        android:textColor="@color/secondary_color"
+        android:textColorHint="@color/secondary_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <EditText
+        android:id="@+id/phoneNumberText"
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="30dp"
+        android:autofillHints=""
+        android:backgroundTint="@color/secondary_color"
+        android:drawableStart="@drawable/phone_icon"
+        android:drawablePadding="15dp"
+        android:ems="10"
+        android:fontFamily="@font/titillium_web"
+        android:hint="@string/phone_number"
+        android:inputType="phone"
+        android:textColor="@color/secondary_color"
+        android:textColorHint="@color/secondary_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fullNameText" />
+
+    <EditText
+        android:id="@+id/TextEmailAddress"
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="30dp"
+        android:autofillHints=""
+        android:backgroundTint="@color/secondary_color"
+        android:drawableStart="@drawable/email_icon"
+        android:drawablePadding="15dp"
+        android:ems="10"
+        android:fontFamily="@font/titillium_web"
+        android:hint="@string/email_address"
+        android:inputType="textEmailAddress"
+        android:minHeight="48dp"
+        android:textColor="@color/secondary_color"
+        android:textColorHint="@color/secondary_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phoneNumberText" />
+
+    <EditText
+        android:id="@+id/TextPassword"
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="30dp"
+        android:autofillHints=""
+        android:backgroundTint="@color/secondary_color"
+        android:drawableStart="@drawable/password_icon"
+        android:drawablePadding="15dp"
+        android:ems="10"
+        android:fontFamily="@font/titillium_web"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        android:textColorHint="@color/secondary_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TextEmailAddress" />
+
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/button"
+        android:drawableEnd="@drawable/navigate_next_icon"
+        android:fontFamily="@font/titillium_web_bold"
+        android:paddingStart="75dp"
+        android:paddingEnd="60dp"
+        android:shadowColor="@color/black"
+        android:shadowDy="-2"
+        android:shadowRadius="1"
+        android:text="@string/next"
+        android:textColor="@color/primary_color"
+        android:textSize="20sp"
+        android:onClick="goToSiteInformationResidentActivityPageClicked"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TextPassword" />
+
+    <TextView
+        android:id="@+id/notFirstTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="11dp"
+        android:text="@string/not_the_first_time_here"
+        android:textColor="@color/secondary_color"
+        app:layout_constraintEnd_toStartOf="@+id/goToLoginPageButton"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nextButton" />
+
+    <TextView
+        android:id="@+id/goToLoginPageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:fontFamily="@font/titillium_web_bold"
+        android:onClick="goToLoginPageButtonClicked"
+        android:text="@string/log_in."
+        android:textColor="@color/secondary_color"
+        app:layout_constraintBaseline_toBaselineOf="@+id/notFirstTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/notFirstTextView"
+        tools:ignore="TouchTargetSizeCheck" />
+</androidx.constraintlayout.widget.ConstraintLayout>
