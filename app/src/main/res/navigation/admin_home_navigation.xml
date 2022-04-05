@@ -64,4 +64,9 @@
         android:name="com.graduationproject.grad_project.view.admin.SettingsAdminFragment"
         android:label="fragment_settings_admin"
         tools:layout="@layout/fragment_settings_admin" />
+    <fragment
+        android:id="@+id/addVotingAdminFragment"
+        android:name="com.graduationproject.grad_project.AddVotingAdminFragment"
+        android:label="fragment_add_voting_admin"
+        tools:layout="@layout/fragment_add_voting_admin" />
 </navigation>

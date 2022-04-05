@@ -104,4 +104,15 @@
     <string name="kapat">Kapat</string>
     <string name="yönetici">Yönetici</string>
     <string name="sakin">Sakin</string>
+    <string name="new_voting">New Voting</string>
+    <string name="surec">Süreç</string>
+    <string name="gun">gün</string>
+    <string name="baslik_ekle">Başlık ekle</string>
+    <string name="Icerik_ekle">İçerik ekle</string>
+    <string name="oylamalar">Oylamalar</string>
+    <string name="devam_edenler">Devam edenler</string>
+    <string name="bitenler">Bitenler</string>
+    <string name="yes">Evet</string>
+    <string name="_66">%66</string>
+    <string name="test">test</string>
 </resources>
