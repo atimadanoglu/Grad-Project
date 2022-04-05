@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_and_signup_navigation"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.graduationproject.grad_project.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_homePageAdminActivity"
+            app:destination="@id/homePageAdminActivity" />
+        <action
+            android:id="@+id/action_loginFragment_to_homePageResidentActivity"
+            app:destination="@id/homePageResidentActivity" />
+        <action
+            android:id="@+id/action_loginFragment_to_signUpMainFragment"
+            app:destination="@id/signUpMainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpMainFragment"
+        android:name="com.graduationproject.grad_project.SignUpMainFragment"
+        android:label="fragment_sign_up_main"
+        tools:layout="@layout/fragment_sign_up_main" >
+        <action
+            android:id="@+id/action_signUpMainFragment_to_residentNewAccountFragment"
+            app:destination="@id/residentNewAccountFragment" />
+        <action
+            android:id="@+id/action_signUpMainFragment_to_adminNewAccountFragment"
+            app:destination="@id/adminNewAccountFragment" />
+    </fragment>
+    <activity
+        android:id="@+id/homePageAdminActivity"
+        android:name="com.graduationproject.grad_project.view.admin.HomePageAdminActivity"
+        android:label="HomePageAdminActivity" />
+    <activity
+        android:id="@+id/homePageResidentActivity"
+        android:name="com.graduationproject.grad_project.view.resident.HomePageResidentActivity"
+        android:label="activity_home_page_resident"
+        tools:layout="@layout/activity_home_page_resident" />
+    <fragment
+        android:id="@+id/residentNewAccountFragment"
+        android:name="com.graduationproject.grad_project.ResidentNewAccountFragment"
+        android:label="fragment_resident_new_account"
+        tools:layout="@layout/fragment_resident_new_account" >
+        <action
+            android:id="@+id/action_residentNewAccountFragment_to_residentSiteInformationFragment"
+            app:destination="@id/residentSiteInformationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/adminNewAccountFragment"
+        android:name="com.graduationproject.grad_project.AdminNewAccountFragment"
+        android:label="fragment_admin_new_account"
+        tools:layout="@layout/fragment_admin_new_account" >
+        <action
+            android:id="@+id/action_adminNewAccountFragment_to_adminSiteInformationFragment"
+            app:destination="@id/adminSiteInformationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/residentSiteInformationFragment"
+        android:name="com.graduationproject.grad_project.ResidentSiteInformationFragment"
+        android:label="fragment_resident_site_information"
+        tools:layout="@layout/fragment_resident_site_information" >
+        <action
+            android:id="@+id/action_residentSiteInformationFragment_to_homePageResidentActivity"
+            app:destination="@id/homePageResidentActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/adminSiteInformationFragment"
+        android:name="com.graduationproject.grad_project.AdminSiteInformationFragment"
+        android:label="fragment_admin_site_information"
+        tools:layout="@layout/fragment_admin_site_information" >
+        <action
+            android:id="@+id/action_adminSiteInformationFragment_to_homePageAdminActivity"
+            app:destination="@id/homePageAdminActivity" />
+    </fragment>
+</navigation>
