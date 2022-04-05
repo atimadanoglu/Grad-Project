@@ -19,10 +19,10 @@ object NotificationOperations: FirebaseConstants() {
 
     private const val TAG = "NotificationOperations"
 
-    suspend fun deleteNotificationInAPosition(
+    fun deleteNotificationInAPosition(
                            notifications: ArrayList<Notification>,
                            position: Int) {
-        withContext(Dispatchers.IO + coroutineExceptionHandler) {
+        CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
             try {
                 adminRef.document(auth.currentUser?.email.toString())
                     .collection("announcements")
@@ -40,8 +40,8 @@ object NotificationOperations: FirebaseConstants() {
             }
         }
     }
-    suspend fun saveNotificationIntoResidentDB(emailsOfResidents: ArrayList<String>, notification: Notification) {
-        withContext(Dispatchers.IO + coroutineExceptionHandler) {
+    fun saveNotificationIntoResidentDB(emailsOfResidents: ArrayList<String>, notification: Notification) {
+        CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
             for (emailOfResident in emailsOfResidents) {
                 try {
                     residentRef.document(emailOfResident)
@@ -60,8 +60,8 @@ object NotificationOperations: FirebaseConstants() {
         }
     }
 
-    suspend fun deleteAllNotificationsForResident(email: String) {
-       withContext(Dispatchers.IO + coroutineExceptionHandler) {
+    fun deleteAllNotificationsForResident(email: String) {
+       CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
             try {
                 residentRef.document(email)
                     .collection("notifications")

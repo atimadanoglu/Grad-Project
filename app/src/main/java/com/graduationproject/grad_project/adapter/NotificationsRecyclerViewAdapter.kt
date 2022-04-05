@@ -47,18 +47,16 @@ class NotificationsRecyclerViewAdapter(private val notifications: ArrayList<Noti
                     R.id.announcementInfo -> {
                         val showAnnouncementLayout = LayoutInflater.from(view.context).inflate(R.layout.show_announcement_info_for_admin, null)
                         showNotification(showAnnouncementLayout, position)
-                        MaterialAlertDialogBuilder(view.context)
+                        MaterialAlertDialogBuilder(context)
                             .setView(showAnnouncementLayout)
                             .setPositiveButton(R.string.tamam) { _, _ ->
                             }.create().show()
                         true
                     }
                     R.id.deleteAnnouncement -> {
-                        CoroutineScope(Dispatchers.IO).launch {
-                            NotificationOperations
-                                .deleteNotificationInAPosition(notifications, position)
-                            notifyItemChanged(position)
-                        }
+                        NotificationOperations
+                            .deleteNotificationInAPosition(notifications, position)
+                        notifyItemChanged(position)
                         true
                     }
                     else -> false
