@@ -67,6 +67,18 @@
         <action
             android:id="@+id/action_residentSiteInformationFragment_to_homePageResidentActivity"
             app:destination="@id/homePageResidentActivity" />
+        <argument
+            android:name="fullName"
+            app:argType="string" />
+        <argument
+            android:name="phoneNumber"
+            app:argType="string" />
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/adminSiteInformationFragment"
@@ -76,5 +88,17 @@
         <action
             android:id="@+id/action_adminSiteInformationFragment_to_homePageAdminActivity"
             app:destination="@id/homePageAdminActivity" />
+        <argument
+            android:name="fullName"
+            app:argType="string" />
+        <argument
+            android:name="phoneNumber"
+            app:argType="string" />
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            app:argType="string" />
     </fragment>
 </navigation>
