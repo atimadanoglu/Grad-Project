@@ -1,13 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primary_color"
     tools:context=".AdminSiteInformationFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <Button
+        android:id="@+id/backToAdminNewAccountFragmentButton"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="23dp"
+        android:background="@drawable/back_button_style"
+        android:drawableStart="@drawable/navigate_before_icon"
+        android:paddingStart="5dp"
+        android:paddingEnd="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="230dp"
+        android:layout_height="133dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="210dp"
+        android:fontFamily="@font/titillium_web_bold"
+        android:text="@string/site_information"
+        android:textColor="@color/secondary_color"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.178"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/backToAdminNewAccountFragmentButton" />
+
+    <EditText
+        android:id="@+id/siteNameText"
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="70dp"
+        android:ems="10"
+        android:backgroundTint="@color/secondary_color"
+        android:textColor="@color/secondary_color"
+        android:textColorHint="@color/secondary_color"
+        android:drawableStart="@drawable/ic_site_icon"
+        android:drawablePadding="10dp"
+        android:hint="@string/site_name"
+        android:autofillHints="siteName"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <EditText
+        android:id="@+id/cityText"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/secondary_color"
+        android:backgroundTint="@color/secondary_color"
+        android:drawableStart="@drawable/city_icon"
+        android:drawablePadding="10dp"
+        android:ems="10"
+        android:hint="@string/city"
+        android:autofillHints="cityName"
+        android:inputType="textPersonName"
+        android:textColorHint="@color/secondary_color"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/siteNameText" />
+
+    <EditText
+        android:id="@+id/blockCountText"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:backgroundTint="@color/secondary_color"
+        android:textColor="@color/secondary_color"
+        android:textColorHint="@color/secondary_color"
+        android:hint="@string/block_count"
+        android:autofillHints="blockCount"
+        android:inputType="text"
+        android:drawableStart="@drawable/block_icon"
+        android:drawablePadding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cityText" />
+
+    <EditText
+        android:id="@+id/flatCountText"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="41dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="55dp"
+        android:backgroundTint="@color/secondary_color"
+        android:ems="10"
+        android:hint="@string/flat_count"
+        android:autofillHints="flatCount"
+        android:inputType="numberDecimal"
+        android:textColorHint="@color/secondary_color"
+        android:textColor="@color/secondary_color"
+        android:drawableStart="@drawable/flat_count_icon"
+        android:drawablePadding="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/blockCountText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/blockCountText"
+        app:layout_constraintTop_toBottomOf="@+id/countyText" />
+
+    <EditText
+        android:id="@+id/countyText"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="55dp"
+        android:textColor="@color/secondary_color"
+        android:backgroundTint="@color/secondary_color"
+        android:drawableStart="@drawable/county_icon"
+        android:drawablePadding="10dp"
+        android:ems="10"
+        android:hint="@string/county"
+        android:autofillHints="countyName"
+        android:inputType="textPersonName"
+        android:textColorHint="@color/secondary_color"
+        app:layout_constraintBottom_toBottomOf="@+id/cityText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/siteNameText" />
+
+    <Button
+        android:id="@+id/signUpButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="76dp"
+        android:background="@drawable/button"
+        android:fontFamily="@font/titillium_web_bold"
+        android:shadowColor="@color/black"
+        android:shadowDy="-2"
+        android:shadowRadius="1"
+        android:text="@string/sign_up"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
