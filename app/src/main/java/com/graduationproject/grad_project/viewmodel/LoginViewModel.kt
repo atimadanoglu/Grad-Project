@@ -29,10 +29,8 @@ class LoginViewModel: ViewModel() {
         scope: CoroutineDispatcher = Dispatchers.IO
     ): String {
         return withContext(scope) {
-            setEmail(email)
-            setPassword(password)
-            takeTheUserType(email)
             UserOperations.loginWithEmailAndPassword(email, password)
+            takeTheUserType(email)
             typeOfUser
         }
     }

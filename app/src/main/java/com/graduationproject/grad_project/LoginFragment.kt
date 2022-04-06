@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.graduationproject.grad_project.databinding.FragmentLoginBinding
+import com.graduationproject.grad_project.firebase.UserOperations
 import com.graduationproject.grad_project.view.admin.HomePageAdminActivity
 import com.graduationproject.grad_project.view.resident.HomePageResidentActivity
 import com.graduationproject.grad_project.viewmodel.LoginViewModel
@@ -29,6 +30,7 @@ class LoginFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        auth.signOut()
         if (auth.currentUser != null) {
             viewModel.setIsSignedIn(true)
             viewModel.setEmail(auth.currentUser!!.email.toString())
@@ -56,14 +58,14 @@ class LoginFragment : Fragment() {
     }
 
     private fun goToResidentHomePageActivity() {
-        val intent = Intent(this.context, HomePageResidentActivity::class.java)
-        startActivity(intent)
+        val action = LoginFragmentDirections.actionLoginFragmentToHomePageResidentActivity()
+        findNavController().navigate(action)
         activity?.finish()
     }
 
     private fun goToAdminHomePageActivity() {
-        val intent = Intent(this.context, HomePageAdminActivity::class.java)
-        startActivity(intent)
+        val action = LoginFragmentDirections.actionLoginFragmentToHomePageAdminActivity()
+        findNavController().navigate(action)
         activity?.finish()
     }
 
@@ -76,7 +78,6 @@ class LoginFragment : Fragment() {
                 val password = async { viewModel.password }
                 viewModel.makeLoginOperation(email.await(), password.await())
             }
-            println("typeof user ${viewModel.typeOfUser}")
             if (viewModel.typeOfUser == "Yönetici" && auth.currentUser != null) {
                 goToAdminHomePageActivity()
             }

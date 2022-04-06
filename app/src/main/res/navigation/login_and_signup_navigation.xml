@@ -13,6 +13,12 @@
         <action
             android:id="@+id/action_loginFragment_to_signUpMainFragment"
             app:destination="@id/signUpMainFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_homePageResidentActivity"
+            app:destination="@id/homePageResidentActivity" />
+        <action
+            android:id="@+id/action_loginFragment_to_homePageAdminActivity"
+            app:destination="@id/homePageAdminActivity" />
     </fragment>
     <fragment
         android:id="@+id/signUpMainFragment"
@@ -79,6 +85,9 @@
         <action
             android:id="@+id/action_residentSiteInformationFragment_to_residentNewAccountFragment"
             app:destination="@id/residentNewAccountFragment" />
+        <action
+            android:id="@+id/action_residentSiteInformationFragment_to_homePageResidentActivity"
+            app:destination="@id/homePageResidentActivity" />
     </fragment>
     <fragment
         android:id="@+id/adminSiteInformationFragment"
@@ -100,5 +109,17 @@
         <action
             android:id="@+id/action_adminSiteInformationFragment_to_adminNewAccountFragment"
             app:destination="@id/adminNewAccountFragment" />
+        <action
+            android:id="@+id/action_adminSiteInformationFragment_to_homePageAdminActivity"
+            app:destination="@id/homePageAdminActivity" />
     </fragment>
+    <activity
+        android:id="@+id/homePageResidentActivity"
+        android:name="com.graduationproject.grad_project.view.resident.HomePageResidentActivity"
+        android:label="activity_home_page_resident"
+        tools:layout="@layout/activity_home_page_resident" />
+    <activity
+        android:id="@+id/homePageAdminActivity"
+        android:name="com.graduationproject.grad_project.view.admin.HomePageAdminActivity"
+        android:label="HomePageAdminActivity" />
 </navigation>
