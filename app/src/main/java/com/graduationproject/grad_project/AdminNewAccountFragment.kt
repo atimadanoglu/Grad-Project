@@ -25,7 +25,14 @@ class AdminNewAccountFragment : Fragment() {
         val view = binding.root
         binding.backToSignUpMainFragmentButton.setOnClickListener { goBackToSignUpMainFragment() }
         binding.goToAdminSiteInfoButton.setOnClickListener { goToSiteInformationFragment() }
+        binding.goToLoginPageButton.setOnClickListener { goBackToLoginFragment() }
         return view
+    }
+
+    private fun goBackToLoginFragment() {
+        val action = AdminNewAccountFragmentDirections
+            .actionAdminNewAccountFragmentToLoginFragment()
+        findNavController().navigate(action)
     }
 
     private fun goToSiteInformationFragment() {

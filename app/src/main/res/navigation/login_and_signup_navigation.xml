@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_residentNewAccountFragment_to_signUpMainFragment"
             app:destination="@id/signUpMainFragment" />
+        <action
+            android:id="@+id/action_residentNewAccountFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/adminNewAccountFragment"
@@ -67,6 +70,9 @@
         <action
             android:id="@+id/action_adminNewAccountFragment_to_signUpMainFragment"
             app:destination="@id/signUpMainFragment" />
+        <action
+            android:id="@+id/action_adminNewAccountFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/residentSiteInformationFragment"

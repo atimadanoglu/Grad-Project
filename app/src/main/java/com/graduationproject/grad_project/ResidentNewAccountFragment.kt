@@ -25,7 +25,14 @@ class ResidentNewAccountFragment : Fragment() {
         val view = binding.root
         binding.backToSignUpMainFragmentButton.setOnClickListener { goBackToSignUpMainFragment() }
         binding.goToResidentSiteInfoButton.setOnClickListener { goToResidentSiteInfoFragment() }
+        binding.goToLoginPageButton.setOnClickListener { goBackToLoginFragment() }
         return view
+    }
+
+    private fun goBackToLoginFragment() {
+        val action = ResidentNewAccountFragmentDirections
+            .actionResidentNewAccountFragmentToLoginFragment()
+        findNavController().navigate(action)
     }
 
     private fun goToResidentSiteInfoFragment() {

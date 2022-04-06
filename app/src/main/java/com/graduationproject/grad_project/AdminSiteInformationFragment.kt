@@ -23,7 +23,7 @@ class AdminSiteInformationFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentAdminSiteInformationBinding.inflate(inflater, container, false)
         val view = binding.root
-        binding.backToSignUpMainFragmentButton.setOnClickListener { goBackToSignMainFragment() }
+        binding.backToAdminNewAccountFragmentButton.setOnClickListener { goBackToSignMainFragment() }
         binding.signUpButton.setOnClickListener { signUpButtonClicked() }
         return view
     }
@@ -33,8 +33,8 @@ class AdminSiteInformationFragment : Fragment() {
     }
 
     private fun goBackToSignMainFragment() {
-        val action = AdminNewAccountFragmentDirections
-            .actionAdminNewAccountFragmentToSignUpMainFragment()
+        val action = AdminSiteInformationFragmentDirections
+            .actionAdminSiteInformationFragmentToAdminNewAccountFragment()
         findNavController().navigate(action)
     }
 

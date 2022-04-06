@@ -8,7 +8,7 @@
     tools:context=".AdminSiteInformationFragment">
 
     <Button
-        android:id="@+id/backToSignUpMainFragmentButton"
+        android:id="@+id/backToAdminNewAccountFragmentButton"
         android:layout_width="60dp"
         android:layout_height="30dp"
         android:layout_marginStart="29dp"
@@ -36,7 +36,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.178"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backToSignUpMainFragmentButton" />
+        app:layout_constraintTop_toBottomOf="@+id/backToAdminNewAccountFragmentButton" />
 
     <EditText
         android:id="@+id/siteNameText"
