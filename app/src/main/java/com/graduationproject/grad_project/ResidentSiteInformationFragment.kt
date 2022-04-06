@@ -1,5 +1,6 @@
 package com.graduationproject.grad_project
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.graduationproject.grad_project.databinding.FragmentResidentSiteInformationBinding
+import com.graduationproject.grad_project.view.resident.HomePageResidentActivity
 import com.graduationproject.grad_project.viewmodel.ResidentSiteInformationViewModel
 
 class ResidentSiteInformationFragment : Fragment() {
@@ -29,9 +31,9 @@ class ResidentSiteInformationFragment : Fragment() {
     }
 
     private fun goToResidentHomePageActivity() {
-        val action = ResidentSiteInformationFragmentDirections
-            .actionResidentSiteInformationFragmentToHomePageResidentActivity()
-        findNavController().navigate(action)
+        val intent = Intent(this.context, HomePageResidentActivity::class.java)
+        startActivity(intent)
+        activity?.finish()
     }
 
     private fun goBackToResidentNewAccountFragment() {
