@@ -73,11 +73,12 @@ class AnnouncementRecyclerViewAdapter(private val announcements : ArrayList<Anno
     }
 
     private fun showAnnouncement(showAnnouncementLayout: View, position: Int) {
-        val announcementTitle = showAnnouncementLayout.findViewById<TextView>(R.id.announcement_title_text)
+        //TODO
+      //  val announcementTitle = showAnnouncementLayout.findViewById<TextView>(R.id.announcement_title_text)
         val announcementContent = showAnnouncementLayout.findViewById<TextView>(R.id.announcement_content_text)
         val announcementPic = showAnnouncementLayout.findViewById<ImageView>(R.id.announcement_image_view)
 
-        announcementTitle.text = announcements[position].title
+       // announcementTitle.text = announcements[position].title
         announcementContent.text = announcements[position].message
         Picasso.get().load(announcements[position].pictureUri).into(announcementPic)
     }

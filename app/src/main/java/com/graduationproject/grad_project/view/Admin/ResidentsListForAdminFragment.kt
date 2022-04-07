@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.adapter.ResidentsListRecyclerViewAdapter
-import com.graduationproject.grad_project.databinding.AddDebtItemBinding
+import com.graduationproject.grad_project.databinding.FragmentAddingDebtDialogBinding
 import com.graduationproject.grad_project.databinding.FragmentResidentsListForAdminBinding
 import com.graduationproject.grad_project.model.Site
 import com.graduationproject.grad_project.model.SiteResident
