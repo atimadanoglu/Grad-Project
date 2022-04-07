@@ -66,11 +66,12 @@ class NotificationsRecyclerViewAdapter(private val notifications: ArrayList<Noti
     }
 
     private fun showNotification(showNotificationLayout: View, position: Int) {
-        val notificationTitle = showNotificationLayout.findViewById<TextView>(R.id.announcement_title_text)
+        //TODO
+       // val notificationTitle = showNotificationLayout.findViewById<TextView>(R.id.announcement_title_text)
         val notificationContent = showNotificationLayout.findViewById<TextView>(R.id.announcement_content_text)
         val notificationPic = showNotificationLayout.findViewById<ImageView>(R.id.announcement_image_view)
 
-        notificationTitle.text = notifications[position].title
+        //notificationTitle.text = notifications[position].title
         notificationContent.text = notifications[position].message
         Picasso.get().load(notifications[position].pictureUri).into(notificationPic)
     }

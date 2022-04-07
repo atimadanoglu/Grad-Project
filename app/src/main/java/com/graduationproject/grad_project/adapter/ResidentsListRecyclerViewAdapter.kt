@@ -60,7 +60,7 @@ class ResidentsListRecyclerViewAdapter(private var residents : ArrayList<SiteRes
     }
 
     private fun addDebt(view: View, residentPosition: Int) {
-        val addDebtLayout = LayoutInflater.from(view.context).inflate(R.layout.add_debt_item, null)
+        val addDebtLayout = LayoutInflater.from(view.context).inflate(R.layout.fragment_adding_debt_dialog, null)
         AlertDialog.Builder(view.context)
             .setView(addDebtLayout)
             .setPositiveButton(R.string.borç_ekle) { dialog, _ ->
@@ -122,7 +122,7 @@ class ResidentsListRecyclerViewAdapter(private var residents : ArrayList<SiteRes
     }
 
     private fun deleteDebt(view: View, residentPosition: Int) {
-        val deleteDebtLayout = LayoutInflater.from(view.context).inflate(R.layout.delete_debt_item, null)
+        val deleteDebtLayout = LayoutInflater.from(view.context).inflate(R.layout.fragment_deleting_debt_dialog, null)
         AlertDialog.Builder(view.context)
             .setView(deleteDebtLayout)
             .setPositiveButton(R.string.borç_sil) { dialog,_ ->
