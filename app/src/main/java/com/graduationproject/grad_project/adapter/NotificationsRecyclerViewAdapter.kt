@@ -45,7 +45,7 @@ class NotificationsRecyclerViewAdapter(private val notifications: ArrayList<Noti
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.announcementInfo -> {
-                        val showAnnouncementLayout = LayoutInflater.from(view.context).inflate(R.layout.show_announcement_info_for_admin, null)
+                        val showAnnouncementLayout = LayoutInflater.from(view.context).inflate(R.layout.fragment_showing_announcement_dialog, null)
                         showNotification(showAnnouncementLayout, position)
                         MaterialAlertDialogBuilder(context)
                             .setView(showAnnouncementLayout)

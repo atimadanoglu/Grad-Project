@@ -50,7 +50,7 @@ class AnnouncementRecyclerViewAdapter(private val announcements : ArrayList<Anno
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.announcementInfo -> {
-                        val showAnnouncementLayout = LayoutInflater.from(view.context).inflate(R.layout.show_announcement_info_for_admin, null)
+                        val showAnnouncementLayout = LayoutInflater.from(view.context).inflate(R.layout.fragment_showing_announcement_dialog, null)
                         showAnnouncement(showAnnouncementLayout, position)
                         AlertDialog.Builder(view.context)
                             .setView(showAnnouncementLayout)

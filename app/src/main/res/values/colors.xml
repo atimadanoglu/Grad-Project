@@ -11,4 +11,5 @@
     <color name="secondary_color">#FAFAF9</color>
     <color name="transparent">#36284443</color>
     <color name="background_gray">#99CDCDC6</color>
+    <color name="warning_color">#C6CD0707</color>
 </resources>
