@@ -58,14 +58,14 @@ class LoginFragment : Fragment() {
     }
 
     private fun goToResidentHomePageActivity() {
-        val action = LoginFragmentDirections.actionLoginFragmentToHomePageResidentActivity()
-        findNavController().navigate(action)
+        val intent = Intent(this.context, HomePageResidentActivity::class.java)
+        startActivity(intent)
         activity?.finish()
     }
 
     private fun goToAdminHomePageActivity() {
-        val action = LoginFragmentDirections.actionLoginFragmentToHomePageAdminActivity()
-        findNavController().navigate(action)
+        val intent = Intent(this.context, HomePageAdminActivity::class.java)
+        startActivity(intent)
         activity?.finish()
     }
 

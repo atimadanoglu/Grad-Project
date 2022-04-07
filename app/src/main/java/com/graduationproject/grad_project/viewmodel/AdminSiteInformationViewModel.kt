@@ -8,12 +8,16 @@ import com.graduationproject.grad_project.firebase.UserOperations
 import com.graduationproject.grad_project.onesignal.OneSignalOperations
 import kotlinx.coroutines.*
 import java.lang.Exception
+import kotlin.coroutines.coroutineContext
 
-class AdminSiteInformationViewModel: ViewModel() {
+class AdminSiteInformationViewModel(
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+): ViewModel() {
 
     companion object {
         private const val TAG = "AdminSiteInformationViewModel"
     }
+    private lateinit var externalScope: CoroutineScope
     private var _siteName = ""
     val siteName get() = _siteName
 
@@ -47,14 +51,16 @@ class AdminSiteInformationViewModel: ViewModel() {
         email: String,
         password: String,
         scope: CoroutineDispatcher = Dispatchers.IO
-    ): HashMap<String, Any> {
+    ): Boolean {
         return withContext(scope) {
             try {
-                val uid = async(scope) {
+                val data = async(scope) {
                     UserOperations
-                        .createUserWithEmailAndPassword(email, password)?.user?.uid
+                        .createUserWithEmailAndPassword(email, password)?.user
                 }
-                uid.await()?.let { saveAdminUid(it) }
+                val user = data.await()
+                user?.let { saveAdminUid(it.uid) }
+                UserOperations.loginWithEmailAndPassword(email, password)
                 OneSignalOperations.savePlayerId(_admin)
 
                 _admin["fullName"] = fullName
@@ -66,62 +72,72 @@ class AdminSiteInformationViewModel: ViewModel() {
                 _admin["district"] = district
                 _admin["blockCount"] = blockCount
                 _admin["flatCount"] = flatCount
-                _admin
+                _admin["typeOfUser"] = "Yönetici"
+                true
             } catch (e: Exception) {
                 Log.e(TAG, "createAdmin ---> $e")
-                hashMapOf()
+                false
             }
         }
     }
 
-    private fun saveAdminIntoDB(
+    suspend fun updateUserDisplayName() {
+        UserOperations.updateUserInfo(_admin)
+    }
+
+    suspend fun saveAdminIntoDB(
         fullName: String,
         phoneNumber: String,
         email: String,
-        password: String,
-        scope: CoroutineDispatcher = Dispatchers.IO
-    ) {
-        viewModelScope.launch(scope) {
+        password: String
+    ): Boolean {
+        return withContext(ioDispatcher) {
             try {
-                createAdmin(fullName, phoneNumber, email, password)
-                UserOperations.saveAdminIntoDB(_admin)
+                val isCreated = async {
+                    createAdmin(fullName, phoneNumber, email, password)
+                }
+                if (isCreated.await()) {
+                    UserOperations.saveAdminIntoDB(_admin)
+                    return@withContext true
+                }
+                false
             } catch (e: Exception) {
                 Log.e(TAG, "saveAdminIntoDB ---> $e")
+                false
             }
         }
     }
 
-    private fun saveSiteIntoDB(scope: CoroutineDispatcher = Dispatchers.IO) {
-        viewModelScope.launch(scope) {
+    fun saveSiteIntoDB() {
+        CoroutineScope(ioDispatcher).launch {
             try {
                 val siteHashMap = async {
                     convertSiteInfoHashMap()
                 }
                 _site = siteHashMap.await()
-                launch(scope) {
-                    SiteOperations.saveSiteInfoIntoDB(_site)
-                }
+                SiteOperations.saveSiteInfoIntoDB(_site)
             } catch (e: Exception) {
                 Log.e(TAG, "saveSiteIntoDB --> $e")
             }
         }
     }
 
-    fun saveAdminAndSiteInfoIntoDB(
+    suspend fun createAndSaveAdminAndSiteIntoDB(
         fullName: String,
         phoneNumber: String,
         email: String,
-        password: String,
-        scope: CoroutineDispatcher = Dispatchers.IO
+        password: String
     ) {
-        viewModelScope.launch(scope) {
+        CoroutineScope(ioDispatcher).launch {
             try {
-                saveAdminIntoDB(fullName, phoneNumber, email, password)
+                val isWritten = async {
+                    saveAdminIntoDB(fullName, phoneNumber, email, password)
+                }
                 saveSiteIntoDB()
             } catch (e: Exception) {
                 Log.e(TAG, "saveAdminAndSiteInfoIntoDB ---> $e")
             }
-        }
+        }.join()
     }
 
     private fun saveAdminUid(uid: String){

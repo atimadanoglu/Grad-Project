@@ -3,6 +3,7 @@ package com.graduationproject.grad_project.firebase
 import android.util.Log
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
@@ -47,9 +48,7 @@ object UserOperations: FirebaseConstants() {
         return try {
             val resident = residentRef.document(email)
                 .get()
-                .addOnSuccessListener {
-                    Log.d(TAG, "getResident --> There is an resident user in this collection!")
-                }.await()
+                .await()
             resident
         } catch (e: Exception) {
             Log.e(TAG, "getResident --> $e")
@@ -85,6 +84,16 @@ object UserOperations: FirebaseConstants() {
             } catch (e: FirebaseFirestoreException) {
                 Log.e(TAG, "saveAdminIntDB --> $e")
             }
+        }
+    }
+
+    suspend fun updateUserInfo(admin: HashMap<String, Any>) {
+        withContext(ioDispatcher) {
+            val currentUser = auth.currentUser
+            val profileUpdates = userProfileChangeRequest {
+                displayName = admin["fullName"].toString()
+            }
+            currentUser?.updateProfile(profileUpdates)
         }
     }
 

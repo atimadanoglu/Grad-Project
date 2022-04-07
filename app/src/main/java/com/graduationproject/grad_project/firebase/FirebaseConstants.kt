@@ -8,13 +8,19 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.graduationproject.grad_project.view.admin.AddAnnouncementFragment
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 
 open class FirebaseConstants {
 
     companion object {
         private const val TAG = "FirebaseConstants"
+    }
+
+    protected val ioDispatcher: CoroutineDispatcher by lazy {
+        Dispatchers.IO
     }
 
     protected val db: FirebaseFirestore by lazy {
