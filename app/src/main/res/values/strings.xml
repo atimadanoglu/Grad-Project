@@ -120,4 +120,6 @@
     <string name="required">Gerekli*</string>
     <string name="yanlışAktivasyonKodu">Aktivasyon kodunu doğru giriniz!</string>
     <string name="geçersizEmailAdresi">Geçersiz email adresi!</string>
+    <string name="siteBilgisiYazdırılamadı">Site bilgisi veritabanına yazdırılamadı!</string>
+    <string name="kullanıcıVerisiYazdırılamadı">Kullanıcı bilgisi veritabanına yazdırılamadı!</string>
 </resources>
