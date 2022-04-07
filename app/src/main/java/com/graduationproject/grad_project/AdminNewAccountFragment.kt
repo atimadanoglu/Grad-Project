@@ -1,13 +1,13 @@
 package com.graduationproject.grad_project
 
 import android.os.Bundle
+import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.graduationproject.grad_project.components.SnackBars
 import com.graduationproject.grad_project.databinding.FragmentAdminNewAccountBinding
 import com.graduationproject.grad_project.viewmodel.AdminNewAccountViewModel
@@ -49,25 +49,31 @@ class AdminNewAccountFragment : Fragment() {
     }
 
     private fun goToSiteInformationButtonClicked() {
-        if (!isEmpty()) {
-            viewModel.setFullName(binding.fullNameText.text.toString())
-            viewModel.setEmail(binding.TextEmailAddress.text.toString())
-            viewModel.setPhoneNumber(binding.phoneNumberText.text.toString())
-            viewModel.setPassword(binding.TextPassword.text.toString())
-            viewModel.setActivationKey(binding.ActivationKey.text.toString())
-            goToSiteInformationFragment()
-            return
+        updateViewModelData()
+        if (!isBlank()) {
+            if (isActivationKeyCorrect()) {
+                goToSiteInformationFragment()
+                return
+            } else {
+                SnackBars.showWrongActivationCodeSnackBar(view)
+            }
+        } else {
+            SnackBars.showEmptySpacesSnackBar(view)
         }
-        if (!isActivationKeyCorrect()) {
-            view?.let { SnackBars.showWrongActivationCodeSnackBar(it) }
-        }
-        view?.let { SnackBars.showEmptySpacesSnackBar(it) }
     }
 
-    private fun isEmpty(): Boolean {
-        return binding.fullNameText.text.isEmpty() || binding.phoneNumberText.text.isEmpty()
-                || binding.TextEmailAddress.text.isEmpty() || binding.TextPassword.text.isEmpty()
-                || binding.ActivationKey.text.isEmpty()
+    private fun updateViewModelData() {
+        viewModel.setFullName(binding.fullNameText.text.toString())
+        viewModel.setEmail(binding.TextEmailAddress.text.toString())
+        viewModel.setPhoneNumber(binding.phoneNumberText.text.toString())
+        viewModel.setPassword(binding.TextPassword.text.toString())
+        viewModel.setActivationKey(binding.ActivationKey.text.toString())
+    }
+
+    private fun isBlank(): Boolean {
+        return viewModel.email.isBlank() || viewModel.fullName.isBlank()
+                || viewModel.activationKey.isBlank() || viewModel.phoneNumber.isBlank()
+                || viewModel.password.isBlank()
     }
 
     private fun isActivationKeyCorrect(): Boolean = viewModel.activationKey == "qwerty"

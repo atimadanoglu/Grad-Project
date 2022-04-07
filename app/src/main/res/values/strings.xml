@@ -119,4 +119,5 @@
     <string name="tamam">Tamam</string>
     <string name="required">Gerekli*</string>
     <string name="yanlışAktivasyonKodu">Aktivasyon kodunu doğru giriniz!</string>
+    <string name="geçersizEmailAdresi">Geçersiz email adresi!</string>
 </resources>
