@@ -118,4 +118,5 @@
     <string name="boşluklarıDoldur">Lütfen boşlukları doldurunuz!</string>
     <string name="tamam">Tamam</string>
     <string name="required">Gerekli*</string>
+    <string name="yanlışAktivasyonKodu">Aktivasyon kodunu doğru giriniz!</string>
 </resources>

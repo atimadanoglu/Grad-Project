@@ -16,4 +16,13 @@ class AdminNewAccountViewModel: ViewModel() {
     private var _password = ""
     val password get() = _password
 
+    private var _activationKey = ""
+    val activationKey get() = _activationKey
+
+    fun setFullName(fullName: String) { _fullName = fullName }
+    fun setPhoneNumber(phoneNumber: String) { _phoneNumber = phoneNumber }
+    fun setEmail(email: String) { _email = email }
+    fun setPassword(password: String) { _password = password }
+    fun setActivationKey(key: String) { _activationKey = key }
+
 }
