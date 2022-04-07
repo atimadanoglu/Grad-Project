@@ -16,4 +16,9 @@ class ResidentNewAccountViewModel: ViewModel() {
     private var _password = ""
     val password get() = _password
 
+    fun setFullName(fullName: String) { _fullName = fullName }
+    fun setPhoneNumber(phoneNumber: String) { _phoneNumber = phoneNumber }
+    fun setEmail(email: String) { _email = email }
+    fun setPassword(password: String) { _password = password }
+
 }

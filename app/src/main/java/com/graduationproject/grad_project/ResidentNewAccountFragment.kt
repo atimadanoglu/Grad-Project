@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.graduationproject.grad_project.components.SnackBars
 import com.graduationproject.grad_project.databinding.FragmentResidentNewAccountBinding
 import com.graduationproject.grad_project.viewmodel.ResidentNewAccountViewModel
 
@@ -24,7 +25,7 @@ class ResidentNewAccountFragment : Fragment() {
         _binding = FragmentResidentNewAccountBinding.inflate(inflater, container, false)
         val view = binding.root
         binding.backToSignUpMainFragmentButton.setOnClickListener { goBackToSignUpMainFragment() }
-        binding.goToResidentSiteInfoButton.setOnClickListener { goToResidentSiteInfoFragment() }
+        binding.goToResidentSiteInfoButton.setOnClickListener { goToResidentSiteInfoButtonClicked() }
         binding.goToLoginPageButton.setOnClickListener { goBackToLoginFragment() }
         return view
     }
@@ -33,6 +34,27 @@ class ResidentNewAccountFragment : Fragment() {
         val action = ResidentNewAccountFragmentDirections
             .actionResidentNewAccountFragmentToLoginFragment()
         findNavController().navigate(action)
+    }
+
+    private fun updateViewModelData() {
+        viewModel.setFullName(binding.fullNameText.text.toString())
+        viewModel.setEmail(binding.TextEmailAddress.text.toString())
+        viewModel.setPhoneNumber(binding.phoneNumberText.text.toString())
+        viewModel.setPassword(binding.TextPassword.text.toString())
+    }
+
+    private fun goToResidentSiteInfoButtonClicked() {
+        updateViewModelData()
+        if (!isBlank()) {
+            goToResidentSiteInfoFragment()
+            return
+        }
+        SnackBars.showEmptySpacesSnackBar(view)
+    }
+
+    private fun isBlank(): Boolean {
+        return viewModel.email.isBlank() || viewModel.fullName.isBlank()
+                || viewModel.phoneNumber.isBlank() || viewModel.password.isBlank()
     }
 
     private fun goToResidentSiteInfoFragment() {
