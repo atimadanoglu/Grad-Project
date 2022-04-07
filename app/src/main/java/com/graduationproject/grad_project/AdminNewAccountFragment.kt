@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
+import com.graduationproject.grad_project.components.SnackBars
 import com.graduationproject.grad_project.databinding.FragmentAdminNewAccountBinding
 import com.graduationproject.grad_project.viewmodel.AdminNewAccountViewModel
 
@@ -24,7 +26,7 @@ class AdminNewAccountFragment : Fragment() {
         _binding = FragmentAdminNewAccountBinding.inflate(inflater, container, false)
         val view = binding.root
         binding.backToSignUpMainFragmentButton.setOnClickListener { goBackToSignUpMainFragment() }
-        binding.goToAdminSiteInfoButton.setOnClickListener { goToSiteInformationFragment() }
+        binding.goToAdminSiteInfoButton.setOnClickListener { goToSiteInformationButtonClicked() }
         binding.goToLoginPageButton.setOnClickListener { goBackToLoginFragment() }
         return view
     }
@@ -45,6 +47,30 @@ class AdminNewAccountFragment : Fragment() {
             )
         findNavController().navigate(action)
     }
+
+    private fun goToSiteInformationButtonClicked() {
+        if (!isEmpty()) {
+            viewModel.setFullName(binding.fullNameText.text.toString())
+            viewModel.setEmail(binding.TextEmailAddress.text.toString())
+            viewModel.setPhoneNumber(binding.phoneNumberText.text.toString())
+            viewModel.setPassword(binding.TextPassword.text.toString())
+            viewModel.setActivationKey(binding.ActivationKey.text.toString())
+            goToSiteInformationFragment()
+            return
+        }
+        if (!isActivationKeyCorrect()) {
+            view?.let { SnackBars.showWrongActivationCodeSnackBar(it) }
+        }
+        view?.let { SnackBars.showEmptySpacesSnackBar(it) }
+    }
+
+    private fun isEmpty(): Boolean {
+        return binding.fullNameText.text.isEmpty() || binding.phoneNumberText.text.isEmpty()
+                || binding.TextEmailAddress.text.isEmpty() || binding.TextPassword.text.isEmpty()
+                || binding.ActivationKey.text.isEmpty()
+    }
+
+    private fun isActivationKeyCorrect(): Boolean = viewModel.activationKey == "qwerty"
 
     private fun goBackToSignUpMainFragment() {
         val action = AdminNewAccountFragmentDirections.actionAdminNewAccountFragmentToSignUpMainFragment()
