@@ -117,4 +117,5 @@
     <string name="test">test</string>
     <string name="boşluklarıDoldur">Lütfen boşlukları doldurunuz!</string>
     <string name="tamam">Tamam</string>
+    <string name="required">Gerekli*</string>
 </resources>

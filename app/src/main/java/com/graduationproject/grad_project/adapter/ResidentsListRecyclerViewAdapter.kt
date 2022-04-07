@@ -84,7 +84,7 @@ class ResidentsListRecyclerViewAdapter(private var residents : ArrayList<SiteRes
     }
 
     private fun sendMessage(view: View, residentPosition: Int) {
-        val sendMessageLayout = LayoutInflater.from(view.context).inflate(R.layout.send_message_item, null)
+        val sendMessageLayout = LayoutInflater.from(view.context).inflate(R.layout.fragment_sending_message_to_resident_dialog, null)
         AlertDialog.Builder(view.context)
             .setView(sendMessageLayout)
             .setPositiveButton(R.string.gönder) { dialog,_ ->
