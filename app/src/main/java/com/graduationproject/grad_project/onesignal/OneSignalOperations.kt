@@ -66,4 +66,9 @@ object OneSignalOperations {
         return jsonObject
     }
 
+    fun savePlayerId(admin: HashMap<String, Any>) {
+        val deviceState = OneSignal.getDeviceState()
+        val userId = deviceState?.userId
+        admin["player_id"] = userId.toString()
+    }
 }

@@ -2,7 +2,9 @@ package com.graduationproject.grad_project.firebase
 
 import android.util.Log
 import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
@@ -52,6 +54,37 @@ object UserOperations: FirebaseConstants() {
         } catch (e: Exception) {
             Log.e(TAG, "getResident --> $e")
             null
+        }
+    }
+
+    suspend fun createUserWithEmailAndPassword(
+        email: String,
+        password: String,
+        scope: CoroutineDispatcher = Dispatchers.IO
+    ): AuthResult? {
+        return withContext(scope + coroutineExceptionHandler) {
+            try {
+                auth.createUserWithEmailAndPassword(email, password).await()
+            } catch (e: FirebaseAuthException) {
+                Log.e(TAG, "createUserWithEmailAndPassword --> $e")
+                null
+            }
+        }
+    }
+
+    suspend fun saveAdminIntoDB(
+        admin: HashMap<String, Any>,
+        scope: CoroutineDispatcher = Dispatchers.IO
+    ) {
+        withContext(scope) {
+            try {
+                adminRef
+                    .document(admin["email"].toString())
+                    .set(admin)
+                    .await()
+            } catch (e: FirebaseFirestoreException) {
+                Log.e(TAG, "saveAdminIntDB --> $e")
+            }
         }
     }
 
