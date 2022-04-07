@@ -2,13 +2,11 @@ package com.graduationproject.grad_project.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.graduationproject.grad_project.firebase.SiteOperations
 import com.graduationproject.grad_project.firebase.UserOperations
 import com.graduationproject.grad_project.onesignal.OneSignalOperations
 import kotlinx.coroutines.*
 import java.lang.Exception
-import kotlin.coroutines.coroutineContext
 
 class AdminSiteInformationViewModel(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -17,7 +15,6 @@ class AdminSiteInformationViewModel(
     companion object {
         private const val TAG = "AdminSiteInformationViewModel"
     }
-    private lateinit var externalScope: CoroutineScope
     private var _siteName = ""
     val siteName get() = _siteName
 
@@ -120,24 +117,6 @@ class AdminSiteInformationViewModel(
                 Log.e(TAG, "saveSiteIntoDB --> $e")
             }
         }
-    }
-
-    suspend fun createAndSaveAdminAndSiteIntoDB(
-        fullName: String,
-        phoneNumber: String,
-        email: String,
-        password: String
-    ) {
-        CoroutineScope(ioDispatcher).launch {
-            try {
-                val isWritten = async {
-                    saveAdminIntoDB(fullName, phoneNumber, email, password)
-                }
-                saveSiteIntoDB()
-            } catch (e: Exception) {
-                Log.e(TAG, "saveAdminAndSiteInfoIntoDB ---> $e")
-            }
-        }.join()
     }
 
     private fun saveAdminUid(uid: String){
