@@ -7,16 +7,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.graduationproject.grad_project.databinding.FragmentResidentSiteInformationBinding
 import com.graduationproject.grad_project.view.resident.HomePageResidentActivity
 import com.graduationproject.grad_project.viewmodel.ResidentSiteInformationViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
-class ResidentSiteInformationFragment : Fragment() {
+class ResidentSiteInformationFragment(
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+) : Fragment() {
 
     private var _binding: FragmentResidentSiteInformationBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ResidentSiteInformationViewModel by viewModels()
+    private val args: ResidentSiteInformationFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,7 +35,7 @@ class ResidentSiteInformationFragment : Fragment() {
         _binding = FragmentResidentSiteInformationBinding.inflate(inflater, container, false)
         val view = binding.root
         binding.backToResidentNewAccountFragmentButton.setOnClickListener { goBackToResidentNewAccountFragment() }
-        binding.signUpButton.setOnClickListener { goToResidentHomePageActivity() }
+        binding.signUpButton.setOnClickListener { goToResidentHomePageButtonClicked() }
         return view
     }
 
@@ -40,6 +49,33 @@ class ResidentSiteInformationFragment : Fragment() {
         val action = ResidentSiteInformationFragmentDirections
             .actionResidentSiteInformationFragmentToResidentNewAccountFragment()
         findNavController().navigate(action)
+    }
+
+    private fun goToResidentHomePageButtonClicked() {
+        setViewModelData()
+        lifecycleScope.launch(ioDispatcher) {
+            val b = async {
+                viewModel.saveResidentIntoDB(
+                    args.fullName,
+                    args.phoneNumber,
+                    args.email,
+                    args.password
+                )
+            }
+            if (b.await()) {
+                viewModel.saveSiteIntoDB()
+                viewModel.updateUserDisplayName()
+                goToResidentHomePageActivity()
+            }
+        }
+    }
+
+    private fun setViewModelData() {
+        viewModel.setSiteName(binding.siteNameText.text.toString())
+        viewModel.setCity(binding.cityText.text.toString())
+        viewModel.setDistrict(binding.countyText.text.toString())
+        viewModel.setBlockNo(binding.blockNoText.text.toString())
+        viewModel.setFlatNo(binding.flatNoText.text.toString().toInt())
     }
 
 }

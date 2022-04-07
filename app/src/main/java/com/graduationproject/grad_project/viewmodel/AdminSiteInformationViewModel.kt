@@ -57,7 +57,6 @@ class AdminSiteInformationViewModel(
                 }
                 val user = data.await()
                 user?.let { saveAdminUid(it.uid) }
-                UserOperations.loginWithEmailAndPassword(email, password)
                 OneSignalOperations.savePlayerId(_admin)
 
                 _admin["fullName"] = fullName

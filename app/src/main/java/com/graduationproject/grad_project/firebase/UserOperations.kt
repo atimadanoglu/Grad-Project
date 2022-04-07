@@ -175,4 +175,17 @@ object UserOperations: FirebaseConstants() {
             userType
         }
     }
+
+    suspend fun saveResidentIntoDB(resident: HashMap<String, Any>) {
+        withContext(ioDispatcher) {
+            try {
+                residentRef
+                    .document(resident["email"].toString())
+                    .set(resident)
+                    .await()
+            } catch (e: FirebaseFirestoreException) {
+                Log.e(TAG, "saveResidentIntoDB --> $e")
+            }
+        }
+    }
 }
