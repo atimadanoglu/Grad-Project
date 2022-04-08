@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
-import com.graduationproject.grad_project.R
+import com.graduationproject.grad_project.adapter.MessagesListRecyclerViewAdapter
 import com.graduationproject.grad_project.databinding.FragmentIncomingMessagesResidentBinding
+import com.graduationproject.grad_project.model.Message
 import com.graduationproject.grad_project.viewmodel.IncomingMessagesResidentViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -23,13 +25,13 @@ class IncomingMessagesResidentFragment(
     private var _binding: FragmentIncomingMessagesResidentBinding? = null
     private val binding get() = _binding!!
     private val viewModel: IncomingMessagesResidentViewModel by viewModels()
+    private var recyclerViewAdapter: MessagesListRecyclerViewAdapter? = null
     private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         _binding = FragmentIncomingMessagesResidentBinding.inflate(inflater,container, false)
         val view = binding.root
         auth = FirebaseAuth.getInstance()
@@ -41,12 +43,38 @@ class IncomingMessagesResidentFragment(
                 }
             }
         }
+        observeLiveData()
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        auth.currentUser?.email?.let { email ->
+            viewModel.retrieveMessages(email)
+        }
+        viewModel.messages.value?.let { value ->
+            adaptThisFragmentWithRecyclerView(value)
+        }
+        viewModel.messages.value?.let { recyclerViewAdapter?.updateMessagesList(it) }
     }
 
     private suspend fun deleteMessageButtonClicked(email: String) {
         withContext(ioDispatcher) {
             viewModel.clearMessages(email)
+        }
+    }
+
+    private fun adaptThisFragmentWithRecyclerView(messages: ArrayList<Message>) {
+        binding.messageRecyclerview.layoutManager = LinearLayoutManager(this.context)
+        recyclerViewAdapter = this.context?.let { context ->
+            MessagesListRecyclerViewAdapter(messages, context, parentFragmentManager)
+        }
+        binding.messageRecyclerview.adapter = recyclerViewAdapter
+    }
+
+    private fun observeLiveData() {
+        viewModel.messages.observe(viewLifecycleOwner) { arrayOfMessages ->
+            arrayOfMessages?.let { recyclerViewAdapter?.updateMessagesList(it) }
         }
     }
 }

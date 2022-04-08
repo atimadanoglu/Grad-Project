@@ -8,12 +8,11 @@ import com.graduationproject.grad_project.firebase.MessagesOperations
 import com.graduationproject.grad_project.firebase.NotificationOperations
 import com.graduationproject.grad_project.firebase.UserOperations
 import com.graduationproject.grad_project.model.Message
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class IncomingMessagesResidentViewModel(
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val uiDispatcher: CoroutineDispatcher = Dispatchers.Main
 ): ViewModel() {
 
     private val _messages = MutableLiveData(arrayListOf<Message>())
@@ -21,15 +20,21 @@ class IncomingMessagesResidentViewModel(
 
     fun retrieveMessages(email: String) {
         viewModelScope.launch(ioDispatcher) {
-            val allMessages = MessagesOperations.retrieveMessages(email)
-            _messages.value = allMessages
+            val allMessages = async {
+                MessagesOperations.retrieveMessages(email)
+            }
+            withContext(uiDispatcher) {
+                _messages.value = allMessages.await()
+            }
         }
     }
 
     fun clearMessages(email: String) {
         viewModelScope.launch(ioDispatcher) {
             MessagesOperations.deleteAllMessages(email)
-            _messages.value = arrayListOf()
+            withContext(uiDispatcher) {
+                _messages.value = arrayListOf()
+            }
         }
     }
 }
