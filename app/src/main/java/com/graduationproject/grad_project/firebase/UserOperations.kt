@@ -7,6 +7,7 @@ import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
+import com.graduationproject.grad_project.model.Message
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 
