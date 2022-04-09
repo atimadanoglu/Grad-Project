@@ -5,28 +5,28 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import com.graduationproject.grad_project.model.Message
-import com.graduationproject.grad_project.model.Notification
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.lang.Exception
-import java.util.*
 import kotlin.collections.ArrayList
 
 object MessagesOperations: FirebaseConstants() {
 
     private const val TAG = "MessagesOperations"
 
-    suspend fun saveMessageIntoDB(email: String, message: Message) {
-        withContext(ioDispatcher + coroutineExceptionHandler) {
+    suspend fun saveMessageIntoDB(email: String, message: Message): Boolean {
+        return withContext(ioDispatcher + coroutineExceptionHandler) {
             try {
                 residentRef.document(email)
                     .collection("messages")
                     .document(message.id)
                     .set(message)
                     .await()
+                true
             } catch (e: FirebaseFirestoreException) {
                 Log.e(TAG, "saveMessageIntoDB ---> $e")
+                false
             }
         }
     }
@@ -44,7 +44,8 @@ object MessagesOperations: FirebaseConstants() {
                             Message(
                                 document.get("title") as String,
                                 document.get("content") as String,
-                                document.get("id") as String
+                                document.get("id") as String,
+                                document.get("date") as Timestamp
                             )
                         )
                     }
@@ -99,7 +100,7 @@ object MessagesOperations: FirebaseConstants() {
                 val messages = arrayListOf<Message>()
                 documents.forEach {
                     val message = Message(
-                        it["title"].toString(), it["content"].toString(), it["id"].toString()
+                        it["title"].toString(), it["content"].toString(), it["id"].toString(), it["date"] as Timestamp
                     )
                     messages.add(message)
                 }

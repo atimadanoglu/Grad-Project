@@ -7,5 +7,6 @@ data class SiteResident(
     val phoneNumber: String,
     val blockNo : String,
     val flatNo : Int,
-    var debt : Double
+    var debt : Double,
+    val playerID : String
 )
