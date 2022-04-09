@@ -59,9 +59,6 @@ class ResidentSiteInformationViewModel(
                 }
                 val user = data.await()
                 user?.let { saveResidentUid(it.uid) }
-/*
-                UserOperations.loginWithEmailAndPassword(email, password)
-*/
                 OneSignalOperations.savePlayerId(_resident)
 
                 _resident["fullName"] = fullName
@@ -74,6 +71,7 @@ class ResidentSiteInformationViewModel(
                 _resident["blockNo"] = blockNo
                 _resident["flatNo"] = flatNo
                 _resident["typeOfUser"] = "Sakin"
+                _resident["debt"] = 0
                 true
             } catch (e: Exception) {
                 Log.e(TAG, "createResident ---> $e")
