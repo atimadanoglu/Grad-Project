@@ -95,6 +95,7 @@ object MessagesOperations: FirebaseConstants() {
             try {
                 val documents = residentRef.document(email)
                     .collection("messages")
+                    .orderBy("date", Query.Direction.DESCENDING)
                     .get()
                     .await().documents
                 val messages = arrayListOf<Message>()

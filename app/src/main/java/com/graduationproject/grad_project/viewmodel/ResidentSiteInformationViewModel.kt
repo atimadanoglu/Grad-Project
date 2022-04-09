@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.graduationproject.grad_project.firebase.SiteOperations
 import com.graduationproject.grad_project.firebase.UserOperations
+import com.graduationproject.grad_project.model.SiteResident
 import com.graduationproject.grad_project.onesignal.OneSignalOperations
 import kotlinx.coroutines.*
 import java.lang.Exception
@@ -57,21 +58,21 @@ class ResidentSiteInformationViewModel(
                     UserOperations
                         .createUserWithEmailAndPassword(email, password)?.user
                 }
-                val user = data.await()
-                user?.let { saveResidentUid(it.uid) }
+                data.await()
+                /*user?.let { saveResidentUid(it.uid) }*/
                 OneSignalOperations.savePlayerId(_resident)
 
                 _resident["fullName"] = fullName
                 _resident["phoneNumber"] = phoneNumber
                 _resident["email"] = email
-                _resident["password"] = password
+                /*_resident["password"] = password*/
                 _resident["siteName"] = siteName
                 _resident["city"] = city
                 _resident["district"] = district
                 _resident["blockNo"] = blockNo
                 _resident["flatNo"] = flatNo
                 _resident["typeOfUser"] = "Sakin"
-                _resident["debt"] = 0
+                _resident["debt"] = 0.toDouble()
                 true
             } catch (e: Exception) {
                 Log.e(TAG, "createResident ---> $e")
@@ -80,9 +81,9 @@ class ResidentSiteInformationViewModel(
         }
     }
 
-    private fun saveResidentUid(uid: String){
+  /*  private fun saveResidentUid(uid: String){
         _resident["uid"] = uid
-    }
+    }*/
 
     suspend fun updateUserDisplayName() {
         UserOperations.updateUserInfo(_resident)

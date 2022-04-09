@@ -34,7 +34,6 @@ object UserOperations: FirebaseConstants() {
 
     suspend fun getResidentsInASpecificSite(adminInfo: DocumentSnapshot): QuerySnapshot? {
         return try {
-            println(residentRef.path)
             residentRef.whereEqualTo("city", adminInfo["city"])
                 .whereEqualTo("district", adminInfo["district"])
                 .whereEqualTo("siteName", adminInfo["siteName"])
