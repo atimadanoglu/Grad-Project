@@ -4,7 +4,6 @@
     <string name="email_address">email adresi</string>
     <string name="password">şifre</string>
     <string name="log_in">GİRİŞ</string>
-
     <string name="admin">Yönetici</string>
     <string name="resident">Sakin</string>
     <string name="log_in_click">logInClick</string>
@@ -99,7 +98,6 @@
     <string name="aktivasyon_kodu">aktivasyon kodu</string>
     <string name="bildirimleri_temizle">Bildirimleri temizle</string>
     <string name="mesajlar_sil">Mesajları sil</string>
-
     <string name="aç">Aç</string>
     <string name="kapat">Kapat</string>
     <string name="yönetici">Yönetici</string>
@@ -122,4 +120,12 @@
     <string name="geçersizEmailAdresi">Geçersiz email adresi!</string>
     <string name="siteBilgisiYazdırılamadı">Site bilgisi veritabanına yazdırılamadı!</string>
     <string name="kullanıcıVerisiYazdırılamadı">Kullanıcı bilgisi veritabanına yazdırılamadı!</string>
+    <string name="odeme_bilgileri">Ödeme Bilgileri</string>
+    <string name="kart_sahibinin_ad">Kart sahibinin adı</string>
+    <string name="kart_numaras">Kart numarası</string>
+    <string name="aa_yy">AA/YY</string>
+    <string name="cvc">CVC</string>
+    <string name="terms"><b>Şartları ve Koşulları</b> okudum,kabul ediyorum.</string>
+    <string name="onayla">Onayla</string>
+    <string name="odeme_yap">Ödeme yap</string>
 </resources>
