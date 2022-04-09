@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -15,11 +16,12 @@ import com.graduationproject.grad_project.model.Message
 import com.graduationproject.grad_project.model.SiteResident
 import com.graduationproject.grad_project.viewmodel.dialogs.SendingMessageToResidentDialogViewModel
 import kotlinx.coroutines.*
+import kotlinx.serialization.builtins.serializer
+import java.util.*
 
 
 class SendingMessageToResidentDialogFragment(
     private val resident: SiteResident,
-    private val messageID: String,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : DialogFragment() {
 
@@ -33,18 +35,19 @@ class SendingMessageToResidentDialogFragment(
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+
         return activity?.let {
             _binding = FragmentSendingMessageToResidentDialogBinding.inflate(layoutInflater)
             val view = binding.root
-            viewModel.setContent(binding.contentOfSendMessage.text.toString())
-            viewModel.setTitle(binding.titleOfSendMessage.text.toString())
-          /*  val inflater = requireActivity().layoutInflater
+            /*  val inflater = requireActivity().layoutInflater
             val view = inflater.inflate(R.layout.fragment_adding_debt_dialog, null)*/
             val builder = MaterialAlertDialogBuilder(it)
                 .setView(view)
-                .setPositiveButton("Borç Ekle") { _, _ ->
-                    setPositiveButton()
-                    dismiss()
+                .setPositiveButton("Gönder") { _, _ ->
+                    lifecycleScope.launch {
+                        setPositiveButton()
+                        dismiss()
+                    }
                 }.setNegativeButton("İptal") { _, _ ->
                     setNegativeButton()
                 }
@@ -52,29 +55,24 @@ class SendingMessageToResidentDialogFragment(
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 
-    private fun setPositiveButton() {
-        lifecycleScope.launch {
+    private suspend fun setPositiveButton() {
+        CoroutineScope(ioDispatcher).launch {
+            viewModel.setTitle(binding.titleOfSendMessage.text.toString())
+            viewModel.setContent(binding.contentOfSendMessage.text.toString())
+            val uuid = UUID.randomUUID()
             val message = Message(
-                viewModel.title.value.toString(),
-                viewModel.content.value.toString(),
-                messageID,
+                viewModel.title,
+                viewModel.content,
+                uuid.toString(),
                 Timestamp.now()
             )
-            withContext(ioDispatcher) {
-                viewModel.saveMessageIntoDB(resident.email, message)
-                if (viewModel.isMessageSaved.value == true) {
-                    launch {
-                        viewModel.takePlayerIdAndSendPostNotification(
-                            resident,
-                            viewModel.title.value.toString(),
-                            viewModel.content.value.toString()
-                        )
-                    }
-                } else {
-                    Log.e(TAG, "onCreateDialog ---> viewModel.isMessageSaved == false")
-                }
+            viewModel.saveMessageIntoDB(resident.email, message)
+            if (viewModel.isMessageSaved) {
+                viewModel.takePlayerIdAndSendPostNotification(resident)
+            } else {
+                Log.e(TAG, "onCreateDialog ---> viewModel.isMessageSaved == false")
             }
-        }
+        }.join()
     }
 
     private fun setNegativeButton() {
@@ -86,4 +84,5 @@ class SendingMessageToResidentDialogFragment(
             ).show()
         }
     }
+
 }
