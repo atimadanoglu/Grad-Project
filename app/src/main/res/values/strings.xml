@@ -122,4 +122,7 @@
     <string name="geçersizEmailAdresi">Geçersiz email adresi!</string>
     <string name="siteBilgisiYazdırılamadı">Site bilgisi veritabanına yazdırılamadı!</string>
     <string name="kullanıcıVerisiYazdırılamadı">Kullanıcı bilgisi veritabanına yazdırılamadı!</string>
+    <string name="borçSilmeİptalEdildi">Borç silme işlemi iptal edildi!</string>
+    <string name="borçSilmeBaşarılı">Borç silme işlemi başarıyla gerçekleşti!</string>
+    <string name="borçSilmeBaşarısız">Borç silme işlemi gerçekleştirilemedi!</string>
 </resources>

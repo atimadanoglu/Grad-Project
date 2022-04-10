@@ -22,7 +22,8 @@ import java.util.*
 
 class SendingMessageToResidentDialogFragment(
     private val resident: SiteResident,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : DialogFragment() {
 
     private var _binding: FragmentSendingMessageToResidentDialogBinding? = null
@@ -56,7 +57,7 @@ class SendingMessageToResidentDialogFragment(
     }
 
     private suspend fun setPositiveButton() {
-        CoroutineScope(ioDispatcher).launch {
+        CoroutineScope(mainDispatcher).launch {
             viewModel.setTitle(binding.titleOfSendMessage.text.toString())
             viewModel.setContent(binding.contentOfSendMessage.text.toString())
             val uuid = UUID.randomUUID()
@@ -66,11 +67,13 @@ class SendingMessageToResidentDialogFragment(
                 uuid.toString(),
                 Timestamp.now()
             )
-            viewModel.saveMessageIntoDB(resident.email, message)
-            if (viewModel.isMessageSaved) {
-                viewModel.takePlayerIdAndSendPostNotification(resident)
-            } else {
-                Log.e(TAG, "onCreateDialog ---> viewModel.isMessageSaved == false")
+            withContext(ioDispatcher) {
+                viewModel.saveMessageIntoDB(resident.email, message)
+                if (viewModel.isMessageSaved) {
+                    viewModel.takePlayerIdAndSendPostNotification(resident)
+                } else {
+                    Log.e(TAG, "onCreateDialog ---> viewModel.isMessageSaved == false")
+                }
             }
         }.join()
     }

@@ -67,4 +67,34 @@ object SnackBars {
             ).show()
         }
     }
+
+    fun showDeletingDebtOperationCancelled(view: View?) {
+        view?.let {
+            Snackbar.make(
+                view,
+                R.string.borçSilmeİptalEdildi,
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    fun showDeletingDebtOperationIsSuccessful(view: View?) {
+        view?.let {
+            Snackbar.make(
+                view,
+                R.string.borçSilmeBaşarılı,
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    fun showDeletingDebtOperationIsFailed(view: View?) {
+        view?.let {
+            Snackbar.make(
+                view,
+                R.string.borçSilmeBaşarısız,
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
 }

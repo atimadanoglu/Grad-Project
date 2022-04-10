@@ -5,16 +5,14 @@ import android.view.LayoutInflater
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import android.widget.PopupMenu
 import androidx.fragment.app.FragmentManager
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.graduationproject.grad_project.ResidentsListAdapter.*
 import com.graduationproject.grad_project.databinding.ListItemBinding
 import com.graduationproject.grad_project.model.SiteResident
+import com.graduationproject.grad_project.view.admin.dialogs.AddingDebtDialogFragment
 import com.graduationproject.grad_project.view.admin.dialogs.SendingMessageToResidentDialogFragment
 
 class ResidentsListAdapter(
@@ -58,13 +56,14 @@ class ResidentsListAdapter(
             val popup: PopupMenu = createPopUpMenu(view)
             popup.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
-                    /*R.id.add_debt -> {
-                        addDebt(view, position)
+                    R.id.add_debt -> {
+                        val addDebt = resident?.let { AddingDebtDialogFragment(it) }
+                        addDebt?.show(fragmentManager, "addDebtDialog")
                         true
-                    }*/
+                    }
                     R.id.send_message -> {
                         val sendMessage = resident?.let { SendingMessageToResidentDialogFragment(it) }
-                        sendMessage?.show(fragmentManager, "dialog")
+                        sendMessage?.show(fragmentManager, "sendMessageDialog")
                         true
                     }
                     /*R.id.delete_debt -> {
