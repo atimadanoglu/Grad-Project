@@ -5,9 +5,9 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
-import com.graduationproject.grad_project.model.Message
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 
@@ -34,7 +34,6 @@ object UserOperations: FirebaseConstants() {
 
     suspend fun getResidentsInASpecificSite(adminInfo: DocumentSnapshot): QuerySnapshot? {
         return try {
-            println(residentRef.path)
             residentRef.whereEqualTo("city", adminInfo["city"])
                 .whereEqualTo("district", adminInfo["district"])
                 .whereEqualTo("siteName", adminInfo["siteName"])
@@ -68,6 +67,30 @@ object UserOperations: FirebaseConstants() {
             } catch (e: FirebaseAuthException) {
                 Log.e(TAG, "createUserWithEmailAndPassword --> $e")
                 null
+            }
+        }
+    }
+
+    suspend fun addDebt(email: String, debtAmount: Double) {
+        withContext(ioDispatcher) {
+            try {
+                residentRef.document(email)
+                    .update("debt", FieldValue.increment(debtAmount.toLong()))
+                    .await()
+            } catch (e: FirebaseFirestoreException) {
+                Log.e(TAG, "updateDebtAmount ---> $e")
+            }
+        }
+    }
+
+    suspend fun deleteDebt(email: String, debtAmount: Double) {
+        withContext(ioDispatcher) {
+            try {
+                residentRef.document(email)
+                    .update("debt", FieldValue.increment(-debtAmount.toLong()))
+                    .await()
+            } catch (e: FirebaseFirestoreException) {
+                Log.e(TAG, "updateDebtAmount ---> $e")
             }
         }
     }

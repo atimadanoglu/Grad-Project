@@ -120,6 +120,14 @@
     <string name="geçersizEmailAdresi">Geçersiz email adresi!</string>
     <string name="siteBilgisiYazdırılamadı">Site bilgisi veritabanına yazdırılamadı!</string>
     <string name="kullanıcıVerisiYazdırılamadı">Kullanıcı bilgisi veritabanına yazdırılamadı!</string>
+
+    <string name="borçSilmeİptalEdildi">Borç silme işlemi iptal edildi!</string>
+    <string name="borçEklemeİptalEdildi">Borç ekleme işlemi iptal edildi!</string>
+    <string name="borçSilmeBaşarılı">Borç silme işlemi başarıyla gerçekleşti!</string>
+    <string name="borçSilmeBaşarısız">Borç silme işlemi gerçekleştirilemedi!</string>
+    <string name="borçEklemeBaşarılı">Borç ekleme işlemi başarıyla gerçekleşti!</string>
+    <string name="borçEklemeBaşarısız">Borç ekleme işlemi gerçekleştirilemedi!</string>
+
     <string name="odeme_bilgileri">Ödeme Bilgileri</string>
     <string name="kart_sahibinin_ad">Kart sahibinin adı</string>
     <string name="kart_numaras">Kart numarası</string>
@@ -128,10 +136,12 @@
     <string name="terms"><b>Şartları ve Koşulları</b> okudum,kabul ediyorum.</string>
     <string name="onayla">Onayla</string>
     <string name="odeme_yap">Ödeme yap</string>
+
     <string name="öneri">Öneri</string>
 
     <string-array name="type_list">
         <item>Öneri</item>
         <item>Şikayet</item>
     </string-array>
+
 </resources>
