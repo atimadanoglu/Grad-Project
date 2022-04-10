@@ -37,48 +37,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
-                <EditText
-                    android:id="@+id/titleInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="14dp"
-                    android:layout_marginEnd="30dp"
-                    android:autofillHints=""
-                    android:background="@drawable/search_box"
-                    android:hint="@string/konu"
-                    android:inputType="text"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:textColor="@color/primary_color"
-                    android:textColorHint="@color/primary_color"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.49"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView5"
-                    tools:ignore="TouchTargetSizeCheck" />
-
-                <EditText
-                    android:id="@+id/contentInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="11dp"
-                    android:layout_marginEnd="30dp"
-                    android:autofillHints=""
-                    android:background="@drawable/search_box"
-                    android:gravity="top"
-                    android:hint="@string/content"
-                    android:inputType="textMultiLine"
-                    android:lines="5"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="10dp"
-                    android:paddingTop="10dp"
-                    android:textColor="@color/primary_color"
-                    android:textColorHint="@color/primary_color"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/titleInput" />
 
                 <TextView
                     android:id="@+id/textView5"
@@ -93,6 +51,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
 
                 <Button
                     android:id="@+id/sendRequestButton"
@@ -109,38 +68,85 @@
                     app:layout_constraintStart_toStartOf="parent"
                     tools:ignore="TouchTargetSizeCheck" />
 
-                <RadioGroup
-                    android:id="@+id/radioGroup"
-                    android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutTitle"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="205dp"
+                    android:layout_marginTop="40dp"
+                    android:hint="@string/konu"
+                    android:textColorHint="@color/primary_color"
+                    app:endIconMode="clear_text"
+                    app:helperText="@string/required"
+                    app:helperTextTextColor="@color/warning_color"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView5">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/titleInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:textColor="@color/primary_color"
+                        tools:ignore="TextContrastCheck"
+                        tools:layout_editor_absoluteX="0dp"
+                        tools:layout_editor_absoluteY="75dp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutContent"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:hint="@string/content"
+                    android:textColorHint="@color/primary_color"
+                    app:endIconMode="clear_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/contentInput">
+                    app:layout_constraintTop_toBottomOf="@+id/textInputLayoutTitle">
 
-                    <RadioButton
-                        android:id="@+id/adviceRadioButton"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/contentInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:minHeight="48dp"
-                        android:textSize="16sp"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:lines="5"
                         android:textColor="@color/primary_color"
-                        android:fontFamily="@font/titillium_web_bold"
-                        android:text="@string/oneri" />
+                        tools:ignore="TextContrastCheck" />
 
-                    <RadioButton
-                        android:id="@+id/complaintRadioButton"
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutType"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="20dp"
+                    android:hint="@string/turu"
+                    android:textColorHint="@color/primary_color"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView5">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/request_type_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:minHeight="48dp"
-                        android:textSize="16sp"
-                        android:textColor="#A30303"
-                        android:fontFamily="@font/nunito_sans_bold"
-                        android:text="@string/sikayet" />
-                </RadioGroup>
+                        android:layout_weight="1"
+                        android:inputType="none"
+                        android:textColor="@color/primary_color"
+                        tools:layout_editor_absoluteX="0dp"
+                        tools:layout_editor_absoluteY="75dp"
+                        tools:text="@string/öneri" />
+
+                </com.google.android.material.textfield.TextInputLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
