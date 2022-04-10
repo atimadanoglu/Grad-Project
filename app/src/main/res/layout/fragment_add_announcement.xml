@@ -15,13 +15,13 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearBox"
             android:layout_width="340dp"
-            android:layout_height="520dp"
+            android:layout_height="480dp"
             android:background="@drawable/search_box"
+            android:backgroundTint="@color/background_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:backgroundTint="@color/background_gray">
+            app:layout_constraintTop_toTopOf="parent">
 
             <Button
                 android:id="@+id/backButtonToAnnouncement"
@@ -36,84 +36,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-            <EditText
-                android:id="@+id/titleInput"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="14dp"
-                android:layout_marginEnd="30dp"
-                android:autofillHints=""
-                android:background="@drawable/search_box"
-                android:hint="@string/title"
-                android:inputType="text"
-                android:paddingStart="20dp"
-                android:paddingEnd="10dp"
-                android:textColor="@color/primary_color"
-                android:textColorHint="@color/primary_color"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.49"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView5"
-                tools:ignore="TouchTargetSizeCheck" />
-
-            <EditText
-                android:id="@+id/contentInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="11dp"
-                android:layout_marginEnd="30dp"
-                android:autofillHints=""
-                android:background="@drawable/search_box"
-                android:gravity="top"
-                android:hint="@string/content"
-                android:inputType="textMultiLine"
-                android:lines="5"
-                android:paddingStart="20dp"
-                android:paddingEnd="10dp"
-                android:paddingTop="10dp"
-                android:textColor="@color/primary_color"
-                android:textColorHint="@color/primary_color"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/titleInput" />
-
-            <TextView
-                android:id="@+id/takePhoto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:background="@color/primary_color"
-                android:drawablePadding="10dp"
-                android:fontFamily="@font/titillium_web"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/take_photo"
-                android:textAlignment="center"
-                android:textColor="@color/secondary_color"
-                android:textSize="17sp"
-                app:drawableStartCompat="@drawable/camera_icon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/contentInput" />
-
-            <ImageView
-                android:id="@+id/selectPicture"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
-                android:layout_margin="10dp"
-                android:layout_gravity="end"
-                android:layout_marginStart="21dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:contentDescription="@string/todo"
-                android:src="@drawable/photo_icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.8"
-                app:layout_constraintStart_toEndOf="@+id/takePhoto"
-                app:layout_constraintTop_toBottomOf="@+id/contentInput" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -134,17 +56,83 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="110dp"
-                android:layout_marginEnd="110dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="65dp"
+                android:layout_marginEnd="20dp"
                 android:background="@drawable/button"
                 android:backgroundTint="@color/primary_color"
                 android:text="@string/share"
                 android:textColor="@color/secondary_color"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutContent"
                 tools:ignore="TouchTargetSizeCheck" />
+
+            <ImageView
+                android:id="@+id/selectPicture"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_marginStart="20dp"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/photo_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutContent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutTitle"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="108dp"
+                android:layout_marginEnd="20dp"
+                android:hint="@string/title"
+                android:textColorHint="@color/primary_color"
+                app:endIconMode="clear_text"
+                app:helperText="@string/required"
+                app:helperTextTextColor="@color/warning_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/titleInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:textColor="@color/primary_color"
+                    tools:ignore="TextContrastCheck"
+                    tools:layout_editor_absoluteX="0dp"
+                    tools:layout_editor_absoluteY="75dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutContent"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:hint="@string/content"
+                android:textColorHint="@color/primary_color"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutTitle">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/contentInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:lines="5"
+                    android:textColor="@color/primary_color"
+                    tools:ignore="TextContrastCheck" />
+
+            </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

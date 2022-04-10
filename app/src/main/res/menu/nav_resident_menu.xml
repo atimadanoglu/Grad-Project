@@ -27,8 +27,6 @@
                     <item android:title="@string/setting"
                         android:id="@+id/settingsResidentFragment"
                         android:icon="@drawable/ic_outline_settings_24"/>
-                    <item android:title="@string/log_out"
-                        android:icon="@drawable/logout_icon"/>
                 </group>
             </menu>
         </item>

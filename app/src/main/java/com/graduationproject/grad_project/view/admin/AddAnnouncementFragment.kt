@@ -79,7 +79,7 @@ class AddAnnouncementFragment : Fragment() {
     }
 
     private fun isBlank(): Boolean {
-        return binding.titleInput.text.isBlank() || binding.contentInput.text.isBlank()
+        return binding.titleInput.text!!.isBlank() || binding.contentInput.text!!.isBlank()
     }
 
     private suspend fun shareAnnouncementButtonClicked(view: View) {

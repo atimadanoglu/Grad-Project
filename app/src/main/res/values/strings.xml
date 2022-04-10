@@ -137,4 +137,11 @@
     <string name="onayla">Onayla</string>
     <string name="odeme_yap">Ödeme yap</string>
 
+    <string name="öneri">Öneri</string>
+
+    <string-array name="type_list">
+        <item>Öneri</item>
+        <item>Şikayet</item>
+    </string-array>
+
 </resources>
