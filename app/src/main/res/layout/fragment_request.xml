@@ -65,7 +65,7 @@
                 android:layout_marginBottom="20dp"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/fab_add_request"
-                app:srcCompat="@drawable/add_icon"
+                android:src="@drawable/add_icon"
                 tools:layout_editor_absoluteX="323dp"
                 tools:layout_editor_absoluteY="560dp" />
 

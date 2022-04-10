@@ -7,17 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.FragmentManager
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.graduationproject.grad_project.ResidentsListAdapter.*
+import com.graduationproject.grad_project.ResidentsListAdapter.ResidentViewHolder
 import com.graduationproject.grad_project.databinding.ListItemBinding
-import com.graduationproject.grad_project.firebase.UserOperations
 import com.graduationproject.grad_project.model.SiteResident
 import com.graduationproject.grad_project.view.admin.dialogs.AddingDebtDialogFragment
 import com.graduationproject.grad_project.view.admin.dialogs.DeletingDebtDialogFragment
 import com.graduationproject.grad_project.view.admin.dialogs.SendingMessageToResidentDialogFragment
-import kotlinx.coroutines.*
 
 class ResidentsListAdapter(
     private val fragmentManager: FragmentManager,

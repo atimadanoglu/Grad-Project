@@ -1,5 +1,10 @@
 package com.graduationproject.grad_project.model
 
-class Request {
+import com.google.firebase.Timestamp
 
-}
+data class Request(
+    val title: String,
+    val content: String,
+    val type: String,
+    val date: Timestamp
+)
