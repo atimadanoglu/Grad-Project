@@ -109,7 +109,7 @@ class ResidentsListForAdminFragment : Fragment() {
     }
 
     private fun addResident(siteResidents: ArrayList<SiteResident>, resident: QueryDocumentSnapshot) {
-        siteResidents.add(
+      /*  siteResidents.add(
             SiteResident(
                 fullName = resident.get("fullName") as String,
                 email = resident.get("email") as String,
@@ -117,9 +117,10 @@ class ResidentsListForAdminFragment : Fragment() {
                 phoneNumber = resident.get("phoneNumber") as String,
                 blockNo = resident.get("blockNo") as String,
                 flatNo = resident.get("flatNo").toString().toInt(),
-                debt = resident.get("debt") as Double
+                debt = resident.get("debt").toString().toLong().toDouble(),
+                playerID = resident.get("player_id").toString()
             )
-        )
+        )*/
     }
 
     private fun adaptResidentsListRecyclerView(siteResidents: ArrayList<SiteResident>) {

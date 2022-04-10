@@ -19,10 +19,6 @@
             app:destination="@id/addAnnouncementFragment" />
     </fragment>
     <fragment
-        android:id="@+id/residentsListForAdminFragment"
-        android:name="com.graduationproject.grad_project.view.admin.ResidentsListForAdminFragment"
-        android:label="ResidentsListForAdminFragment" />
-    <fragment
         android:id="@+id/expendituresFragment"
         android:name="com.graduationproject.grad_project.view.admin.ExpendituresFragment"
         android:label="ExpendituresFragment" />
@@ -69,4 +65,8 @@
         android:name="com.graduationproject.grad_project.AddVotingAdminFragment"
         android:label="fragment_add_voting_admin"
         tools:layout="@layout/fragment_add_voting_admin" />
+    <fragment
+        android:id="@+id/residentsListFragment"
+        android:name="com.graduationproject.grad_project.ResidentsListFragment"
+        android:label="ResidentsListFragment" />
 </navigation>

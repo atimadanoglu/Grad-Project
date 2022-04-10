@@ -59,13 +59,11 @@ class ResidentSiteInformationViewModel(
                         .createUserWithEmailAndPassword(email, password)?.user
                 }
                 data.await()
-                /*user?.let { saveResidentUid(it.uid) }*/
                 OneSignalOperations.savePlayerId(_resident)
 
                 _resident["fullName"] = fullName
                 _resident["phoneNumber"] = phoneNumber
                 _resident["email"] = email
-                /*_resident["password"] = password*/
                 _resident["siteName"] = siteName
                 _resident["city"] = city
                 _resident["district"] = district
@@ -80,10 +78,6 @@ class ResidentSiteInformationViewModel(
             }
         }
     }
-
-  /*  private fun saveResidentUid(uid: String){
-        _resident["uid"] = uid
-    }*/
 
     suspend fun updateUserDisplayName() {
         UserOperations.updateUserInfo(_resident)
@@ -135,7 +129,4 @@ class ResidentSiteInformationViewModel(
             "flatNo" to flatNo,
         )
     }
-
-
-
 }
