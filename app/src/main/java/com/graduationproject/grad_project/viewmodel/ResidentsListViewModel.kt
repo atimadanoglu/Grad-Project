@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.graduationproject.grad_project.firebase.UserOperations
 import com.graduationproject.grad_project.model.SiteResident
 import kotlinx.coroutines.*
@@ -54,32 +55,36 @@ class ResidentsListViewModel(
                 }
                 admin.await()?.let {
                     Log.d(TAG, "admin.await() is not null")
-                    val residents = UserOperations.getResidentsInASpecificSite(admin.await()!!)
-                    val arrayList = arrayListOf<SiteResident?>()
-                    withContext(Dispatchers.Main) {
-                        residents?.documents?.forEach {
-                            arrayList.add(
-                                SiteResident(
-                                    it["fullName"].toString(),
-                                    it["email"].toString(),
-                                    it["phoneNumber"].toString(),
-                                    it["blockNo"].toString(),
-                                    it["flatNo"].toString().toInt(),
-                                    it["debt"].toString().toDouble(),
-                                    it["player_id"].toString(),
-                                    it["typeOfUser"].toString(),
-                                    it["siteName"].toString(),
-                                    it["city"].toString(),
-                                    it["district"].toString()
-                                )
-                            )
-                        }.apply {
-                            _residentsList.value = arrayList
-                        }
-                    }
+                    createResidentsList(admin.await()!!)
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "retrieveAndShowResidents ---> $e")
+            }
+        }
+    }
+
+    private suspend fun createResidentsList(admin: DocumentSnapshot) {
+        val residents = UserOperations.getResidentsInASpecificSite(admin)
+        val arrayList = arrayListOf<SiteResident?>()
+        withContext(Dispatchers.Main) {
+            residents?.documents?.forEach {
+                arrayList.add(
+                    SiteResident(
+                        it["fullName"].toString(),
+                        it["email"].toString(),
+                        it["phoneNumber"].toString(),
+                        it["blockNo"].toString(),
+                        it["flatNo"].toString().toInt(),
+                        it["debt"].toString().toDouble(),
+                        it["player_id"].toString(),
+                        it["typeOfUser"].toString(),
+                        it["siteName"].toString(),
+                        it["city"].toString(),
+                        it["district"].toString()
+                    )
+                )
+            }.apply {
+                _residentsList.value = arrayList
             }
         }
     }

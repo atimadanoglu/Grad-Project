@@ -123,6 +123,9 @@
     <string name="siteBilgisiYazdırılamadı">Site bilgisi veritabanına yazdırılamadı!</string>
     <string name="kullanıcıVerisiYazdırılamadı">Kullanıcı bilgisi veritabanına yazdırılamadı!</string>
     <string name="borçSilmeİptalEdildi">Borç silme işlemi iptal edildi!</string>
+    <string name="borçEklemeİptalEdildi">Borç ekleme işlemi iptal edildi!</string>
     <string name="borçSilmeBaşarılı">Borç silme işlemi başarıyla gerçekleşti!</string>
     <string name="borçSilmeBaşarısız">Borç silme işlemi gerçekleştirilemedi!</string>
+    <string name="borçEklemeBaşarılı">Borç ekleme işlemi başarıyla gerçekleşti!</string>
+    <string name="borçEklemeBaşarısız">Borç ekleme işlemi gerçekleştirilemedi!</string>
 </resources>

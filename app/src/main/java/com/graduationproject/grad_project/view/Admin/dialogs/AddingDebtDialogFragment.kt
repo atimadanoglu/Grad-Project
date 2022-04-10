@@ -39,6 +39,7 @@ class AddingDebtDialogFragment(
                 .setTitle(R.string.borç_ekle)
                 .setPositiveButton(R.string.borç_ekle) { _, _ ->
                     positiveButtonClicked()
+                    dismiss()
                 }.setNegativeButton(R.string.iptal){ _, _ ->
                     negativeButtonClicked()
                 }
@@ -47,7 +48,7 @@ class AddingDebtDialogFragment(
     }
 
     private fun negativeButtonClicked() {
-        SnackBars.showDeletingDebtOperationCancelled(view)
+        SnackBars.showAddingDebtOperationCancelled(view)
     }
 
     private fun positiveButtonClicked() {
@@ -56,10 +57,6 @@ class AddingDebtDialogFragment(
             val debtAmount = binding.deletedAmount.text.toString().toDouble()
             viewModel.setAmount(debtAmount)
             viewModel.setTitle(debtTitle)
-            /*viewModel.debtTitle.postValue(debtTitle)
-            viewModel.debtAmount.postValue(debtAmount)
-            println("debt${viewModel.debtAmount.value}")
-            println("title${viewModel.debtTitle.value}")*/
             try {
                 withContext(ioDispatcher) {
                     viewModel.addDebt(resident.email, viewModel.debtAmount)
@@ -67,9 +64,9 @@ class AddingDebtDialogFragment(
                         viewModel.takePlayerIdAndSendPostNotification(resident)
                     }
                 }
-                SnackBars.showDeletingDebtOperationIsSuccessful(view)
+                SnackBars.showAddingDebtOperationIsSuccessful(view)
             } catch (e: FirebaseFirestoreException) {
-                SnackBars.showDeletingDebtOperationIsFailed(view)
+                SnackBars.showAddingDebtOperationIsFailed(view)
             }
         }
     }

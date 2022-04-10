@@ -78,6 +78,16 @@ object SnackBars {
         }
     }
 
+    fun showAddingDebtOperationCancelled(view: View?) {
+        view?.let {
+            Snackbar.make(
+                view,
+                R.string.borçEklemeİptalEdildi,
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
+
     fun showDeletingDebtOperationIsSuccessful(view: View?) {
         view?.let {
             Snackbar.make(
@@ -88,6 +98,25 @@ object SnackBars {
         }
     }
 
+    fun showAddingDebtOperationIsSuccessful(view: View?) {
+        view?.let {
+            Snackbar.make(
+                view,
+                R.string.borçEklemeBaşarılı,
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    fun showAddingDebtOperationIsFailed(view: View?) {
+        view?.let {
+            Snackbar.make(
+                view,
+                R.string.borçEklemeBaşarısız,
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
     fun showDeletingDebtOperationIsFailed(view: View?) {
         view?.let {
             Snackbar.make(

@@ -83,6 +83,18 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
+    suspend fun deleteDebt(email: String, debtAmount: Double) {
+        withContext(ioDispatcher) {
+            try {
+                residentRef.document(email)
+                    .update("debt", FieldValue.increment(-debtAmount.toLong()))
+                    .await()
+            } catch (e: FirebaseFirestoreException) {
+                Log.e(TAG, "updateDebtAmount ---> $e")
+            }
+        }
+    }
+
     suspend fun saveAdminIntoDB(
         admin: HashMap<String, Any>,
         scope: CoroutineDispatcher = Dispatchers.IO
