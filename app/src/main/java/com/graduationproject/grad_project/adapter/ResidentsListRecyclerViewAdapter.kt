@@ -13,7 +13,9 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.graduationproject.grad_project.R
+import com.graduationproject.grad_project.model.Notification
 import com.graduationproject.grad_project.model.SiteResident
+import com.graduationproject.grad_project.onesignal.OneSignalOperations
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -27,14 +29,14 @@ class ResidentsListRecyclerViewAdapter(private var residents : ArrayList<SiteRes
 
     private val residentRef = db.collection("residents")
     companion object {
-        private val TAG = "ResidentsListRecyclerViewAdapter"
+        private const val TAG = "ResidentsListRecyclerViewAdapter"
     }
 
     class ViewHolder(view : View) : RecyclerView.ViewHolder(view) {
-        val accountName : TextView = itemView.findViewById(R.id.account_name_text_list_item)
-        val block : TextView = itemView.findViewById(R.id.block_no_text_list_item)
-        val flatNo : TextView = itemView.findViewById(R.id.flat_no_add_debt)
-        val debtText : TextView = itemView.findViewById(R.id.deleted_amount_delete_debt)
+        private val accountName : TextView = itemView.findViewById(R.id.account_name_text_list_item)
+        private val block : TextView = itemView.findViewById(R.id.block_no_text_list_item)
+        private val flatNo : TextView = itemView.findViewById(R.id.flat_no_add_debt)
+        private val debtText : TextView = itemView.findViewById(R.id.deleted_amount_delete_debt)
         val menu : ImageView = itemView.findViewById(R.id.more_icon_button)
 
 
@@ -74,7 +76,7 @@ class ResidentsListRecyclerViewAdapter(private var residents : ArrayList<SiteRes
                             residentDebt += debt.text.toString().toDouble()
                             updateDebtInfo(email, residentDebt)
                         }
-                        notifyItemChanged(residentPosition)
+                        notifyItemChanged(residentPosition) // onCreateDialog a ekleyemedim
                         dialog.dismiss()
                     }
                 }
@@ -99,6 +101,10 @@ class ResidentsListRecyclerViewAdapter(private var residents : ArrayList<SiteRes
                                 "date" to Timestamp(Date())
                             )
                             storeMessageIntoDB(message, residentPosition)
+                            val playerID = arrayListOf<String>()
+                            playerID.add(a["player_id"].toString())
+                            val notification = Notification(title.text.toString(), content.text.toString(), "", "", Timestamp(Date()))
+                            OneSignalOperations.postNotification(playerID, notification)
                         }
                         notifyItemChanged(residentPosition)
                         dialog.dismiss()

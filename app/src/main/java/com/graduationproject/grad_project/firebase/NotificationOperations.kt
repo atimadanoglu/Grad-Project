@@ -5,6 +5,7 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import com.graduationproject.grad_project.model.Notification
 import kotlinx.coroutines.CoroutineScope
@@ -53,9 +54,26 @@ object NotificationOperations: FirebaseConstants() {
                         }.addOnFailureListener { exception ->
                             Log.w(TAG, "Announcement write is UNSUCCESSFUL!", exception)
                         }
+                    Log.e(TAG, "saveNotificationIntoResidentDB --> Notification SUCCESSFULLY saved!")
+
                 } catch (e: Exception) {
-                    Log.e(TAG, e.toString())
+                    Log.e(TAG, "saveNotificationIntoResidentDB --> $e")
                 }
+            }
+        }
+    }
+
+    fun saveNotificationForSpecificResident(email: String, notification: Notification) {
+        CoroutineScope(ioDispatcher + coroutineExceptionHandler).launch {
+            try {
+                residentRef.document(email)
+                    .collection("notifications")
+                    .document(notification.id)
+                    .set(notification)
+                    .await()
+                Log.d(TAG, "saveNotificationForSpecificResident --> Notification SUCCESSFULLY saved!")
+            } catch (e: FirebaseFirestoreException) {
+                Log.e(TAG, "saveNotificationForSpecificResident --> $e")
             }
         }
     }

@@ -67,4 +67,63 @@ object SnackBars {
             ).show()
         }
     }
+
+    fun showDeletingDebtOperationCancelled(view: View?) {
+        view?.let {
+            Snackbar.make(
+                view,
+                R.string.borçSilmeİptalEdildi,
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    fun showAddingDebtOperationCancelled(view: View?) {
+        view?.let {
+            Snackbar.make(
+                view,
+                R.string.borçEklemeİptalEdildi,
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    fun showDeletingDebtOperationIsSuccessful(view: View?) {
+        view?.let {
+            Snackbar.make(
+                view,
+                R.string.borçSilmeBaşarılı,
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    fun showAddingDebtOperationIsSuccessful(view: View?) {
+        view?.let {
+            Snackbar.make(
+                view,
+                R.string.borçEklemeBaşarılı,
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    fun showAddingDebtOperationIsFailed(view: View?) {
+        view?.let {
+            Snackbar.make(
+                view,
+                R.string.borçEklemeBaşarısız,
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
+    fun showDeletingDebtOperationIsFailed(view: View?) {
+        view?.let {
+            Snackbar.make(
+                view,
+                R.string.borçSilmeBaşarısız,
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
 }
