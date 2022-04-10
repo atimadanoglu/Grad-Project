@@ -112,15 +112,16 @@ class HomePageAdminActivity : AppCompatActivity(), NavigationView.OnNavigationIt
 
     }
 
+    //TODO
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.sign_out -> {
-                auth.signOut()
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-        }
+//        when(item.itemId) {
+//            R.id.sign_out -> {
+//                auth.signOut()
+//                val intent = Intent(this, LoginActivity::class.java)
+//                startActivity(intent)
+//                finish()
+//            }
+//        }
         return true
     }
 
