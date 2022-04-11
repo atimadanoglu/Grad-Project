@@ -32,6 +32,19 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
+    suspend fun getAdminInSpecificSite(residentInfo: DocumentSnapshot): QuerySnapshot? {
+        return try {
+            val admin = adminRef.whereEqualTo("city", residentInfo["city"])
+                .whereEqualTo("district", residentInfo["district"])
+                .whereEqualTo("siteName", residentInfo["siteName"])
+                .get().await()
+            admin
+        } catch (e: FirebaseFirestoreException) {
+            Log.e(TAG, "getAdminInSpecificSite ---> $e")
+            null
+        }
+    }
+
     suspend fun getResidentsInASpecificSite(adminInfo: DocumentSnapshot): QuerySnapshot? {
         return try {
             residentRef.whereEqualTo("city", adminInfo["city"])
