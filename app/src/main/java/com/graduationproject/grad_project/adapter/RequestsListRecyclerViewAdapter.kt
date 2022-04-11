@@ -12,7 +12,7 @@ import com.graduationproject.grad_project.databinding.RequestsItemBinding
 import com.graduationproject.grad_project.model.Request
 
 class RequestsListRecyclerViewAdapter(
-    private val requests: ArrayList<Request>,
+    private val requests: ArrayList<Request?>,
     private val context: Context
 ): RecyclerView.Adapter<RequestsListRecyclerViewAdapter.RequestViewHolder>() {
 
@@ -22,10 +22,10 @@ class RequestsListRecyclerViewAdapter(
         private var type = binding.itemType.text.toString()
         val menu = binding.moreIconButton
 
-        fun bind(request: Request) {
-            title = request.title
-            content = request.content
-            type = request.type
+        fun bind(request: Request?) {
+            title = request?.title.toString()
+            content = request?.content.toString()
+            type = request?.type.toString()
         }
 
         companion object {

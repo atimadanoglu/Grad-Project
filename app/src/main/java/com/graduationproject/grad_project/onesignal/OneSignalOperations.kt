@@ -4,13 +4,11 @@ import android.util.Log
 import com.graduationproject.grad_project.firebase.UserOperations
 import com.graduationproject.grad_project.model.Notification
 import com.onesignal.OneSignal
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import kotlin.coroutines.CoroutineContext
 
 object OneSignalOperations {
 
@@ -18,22 +16,24 @@ object OneSignalOperations {
         playerIDs: ArrayList<String>,
         notification: Notification
     ) {
-        try {
-            val pushNotificationJsonOneSignal =
-                createJsonObjectForNotification(notification.title, notification.message, playerIDs)
-            OneSignal.postNotification(
-                pushNotificationJsonOneSignal,
-                object : OneSignal.PostNotificationResponseHandler {
-                    override fun onSuccess(response: JSONObject) {
-                        Log.i("OneSignalExample", "postNotification Success: $response")
-                    }
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val pushNotificationJsonOneSignal =
+                    createJsonObjectForNotification(notification.title, notification.message, playerIDs)
+                OneSignal.postNotification(
+                    pushNotificationJsonOneSignal,
+                    object : OneSignal.PostNotificationResponseHandler {
+                        override fun onSuccess(response: JSONObject) {
+                            Log.i("OneSignalExample", "postNotification Success: $response")
+                        }
 
-                    override fun onFailure(response: JSONObject) {
-                        Log.e("OneSignalExample", "postNotification Failure: $response")
-                    }
-                })
-        } catch (e: JSONException) {
-            e.printStackTrace()
+                        override fun onFailure(response: JSONObject) {
+                            Log.e("OneSignalExample", "postNotification Failure: $response")
+                        }
+                    })
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
         }
     }
 

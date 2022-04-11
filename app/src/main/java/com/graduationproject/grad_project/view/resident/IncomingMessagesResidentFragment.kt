@@ -43,6 +43,7 @@ class IncomingMessagesResidentFragment(
                 }
             }
         }
+        viewModel.retrieveAllMessages()
         observeLiveData()
         return view
     }
@@ -61,6 +62,9 @@ class IncomingMessagesResidentFragment(
     private suspend fun deleteMessageButtonClicked(email: String) {
         withContext(ioDispatcher) {
             viewModel.clearMessages(email)
+            withContext(Dispatchers.Main) {
+                viewModel.messages.value?.let { recyclerViewAdapter?.updateMessagesList(it) }
+            }
         }
     }
 
@@ -74,7 +78,9 @@ class IncomingMessagesResidentFragment(
 
     private fun observeLiveData() {
         viewModel.messages.observe(viewLifecycleOwner) { arrayOfMessages ->
-            arrayOfMessages?.let { recyclerViewAdapter?.updateMessagesList(it) }
+            arrayOfMessages?.let {
+                recyclerViewAdapter?.updateMessagesList(it)
+            }
         }
     }
 }

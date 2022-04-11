@@ -135,7 +135,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView5">
 
-                    <AutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/request_type_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -144,7 +144,8 @@
                         android:textColor="@color/primary_color"
                         tools:layout_editor_absoluteX="0dp"
                         tools:layout_editor_absoluteY="75dp"
-                        tools:text="@string/öneri" />
+                        tools:text="@string/öneri"
+                        tools:ignore="LabelFor" />
 
                 </com.google.android.material.textfield.TextInputLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>

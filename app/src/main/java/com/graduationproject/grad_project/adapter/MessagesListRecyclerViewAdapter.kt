@@ -17,10 +17,7 @@ import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.firebase.MessagesOperations
 import com.graduationproject.grad_project.model.Message
 import com.graduationproject.grad_project.view.resident.dialogs.ShowMessageDialogFragment
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class MessagesListRecyclerViewAdapter(
     private val messages: ArrayList<Message>,
@@ -66,7 +63,10 @@ class MessagesListRecyclerViewAdapter(
                                     messages,
                                     position
                                 )
-                            notifyItemChanged(position)
+                            withContext(Dispatchers.Main) {
+                                messages.removeAt(position)
+                                notifyItemRemoved(position)
+                            }
                         }
                         true
                     }
@@ -88,7 +88,16 @@ class MessagesListRecyclerViewAdapter(
     fun updateMessagesList(newMessages: ArrayList<Message>) {
         messages.clear()
         messages.addAll(newMessages)
+        var i = 0
+        messages.forEach { _ ->
+            notifyItemChanged(i)
+            i++
+        }
         notifyDataSetChanged()
+    }
+    fun updateMessagesListForAdding(newMessages: ArrayList<Message>) {
+        messages.add(0, newMessages[0])
+        notifyItemInserted(0)
     }
 
     override fun getItemCount(): Int {

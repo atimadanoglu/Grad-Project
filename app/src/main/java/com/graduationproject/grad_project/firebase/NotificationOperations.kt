@@ -26,16 +26,11 @@ object NotificationOperations: FirebaseConstants() {
         CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
             try {
                 adminRef.document(auth.currentUser?.email.toString())
-                    .collection("announcements")
+                    .collection("notifications")
                     .document(notifications[position].id)
                     .delete()
-                    .addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            Log.d(TAG, "Deleting announcement operation is SUCCESSFUL!")
-                        } else {
-                            Log.w(TAG, "Deleting announcement is UNSUCCESSFUL!")
-                        }
-                    }
+                    .await()
+                Log.d(TAG, "Deleting announcement operation is SUCCESSFUL!")
             } catch (e: Exception) {
                 Log.e(TAG, e.toString())
             }
@@ -54,7 +49,7 @@ object NotificationOperations: FirebaseConstants() {
                         }.addOnFailureListener { exception ->
                             Log.w(TAG, "Announcement write is UNSUCCESSFUL!", exception)
                         }
-                    Log.e(TAG, "saveNotificationIntoResidentDB --> Notification SUCCESSFULLY saved!")
+                    Log.d(TAG, "saveNotificationIntoResidentDB --> Notification SUCCESSFULLY saved!")
 
                 } catch (e: Exception) {
                     Log.e(TAG, "saveNotificationIntoResidentDB --> $e")
