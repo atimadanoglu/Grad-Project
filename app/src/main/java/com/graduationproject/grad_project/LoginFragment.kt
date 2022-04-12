@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.graduationproject.grad_project.databinding.FragmentLoginBinding
-import com.graduationproject.grad_project.firebase.UserOperations
 import com.graduationproject.grad_project.view.admin.HomePageAdminActivity
 import com.graduationproject.grad_project.view.resident.HomePageResidentActivity
 import com.graduationproject.grad_project.viewmodel.LoginViewModel
@@ -30,7 +30,7 @@ class LoginFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        auth.signOut()
+        /*auth.signOut()*/
         if (auth.currentUser != null) {
             viewModel.setIsSignedIn(true)
             viewModel.setEmail(auth.currentUser!!.email.toString())
@@ -69,35 +69,62 @@ class LoginFragment : Fragment() {
         activity?.finish()
     }
 
-    private fun loginButtonClicked(scope: CoroutineDispatcher = Dispatchers.IO) {
+    private fun isEmpty() = binding.TextEmailAddress.text.isEmpty() || binding.TextPassword.text.isEmpty()
+
+    private fun loginButtonClicked(
+        ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+        mainDispatcher: CoroutineDispatcher = Dispatchers.Main
+    ) {
         lifecycleScope.launch {
-            withContext(scope) {
-                viewModel.setPassword(binding.TextPassword.text.toString())
-                viewModel.setEmail(binding.TextEmailAddress.text.toString())
-                val email = async { viewModel.email }
-                val password = async { viewModel.password }
-                viewModel.makeLoginOperation(email.await(), password.await())
+            if (!isEmpty()) {
+                withContext(ioDispatcher) {
+                    viewModel.setPassword(binding.TextPassword.text.toString())
+                    viewModel.setEmail(binding.TextEmailAddress.text.toString())
+                    val email = async { viewModel.email }
+                    val password = async { viewModel.password }
+                    viewModel.makeLoginOperation(email.await(), password.await(), view)
+                }
+                if (viewModel.typeOfUser == "Yönetici" && auth.currentUser != null) {
+                    withContext(mainDispatcher) {
+                        goToAdminHomePageActivity()
+                    }
+                }
+                if (viewModel.typeOfUser == "Sakin"  && auth.currentUser != null) {
+                    withContext(mainDispatcher) {
+                        goToResidentHomePageActivity()
+                    }
+                }
+            } else {
+                view?.let {
+                    Snackbar.make(
+                        it,
+                        R.string.boşluklarıDoldur,
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
             }
-            if (viewModel.typeOfUser == "Yönetici" && auth.currentUser != null) {
-                goToAdminHomePageActivity()
-            }
-            if (viewModel.typeOfUser == "Sakin"  && auth.currentUser != null) {
-                goToResidentHomePageActivity()
-            }
+
         }
     }
 
-    private fun checkIfThereIsAnyUserSignedInAndDirectToPage(scope: CoroutineDispatcher = Dispatchers.IO) {
-       lifecycleScope.launch(scope) {
-           val userType = async(scope) {
+    private fun checkIfThereIsAnyUserSignedInAndDirectToPage(
+        ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+        mainDispatcher: CoroutineDispatcher = Dispatchers.Main
+    ) {
+       lifecycleScope.launch(ioDispatcher) {
+           val userType = async(ioDispatcher) {
                viewModel.takeTheUserType(viewModel.email)
            }
            userType.await()?.let { viewModel.setTypeOfUser(it) }
            if (viewModel.isSignedIn && userType.await() == "Yönetici") {
-               goToAdminHomePageActivity()
+               withContext(mainDispatcher) {
+                   goToAdminHomePageActivity()
+               }
            }
            if (viewModel.isSignedIn && userType.await() == "Sakin") {
-               goToResidentHomePageActivity()
+               withContext(mainDispatcher) {
+                   goToResidentHomePageActivity()
+               }
            }
        }
     }

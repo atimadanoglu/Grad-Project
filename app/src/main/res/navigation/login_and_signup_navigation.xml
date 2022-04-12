@@ -15,10 +15,14 @@
             app:destination="@id/signUpMainFragment" />
         <action
             android:id="@+id/action_loginFragment_to_homePageResidentActivity"
-            app:destination="@id/homePageResidentActivity" />
+            app:destination="@id/homePageResidentActivity"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_loginFragment_to_homePageAdminActivity"
-            app:destination="@id/homePageAdminActivity" />
+            app:destination="@id/homePageAdminActivity"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/signUpMainFragment"
@@ -87,7 +91,9 @@
             app:destination="@id/residentNewAccountFragment" />
         <action
             android:id="@+id/action_residentSiteInformationFragment_to_homePageResidentActivity"
-            app:destination="@id/homePageResidentActivity" />
+            app:destination="@id/homePageResidentActivity"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/adminSiteInformationFragment"
@@ -111,7 +117,9 @@
             app:destination="@id/adminNewAccountFragment" />
         <action
             android:id="@+id/action_adminSiteInformationFragment_to_homePageAdminActivity"
-            app:destination="@id/homePageAdminActivity" />
+            app:destination="@id/homePageAdminActivity"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <activity
         android:id="@+id/homePageResidentActivity"

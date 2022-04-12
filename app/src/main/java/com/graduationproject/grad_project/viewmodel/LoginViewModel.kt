@@ -1,5 +1,6 @@
 package com.graduationproject.grad_project.viewmodel
 
+import android.view.View
 import androidx.lifecycle.ViewModel
 import com.graduationproject.grad_project.firebase.UserOperations
 import kotlinx.coroutines.*
@@ -26,10 +27,11 @@ class LoginViewModel: ViewModel() {
     suspend fun makeLoginOperation(
         email: String,
         password: String,
+        view: View?,
         scope: CoroutineDispatcher = Dispatchers.IO
     ): String {
         return withContext(scope) {
-            UserOperations.loginWithEmailAndPassword(email, password)
+            UserOperations.loginWithEmailAndPassword(email, password, view)
             takeTheUserType(email)
             typeOfUser
         }

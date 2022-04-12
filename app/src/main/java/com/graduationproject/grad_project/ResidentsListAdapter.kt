@@ -60,6 +60,7 @@ class ResidentsListAdapter(
                     R.id.add_debt -> {
                         val addDebt = resident?.let { AddingDebtDialogFragment(it) }
                         addDebt?.show(fragmentManager, "addDebtDialog")
+                        notifyItemChanged(position)
                         true
                     }
                     R.id.send_message -> {
@@ -70,6 +71,7 @@ class ResidentsListAdapter(
                     R.id.delete_debt -> {
                         val deleteDebt = resident?.let { DeletingDebtDialogFragment(it) }
                         deleteDebt?.show(fragmentManager, "deleteDebtDialog")
+                        notifyItemChanged(position)
                         true
                     }
                     else -> false
