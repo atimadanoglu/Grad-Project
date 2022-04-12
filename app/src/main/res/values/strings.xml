@@ -139,6 +139,8 @@
 
     <string name="öneri">Öneri</string>
     <string name="talepGöster">Talep Bilgisi</string>
+    <string name="bildirimler">Bildirimler</string>
+    <string name="çizgi">-</string>
 
     <string-array name="type_list">
         <item>Öneri</item>
