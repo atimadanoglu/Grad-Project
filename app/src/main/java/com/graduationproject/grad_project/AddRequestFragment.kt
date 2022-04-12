@@ -7,16 +7,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.graduationproject.grad_project.databinding.FragmentAddRequestBinding
 import com.graduationproject.grad_project.viewmodel.dialogs.AddRequestViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
-class AddRequestFragment : Fragment() {
+class AddRequestFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private var _binding: FragmentAddRequestBinding? = null
     private val binding get() = _binding!!
@@ -38,24 +40,20 @@ class AddRequestFragment : Fragment() {
         return binding.root
     }
 
-    private suspend fun sendRequestButtonClicked() {
+    private suspend fun sendRequestButtonClicked(
+        ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    ) {
        try {
-           viewModel.setTitle(binding.titleInput.text.toString())
-           binding.requestTypeText.setOnItemClickListener { adapterView, view, i, l ->
-               when (adapterView.selectedItemId.toInt()) {
-                   adapterView[0].id -> {
-                       viewModel.setType(adapterView[0].toString())
-                       println(adapterView[0].toString())
-                   }
-                   adapterView[1].id -> {
-                       viewModel.setType(adapterView[1].toString())
-                       println(adapterView[1].toString())
-                   }
-               }
+           if (!isEmpty()) {
+               viewModel.setTitle(binding.titleInput.text.toString())
+               viewModel.setContent(binding.contentInput.text.toString())
+               CoroutineScope(ioDispatcher).launch {
+                   viewModel.shareRequestWithAdmin()
+               }.join()
+               goBackToRequests()
+           } else {
+               showSpacesAreEmptySnackBar()
            }
-           viewModel.setContent(binding.contentInput.text.toString())
-           viewModel.shareRequestWithAdmin()
-           goBackToRequests()
        } catch (e: Exception) {
            Log.e(TAG, "sendRequestButtonClicked ---> $e")
        }
@@ -69,13 +67,36 @@ class AddRequestFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         val typeList = resources.getStringArray(R.array.type_list)
-        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.request_dropdown_item, typeList)
+        val arrayAdapter =
+            this.context?.let { ArrayAdapter(it, R.layout.request_dropdown_item, typeList) }
         binding.requestTypeText.inputType = InputType.TYPE_NULL
         binding.requestTypeText.setAdapter(arrayAdapter)
+        binding.requestTypeText.onItemSelectedListener = this
     }
+
+    private fun showSpacesAreEmptySnackBar() {
+        view?.let {
+            Snackbar.make(
+                it,
+                R.string.boşluklarıDoldur,
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
+    private fun isEmpty() = binding.titleInput.text.isNullOrEmpty() || binding.contentInput.text.isNullOrEmpty()
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+        println("seçiton")
+        println(p0?.getItemAtPosition(p2).toString())
+        viewModel.setContent(p0?.getItemAtPosition(p2).toString())
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+        println("birşey seçmedin")
     }
 }
