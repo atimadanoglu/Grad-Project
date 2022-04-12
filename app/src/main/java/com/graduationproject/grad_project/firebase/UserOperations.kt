@@ -1,6 +1,8 @@
 package com.graduationproject.grad_project.firebase
 
 import android.util.Log
+import android.view.View
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.ktx.userProfileChangeRequest
@@ -137,14 +139,26 @@ object UserOperations: FirebaseConstants() {
     suspend fun loginWithEmailAndPassword(
         email: String,
         password: String,
+        view: View?,
         scope: CoroutineDispatcher = Dispatchers.IO
     ): AuthResult? {
         return withContext(scope) {
             try {
                 var data: AuthResult? = null
                 if (auth.currentUser == null) {
-                    data = auth.signInWithEmailAndPassword(email, password).await().also {
-                        Log.d(TAG, "loginWithEmailAndPassword --> $it")
+                    try {
+                        data = auth.signInWithEmailAndPassword(email, password).await().also {
+                            Log.d(TAG, "loginWithEmailAndPassword --> $it")
+                        }
+                    } catch (e: FirebaseAuthException) {
+                        view?.let {
+                            Snackbar.make(
+                                it,
+                                e.message.toString(),
+                                Snackbar.LENGTH_LONG
+                            ).show()
+                        }
+
                     }
                 }
                 data
