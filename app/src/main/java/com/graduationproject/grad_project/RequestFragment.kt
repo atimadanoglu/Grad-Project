@@ -33,9 +33,10 @@ class RequestFragment: Fragment() {
             viewModel.retrieveRequests()
             binding.requestsRecyclerview.layoutManager = LinearLayoutManager(this@RequestFragment.context)
             requestsAdapter =
-                context?.let { viewModel.requests.value?.let { it1 ->
+                context?.let { context ->
+                    viewModel.requests.value?.let { requests ->
                     RequestsListRecyclerViewAdapter(
-                        it1, it)
+                        requests, parentFragmentManager, context)
                 } }
             binding.requestsRecyclerview.adapter = requestsAdapter
             requestsAdapter?.submitList(viewModel.requests.value)

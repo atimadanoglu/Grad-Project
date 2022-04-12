@@ -6,6 +6,7 @@ import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,9 +14,12 @@ import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.RequestsDiff
 import com.graduationproject.grad_project.databinding.RequestsItemBinding
 import com.graduationproject.grad_project.model.Request
+import com.graduationproject.grad_project.view.resident.dialogs.ShowRequestInfoResidentDialogFragment
+import com.graduationproject.grad_project.viewmodel.dialogs.ShowRequestInfoResidentDialogViewModel
 
 class RequestsListRecyclerViewAdapter(
     private var requests: ArrayList<Request?>,
+    private val fragmentManager: FragmentManager,
     private val context: Context
 ): ListAdapter<Request, RequestsListRecyclerViewAdapter.RequestViewHolder>(RequestsDiff()) {
 
@@ -54,10 +58,12 @@ class RequestsListRecyclerViewAdapter(
             val popUpMenu = createPopUpMenu(view)
             popUpMenu.setOnMenuItemClickListener { menuItem ->
                 when(menuItem.itemId) {
-                    R.id.titleOfRequest -> {
+                    R.id.requestInfo -> {
+                        val showRequest = ShowRequestInfoResidentDialogFragment(request)
+                        showRequest.show(fragmentManager, "showRequestDialog")
                         true
                     }
-                    R.id.contentOfRequest -> {
+                    R.id.deleteRequest -> {
                         true
                     }
                     else -> false
