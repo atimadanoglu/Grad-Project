@@ -72,9 +72,6 @@ class ResidentsListFragment(
                     context
                 )
             }
-        println("bağladım")
-        /*println("toplam kişi . ${
-            residentsListAdapter?.itemCount}")*/
         binding.recyclerview.adapter = residentsListAdapter
     }
 

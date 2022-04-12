@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.graduationproject.grad_project.firebase.MessagesOperations
 import com.graduationproject.grad_project.firebase.NotificationOperations
 import com.graduationproject.grad_project.firebase.UserOperations
@@ -26,6 +29,33 @@ class IncomingMessagesResidentViewModel(
             withContext(uiDispatcher) {
                 _messages.value = allMessages.await()
             }
+        }
+    }
+
+    fun retrieveAllMessages() {
+        val db = FirebaseFirestore.getInstance()
+        val auth = FirebaseAuth.getInstance()
+        auth.currentUser?.email?.let {
+            db.collection("residents")
+                .document(it)
+                .collection("messages")
+                .addSnapshotListener { value, error ->
+                    if (error != null) {
+                        return@addSnapshotListener
+                    }
+                    value?.let { querySnapshot ->
+                        for (document in querySnapshot) {
+                            _messages.value?.add(
+                                Message(
+                                    document["title"].toString(),
+                                    document["content"].toString(),
+                                    document["id"].toString(),
+                                    document["date"] as Timestamp
+                                )
+                            )
+                        }
+                    }
+                }
         }
     }
 
