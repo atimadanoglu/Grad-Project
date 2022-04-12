@@ -93,7 +93,7 @@ class MessagesListRecyclerViewAdapter(
             notifyItemChanged(i)
             i++
         }
-        notifyDataSetChanged()
+        /*notifyDataSetChanged()*/
     }
     fun updateMessagesListForAdding(newMessages: ArrayList<Message>) {
         messages.add(0, newMessages[0])

@@ -6,26 +6,31 @@ import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.graduationproject.grad_project.R
+import com.graduationproject.grad_project.RequestsDiff
 import com.graduationproject.grad_project.databinding.RequestsItemBinding
 import com.graduationproject.grad_project.model.Request
 
 class RequestsListRecyclerViewAdapter(
-    private val requests: ArrayList<Request?>,
+    private var requests: ArrayList<Request?>,
     private val context: Context
-): RecyclerView.Adapter<RequestsListRecyclerViewAdapter.RequestViewHolder>() {
+): ListAdapter<Request, RequestsListRecyclerViewAdapter.RequestViewHolder>(RequestsDiff()) {
 
     class RequestViewHolder(val binding: RequestsItemBinding): RecyclerView.ViewHolder(binding.root) {
-        private var title = binding.titleOfRequest.text.toString()
-        private var content = binding.contentOfRequest.text.toString()
-        private var type = binding.itemType.text.toString()
+        private var title = binding.titleOfRequest
+        private var content = binding.contentOfRequest
+        private var type = binding.itemType
         val menu = binding.moreIconButton
 
         fun bind(request: Request?) {
-            title = request?.title.toString()
-            content = request?.content.toString()
-            type = request?.type.toString()
+            request?.let {
+                title.text = request.title
+                content.text = request.content
+                type.text = request.type
+            }
         }
 
         companion object {
@@ -43,7 +48,7 @@ class RequestsListRecyclerViewAdapter(
 
 
     override fun onBindViewHolder(holder: RequestViewHolder, position: Int) {
-        val request = requests[position]
+        val request = getItem(position)
         holder.bind(request)
         holder.menu.setOnClickListener { view ->
             val popUpMenu = createPopUpMenu(view)
@@ -59,10 +64,6 @@ class RequestsListRecyclerViewAdapter(
                 }
             }
         }
-    }
-
-    override fun getItemCount(): Int {
-        return requests.count()
     }
 
     private fun createPopUpMenu(view: View): PopupMenu {

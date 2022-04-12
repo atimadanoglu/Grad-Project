@@ -29,14 +29,18 @@ class RequestsViewModel(
     private val _requests = MutableLiveData<ArrayList<Request?>>(arrayListOf())
     val requests: MutableLiveData<ArrayList<Request?>> get() = _requests
 
-    fun retrieveRequests(email: String) {
-        viewModelScope.launch(ioDispatcher) {
-            val requests = RequestsOperations.getRequestsOfResidentsThemselves(email)
+    suspend fun retrieveRequests(auth: FirebaseAuth = FirebaseAuth.getInstance()) {
+        withContext(ioDispatcher) {
+            val email = async {
+                auth.currentUser?.email.toString()
+            }
+            val requests = async {
+                RequestsOperations.getRequestsOfResidentsThemselves(email.await())
+            }
             withContext(mainDispatcher) {
-                if (requests.isNotEmpty() && !requests.contains(null))
-                    _requests.postValue(requests)
+                if (requests.await().isNotEmpty() && !requests.await().contains(null))
+                    _requests.postValue(requests.await())
             }
         }
     }
-
 }

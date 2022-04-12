@@ -13,14 +13,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.graduationproject.grad_project.adapter.RequestsListRecyclerViewAdapter
 import com.graduationproject.grad_project.databinding.FragmentRequestBinding
 import com.graduationproject.grad_project.viewmodel.RequestsViewModel
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
-class RequestFragment(
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
-    private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
-) : Fragment() {
+class RequestFragment: Fragment() {
 
     private var _binding: FragmentRequestBinding? = null
     private val binding get() = _binding!!
@@ -34,35 +29,30 @@ class RequestFragment(
         // Inflate the layout for this fragment
         _binding = FragmentRequestBinding.inflate(inflater, container, false)
         val view = binding.root
-        listItems()
-        viewModel.requests.observe(viewLifecycleOwner) {
-
+        lifecycleScope.launch {
+            viewModel.retrieveRequests()
+            binding.requestsRecyclerview.layoutManager = LinearLayoutManager(this@RequestFragment.context)
+            requestsAdapter =
+                context?.let { viewModel.requests.value?.let { it1 ->
+                    RequestsListRecyclerViewAdapter(
+                        it1, it)
+                } }
+            binding.requestsRecyclerview.adapter = requestsAdapter
+            requestsAdapter?.submitList(viewModel.requests.value)
         }
+
+        viewModel.requests.observe(viewLifecycleOwner) {
+            requestsAdapter?.submitList(it)
+        }
+
         binding.floatingActionButton.setOnClickListener {
             openAddRequestDialogFragment()
         }
-        binding.requestsRecyclerview.layoutManager = LinearLayoutManager(this.context)
-        requestsAdapter = viewModel.requests.value?.let { requests ->
-            context?.let { context ->
-                RequestsListRecyclerViewAdapter(
-                    requests,
-                    context
-                )
-            }
-        }
-        binding.requestsRecyclerview.adapter = requestsAdapter
         return view
     }
 
     private fun openAddRequestDialogFragment() {
         val action = RequestFragmentDirections.actionRequestFragmentToAddRequestFragment()
         findNavController().navigate(action)
-    }
-
-    private fun listItems() {
-        lifecycleScope.launch(ioDispatcher) {
-            val email = FirebaseAuth.getInstance().currentUser?.email.toString()
-            viewModel.retrieveRequests(email)
-        }
     }
 }

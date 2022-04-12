@@ -3,6 +3,7 @@ package com.graduationproject.grad_project.firebase
 import android.util.Log
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.graduationproject.grad_project.model.Request
 import kotlinx.coroutines.CoroutineScope
@@ -110,6 +111,7 @@ object RequestsOperations: FirebaseConstants() {
                 val requests = arrayListOf<Request?>()
                 val querySnapshot = residentRef.document(email)
                     .collection("requests")
+                    .orderBy("date", Query.Direction.DESCENDING)
                     .get()
                     .await()
                 querySnapshot.documents.forEach {
