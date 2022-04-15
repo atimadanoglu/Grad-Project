@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.graduationproject.grad_project.databinding.ActivityLoginBinding
+import com.graduationproject.grad_project.firebase.UserOperations
 import com.graduationproject.grad_project.view.admin.HomePageAdminActivity
 import com.graduationproject.grad_project.view.resident.HomePageResidentActivity
 import kotlinx.coroutines.Dispatchers
@@ -100,9 +101,7 @@ class LoginActivity : AppCompatActivity() {
     // Check whether user is an admin or a resident
     // According to that, direct the users their page
     private fun checkUserType() {
-
         myAuth.signOut()
-
         val currentUser = myAuth.currentUser
         if (currentUser != null) {
             lifecycleScope.launch {
@@ -144,8 +143,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private suspend fun loginButtonClicked() {
-        val email = "asd"
-        //val email = binding.TextEmailAddress.text.toString()
+
+        val email = binding.TextEmailAddress.text.toString()
         val password = binding.TextPassword.text.toString()
 
         if (email.isBlank() || password.isBlank()) {

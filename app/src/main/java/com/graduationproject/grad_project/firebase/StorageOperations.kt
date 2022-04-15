@@ -11,23 +11,24 @@ object StorageOperations: FirebaseConstants() {
 
     private const val TAG = "StorageOperations"
 
-    suspend fun uploadImage(view: View, selectedPicture: Uri?) {
+    suspend fun uploadImage(selectedPicture: Uri?): Boolean {
         val uuid = UUID.randomUUID()
         val imageName = "$uuid.jpeg"
         val imageReference = storageRef.child("announcementDocuments").child(imageName)
 
         if (selectedPicture != null) {
-            try {
+            return try {
                 imageReference.putFile(selectedPicture).addOnSuccessListener {
                     Log.d(TAG, "Images successfully uploaded!")
-                    Snackbar.make(view, "Fotoğraf başarıyla yüklendi", Snackbar.LENGTH_LONG).show()
                 }.addOnFailureListener {
-                    Log.w(TAG, it.localizedMessage, it)
-                    Snackbar.make(view, "Fotoğraf yükleme başarısız!", Snackbar.LENGTH_LONG).show()
+                    Log.e(TAG, it.toString())
                 }.await()
+                true
             } catch (e: Exception) {
                 Log.e(TAG, e.toString())
+                false
             }
         }
+        return false
     }
 }

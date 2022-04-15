@@ -88,17 +88,9 @@ class MessagesListRecyclerViewAdapter(
     fun updateMessagesList(newMessages: ArrayList<Message>) {
         messages.clear()
         messages.addAll(newMessages)
-        var i = 0
-        messages.forEach { _ ->
-            notifyItemChanged(i)
-            i++
-        }
-        /*notifyDataSetChanged()*/
+        notifyDataSetChanged()
     }
-    fun updateMessagesListForAdding(newMessages: ArrayList<Message>) {
-        messages.add(0, newMessages[0])
-        notifyItemInserted(0)
-    }
+
 
     override fun getItemCount(): Int {
         return messages.count()

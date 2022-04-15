@@ -32,33 +32,6 @@ class IncomingMessagesResidentViewModel(
         }
     }
 
-    fun retrieveAllMessages() {
-        val db = FirebaseFirestore.getInstance()
-        val auth = FirebaseAuth.getInstance()
-        auth.currentUser?.email?.let {
-            db.collection("residents")
-                .document(it)
-                .collection("messages")
-                .addSnapshotListener { value, error ->
-                    if (error != null) {
-                        return@addSnapshotListener
-                    }
-                    value?.let { querySnapshot ->
-                        for (document in querySnapshot) {
-                            _messages.value?.add(
-                                Message(
-                                    document["title"].toString(),
-                                    document["content"].toString(),
-                                    document["id"].toString(),
-                                    document["date"] as Timestamp
-                                )
-                            )
-                        }
-                    }
-                }
-        }
-    }
-
     fun clearMessages(email: String) {
         viewModelScope.launch(ioDispatcher) {
             MessagesOperations.deleteAllMessages(email)
