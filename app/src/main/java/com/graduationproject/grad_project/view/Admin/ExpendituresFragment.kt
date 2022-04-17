@@ -1,19 +1,26 @@
 package com.graduationproject.grad_project.view.admin
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.graduationproject.grad_project.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.graduationproject.grad_project.adapter.ExpendituresListAdapter
 import com.graduationproject.grad_project.databinding.FragmentExpendituresBinding
+import com.graduationproject.grad_project.viewmodel.ExpendituresViewModel
 
 
 class ExpendituresFragment : Fragment() {
 
     private var _binding: FragmentExpendituresBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: ExpendituresViewModel by viewModels()
+    private val adapter: ExpendituresListAdapter by lazy {
+        ExpendituresListAdapter()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,8 +28,17 @@ class ExpendituresFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentExpendituresBinding.inflate(inflater, container, false)
+        viewModel.getExpenditures()
         binding.addExpendituresButton.setOnClickListener {
             goToAddExpendituresFragmentButton()
+        }
+        binding.expendituresRecyclerview.layoutManager = LinearLayoutManager(this.context)
+        binding.expendituresRecyclerview.adapter = adapter
+        binding.lifecycleOwner = viewLifecycleOwner
+        viewModel.expenditures.observe(viewLifecycleOwner) { arraylist ->
+            arraylist?.let {
+                adapter.submitList(it)
+            }
         }
         return binding.root
     }
@@ -31,5 +47,4 @@ class ExpendituresFragment : Fragment() {
         val action = ExpendituresFragmentDirections.actionExpendituresFragmentToAddExpendituresFragment()
         findNavController().navigate(action)
     }
-
 }

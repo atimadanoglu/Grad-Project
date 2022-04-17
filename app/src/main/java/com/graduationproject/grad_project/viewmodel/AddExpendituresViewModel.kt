@@ -14,7 +14,6 @@ import com.graduationproject.grad_project.firebase.UserOperations
 import com.graduationproject.grad_project.model.Expenditure
 import com.graduationproject.grad_project.model.Notification
 import com.graduationproject.grad_project.onesignal.OneSignalOperations
-import com.onesignal.OneSignal
 import kotlinx.coroutines.*
 import java.util.*
 
@@ -34,8 +33,6 @@ class AddExpendituresViewModel(
     val amount: LiveData<Int> get() = _amount
     private val _uri = MutableLiveData<Uri>()
     val uri: LiveData<Uri> get() = _uri
-    private val _expenditure = MutableLiveData<Expenditure>()
-    val expenditure: LiveData<Expenditure> get() = _expenditure
     fun uploadDocument(uri: Uri) {
         viewModelScope.launch {
             _uri.value = uri
@@ -94,7 +91,7 @@ class AddExpendituresViewModel(
             _content.value.toString(),
             _uri.value.toString(),
             uuid.toString(),
-            Timestamp.now()
+            Timestamp(Date())
         )
         OneSignalOperations.postNotification(ids, notification)
     }
@@ -118,7 +115,8 @@ class AddExpendituresViewModel(
                     _title.value.toString(),
                     _content.value.toString(),
                     _amount.value?.toInt()!!,
-                    _uri.value.toString()
+                    _uri.value.toString(),
+                    Timestamp(Date())
                 )
             }
         } catch (e: Exception) {

@@ -3,8 +3,6 @@ package com.graduationproject.grad_project.firebase
 import android.util.Log
 import com.google.firebase.FirebaseException
 import com.google.firebase.Timestamp
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import com.graduationproject.grad_project.model.Notification

@@ -30,7 +30,7 @@ class LoginFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        auth.signOut()
+        /*auth.signOut()*/
         if (auth.currentUser != null) {
             viewModel.setIsSignedIn(true)
             viewModel.setEmail(auth.currentUser!!.email.toString())
