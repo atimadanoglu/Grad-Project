@@ -61,7 +61,7 @@ class AddAnnouncementFragment : Fragment() {
                 shareAnnouncementButtonClicked(view)
             }
         }
-        binding.selectPicture.setOnClickListener { selectImageButtonClicked(view) }
+//        binding.selectPicture.setOnClickListener { selectImageButtonClicked(view) }
         binding.backButtonToAnnouncement.setOnClickListener { goToPreviousPage() }
         return view
     }

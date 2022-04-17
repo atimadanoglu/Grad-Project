@@ -66,13 +66,22 @@
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayoutContent"
                 tools:ignore="TouchTargetSizeCheck" />
 
-            <ImageView
-                android:id="@+id/selectPicture"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
+            <TextView
+                android:id="@+id/takePhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="57dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginStart="20dp"
-                android:contentDescription="@string/todo"
-                android:src="@drawable/photo_icon"
+                android:background="@drawable/textview_box"
+                android:backgroundTint="#878585"
+                android:drawablePadding="6dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/belge_ekle"
+                android:textAlignment="center"
+                android:textColor="@color/primary_color"
+                android:textSize="14sp"
+                app:drawableStartCompat="@drawable/attach_file_icon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayoutContent" />
 
