@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="125dp"
     android:orientation="horizontal"
-    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp"
     android:background="@drawable/recycleview_background">
 
     <LinearLayout
@@ -17,7 +17,6 @@
             android:layout_height="40dp"
             android:hint="@string/konu"
             android:textSize="22sp"
-            android:paddingTop="15dp"
             android:textColor="@color/primary_color"
             android:textColorHint="@color/primary_color"
             android:fontFamily="@font/titillium_web_bold"
@@ -49,6 +48,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/turu"
                 android:textSize="16sp"
+                android:gravity="center_vertical"
                 android:background="@drawable/back_green_button"
                 android:textColorHint="@color/primary_color"
                 android:fontFamily="@font/titillium_web"
