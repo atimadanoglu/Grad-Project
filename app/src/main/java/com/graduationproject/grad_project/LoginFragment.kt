@@ -69,7 +69,7 @@ class LoginFragment : Fragment() {
         activity?.finish()
     }
 
-    private fun isEmpty() = binding.TextEmailAddress.text.isEmpty() || binding.TextPassword.text.isEmpty()
+    private fun isEmpty() = binding.TextEmailAddress.text!!.isEmpty() || binding.TextPassword.text.isEmpty()
 
     private fun loginButtonClicked(
         ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
