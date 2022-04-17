@@ -134,13 +134,18 @@
     <string name="aa_yy">AA/YY</string>
     <string name="cvc">CVC</string>
     <string name="terms"><b>Şartları ve Koşulları</b> okudum,kabul ediyorum.</string>
-    <string name="onayla">Onayla</string>
     <string name="odeme_yap">Ödeme yap</string>
 
     <string name="öneri">Öneri</string>
     <string name="talepGöster">Talep Bilgisi</string>
     <string name="bildirimler">Bildirimler</string>
     <string name="çizgi">-</string>
+    <string name="sure">Süre</string>
+    <string name="belge_ekle">Belge ekle</string>
+    <string name="onayla">Onayla</string>
+    <string name="reddet">Reddet</string>
+    <string name="durations">Durations:</string>
+    <string name="_16_s">16(s)</string>
 
     <string-array name="type_list">
         <item>Öneri</item>

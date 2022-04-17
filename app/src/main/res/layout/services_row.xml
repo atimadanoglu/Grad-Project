@@ -31,7 +31,6 @@
                 android:layout_height="40dp"
                 android:hint="@string/title"
                 android:textSize="22sp"
-                android:paddingTop="15dp"
                 android:textColor="@color/primary_color"
                 android:textColorHint="@color/primary_color"
                 android:fontFamily="@font/titillium_web_bold"
