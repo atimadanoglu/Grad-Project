@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.graduationproject.grad_project.R
@@ -51,11 +51,16 @@ class AnnouncementRecyclerViewAdapter(private val announcements : ArrayList<Anno
                 when (menuItem.itemId) {
                     R.id.announcementInfo -> {
                         val showAnnouncementLayout = LayoutInflater.from(view.context).inflate(R.layout.fragment_showing_announcement_dialog, null)
-                        showAnnouncement(showAnnouncementLayout, position)
-                        AlertDialog.Builder(view.context)
+                        /*showAnnouncement(showAnnouncementLayout, position)*/
+                        MaterialAlertDialogBuilder(context)
+                            .setTitle(announcements[position].title)
+                            .setMessage(announcements[position].message)
+                            .setPositiveButton("Tamam") { _,_ ->
+                            }.create().show()
+                       /* AlertDialog.Builder(view.context)
                             .setView(showAnnouncementLayout)
                             .setPositiveButton("Tamam") { dialog, _ ->
-                            }.create().show()
+                            }.create().show()*/
                         true
                     }
                     R.id.deleteAnnouncement -> {
@@ -63,7 +68,9 @@ class AnnouncementRecyclerViewAdapter(private val announcements : ArrayList<Anno
                             .collection("announcements")
                             .document(announcements[position].id)
                             .delete()
-                        notifyItemChanged(position)
+                        announcements.removeAt(position)
+                        notifyItemRemoved(position)
+                        notifyItemRangeChanged(position, announcements.size)
                         true
                     }
                     else -> false

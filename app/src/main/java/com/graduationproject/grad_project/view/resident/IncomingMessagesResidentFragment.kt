@@ -43,13 +43,7 @@ class IncomingMessagesResidentFragment(
                 }
             }
         }
-        viewModel.retrieveAllMessages()
         observeLiveData()
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         auth.currentUser?.email?.let { email ->
             viewModel.retrieveMessages(email)
         }
@@ -57,6 +51,7 @@ class IncomingMessagesResidentFragment(
             adaptThisFragmentWithRecyclerView(value)
         }
         viewModel.messages.value?.let { recyclerViewAdapter?.updateMessagesList(it) }
+        return view
     }
 
     private suspend fun deleteMessageButtonClicked(email: String) {

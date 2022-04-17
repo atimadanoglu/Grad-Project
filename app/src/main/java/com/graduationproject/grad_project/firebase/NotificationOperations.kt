@@ -29,10 +29,11 @@ object NotificationOperations: FirebaseConstants() {
                     .collection("notifications")
                     .document(notifications[position].id)
                     .delete()
-                    .await()
-                Log.d(TAG, "Deleting announcement operation is SUCCESSFUL!")
+                    .await().also {
+                        Log.d(TAG, "Deleting announcement operation is SUCCESSFUL!")
+                    }
             } catch (e: Exception) {
-                Log.e(TAG, e.toString())
+                Log.e(TAG, "deleteNotificationInAPosition ---> $e")
             }
         }
     }

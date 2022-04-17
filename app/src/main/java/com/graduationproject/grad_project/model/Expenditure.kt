@@ -1,5 +1,9 @@
 package com.graduationproject.grad_project.model
 
-class Expenditure {
-
-}
+data class Expenditure(
+    val id: String,
+    val title: String,
+    val content: String,
+    val amount: Int,
+    val documentUri: String
+)

@@ -47,7 +47,7 @@ class AddAnnouncementViewModel: ViewModel() {
         AnnouncementOperations.saveAnnouncementIntoDB(email, notification.id, notification)
         AnnouncementOperations.shareAnnouncementWithResidents(notification)
 
-        StorageOperations.uploadImage(view, selectedPicture)
+        StorageOperations.uploadImage(selectedPicture)
 
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
             val playerIDs = OneSignalOperations.takePlayerIDs(email)

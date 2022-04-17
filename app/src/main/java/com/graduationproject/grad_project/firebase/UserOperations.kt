@@ -10,6 +10,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
+import com.graduationproject.grad_project.model.Expenditure
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 
@@ -208,6 +209,30 @@ object UserOperations: FirebaseConstants() {
             } catch (e: Exception) {
                 Log.e(TAG, "isResident --> $e")
                 isResident
+            }
+        }
+    }
+
+    suspend fun saveExpenditure(email: String, expenditure: Expenditure) {
+        try {
+            adminRef.document(email)
+                .collection("expenditures")
+                .document(expenditure.id)
+                .set(expenditure)
+                .await()
+        } catch (e: Exception) {
+            Log.e(TAG, "saveExpenditure --> $e")
+        }
+    }
+
+    suspend fun updateExpenditureAmount(email: String, expenditure: Expenditure) {
+        CoroutineScope(ioDispatcher).launch {
+            try {
+                adminRef.document(email)
+                    .update("expendituresAmount", FieldValue.increment(expenditure.amount.toLong()))
+                    .await()
+            } catch (e: Exception) {
+                Log.e(TAG, "updateExpenditureAmount --> $e")
             }
         }
     }
