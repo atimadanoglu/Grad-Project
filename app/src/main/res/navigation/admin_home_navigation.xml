@@ -21,7 +21,11 @@
     <fragment
         android:id="@+id/expendituresFragment"
         android:name="com.graduationproject.grad_project.view.admin.ExpendituresFragment"
-        android:label="ExpendituresFragment" />
+        android:label="ExpendituresFragment" >
+        <action
+            android:id="@+id/action_expendituresFragment_to_addExpendituresFragment"
+            app:destination="@id/addExpendituresFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addAnnouncementFragment"
         android:name="com.graduationproject.grad_project.view.admin.AddAnnouncementFragment"
@@ -69,4 +73,12 @@
         android:id="@+id/residentsListFragment"
         android:name="com.graduationproject.grad_project.ResidentsListFragment"
         android:label="ResidentsListFragment" />
+    <fragment
+        android:id="@+id/addExpendituresFragment"
+        android:name="com.graduationproject.grad_project.view.admin.AddExpendituresFragment"
+        android:label="AddExpendituresFragment" >
+        <action
+            android:id="@+id/action_addExpendituresFragment_to_expendituresFragment"
+            app:destination="@id/expendituresFragment" />
+    </fragment>
 </navigation>

@@ -3,29 +3,22 @@ package com.graduationproject.grad_project.view.admin
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
-import android.view.WindowManager
-import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.gms.tasks.Task
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.ActivityHomePageAdminBinding
 import com.graduationproject.grad_project.databinding.DrawerHeaderBinding
 import com.graduationproject.grad_project.view.LoginActivity
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 
-class HomePageAdminActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class HomePageAdminActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityHomePageAdminBinding
     private lateinit var db : FirebaseFirestore
@@ -47,20 +40,31 @@ class HomePageAdminActivity : AppCompatActivity(), NavigationView.OnNavigationIt
         auth = FirebaseAuth.getInstance()
         adminReference = db.collection("administrators")
         // To show toggle icon on actionBar
-        makeToggle()
-        supportActionBar?.setDisplayHomeAsUpEnabled(true) // to display icon on action bar
+       /* makeToggle()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true) // to display icon on action bar*/
+
 
         // Switching fragments from bottom navigation
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.mainFragmentContainerView) as NavHostFragment
+            binding.mainFragmentContainerView.getFragment() as NavHostFragment
         val navController = navHostFragment.navController
         binding.bottomNavigation.setupWithNavController(navController)
+        binding.navigationView.setupWithNavController(navController)
+        /*binding.navigationView.setNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.sign_out -> {
+                    auth.signOut()
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                    true
+                }
+                R.id.notificationsAdminFragment -> true
+                else -> true
+            }
+        }*/
 
-        retrieveAndUpdateHeaderInfoFromDB()
-        // Initialized navigation view
-        val navigationView: NavigationView = findViewById(R.id.navigation_view)
-        // Used implements OnNavigationItemSelectedListener(), it gave us onNavigationItemSelected(item: MenuItem) method
-        navigationView.setNavigationItemSelectedListener(this)
+        auth.currentUser?.let { setHeader(it) }
     }
 
     private fun makeToggle() {
@@ -74,46 +78,33 @@ class HomePageAdminActivity : AppCompatActivity(), NavigationView.OnNavigationIt
         toggle.syncState()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // it enables toggle button
-        if (toggle.onOptionsItemSelected(item)) {
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    // Retrieve fullName, user type and email from db
-    private fun retrieveAndUpdateHeaderInfoFromDB() {
-        // if you don't do this operation, you will get a NPE
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            setHeader()
-        }
-    }
-
-    private fun setHeader() {
+    private fun setHeader(currentUser: FirebaseUser) {
         val header = binding.navigationView.getHeaderView(0)
+        val drawerHeaderBinding = DrawerHeaderBinding.bind(header)
 
-        // You need to take header as a reference, otherwise it won't work
-        val headerAccountName: TextView? = header.findViewById(R.id.headerAccountName)
-        val headerAccountType: TextView? = header.findViewById(R.id.headerAccountType)
-        val headerEmailAddress: TextView? = header.findViewById(R.id.headerEmailAddress)
-        auth.currentUser.also {
-            if (it != null) {
-                if (headerAccountName != null) {
-                    headerAccountName.text = it.displayName
-                }
-                headerAccountType?.setText(R.string.yönetici)
-                if (headerEmailAddress != null) {
-                    headerEmailAddress.text = it.email
-                }
+        drawerHeaderBinding.headerAccountName.text = currentUser.displayName
+        drawerHeaderBinding.headerAccountType.setText(R.string.yönetici)
+        drawerHeaderBinding.headerEmailAddress.text = currentUser.email
+    }
+
+/*    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val navHostFragment =
+            binding.mainFragmentContainerView.getFragment() as NavHostFragment
+        val navController = navHostFragment.navController
+        when(item.itemId) {
+            R.id.sign_out -> {
+                auth.signOut()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
             }
         }
+        return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
+    }*/
 
-    }
 
-    //TODO
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+
+//    override fun onNavigationItemSelected(item: MenuItem): Boolean {
 //        when(item.itemId) {
 //            R.id.sign_out -> {
 //                auth.signOut()
@@ -122,7 +113,17 @@ class HomePageAdminActivity : AppCompatActivity(), NavigationView.OnNavigationIt
 //                finish()
 //            }
 //        }
+   /* override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.sign_out -> {
+                auth.signOut()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+
         return true
-    }
+    }*/
 
 }
