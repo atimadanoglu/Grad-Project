@@ -19,7 +19,7 @@ class ExpendituresFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: ExpendituresViewModel by viewModels()
     private val adapter: ExpendituresListAdapter by lazy {
-        ExpendituresListAdapter()
+        ExpendituresListAdapter(context)
     }
 
     override fun onCreateView(

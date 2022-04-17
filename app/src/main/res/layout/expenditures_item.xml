@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="expenditure"
             type="com.graduationproject.grad_project.model.Expenditure" />
     </data>
     <LinearLayout
-        xmlns:tools="http://schemas.android.com/tools"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/recycleview_background"
         android:layout_marginBottom="15dp">
 
         <LinearLayout
             android:id="@+id/account_info_linearLayout"
-            android:layout_width="250dp"
+            android:layout_width="230dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView

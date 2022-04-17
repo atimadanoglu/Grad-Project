@@ -95,5 +95,19 @@ object ExpendituresOperations: FirebaseConstants() {
 
     }
 
+    suspend fun deleteExpenditure(email: String, expenditure: Expenditure) {
+        try {
+            adminRef.document(email)
+                .collection("expenditures")
+                .document(expenditure.id)
+                .delete().await().also {
+                    Log.d(TAG, "deleteExpenditure --> SUCCESSFUL!")
+                }
+        } catch (e: Exception) {
+            Log.e(TAG, "deleteExpenditure --> $e")
+        }
+
+    }
+
 
 }
