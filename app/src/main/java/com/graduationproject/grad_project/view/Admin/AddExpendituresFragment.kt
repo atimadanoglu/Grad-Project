@@ -22,6 +22,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.FragmentAddExpendituresBinding
 import com.graduationproject.grad_project.viewmodel.AddExpendituresViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class AddExpendituresFragment : Fragment() {
 
@@ -54,9 +58,19 @@ class AddExpendituresFragment : Fragment() {
         findNavController().navigate(action)
     }
 
-    private fun shareButtonClicked() {
+    private fun shareButtonClicked(ioDispatcher: CoroutineDispatcher = Dispatchers.IO) {
         if (!isEmpty()) {
-            selectedPicture?.let { viewModel.uploadDocument(it) }
+            CoroutineScope(ioDispatcher).launch {
+                selectedPicture?.let { viewModel.uploadDocument(it) }
+                selectedPicture?.let {
+                    viewModel.saveExpenditureIntoDB(
+                        binding.titleInput.text.toString(),
+                        binding.contentInput.text.toString(),
+                        binding.amountText.text.toString().toInt(),
+                        it
+                    )
+                }
+            }
             backToExpendituresFragment()
             return
         }
