@@ -146,6 +146,7 @@
     <string name="reddet">Reddet</string>
     <string name="durations">Durations:</string>
     <string name="_16_s">16(s)</string>
+    <string name="site_management_app">Site management app</string>
 
     <string-array name="type_list">
         <item>Öneri</item>

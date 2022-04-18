@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="187dp"
-        android:layout_height="183dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_marginTop="70dp"
 
         android:contentDescription="@string/todo"
@@ -25,7 +25,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:fontFamily="@font/title_font"
-        android:gravity="center"
         android:text="@string/project_name"
         android:textColor="@color/secondary_color"
         android:textSize="55sp"
@@ -38,7 +37,7 @@
         android:layout_width="300dp"
         android:layout_height="48dp"
 
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="70dp"
         android:autofillHints=""
         android:backgroundTint="@color/secondary_color"
         android:drawableStart="@drawable/person_icon"
