@@ -37,7 +37,7 @@ class ExpendituresFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         viewModel.expenditures.observe(viewLifecycleOwner) { arraylist ->
             arraylist?.let {
-                adapter.submitList(it)
+                adapter.setNewList(it)
             }
         }
         return binding.root

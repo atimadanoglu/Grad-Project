@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
@@ -66,7 +66,7 @@ class AddExpendituresFragment : Fragment() {
                     viewModel.saveExpenditureIntoDB(
                         binding.titleInput.text.toString(),
                         binding.contentInput.text.toString(),
-                        binding.amountText.text.toString().toInt(),
+                        binding.amountInput.text.toString().toInt(),
                         it
                     )
                 }
@@ -81,8 +81,8 @@ class AddExpendituresFragment : Fragment() {
         ).show()
     }
 
-    private fun isEmpty() = binding.amountText.text.isEmpty() || binding.contentInput.text.isEmpty()
-            || binding.titleInput.text.isEmpty()
+    private fun isEmpty() = binding.amountInput.text?.isEmpty() == true || binding.contentInput.text?.isEmpty() == true
+            || binding.titleInput.text?.isEmpty() == true
 
     private fun selectDocument() {
         if (this.context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.READ_EXTERNAL_STORAGE) } != PackageManager.PERMISSION_GRANTED) {
@@ -111,9 +111,6 @@ class AddExpendituresFragment : Fragment() {
                 val intentFromResult = result.data
                 if (intentFromResult != null) {
                     selectedPicture = intentFromResult.data
-                    selectedPicture?.let {
-                        binding.pictureView.setImageURI(it)
-                    }
                 }
             }
         }
