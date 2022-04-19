@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
         <variable
             name="expenditure"
             type="com.graduationproject.grad_project.model.Expenditure" />
     </data>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -64,8 +66,6 @@
                 android:textSize="12sp"
                 tools:ignore="TouchTargetSizeCheck" />
 
-
-
         </LinearLayout>
 
         <TextView
@@ -75,21 +75,12 @@
             android:hint="@string/line"
             android:textColorHint="@color/primary_color"
             android:textColor="@color/primary_color"
+            android:layout_marginStart="30dp"
             android:text="@{String.valueOf(expenditure.amount)}"
             android:fontFamily="@font/titillium_web_bold"
             android:textSize="17sp"
             android:paddingTop="10dp"
             android:gravity="center"/>
 
-        <ImageView
-            android:id="@+id/expenditures_more_icon_button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/more_horiz"
-            android:layout_marginEnd="10dp"
-            android:contentDescription="@string/todo"/>
-
     </LinearLayout>
-
-
 </layout>
