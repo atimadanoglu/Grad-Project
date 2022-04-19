@@ -39,7 +39,11 @@
         android:id="@+id/payDebtFragment"
         android:name="com.graduationproject.grad_project.PayDebtFragment"
         android:label="fragment_pay_debt"
-        tools:layout="@layout/fragment_pay_debt" />
+        tools:layout="@layout/fragment_pay_debt" >
+        <action
+            android:id="@+id/action_payDebtFragment_to_homeResidentFragment"
+            app:destination="@id/homeResidentFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addRequestFragment"
         android:name="com.graduationproject.grad_project.AddRequestFragment"
