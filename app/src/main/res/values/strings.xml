@@ -147,6 +147,10 @@
     <string name="durations">Durations:</string>
     <string name="_16_s">16(s)</string>
     <string name="site_management_app">Site management app</string>
+    <string name="site_Giderleri">Site Giderleri</string>
+    <string name="isleminiz_tamamlandi">İşleminiz Tamamlandı</string>
+    <string name="bilgilerinizi_tekrar_kontrol_ediniz">Bilgilerinizi tekrar kontrol ediniz.</string>
+    <string name="isleminiz_basarisiz">İşleminiz Başarısız</string>
 
     <string-array name="type_list">
         <item>Öneri</item>
