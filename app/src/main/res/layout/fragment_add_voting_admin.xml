@@ -2,163 +2,146 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.admin.AddVotingAdminFragment">
 
-    <Button
-        android:id="@+id/backButtonVoting"
-        android:layout_width="60dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/back_green_button"
-        android:drawableStart="@drawable/back_arrow_green_icon"
-        android:paddingStart="5dp"
-        android:paddingEnd="5dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-    <ImageView
-        android:id="@+id/voteIcon"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="30dp"
-        android:contentDescription="@string/todo"
-        android:src="@drawable/assessment_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/mainTitle"
-        android:layout_width="130dp"
-        android:layout_height="110dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="36dp"
-        android:fontFamily="@font/titillium_web_bold"
-        android:text="@string/new_voting"
-        android:textColor="@color/primary_color"
-        android:textSize="38sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backButtonVoting" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="130dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/primary_color"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainTitle" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutTitle"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:hint="@string/title"
-        android:textColorHint="@color/primary_color"
-        app:endIconMode="clear_text"
-        app:helperText="@string/required"
-        app:helperTextTextColor="@color/warning_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view">
+        android:layout_height="match_parent"
+        tools:context=".view.admin.AddVotingAdminFragment">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/title_text"
+        <Button
+            android:id="@+id/backButtonVoting"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/back_green_button"
+            android:drawableStart="@drawable/back_arrow_green_icon"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+        <ImageView
+            android:id="@+id/voteIcon"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="30dp"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/assessment_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/mainTitle"
+            android:layout_width="130dp"
+            android:layout_height="110dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="36dp"
+            android:fontFamily="@font/titillium_web_bold"
+            android:text="@string/new_voting"
+            android:textColor="@color/primary_color"
+            android:textSize="38sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/backButtonVoting" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="130dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/primary_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainTitle" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutTitle"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:textColor="@color/primary_color"
-            tools:ignore="TextContrastCheck"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="75dp" />
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:hint="@string/title"
+            android:textColorHint="@color/primary_color"
+            app:endIconMode="clear_text"
+            app:helperText="@string/required"
+            app:helperTextTextColor="@color/warning_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/title_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textColor="@color/primary_color"
+                tools:ignore="TextContrastCheck"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="75dp" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutContent"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:hint="@string/content"
-        android:textColorHint="@color/primary_color"
-        app:endIconMode="clear_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutTitle">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/content_text"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutContent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="top"
-            android:inputType="textMultiLine"
-            android:lines="5"
-            android:textColor="@color/primary_color"
-            tools:ignore="TextContrastCheck" />
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:hint="@string/content"
+            android:textColorHint="@color/primary_color"
+            app:endIconMode="clear_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutTitle">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/content_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:lines="5"
+                android:textColor="@color/primary_color"
+                tools:ignore="TextContrastCheck" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutDays"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:hint="@string/sure"
-        android:textColorHint="@color/primary_color"
-        app:suffixText="@string/gun"
-        app:helperText="@string/required"
-        app:helperTextTextColor="@color/warning_color"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutContent">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/duration_text"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/shareVotingButton"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:textColor="@color/primary_color"
-            tools:ignore="TextContrastCheck"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="75dp" />
+            android:layout_gravity="center"
+            android:layout_marginStart="110dp"
+            android:layout_marginEnd="110dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/button"
+            android:backgroundTint="@color/primary_color"
+            android:text="@string/share"
+            android:textColor="@color/secondary_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="TouchTargetSizeCheck" />
 
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-        android:id="@+id/shareVotingButton"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="110dp"
-        android:layout_marginEnd="110dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/button"
-        android:backgroundTint="@color/primary_color"
-        android:text="@string/share"
-        android:textColor="@color/secondary_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="TouchTargetSizeCheck" />
-
+        <TextView
+            android:id="@+id/datePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="248dp"
+            android:layout_marginBottom="52dp"
+            android:text="Tarih Seçiniz"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/shareVotingButton"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
