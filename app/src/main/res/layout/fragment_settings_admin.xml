@@ -4,6 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.admin.SettingsAdminFragment">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.graduationproject.grad_project.viewmodel.SettingsAdminViewModel" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -87,6 +94,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:hint="@string/batuhan_goren"
+                    android:text="@{String.valueOf(viewModel.fullName)}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/NameTitle"
@@ -147,6 +155,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:hint="@string/_90_555_333_12_08"
+                    android:text="@{String.valueOf(viewModel.phoneNumber)}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/phoneTitle"
@@ -179,7 +188,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="15dp"
                     android:fontFamily="@font/titillium_web_bold"
-                    android:text="Mail Adresi"
+                    android:text="@string/mail_adresi"
                     android:textColor="@color/primary_color"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -206,7 +215,8 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:text="@string/batuhangoren_hotmail_com"
+                    android:hint="@string/batuhangoren_hotmail_com"
+                    android:text="@{String.valueOf(viewModel.email)}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/emailTitle"

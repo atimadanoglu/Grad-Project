@@ -67,7 +67,20 @@
         android:id="@+id/settingsAdminFragment"
         android:name="com.graduationproject.grad_project.view.admin.SettingsAdminFragment"
         android:label="fragment_settings_admin"
-        tools:layout="@layout/fragment_settings_admin" />
+        tools:layout="@layout/fragment_settings_admin" >
+        <action
+            android:id="@+id/action_settingsAdminFragment_to_settingsPasswordFragment"
+            app:destination="@id/settingsPasswordFragment" />
+        <action
+            android:id="@+id/action_settingsAdminFragment_to_settingsEmailFragment"
+            app:destination="@id/settingsEmailFragment" />
+        <action
+            android:id="@+id/action_settingsAdminFragment_to_settingsNameFragment"
+            app:destination="@id/settingsNameFragment" />
+        <action
+            android:id="@+id/action_settingsAdminFragment_to_settingsPhoneFragment"
+            app:destination="@id/settingsPhoneFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addVotingAdminFragment"
         android:name="com.graduationproject.grad_project.view.admin.AddVotingAdminFragment"
@@ -88,5 +101,41 @@
         <action
             android:id="@+id/action_addExpendituresFragment_to_expendituresFragment"
             app:destination="@id/expendituresFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsPasswordFragment"
+        android:name="com.graduationproject.grad_project.view.SettingsPasswordFragment"
+        android:label="fragment_settings_password"
+        tools:layout="@layout/fragment_settings_password" >
+        <action
+            android:id="@+id/action_settingsPasswordFragment_to_settingsAdminFragment"
+            app:destination="@id/settingsAdminFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsEmailFragment"
+        android:name="com.graduationproject.grad_project.view.SettingsEmailFragment"
+        android:label="fragment_settings_email"
+        tools:layout="@layout/fragment_settings_email" >
+        <action
+            android:id="@+id/action_settingsEmailFragment_to_settingsAdminFragment"
+            app:destination="@id/settingsAdminFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsNameFragment"
+        android:name="com.graduationproject.grad_project.view.SettingsNameFragment"
+        android:label="fragment_settings_name"
+        tools:layout="@layout/fragment_settings_name" >
+        <action
+            android:id="@+id/action_settingsNameFragment_to_settingsAdminFragment"
+            app:destination="@id/settingsAdminFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsPhoneFragment"
+        android:name="com.graduationproject.grad_project.view.SettingsPhoneFragment"
+        android:label="fragment_settings_phone"
+        tools:layout="@layout/fragment_settings_phone" >
+        <action
+            android:id="@+id/action_settingsPhoneFragment_to_settingsAdminFragment"
+            app:destination="@id/settingsAdminFragment" />
     </fragment>
 </navigation>
