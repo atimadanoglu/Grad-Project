@@ -6,9 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.graduationproject.grad_project.firebase.UserOperations
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class PayDebtViewModel: ViewModel() {
+class PayDebtViewModel(
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+): ViewModel() {
 
     private val _amount = MutableLiveData(0)
     val amount: LiveData<Int> get() = _amount
@@ -34,6 +39,9 @@ class PayDebtViewModel: ViewModel() {
     private val _isValidCVC = MutableLiveData(false)
     val isValidCVC: LiveData<Boolean> get() = _isValidCVC
 
+    private val _highestAmount = MutableLiveData(0)
+    val highestAmount: LiveData<Int> get() = _highestAmount
+
     fun setIsValidAmount(value: Int) {
         viewModelScope.launch {
             val email = FirebaseAuth.getInstance().currentUser?.email
@@ -49,6 +57,8 @@ class PayDebtViewModel: ViewModel() {
     fun setIsValidExpirationDate(value: Boolean) { _isValidExpirationDate.value = value }
     fun setIsValidCardNumber(value: Boolean) { _isValidCardNumber.value = value }
     fun setIsValidCVC(value: Boolean) { _isValidCVC.value = value }
+    fun setAmount(value: Int) { _amount.value = value }
+    fun setIsValidAmount(value: Boolean) { _isValidAmount.value = value }
 
     fun setAllValid(value: Boolean) {
         _allValid.value = value
@@ -65,6 +75,18 @@ class PayDebtViewModel: ViewModel() {
         }
     }
 
+    fun setHighestValue() {
+        viewModelScope.launch {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            if (email != null) {
+                val resident = async {
+                    UserOperations.getResident(email)
+                }
+                _highestAmount.value = resident.await()?.get("debt").toString().toInt()
+            }
+        }
+    }
+
     fun setValues(amount: Int,
                           cardHolder: String,
                           cardNumber: String,
@@ -76,11 +98,6 @@ class PayDebtViewModel: ViewModel() {
         _cardNumber.value = cardNumber
         _expirationDate.value = expirationDate
         _cvc.value = cvc
-    }
-
-    fun isAllValid() {
-        _allValid.value = _isValidAmount.value == true && _isValidCVC.value == true && _isValidCardNumber.value == true
-                && _isValidExpirationDate.value == true
     }
 
 }

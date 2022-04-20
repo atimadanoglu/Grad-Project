@@ -156,5 +156,7 @@
         <item>Öneri</item>
         <item>Şikayet</item>
     </string-array>
+    <string name="geçersiz">Geçersiz!</string>
+    <string name="işleminizGerçekleştiriliyor">İşleminiz gerçekleştiriliyor…</string>
 
 </resources>

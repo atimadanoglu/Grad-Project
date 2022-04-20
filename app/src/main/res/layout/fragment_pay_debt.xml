@@ -56,7 +56,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutName"
+        android:id="@+id/cardHolderNameLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutName"
+        app:layout_constraintTop_toBottomOf="@+id/cardHolderNameLayout"
         app:startIconDrawable="@drawable/credit_card_icon">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -116,6 +116,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:hint="@string/aa_yy"
+        app:counterMaxLength="5"
         app:helperText="*"
         app:helperTextTextColor="@color/warning_color"
         app:layout_constraintStart_toStartOf="parent"
@@ -126,7 +127,7 @@
             android:id="@+id/expirationDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
+            android:inputType="date"
             android:textColor="@color/primary_color"
             tools:ignore="TextContrastCheck" />
     </com.google.android.material.textfield.TextInputLayout>

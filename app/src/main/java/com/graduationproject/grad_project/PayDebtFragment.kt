@@ -1,9 +1,11 @@
 package com.graduationproject.grad_project
 
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -28,36 +30,63 @@ class PayDebtFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentPayDebtBinding.inflate(inflater, container, false)
+        viewModel.setHighestValue()
         binding.paymentButton.setOnClickListener {
             lifecycleScope.launch {
                 payDebtButtonClicked()
             }
         }
+        binding.amountEditText.addTextChangedListener {
+            checkValidityOfAmount(it)
+        }
         return binding.root
     }
 
     private suspend fun payDebtButtonClicked() {
-        val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        if (!isEmpty()) {
-            setValues()
-            if (isChecked()) {
-                viewModel.payDebt()
-                val text = "İşleminizi gerçekleştiriyoruz..."
-                Snackbar.make(requireView(), text, Snackbar.LENGTH_SHORT)
-                    .setAnchorView(bottomNavigationView)
-                    .show()
-                delay(3100L)
-                goToHomePage()
-                return
+        lifecycleScope.launch {
+            val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
+            if (!isEmpty()) {
+                isValidCVC()
+                isValidCardNumber()
+                isValidExpirationDate()
+                setValues()
+                if (isChecked()) {
+                    if (isAllValid()) {
+                        viewModel.payDebt()
+                        val text = "İşleminiz gerçekleştiriliyor..."
+                        Snackbar.make(requireView(), text, 2000)
+                            .setAnchorView(bottomNavigationView)
+                            .show()
+                        delay(2500L)
+                        goToPayDebtPage()
+                        return@launch
+                    }
+                } else {
+                    val text = "Lütfen şartları ve koşulları kabul edin!"
+                    Snackbar.make(requireView(), text, 2500)
+                        .setAnchorView(bottomNavigationView)
+                        .show()
+                }
             } else {
-                val text = "Lütfen şartları ve koşulları kabul edin!"
-                Snackbar.make(requireView(), text, 2500)
-                    .setAnchorView(bottomNavigationView)
-                    .show()
+                Snackbar.make(requireView(), R.string.boşluklarıDoldur, Snackbar.LENGTH_SHORT)
+                    .setAnchorView(bottomNavigationView).show()
             }
-        } else {
-            Snackbar.make(requireView(), R.string.boşluklarıDoldur, Snackbar.LENGTH_SHORT)
-                .setAnchorView(bottomNavigationView).show()
+        }
+    }
+
+    private fun checkValidityOfAmount(text: Editable?) {
+        binding.textInputLayoutAmount.error = null
+        val highestAmount = viewModel.highestAmount.value
+        if (text?.isNotEmpty() == true) {
+            highestAmount?.let { value ->
+                if (text.toString().toInt() <= value) {
+                    binding.textInputLayoutAmount.error = null
+                    viewModel.setIsValidAmount(true)
+                } else {
+                    binding.textInputLayoutAmount.error = "Geçersiz tutar!"
+                    viewModel.setIsValidAmount(false)
+                }
+            }
         }
     }
 
@@ -75,11 +104,53 @@ class PayDebtFragment : Fragment() {
             || binding.cardNumberEditText.text.isNullOrEmpty() || binding.expirationDate.text.isNullOrEmpty()
             || binding.cvcEditText.text.isNullOrEmpty()
 
-    private fun goToHomePage() {
-        val action = PayDebtFragmentDirections.actionPayDebtFragmentToHomeResidentFragment()
-        requireView().findNavController().navigate(action)
+    private fun goToPayDebtPage() {
+        val amount = viewModel.amount.value
+        amount?.let {
+            val action = PayDebtFragmentDirections.actionPayDebtFragmentToSuccessfulDialogFragment(it)
+            requireView().findNavController().navigate(action)
+        }
     }
 
     private fun isChecked() = binding.checkBox.isChecked
+
+    private fun isValidCVC() {
+        if (binding.cvcEditText.text.toString().length == 3) {
+            viewModel.setIsValidCVC(true)
+            binding.textInputLayoutCVC.error = null
+        } else {
+            binding.textInputLayoutCVC.error = "Geçersiz!"
+        }
+    }
+
+    private fun isValidCardNumber() {
+        if (binding.cardNumberEditText.text.toString().length == 16) {
+            viewModel.setIsValidCardNumber(true)
+            binding.textInputLayoutNumber.error = null
+        } else {
+            binding.textInputLayoutNumber.error = "Geçersiz!"
+        }
+    }
+
+    private fun isValidExpirationDate() {
+        val expirationDate = binding.expirationDate.text.toString()
+        if (expirationDate.length == 5) {
+            val month = expirationDate.substringBefore("/")
+            val year = expirationDate.substringAfter("/")
+            if (month.toInt() in 0..12 && year.toInt() in 22..35) {
+                viewModel.setIsValidExpirationDate(true)
+                binding.textInputLayoutCalendar.error  = null
+            } else {
+                binding.textInputLayoutCalendar.error = "Geçersiz!"
+            }
+        } else {
+            binding.textInputLayoutCalendar.error = "Geçersiz!"
+        }
+    }
+
+    private fun isAllValid(): Boolean {
+        return viewModel.isValidCVC.value == true && viewModel.isValidCardNumber.value == true
+                && viewModel.isValidExpirationDate.value == true && viewModel.isValidAmount.value == true
+    }
 
 }
