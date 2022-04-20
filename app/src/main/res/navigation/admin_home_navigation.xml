@@ -43,7 +43,11 @@
         android:id="@+id/votingAdminFragment"
         android:name="com.graduationproject.grad_project.view.admin.VotingAdminFragment"
         android:label="fragment_voting_admin"
-        tools:layout="@layout/fragment_voting_admin" />
+        tools:layout="@layout/fragment_voting_admin" >
+        <action
+            android:id="@+id/action_votingAdminFragment_to_addVotingAdminFragment"
+            app:destination="@id/addVotingAdminFragment" />
+    </fragment>
     <fragment
         android:id="@+id/servicesAdminFragment"
         android:name="com.graduationproject.grad_project.view.admin.ServicesAdminFragment"
@@ -68,7 +72,11 @@
         android:id="@+id/addVotingAdminFragment"
         android:name="com.graduationproject.grad_project.view.admin.AddVotingAdminFragment"
         android:label="fragment_add_voting_admin"
-        tools:layout="@layout/fragment_add_voting_admin" />
+        tools:layout="@layout/fragment_add_voting_admin" >
+        <action
+            android:id="@+id/action_addVotingAdminFragment_to_votingAdminFragment"
+            app:destination="@id/votingAdminFragment" />
+    </fragment>
     <fragment
         android:id="@+id/residentsListFragment"
         android:name="com.graduationproject.grad_project.view.admin.ResidentsListFragment"
