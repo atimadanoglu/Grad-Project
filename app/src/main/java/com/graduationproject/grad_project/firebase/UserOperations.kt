@@ -128,13 +128,14 @@ object UserOperations: FirebaseConstants() {
     }
 
     suspend fun updateUserInfo(admin: HashMap<String, Any>) {
-        withContext(ioDispatcher) {
+        CoroutineScope(ioDispatcher).launch {
             val currentUser = auth.currentUser
-            val profileUpdates = userProfileChangeRequest {
+            userProfileChangeRequest {
                 displayName = admin["fullName"].toString()
+            }.also {
+                currentUser?.updateProfile(it)
             }
-            currentUser?.updateProfile(profileUpdates)
-        }
+        }.join()
     }
 
     suspend fun loginWithEmailAndPassword(

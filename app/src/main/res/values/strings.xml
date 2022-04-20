@@ -158,6 +158,10 @@
     </string-array>
     <string name="geçersiz">Geçersiz!</string>
     <string name="işleminizGerçekleştiriliyor">İşleminiz gerçekleştiriliyor…</string>
+    <string name="eminMisiniz">"Hesabınızdan çıkış yapmak istediğinize emin misiniz?"</string>
+    <string name="evet">Evet</string>
+    <string name="hayır">Hayır</string>
+
     <string name="sitemizde_kay_tl_olan_hesap_bilgilerinizi_bu_men_den_g_ncelleyebilirsiniz">Sitemizde kayıtlı olan hesap bilgilerinizi bu menüden güncelleyebilirsiniz.</string>
     <string name="hesap_ayarlar">Hesap Ayarları</string>
     <string name="ad_soyad">Ad-Soyad</string>
