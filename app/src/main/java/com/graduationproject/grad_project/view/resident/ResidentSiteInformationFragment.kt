@@ -12,10 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.graduationproject.grad_project.databinding.FragmentResidentSiteInformationBinding
 import com.graduationproject.grad_project.viewmodel.ResidentSiteInformationViewModel
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class ResidentSiteInformationFragment(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -63,9 +60,15 @@ class ResidentSiteInformationFragment(
             }
             if (b.await()) {
                 viewModel.saveSiteIntoDB()
-                viewModel.updateUserDisplayName()
+                updateUserInfo()
                 goToResidentHomePageActivity()
             }
+        }
+    }
+
+    private fun updateUserInfo() {
+        runBlocking {
+            viewModel.updateUserDisplayName()
         }
     }
 

@@ -4,10 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.graduationproject.grad_project.firebase.SiteOperations
 import com.graduationproject.grad_project.firebase.UserOperations
-import com.graduationproject.grad_project.model.SiteResident
 import com.graduationproject.grad_project.onesignal.OneSignalOperations
 import kotlinx.coroutines.*
-import java.lang.Exception
 
 class ResidentSiteInformationViewModel(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
