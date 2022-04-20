@@ -39,7 +39,14 @@
         android:id="@+id/payDebtFragment"
         android:name="com.graduationproject.grad_project.PayDebtFragment"
         android:label="fragment_pay_debt"
-        tools:layout="@layout/fragment_pay_debt" />
+        tools:layout="@layout/fragment_pay_debt" >
+        <action
+            android:id="@+id/action_payDebtFragment_to_homeResidentFragment"
+            app:destination="@id/homeResidentFragment" />
+        <action
+            android:id="@+id/action_payDebtFragment_to_successfulDialogFragment"
+            app:destination="@id/successfulDialogFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addRequestFragment"
         android:name="com.graduationproject.grad_project.AddRequestFragment"
@@ -87,4 +94,16 @@
         android:name="com.graduationproject.grad_project.view.resident.VoteResidentFragment"
         android:label="fragment_vote_resident"
         tools:layout="@layout/fragment_vote_resident" />
+    <dialog
+        android:id="@+id/successfulDialogFragment"
+        android:name="com.graduationproject.grad_project.view.SuccessfulDialogFragment"
+        android:label="fragment_successful_dialog"
+        tools:layout="@layout/fragment_successful_dialog" >
+        <action
+            android:id="@+id/action_successfulDialogFragment_to_payDebtFragment"
+            app:destination="@id/payDebtFragment" />
+        <argument
+            android:name="paidAmount"
+            app:argType="integer" />
+    </dialog>
 </navigation>

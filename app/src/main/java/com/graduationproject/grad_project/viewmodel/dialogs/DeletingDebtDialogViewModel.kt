@@ -40,7 +40,7 @@ class DeletingDebtDialogViewModel(
                     _isDebtUpdated = true
                 }
             } catch (e: FirebaseFirestoreException) {
-
+                Log.e(TAG, "deleteDebt --> $e")
             }
         }.join()
     }
