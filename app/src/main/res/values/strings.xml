@@ -162,4 +162,19 @@
     <string name="evet">Evet</string>
     <string name="hayır">Hayır</string>
 
+    <string name="sitemizde_kay_tl_olan_hesap_bilgilerinizi_bu_men_den_g_ncelleyebilirsiniz">Sitemizde kayıtlı olan hesap bilgilerinizi bu menüden güncelleyebilirsiniz.</string>
+    <string name="hesap_ayarlar">Hesap Ayarları</string>
+    <string name="ad_soyad">Ad-Soyad</string>
+    <string name="batuhan_goren">Batuhan Gören</string>
+    <string name="_90_555_333_12_08">+90 (555) 333 12 08</string>
+    <string name="cep_telefonu">Cep Telefonu</string>
+    <string name="batuhangoren_hotmail_com">batuhangoren@hotmail.com</string>
+    <string name="sifre">Şifre</string>
+    <string name="passwordStars">***********</string>
+    <string name="settingsNameInfo">Yöneticinin sizi tanıyabilmesi için lütfen takma ad, lakap vb. takılar kullanmayınız.</string>
+    <string name="guncelle">güncelle</string>
+    <string name="settingsPhoneInfo">Lütfen kullanmakta olduğunuz telefon numaranızı giriniz.</string>
+    <string name="settingsEmailInfo">Lütfen kullanmakta olduğunuz mail adresinizi giriniz.</string>
+    <string name="settingsPasswordInfo">Lütfen şifrenizi belirlerken özel karakterler (.!/_) kullanmaya özen gösterin. Bu, hesabınızın üçüncü kişiler tarafından erişilmesine engel olacaktır.</string>
+
 </resources>
