@@ -1,7 +1,6 @@
-package com.graduationproject.grad_project
+package com.graduationproject.grad_project.view.admin
 
 import android.os.Bundle
-import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View

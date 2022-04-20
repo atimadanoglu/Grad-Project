@@ -1,4 +1,4 @@
-package com.graduationproject.grad_project
+package com.graduationproject.grad_project.view.resident
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.graduationproject.grad_project.databinding.FragmentResidentSiteInformationBinding
-import com.graduationproject.grad_project.view.resident.HomePageResidentActivity
 import com.graduationproject.grad_project.viewmodel.ResidentSiteInformationViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

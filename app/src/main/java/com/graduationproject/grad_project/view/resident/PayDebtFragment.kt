@@ -1,4 +1,4 @@
-package com.graduationproject.grad_project
+package com.graduationproject.grad_project.view.resident
 
 import android.os.Bundle
 import android.text.Editable
@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.FragmentPayDebtBinding
 import com.graduationproject.grad_project.viewmodel.PayDebtViewModel
 import kotlinx.coroutines.delay

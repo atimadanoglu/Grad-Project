@@ -1,4 +1,4 @@
-package com.graduationproject.grad_project
+package com.graduationproject.grad_project.view.resident
 
 import android.os.Bundle
 import android.text.InputType
@@ -9,11 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.FragmentAddRequestBinding
 import com.graduationproject.grad_project.viewmodel.dialogs.AddRequestViewModel
 import kotlinx.coroutines.*

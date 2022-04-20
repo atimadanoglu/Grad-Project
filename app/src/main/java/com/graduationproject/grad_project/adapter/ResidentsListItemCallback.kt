@@ -1,4 +1,4 @@
-package com.graduationproject.grad_project
+package com.graduationproject.grad_project.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.graduationproject.grad_project.model.SiteResident

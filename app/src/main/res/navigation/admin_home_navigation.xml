@@ -66,12 +66,12 @@
         tools:layout="@layout/fragment_settings_admin" />
     <fragment
         android:id="@+id/addVotingAdminFragment"
-        android:name="com.graduationproject.grad_project.AddVotingAdminFragment"
+        android:name="com.graduationproject.grad_project.view.admin.AddVotingAdminFragment"
         android:label="fragment_add_voting_admin"
         tools:layout="@layout/fragment_add_voting_admin" />
     <fragment
         android:id="@+id/residentsListFragment"
-        android:name="com.graduationproject.grad_project.ResidentsListFragment"
+        android:name="com.graduationproject.grad_project.view.admin.ResidentsListFragment"
         android:label="ResidentsListFragment" />
     <fragment
         android:id="@+id/addExpendituresFragment"
