@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.graduationproject.grad_project.LoginFragment"
+        android:name="com.graduationproject.grad_project.view.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -26,7 +26,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpMainFragment"
-        android:name="com.graduationproject.grad_project.SignUpMainFragment"
+        android:name="com.graduationproject.grad_project.view.SignUpMainFragment"
         android:label="fragment_sign_up_main"
         tools:layout="@layout/fragment_sign_up_main" >
         <action
@@ -41,7 +41,7 @@
     </fragment>
     <fragment
         android:id="@+id/residentNewAccountFragment"
-        android:name="com.graduationproject.grad_project.ResidentNewAccountFragment"
+        android:name="com.graduationproject.grad_project.view.resident.ResidentNewAccountFragment"
         android:label="fragment_resident_new_account"
         tools:layout="@layout/fragment_resident_new_account" >
         <action
@@ -56,7 +56,7 @@
     </fragment>
     <fragment
         android:id="@+id/adminNewAccountFragment"
-        android:name="com.graduationproject.grad_project.AdminNewAccountFragment"
+        android:name="com.graduationproject.grad_project.view.admin.AdminNewAccountFragment"
         android:label="fragment_admin_new_account"
         tools:layout="@layout/fragment_admin_new_account" >
         <action
@@ -71,7 +71,7 @@
     </fragment>
     <fragment
         android:id="@+id/residentSiteInformationFragment"
-        android:name="com.graduationproject.grad_project.ResidentSiteInformationFragment"
+        android:name="com.graduationproject.grad_project.view.resident.ResidentSiteInformationFragment"
         android:label="fragment_resident_site_information"
         tools:layout="@layout/fragment_resident_site_information" >
         <argument
@@ -97,7 +97,7 @@
     </fragment>
     <fragment
         android:id="@+id/adminSiteInformationFragment"
-        android:name="com.graduationproject.grad_project.AdminSiteInformationFragment"
+        android:name="com.graduationproject.grad_project.view.admin.AdminSiteInformationFragment"
         android:label="fragment_admin_site_information"
         tools:layout="@layout/fragment_admin_site_information" >
         <argument

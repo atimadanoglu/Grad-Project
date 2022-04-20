@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeResidentFragment"
-        android:name="com.graduationproject.grad_project.HomeResidentFragment"
+        android:name="com.graduationproject.grad_project.view.resident.HomeResidentFragment"
         android:label="fragment_home_resident"
         tools:layout="@layout/fragment_home_resident" >
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/requestsFragment"
-        android:name="com.graduationproject.grad_project.RequestFragment"
+        android:name="com.graduationproject.grad_project.view.resident.RequestFragment"
         android:label="fragment_add_request"
         tools:layout="@layout/fragment_request" >
         <action
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/payDebtFragment"
-        android:name="com.graduationproject.grad_project.PayDebtFragment"
+        android:name="com.graduationproject.grad_project.view.resident.PayDebtFragment"
         android:label="fragment_pay_debt"
         tools:layout="@layout/fragment_pay_debt" >
         <action
@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/addRequestFragment"
-        android:name="com.graduationproject.grad_project.AddRequestFragment"
+        android:name="com.graduationproject.grad_project.view.resident.AddRequestFragment"
         android:label="fragment_add_request"
         tools:layout="@layout/fragment_add_request" >
         <action

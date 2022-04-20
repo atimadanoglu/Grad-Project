@@ -1,4 +1,4 @@
-package com.graduationproject.grad_project
+package com.graduationproject.grad_project.view.resident
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

@@ -1,8 +1,7 @@
-package com.graduationproject.grad_project
+package com.graduationproject.grad_project.view.admin
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,13 +10,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.firebase.auth.FirebaseAuth
 import com.graduationproject.grad_project.databinding.FragmentAdminSiteInformationBinding
-import com.graduationproject.grad_project.firebase.UserOperations.saveAdminIntoDB
-import com.graduationproject.grad_project.view.admin.HomePageAdminActivity
 import com.graduationproject.grad_project.viewmodel.AdminSiteInformationViewModel
 import kotlinx.coroutines.*
-import java.lang.Exception
 
 class AdminSiteInformationFragment : Fragment() {
 

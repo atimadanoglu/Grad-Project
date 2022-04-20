@@ -24,29 +24,12 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
-        <activity
-            android:name=".view.LoginActivity"
-            android:exported="false" />
+
         <activity
             android:name=".view.admin.HomePageAdminActivity"
             android:exported="false" />
         <activity
             android:name=".view.resident.HomePageResidentActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.SignUpMainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.ResidentNewAccountActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.SiteInformationResidentActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.SiteInformationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.AdministratorNewAccountActivity"
             android:exported="false" />
         <activity
             android:name=".view.MainActivity"

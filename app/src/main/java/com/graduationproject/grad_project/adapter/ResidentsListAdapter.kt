@@ -1,4 +1,4 @@
-package com.graduationproject.grad_project
+package com.graduationproject.grad_project.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,7 +9,8 @@ import android.widget.PopupMenu
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.graduationproject.grad_project.ResidentsListAdapter.ResidentViewHolder
+import com.graduationproject.grad_project.R
+import com.graduationproject.grad_project.adapter.ResidentsListAdapter.ResidentViewHolder
 import com.graduationproject.grad_project.databinding.ListItemBinding
 import com.graduationproject.grad_project.model.SiteResident
 import com.graduationproject.grad_project.view.admin.dialogs.AddingDebtDialogFragment
