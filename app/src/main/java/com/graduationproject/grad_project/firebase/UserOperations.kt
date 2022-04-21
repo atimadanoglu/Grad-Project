@@ -127,15 +127,154 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
-    suspend fun updateUserInfo(admin: HashMap<String, Any>) {
+    suspend fun updateFullNameForAdmin(fullName: String) {
         CoroutineScope(ioDispatcher).launch {
-            val currentUser = auth.currentUser
-            userProfileChangeRequest {
-                displayName = admin["fullName"].toString()
-            }.also {
-                currentUser?.updateProfile(it)
+            try {
+                val currentUser = async {
+                    auth.currentUser
+                }
+                val currentUserEmail = async {
+                    currentUser.await()?.email
+                }
+                launch {
+                    userProfileChangeRequest {
+                        displayName = fullName
+                    }.also {
+                        currentUser.await()?.updateProfile(it)
+                    }
+                }
+                launch {
+                    currentUserEmail.await()?.let {
+                        adminRef.document(it)
+                            .update("fullName", fullName)
+                            .await()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "updateFullNameForAdmin --> $e")
             }
         }.join()
+    }
+
+    suspend fun updateFullNameForResident(fullName: String) {
+        CoroutineScope(ioDispatcher).launch {
+            try {
+                val currentUser = async {
+                    auth.currentUser
+                }
+                val currentUserEmail = async {
+                    currentUser.await()?.email
+                }
+                launch {
+                    userProfileChangeRequest {
+                        displayName = fullName
+                    }.also {
+                        currentUser.await()?.updateProfile(it)
+                    }
+                }
+                launch {
+                    currentUserEmail.await()?.let {
+                        residentRef.document(it)
+                            .update("fullName", it)
+                            .await()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "updateFullNameForResident --> $e")
+            }
+        }.join()
+    }
+
+
+
+    fun updateEmailForAdmin(email: String) {
+        CoroutineScope(ioDispatcher).launch {
+            try {
+                val currentUser = async {
+                    auth.currentUser
+                }
+                val currentUserEmail = async {
+                    currentUser.await()?.email
+                }
+                launch {
+                    currentUser.await()?.updateEmail(email)?.await()
+                }
+                launch {
+                    currentUserEmail.await()?.let {
+                        adminRef.document(it)
+                            .update("email", email).await()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "updateEmailInfo --> $e")
+            }
+        }
+    }
+
+    fun updateEmailForResident(email: String) {
+        CoroutineScope(ioDispatcher).launch {
+            try {
+                val currentUser = async {
+                    auth.currentUser
+                }
+                val currentUserEmail = async {
+                    currentUser.await()?.email
+                }
+                launch {
+                    currentUser.await()?.updateEmail(email)?.await()
+                }
+                launch {
+                    currentUserEmail.await()?.let {
+                        residentRef.document(it)
+                            .update("email", email).await()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "updateEmailInfo --> $e")
+            }
+        }
+    }
+
+
+
+    fun updatePassword(password: String) {
+        CoroutineScope(ioDispatcher).launch {
+            try {
+                currentUser?.updatePassword(password)?.await()
+            } catch (e: Exception) {
+                Log.e(TAG, "updatePassword ---> $e")
+            }
+        }
+    }
+
+    fun updatePhoneNumberForAdmin(phoneNumber: String) {
+        CoroutineScope(ioDispatcher).launch {
+            try {
+                val email = currentUser?.email
+                email?.let {
+                    adminRef.document(it)
+                        .update("phoneNumber", phoneNumber)
+                        .await()
+                }
+            } catch (e: FirebaseFirestoreException) {
+                Log.e(TAG, "updatePhoneNumberForAdmin --> $e")
+            }
+        }
+    }
+
+    fun updatePhoneNumberForResident(phoneNumber: String) {
+        CoroutineScope(ioDispatcher).launch {
+            try {
+                val email = currentUser?.email
+                email?.let {
+                    residentRef.document(it)
+                        .update("phoneNumber", phoneNumber)
+                        .await()
+                }
+            } catch (e: FirebaseFirestoreException) {
+                Log.e(TAG, "updatePhoneNumberForResident ---> $e")
+            }
+        }
     }
 
     suspend fun loginWithEmailAndPassword(
