@@ -78,7 +78,7 @@ class ResidentSiteInformationViewModel(
     }
 
     suspend fun updateUserDisplayName() {
-        UserOperations.updateUserInfo(_resident)
+        UserOperations.updateFullNameForAdmin(_resident["fullName"] as String)
     }
 
     suspend fun saveResidentIntoDB(

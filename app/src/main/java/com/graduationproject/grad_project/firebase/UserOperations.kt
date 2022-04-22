@@ -4,6 +4,8 @@ import android.util.Log
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.EmailAuthCredential
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.DocumentSnapshot
@@ -32,6 +34,24 @@ object UserOperations: FirebaseConstants() {
         } catch (e: Exception) {
             Log.e(TAG, "getAdmin --> $e")
             null
+        }
+    }
+
+    fun reAuthenticateUser(email: String, password: String) {
+        CoroutineScope(ioDispatcher).launch {
+            try {
+                val credential = EmailAuthProvider.getCredential(
+                    email, password
+                )
+                val currentUser = currentUser!!
+                currentUser.reauthenticate(credential).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        Log.d(TAG, "reAuthenticateUser --> ReAuthentication is successful!")
+                    }
+                }.await()
+            } catch (e: Exception) {
+                Log.e(TAG, "reAuthenticateUser --> $e")
+            }
         }
     }
 
@@ -127,15 +147,166 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
-    suspend fun updateUserInfo(admin: HashMap<String, Any>) {
+    suspend fun updateFullNameForAdmin(fullName: String) {
         CoroutineScope(ioDispatcher).launch {
-            val currentUser = auth.currentUser
-            userProfileChangeRequest {
-                displayName = admin["fullName"].toString()
-            }.also {
-                currentUser?.updateProfile(it)
+            try {
+                val currentUser = async {
+                    auth.currentUser
+                }
+                val currentUserEmail = async {
+                    currentUser.await()?.email
+                }
+                launch {
+                    userProfileChangeRequest {
+                        displayName = fullName
+                    }.also {
+                        currentUser.await()?.updateProfile(it)
+                    }
+                }
+                launch {
+                    currentUserEmail.await()?.let {
+                        adminRef.document(it)
+                            .update("fullName", fullName)
+                            .await()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "updateFullNameForAdmin --> $e")
             }
         }.join()
+    }
+
+    suspend fun updateFullNameForResident(fullName: String) {
+        CoroutineScope(ioDispatcher).launch {
+            try {
+                val currentUser = async {
+                    auth.currentUser
+                }
+                val currentUserEmail = async {
+                    currentUser.await()?.email
+                }
+                launch {
+                    userProfileChangeRequest {
+                        displayName = fullName
+                    }.also {
+                        currentUser.await()?.updateProfile(it)
+                    }
+                }
+                launch {
+                    currentUserEmail.await()?.let {
+                        residentRef.document(it)
+                            .update("fullName", it)
+                            .await()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "updateFullNameForResident --> $e")
+            }
+        }.join()
+    }
+
+    fun updateEmailForAdmin(newEmail: String) {
+        CoroutineScope(ioDispatcher).launch {
+            try {
+                val currentUser = async {
+                    auth.currentUser
+                }
+                val currentUserEmail = async {
+                    currentUser.await()?.email
+                }
+                launch {
+                    currentUser.await()?.updateEmail(newEmail)?.await()
+                }
+                launch {
+                    currentUserEmail.await()?.let {
+                        adminRef.document(it)
+                            .update("email", newEmail).await()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "updateEmailInfo --> $e")
+            }
+        }
+    }
+
+    fun updateEmailForResident(email: String) {
+        CoroutineScope(ioDispatcher).launch {
+            try {
+                val currentUser = async {
+                    auth.currentUser
+                }
+                val currentUserEmail = async {
+                    currentUser.await()?.email
+                }
+                launch {
+                    currentUser.await()?.updateEmail(email)?.await()
+                }
+                launch {
+                    currentUserEmail.await()?.let {
+                        residentRef.document(it)
+                            .update("email", email).await()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "updateEmailInfo --> $e")
+            }
+        }
+    }
+
+
+
+    fun updatePassword(password: String, view: View) {
+        CoroutineScope(ioDispatcher).launch {
+            try {
+                currentUser?.updatePassword(password)?.addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        Log.d(TAG, "updatePassword --> Updating password is SUCCESSFUL!")
+                        Snackbar.make(
+                            view,
+                            "Şifre değiştirme başarılı!",
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    }
+                }?.await()
+            } catch (e: Exception) {
+                Log.e(TAG, "updatePassword ---> $e")
+                Snackbar.make(
+                    view,
+                    e.toString(),
+                    Snackbar.LENGTH_LONG
+                ).show()
+            }
+        }
+    }
+
+    fun updatePhoneNumberForAdmin(phoneNumber: String) {
+        CoroutineScope(ioDispatcher).launch {
+            try {
+                val email = currentUser?.email
+                email?.let {
+                    adminRef.document(it)
+                        .update("phoneNumber", phoneNumber)
+                        .await()
+                }
+            } catch (e: FirebaseFirestoreException) {
+                Log.e(TAG, "updatePhoneNumberForAdmin --> $e")
+            }
+        }
+    }
+
+    fun updatePhoneNumberForResident(phoneNumber: String) {
+        CoroutineScope(ioDispatcher).launch {
+            try {
+                val email = currentUser?.email
+                email?.let {
+                    residentRef.document(it)
+                        .update("phoneNumber", phoneNumber)
+                        .await()
+                }
+            } catch (e: FirebaseFirestoreException) {
+                Log.e(TAG, "updatePhoneNumberForResident ---> $e")
+            }
+        }
     }
 
     suspend fun loginWithEmailAndPassword(

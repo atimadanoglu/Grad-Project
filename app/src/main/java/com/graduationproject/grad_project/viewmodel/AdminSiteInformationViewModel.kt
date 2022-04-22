@@ -78,7 +78,7 @@ class AdminSiteInformationViewModel(
     }
 
     suspend fun updateUserDisplayName() {
-        UserOperations.updateUserInfo(_admin)
+        UserOperations.updateFullNameForAdmin(_admin["fullName"] as String)
     }
 
     suspend fun saveAdminIntoDB(

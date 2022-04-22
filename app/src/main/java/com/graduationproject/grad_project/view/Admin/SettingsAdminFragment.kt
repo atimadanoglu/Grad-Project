@@ -1,60 +1,63 @@
 package com.graduationproject.grad_project.view.admin
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.graduationproject.grad_project.R
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
+import com.graduationproject.grad_project.databinding.FragmentSettingsAdminBinding
+import com.graduationproject.grad_project.viewmodel.SettingsAdminViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SettingsAdminFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SettingsAdminFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentSettingsAdminBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: SettingsAdminViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings_admin, container, false)
+        _binding = FragmentSettingsAdminBinding.inflate(inflater, container, false)
+        viewModel.getAdmin()
+        viewModel.fullName.observe(viewLifecycleOwner) {
+            binding.nameText.text = it
+        }
+        viewModel.email.observe(viewLifecycleOwner) {
+            binding.emailText.text = it
+        }
+        viewModel.phoneNumber.observe(viewLifecycleOwner) {
+            binding.phoneText.text = it
+        }
+        binding.cardViewName.setOnClickListener { goToUpdateNamePage() }
+        binding.cardViewPhone.setOnClickListener { goToUpdatePhoneNumberPage() }
+        binding.carViewPassword.setOnClickListener { goToUpdatePasswordPage() }
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SettingsAdminFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SettingsAdminFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun goToUpdatePasswordPage() {
+        val action = SettingsAdminFragmentDirections.actionSettingsAdminFragmentToSettingsPasswordFragment()
+        requireView().findNavController().navigate(action)
     }
+
+    private fun goToUpdatePhoneNumberPage() {
+        val action = SettingsAdminFragmentDirections.actionSettingsAdminFragmentToSettingsPhoneFragment()
+        requireView().findNavController().navigate(action)
+    }
+
+    private fun goToUpdateNamePage() {
+        val action = viewModel.fullName.value?.let {
+            SettingsAdminFragmentDirections.actionSettingsAdminFragmentToSettingsNameFragment(
+                it
+            )
+        }
+        if (action != null) {
+            requireView().findNavController().navigate(action)
+        }
+    }
+
 }
