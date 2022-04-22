@@ -177,5 +177,6 @@
     <string name="settingsEmailInfo">Lütfen kullanmakta olduğunuz mail adresinizi giriniz.</string>
     <string name="settingsPasswordInfo">Lütfen şifrenizi belirlerken özel karakterler (.!/_) kullanmaya özen gösterin. Bu, hesabınızın üçüncü kişiler tarafından erişilmesine engel olacaktır.</string>
     <string name="mail_adresi">Mail Adresi</string>
+    <string name="yeni_şifre">Yeni Şifre</string>
 
 </resources>

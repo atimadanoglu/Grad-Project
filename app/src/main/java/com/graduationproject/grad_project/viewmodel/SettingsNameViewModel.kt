@@ -15,6 +15,10 @@ class SettingsNameViewModel: ViewModel() {
     private val _isSame = MutableLiveData(false)
     val isSame: LiveData<Boolean> get() = _isSame
 
+    /**
+     * Set livedata value of name property
+     * @param name Entered input from user
+     * */
     fun setName(name: String) { _name.value = name }
 
     fun updateName(value: String) {
@@ -24,11 +28,16 @@ class SettingsNameViewModel: ViewModel() {
         }
     }
 
+    /**
+     * It will be used to compare previous and new fullName.
+     *
+     * */
     fun checkPreviousAndNewName() {
         viewModelScope.launch {
             val displayName = FirebaseAuth.getInstance().currentUser?.displayName
             displayName?.let {
                 _isSame.value = displayName == _name.value
+                _isSame.value = it == _name.value
             }
         }
     }

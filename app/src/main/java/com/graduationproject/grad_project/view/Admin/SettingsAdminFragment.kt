@@ -56,8 +56,14 @@ class SettingsAdminFragment : Fragment() {
     }
 
     private fun goToUpdateNamePage() {
-        val action = SettingsAdminFragmentDirections.actionSettingsAdminFragmentToSettingsNameFragment()
-        requireView().findNavController().navigate(action)
+        val action = viewModel.fullName.value?.let {
+            SettingsAdminFragmentDirections.actionSettingsAdminFragmentToSettingsNameFragment(
+                it
+            )
+        }
+        if (action != null) {
+            requireView().findNavController().navigate(action)
+        }
     }
 
 }

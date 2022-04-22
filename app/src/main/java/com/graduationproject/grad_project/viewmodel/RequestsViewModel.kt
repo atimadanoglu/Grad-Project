@@ -26,7 +26,7 @@ class RequestsViewModel(
     companion object {
         const val TAG = "RequestsViewModel"
     }
-    private val _requests = MutableLiveData<ArrayList<Request?>>(arrayListOf())
+    private val _requests = MutableLiveData<ArrayList<Request?>>()
     val requests: MutableLiveData<ArrayList<Request?>> get() = _requests
 
     suspend fun retrieveRequests(auth: FirebaseAuth = FirebaseAuth.getInstance()) {

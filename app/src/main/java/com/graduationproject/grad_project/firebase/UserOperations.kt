@@ -4,6 +4,8 @@ import android.util.Log
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.EmailAuthCredential
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.DocumentSnapshot
@@ -32,6 +34,24 @@ object UserOperations: FirebaseConstants() {
         } catch (e: Exception) {
             Log.e(TAG, "getAdmin --> $e")
             null
+        }
+    }
+
+    fun reAuthenticateUser(email: String, password: String) {
+        CoroutineScope(ioDispatcher).launch {
+            try {
+                val credential = EmailAuthProvider.getCredential(
+                    email, password
+                )
+                val currentUser = currentUser!!
+                currentUser.reauthenticate(credential).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        Log.d(TAG, "reAuthenticateUser --> ReAuthentication is successful!")
+                    }
+                }.await()
+            } catch (e: Exception) {
+                Log.e(TAG, "reAuthenticateUser --> $e")
+            }
         }
     }
 
@@ -185,9 +205,7 @@ object UserOperations: FirebaseConstants() {
         }.join()
     }
 
-
-
-    fun updateEmailForAdmin(email: String) {
+    fun updateEmailForAdmin(newEmail: String) {
         CoroutineScope(ioDispatcher).launch {
             try {
                 val currentUser = async {
@@ -197,12 +215,12 @@ object UserOperations: FirebaseConstants() {
                     currentUser.await()?.email
                 }
                 launch {
-                    currentUser.await()?.updateEmail(email)?.await()
+                    currentUser.await()?.updateEmail(newEmail)?.await()
                 }
                 launch {
                     currentUserEmail.await()?.let {
                         adminRef.document(it)
-                            .update("email", email).await()
+                            .update("email", newEmail).await()
                     }
                 }
             } catch (e: Exception) {
@@ -240,7 +258,11 @@ object UserOperations: FirebaseConstants() {
     fun updatePassword(password: String) {
         CoroutineScope(ioDispatcher).launch {
             try {
-                currentUser?.updatePassword(password)?.await()
+                currentUser?.updatePassword(password)?.addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        Log.d(TAG, "updatePassword --> Updating password is SUCCESSFUL!")
+                    }
+                }?.await()
             } catch (e: Exception) {
                 Log.e(TAG, "updatePassword ---> $e")
             }

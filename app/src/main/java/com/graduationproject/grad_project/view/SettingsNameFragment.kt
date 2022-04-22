@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -28,6 +29,13 @@ class SettingsNameFragment : Fragment() {
         _binding = FragmentSettingsNameBinding.inflate(inflater, container, false)
         val args: SettingsNameFragmentArgs by navArgs()
         binding.nameEditText.setText(args.fullName)
+        binding.nameEditText.addTextChangedListener {
+            if (it.isNullOrEmpty()) {
+                binding.nameLayout.error = "Boş girilemez!"
+            } else {
+                binding.nameLayout.error = null
+            }
+        }
         binding.updateButton.setOnClickListener { updateButtonClicked() }
         return binding.root
     }
@@ -61,6 +69,18 @@ class SettingsNameFragment : Fragment() {
         requireView().findNavController().navigate(action)
     }
 
+    private fun isValid() {
+        if (viewModel.isSame.value == true) {
+            binding.nameLayout.error = "Aynı isim girilemez!"
+        } else {
+            binding.nameLayout.error = null
+        }
+    }
+
+    /**
+     * It can be used to update drawer header's fullName attribute
+     * after updating that data
+     * */
     private fun updateDrawerHeader() {
         val header = requireActivity().findViewById<View>(R.id.drawerLayoutAdmin)
         val binding = DataBindingUtil.bind<DrawerHeaderAdminBinding>(header)
