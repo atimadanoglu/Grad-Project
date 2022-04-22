@@ -34,7 +34,6 @@ class SettingsAdminFragment : Fragment() {
             binding.phoneText.text = it
         }
         binding.cardViewName.setOnClickListener { goToUpdateNamePage() }
-        binding.cardViewEmail.setOnClickListener { goToUpdateEmailPage() }
         binding.cardViewPhone.setOnClickListener { goToUpdatePhoneNumberPage() }
         binding.carViewPassword.setOnClickListener { goToUpdatePasswordPage() }
         return binding.root
@@ -47,11 +46,6 @@ class SettingsAdminFragment : Fragment() {
 
     private fun goToUpdatePhoneNumberPage() {
         val action = SettingsAdminFragmentDirections.actionSettingsAdminFragmentToSettingsPhoneFragment()
-        requireView().findNavController().navigate(action)
-    }
-
-    private fun goToUpdateEmailPage() {
-        val action = SettingsAdminFragmentDirections.actionSettingsAdminFragmentToSettingsEmailFragment()
         requireView().findNavController().navigate(action)
     }
 

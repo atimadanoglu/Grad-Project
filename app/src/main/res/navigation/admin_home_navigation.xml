@@ -72,9 +72,6 @@
             android:id="@+id/action_settingsAdminFragment_to_settingsPasswordFragment"
             app:destination="@id/settingsPasswordFragment" />
         <action
-            android:id="@+id/action_settingsAdminFragment_to_settingsEmailFragment"
-            app:destination="@id/settingsEmailFragment" />
-        <action
             android:id="@+id/action_settingsAdminFragment_to_settingsNameFragment"
             app:destination="@id/settingsNameFragment" />
         <action
@@ -111,15 +108,7 @@
             android:id="@+id/action_settingsPasswordFragment_to_settingsAdminFragment"
             app:destination="@id/settingsAdminFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/settingsEmailFragment"
-        android:name="com.graduationproject.grad_project.view.SettingsEmailFragment"
-        android:label="fragment_settings_email"
-        tools:layout="@layout/fragment_settings_email" >
-        <action
-            android:id="@+id/action_settingsEmailFragment_to_settingsAdminFragment"
-            app:destination="@id/settingsAdminFragment" />
-    </fragment>
+
     <fragment
         android:id="@+id/settingsNameFragment"
         android:name="com.graduationproject.grad_project.view.SettingsNameFragment"
