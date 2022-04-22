@@ -3,10 +3,13 @@ package com.graduationproject.grad_project.firebase
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
+import com.graduationproject.grad_project.adapter.ExpendituresListAdapter
 import com.graduationproject.grad_project.model.Expenditure
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -108,6 +111,25 @@ object ExpendituresOperations: FirebaseConstants() {
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "deleteExpenditure --> $e")
+            }
+        }
+    }
+
+    fun deleteExpenditure(expenditure: Expenditure) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val email = auth.currentUser?.email
+                val db = FirebaseFirestore.getInstance()
+                if (email != null) {
+                    db.collection("administrators")
+                        .document(email)
+                        .collection("expenditures")
+                        .document(expenditure.id)
+                        .delete()
+                        .await()
+                }
+            } catch (e: Exception) {
+                Log.e(ExpendituresListAdapter.TAG, "deleteExpenditure ---> $e")
             }
         }
     }

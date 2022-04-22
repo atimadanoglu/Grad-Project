@@ -13,17 +13,14 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import com.graduationproject.grad_project.firebase.ExpendituresOperations
 import com.graduationproject.grad_project.model.Expenditure
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class ExpendituresViewModel: ViewModel() {
 
     companion object {
         const val TAG = "ExpendituresViewModel"
     }
-    private var _expenditures = MutableLiveData<ArrayList<Expenditure?>>()
+    private var _expenditures = MutableLiveData<ArrayList<Expenditure?>>(arrayListOf())
     val expenditures: LiveData<ArrayList<Expenditure?>> get() = _expenditures
 
     private val db: FirebaseFirestore by lazy {
@@ -33,34 +30,13 @@ class ExpendituresViewModel: ViewModel() {
         db.collection("administrators")
     }
 
-    /*suspend fun getExpenditures() {
-        val email = FirebaseAuth.getInstance().currentUser?.email
-        if (email != null) {
-            _expenditures.value = ExpendituresOperations.retrieveAllExpendituresWithSnapshot(email)
-        }
-    }*/
-
-    fun getExpenditures() {
-        viewModelScope.launch {
-            val email = async {
-                FirebaseAuth.getInstance().currentUser?.email
-            }
-            if (email.await() != null) {
-                val job = async {
-                    ExpendituresOperations.retrieveAllExpendituresWithSnapshot(email.await()!!)
-                }
-                job.await()
-                if (job.isCompleted) {
-                    _expenditures = ExpendituresOperations.expendituresList
-                }
-            }
-        }
-    }
-
-    fun retrieveAllExpendituresWithSnapshot(email: String) {
+    fun retrieveAllExpendituresWithSnapshot() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                adminRef.document(email)
+                val email = async {
+                    FirebaseAuth.getInstance().currentUser?.email
+                }
+                adminRef.document(requireNotNull(email.await()))
                     .collection("expenditures")
                     .orderBy("date", Query.Direction.DESCENDING)
                     .addSnapshotListener { value, error ->
@@ -68,21 +44,19 @@ class ExpendituresViewModel: ViewModel() {
                             Log.e(TAG,"retrieveAllExpenditures --> $error")
                             return@addSnapshotListener
                         }
-                        if (value?.documents?.isNotEmpty() == true) {
-                            val newArrayList = ArrayList<Expenditure?>(arrayListOf())
-                            value.documents.forEach {
-                                val expenditure = Expenditure(
-                                    it["id"] as String,
-                                    it["title"] as String,
-                                    it["content"] as String,
-                                    it["amount"].toString().toLong().toInt(),
-                                    it["documentUri"] as String,
-                                    it["date"] as Timestamp
-                                )
-                                newArrayList.add(expenditure)
-                            }.also {
-                                _expenditures.value = newArrayList
-                            }
+                        val newArrayList = ArrayList<Expenditure?>(arrayListOf())
+                        value?.documents?.forEach {
+                            val expenditure = Expenditure(
+                                it["id"] as String,
+                                it["title"] as String,
+                                it["content"] as String,
+                                it["amount"].toString().toLong().toInt(),
+                                it["documentUri"] as String,
+                                it["date"] as Timestamp
+                            )
+                            newArrayList.add(expenditure)
+                        }.also {
+                            _expenditures.value = newArrayList
                         }
                     }
             } catch (e: FirebaseFirestoreException) {
