@@ -1,6 +1,7 @@
 package com.graduationproject.grad_project.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.graduationproject.grad_project.databinding.FragmentSettingsPasswordBinding
 import com.graduationproject.grad_project.viewmodel.SettingsPasswordViewModel
 
@@ -37,6 +39,17 @@ class SettingsPasswordFragment : Fragment() {
                 binding.newPasswordLayout.error = null
             }
         }
+        viewModel.isAuthenticated.observe(viewLifecycleOwner) {
+            if (it) {
+                Log.d("SettingsPasswordFragment", "isAuthenticated.observe --> Authentication i")
+            } else {
+                Snackbar.make(
+                    requireView(),
+                    "Şifreniz değiştirilemedi. Şifrenizi lütfen kontrol ediniz!",
+                    Snackbar.LENGTH_LONG
+                ).show()
+            }
+        }
         return binding.root
     }
 
@@ -47,8 +60,23 @@ class SettingsPasswordFragment : Fragment() {
         if (!previousPassword.isNullOrEmpty() && !newPassword.isNullOrEmpty() && newPassword.length > 7) {
             viewModel.setPreviousPassword(previousPassword.toString())
             viewModel.setNewPassword(newPassword.toString())
-            viewModel.updatePassword()
-            goBackToSettings()
+            viewModel.reAuthenticateAndUpdatePassword(previousPassword.toString())
+        }
+        viewModel.isChanged.observe(viewLifecycleOwner) {
+            if (it) {
+                Snackbar.make(
+                    requireView(),
+                    "Şifre değiştirme başarılı!",
+                    Snackbar.LENGTH_LONG
+                ).show()
+                goBackToSettings()
+            } else {
+                Snackbar.make(
+                    requireView(),
+                    "Şifre değiştirme başarısız!",
+                    Snackbar.LENGTH_LONG
+                ).show()
+            }
         }
     }
 

@@ -255,16 +255,26 @@ object UserOperations: FirebaseConstants() {
 
 
 
-    fun updatePassword(password: String) {
+    fun updatePassword(password: String, view: View) {
         CoroutineScope(ioDispatcher).launch {
             try {
                 currentUser?.updatePassword(password)?.addOnCompleteListener {
                     if (it.isSuccessful) {
                         Log.d(TAG, "updatePassword --> Updating password is SUCCESSFUL!")
+                        Snackbar.make(
+                            view,
+                            "Şifre değiştirme başarılı!",
+                            Snackbar.LENGTH_LONG
+                        ).show()
                     }
                 }?.await()
             } catch (e: Exception) {
                 Log.e(TAG, "updatePassword ---> $e")
+                Snackbar.make(
+                    view,
+                    e.toString(),
+                    Snackbar.LENGTH_LONG
+                ).show()
             }
         }
     }
