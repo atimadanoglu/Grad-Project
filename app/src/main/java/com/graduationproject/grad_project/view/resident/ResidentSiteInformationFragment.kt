@@ -77,7 +77,7 @@ class ResidentSiteInformationFragment(
         viewModel.setCity(binding.cityText.text.toString())
         viewModel.setDistrict(binding.countyText.text.toString())
         viewModel.setBlockNo(binding.blockNoText.text.toString())
-        viewModel.setFlatNo(binding.flatNoText.text.toString().toInt())
+        viewModel.setFlatNo(binding.flatNoText.text.toString().toLong())
     }
 
 }

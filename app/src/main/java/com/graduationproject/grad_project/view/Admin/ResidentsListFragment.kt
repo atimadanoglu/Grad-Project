@@ -1,24 +1,17 @@
 package com.graduationproject.grad_project.view.admin
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.graduationproject.grad_project.adapter.ResidentsListAdapter
 import com.graduationproject.grad_project.databinding.FragmentResidentsListBinding
 import com.graduationproject.grad_project.viewmodel.ResidentsListViewModel
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
-class ResidentsListFragment(
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
-) : Fragment() {
+class ResidentsListFragment : Fragment() {
 
     private var _binding: FragmentResidentsListBinding? = null
     private val binding get() = _binding!!
@@ -32,50 +25,15 @@ class ResidentsListFragment(
         // Inflate the layout for this fragment
         _binding = FragmentResidentsListBinding.inflate(inflater, container, false)
         val view = binding.root
-        listResidents()
-        adaptResidentsListRecyclerView()
         viewModel.residentsList.observe(viewLifecycleOwner) {
             residentsListAdapter?.submitList(it)
         }
-        viewModel.filteredList.observe(viewLifecycleOwner) {
-            residentsListAdapter?.submitList(it)
-        }
-
-        binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText != null) {
-                    filter(newText)
-                }
-                return false
-            }
-        })
-        return view
-    }
-
-    private fun listResidents() {
-        viewLifecycleOwner.lifecycleScope.launch(ioDispatcher) {
-            viewModel.retrieveAndShowResidents()
-            residentsListAdapter?.submitList(viewModel.residentsList.value)
-        }
-    }
-
-    private fun adaptResidentsListRecyclerView() {
-        binding.recyclerview.layoutManager = LinearLayoutManager(this.context)
-        residentsListAdapter =
-            context?.let { context ->
-                ResidentsListAdapter(
-                    parentFragmentManager,
-                    context
-                )
-            }
+        viewModel.getResidentsInASpecificSiteWithSnapshot()
+        binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
+        residentsListAdapter = ResidentsListAdapter(parentFragmentManager, requireContext())
         binding.recyclerview.adapter = residentsListAdapter
-    }
+        binding.lifecycleOwner = viewLifecycleOwner
 
-    private fun filter(query: String) {
-        viewModel.filter(query)
+        return view
     }
 }

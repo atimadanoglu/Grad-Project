@@ -195,7 +195,7 @@ object UserOperations: FirebaseConstants() {
                 launch {
                     currentUserEmail.await()?.let {
                         residentRef.document(it)
-                            .update("fullName", it)
+                            .update("fullName", fullName)
                             .await()
                     }
                 }

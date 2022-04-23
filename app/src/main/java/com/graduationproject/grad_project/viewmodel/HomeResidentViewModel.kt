@@ -9,7 +9,7 @@ import kotlinx.coroutines.tasks.await
 
 class HomeResidentViewModel: ViewModel() {
 
-    private var _myDebt = MutableLiveData(0.0)
+    private var _myDebt = MutableLiveData(0L)
     val myDebt get() = _myDebt
     private var _myRequestsAmount = MutableLiveData(0)
     val myRequestsAmount get() = _myRequestsAmount
@@ -28,7 +28,7 @@ class HomeResidentViewModel: ViewModel() {
                     UserOperations.getResident(it)
                 }
                 launch {
-                    _myDebt.postValue(resident.await()?.get("debt").toString().toDouble())
+                    _myDebt.postValue(resident.await()?.get("debt").toString().toLong())
                 }
 
                 launch {

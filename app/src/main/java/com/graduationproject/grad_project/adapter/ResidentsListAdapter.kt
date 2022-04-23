@@ -23,11 +23,6 @@ class ResidentsListAdapter(
 ) :ListAdapter<SiteResident, ResidentViewHolder>(ResidentsListItemCallback()) {
 
     class ResidentViewHolder(val binding: ListItemBinding): RecyclerView.ViewHolder(binding.root) {
-        private val accountName = binding.accountNameTextListItem
-        private val block = binding.blockNoTextListItem
-        private val flatNo = binding.flatNoAddDebt
-        private val debtText = binding.debtAmount
-        val menu = binding.moreIconButton
         companion object {
             fun inflateFrom(parent: ViewGroup): ResidentViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
@@ -37,31 +32,25 @@ class ResidentsListAdapter(
         }
 
         fun bind(resident: SiteResident) {
-            accountName.text = resident.fullName
-            val blockText = "Blok : " + resident.blockNo
-            block.text = blockText
-            val flat = "Daire : " + resident.flatNo.toString()
-            flatNo.text = flat
-            val debt =  resident.debt.toString() + " TL"
-            debtText.text = debt
+            binding.resident = resident
+            binding.executePendingBindings()
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResidentViewHolder
-    = ResidentViewHolder.inflateFrom(parent)
+            = ResidentViewHolder.inflateFrom(parent)
 
 
     override fun onBindViewHolder(holder: ResidentViewHolder, position: Int) {
         val resident = getItem(position)
         holder.bind(resident)
-        holder.menu.setOnClickListener { view ->
+        holder.binding.moreIconButton.setOnClickListener { view ->
             val popup: PopupMenu = createPopUpMenu(view)
             popup.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.add_debt -> {
                         val addDebt = resident?.let { AddingDebtDialogFragment(it) }
                         addDebt?.show(fragmentManager, "addDebtDialog")
-                        notifyItemChanged(position)
                         true
                     }
                     R.id.send_message -> {
@@ -72,7 +61,6 @@ class ResidentsListAdapter(
                     R.id.delete_debt -> {
                         val deleteDebt = resident?.let { DeletingDebtDialogFragment(it) }
                         deleteDebt?.show(fragmentManager, "deleteDebtDialog")
-                        notifyItemChanged(position)
                         true
                     }
                     else -> false
@@ -89,15 +77,15 @@ class ResidentsListAdapter(
         return popup
     }
 
-     /*fun filterList(list: ArrayList<SiteResident?>) {
-         siteResidents = list
-         submitList(list)
-     }
+    /*fun filterList(list: ArrayList<SiteResident?>) {
+        siteResidents = list
+        submitList(list)
+    }
 
-    fun updateResidentsList(newResidents: ArrayList<SiteResident?>) {
-        siteResidents.clear()
-        siteResidents.addAll(newResidents)
-        submitList(siteResidents)
-    }*/
+   fun updateResidentsList(newResidents: ArrayList<SiteResident?>) {
+       siteResidents.clear()
+       siteResidents.addAll(newResidents)
+       submitList(siteResidents)
+   }*/
 
 }

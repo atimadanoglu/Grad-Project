@@ -56,7 +56,7 @@ class ExpendituresViewModel: ViewModel() {
                             )
                             newArrayList.add(expenditure)
                         }.also {
-                            _expenditures.value = newArrayList
+                            _expenditures.postValue(newArrayList)
                         }
                     }
             } catch (e: FirebaseFirestoreException) {

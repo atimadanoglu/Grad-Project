@@ -40,7 +40,7 @@ class AddingDebtDialogViewModel(
                     _isDebtUpdated = true
                 }
             } catch (e: FirebaseFirestoreException) {
-
+                Log.e(TAG, "addDebt --> $e")
             }
         }.join()
     }

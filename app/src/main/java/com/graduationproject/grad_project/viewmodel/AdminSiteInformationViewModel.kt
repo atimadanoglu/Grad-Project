@@ -27,7 +27,7 @@ class AdminSiteInformationViewModel(
     private var _blockCount = ""
     val blockCount get() = _blockCount
 
-    private var _flatCount = 0
+    private var _flatCount = 0L
     val flatCount get() = _flatCount
 
     private var _admin = hashMapOf<String, Any>()
@@ -40,7 +40,7 @@ class AdminSiteInformationViewModel(
     fun setCity(city: String) { _city = city }
     fun setDistrict(district: String) { _district = district }
     fun setBlockCount(blockCount: String) { _blockCount = blockCount }
-    fun setFlatCount(flatCount: Int) { _flatCount = flatCount }
+    fun setFlatCount(flatCount: Long) { _flatCount = flatCount }
 
     private suspend fun createAdmin(
         fullName: String,

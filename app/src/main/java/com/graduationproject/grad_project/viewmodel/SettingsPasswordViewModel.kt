@@ -1,15 +1,11 @@
 package com.graduationproject.grad_project.viewmodel
 
 import android.util.Log
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -82,8 +78,8 @@ class SettingsPasswordViewModel: ViewModel() {
                                 _newPassword.value?.let { it1 -> updatePassword(it1) }
                             }
                         }.await()
-                } }
-
+                    }
+                }
             } catch (e: Exception) {
                 Log.e(TAG, "reAuthenticateUser --> $e")
                 launch(Dispatchers.Main) {
