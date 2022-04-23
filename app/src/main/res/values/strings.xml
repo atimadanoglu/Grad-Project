@@ -178,5 +178,8 @@
     <string name="settingsPasswordInfo">Lütfen şifrenizi belirlerken özel karakterler (.!/_) kullanmaya özen gösterin. Bu, hesabınızın üçüncü kişiler tarafından erişilmesine engel olacaktır.</string>
     <string name="mail_adresi">Mail Adresi</string>
     <string name="yeni_şifre">Yeni Şifre</string>
+    <string name="sakinBlokNo">Blok: %s</string>
+    <string name="sakinDaireNo">Daire: %d</string>
+    <string name="sakinBorc">%d TL</string>
 
 </resources>

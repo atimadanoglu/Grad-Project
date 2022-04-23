@@ -5,27 +5,26 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
-import com.graduationproject.grad_project.firebase.UserOperations
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import com.graduationproject.grad_project.model.SiteResident
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class ResidentsListViewModel(
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
-    private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
 
     companion object {
         const val TAG = "ResidentsListViewModel"
     }
-
     private val _residentsList = MutableLiveData<ArrayList<SiteResident?>>(arrayListOf())
     val residentsList get() = _residentsList
 
-    private val _filteredList = MutableLiveData<ArrayList<SiteResident?>>()
-    val filteredList get() = _filteredList
-
-    fun filter(newText: String?) {
+  /*  fun filter(newText: String?) {
         viewModelScope.launch(mainDispatcher) {
             val list = _residentsList.value
             list?.let {
@@ -38,7 +37,7 @@ class ResidentsListViewModel(
             }
         }
 
-    }
+    }*/
 
     private fun contains(newText: String?, resident: SiteResident): Boolean {
         return resident.fullName.contains(newText.toString(), true)
@@ -46,47 +45,37 @@ class ResidentsListViewModel(
                 || resident.blockNo.contains(newText.toString(), true)
     }
 
-    fun retrieveAndShowResidents() {
+    fun getResidentsInASpecificSiteWithSnapshot() {
         viewModelScope.launch(ioDispatcher) {
             try {
-                val email = FirebaseAuth.getInstance().currentUser?.email
-                val admin = async {
-                    email?.let { UserOperations.getAdmin(it) }
+                val db = FirebaseFirestore.getInstance()
+                val auth = FirebaseAuth.getInstance()
+                val adminEmail = auth.currentUser?.email.toString()
+
+                val adminInfo = async {
+                    db.collection("administrators")
+                        .document(adminEmail)
+                        .get().await()
                 }
-                admin.await()?.let {
-                    Log.d(TAG, "admin.await() is not null")
-                    createResidentsList(admin.await()!!)
-                }
+                db.collection("residents").whereEqualTo("city", adminInfo.await().get("city"))
+                    .whereEqualTo("district", adminInfo.await().get("district"))
+                    .whereEqualTo("siteName", adminInfo.await().get("siteName"))
+                    .addSnapshotListener { value, error ->
+                        if (error != null) {
+                            Log.e(TAG, "getResidentsInASpecificSiteWithSnapshot --> $error")
+                            return@addSnapshotListener
+                        }
+                        val documents = value?.documents
+                        val residents = arrayListOf<SiteResident?>()
+                        documents?.forEach {
+                            residents.add(it.toObject<SiteResident>())
+                        }.also {
+                            _residentsList.postValue(residents)
+                        }
+                    }
             } catch (e: Exception) {
-                Log.e(TAG, "retrieveAndShowResidents ---> $e")
+                Log.e(TAG, "getResidentsInASpecificSiteWithSnapshot --> $e")
             }
         }
     }
-
-    private suspend fun createResidentsList(admin: DocumentSnapshot) {
-        val residents = UserOperations.getResidentsInASpecificSite(admin)
-        val arrayList = arrayListOf<SiteResident?>()
-        withContext(Dispatchers.Main) {
-            residents?.documents?.forEach {
-                arrayList.add(
-                    SiteResident(
-                        it["fullName"].toString(),
-                        it["email"].toString(),
-                        it["phoneNumber"].toString(),
-                        it["blockNo"].toString(),
-                        it["flatNo"].toString().toInt(),
-                        it["debt"].toString().toDouble(),
-                        it["player_id"].toString(),
-                        it["typeOfUser"].toString(),
-                        it["siteName"].toString(),
-                        it["city"].toString(),
-                        it["district"].toString()
-                    )
-                )
-            }.apply {
-                _residentsList.value = arrayList
-            }
-        }
-    }
-
 }

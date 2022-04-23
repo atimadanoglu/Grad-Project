@@ -73,6 +73,6 @@ class AdminSiteInformationFragment : Fragment() {
         viewModel.setCity(binding.cityText.text.toString())
         viewModel.setDistrict(binding.countyText.text.toString())
         viewModel.setBlockCount(binding.blockCountText.text.toString())
-        viewModel.setFlatCount(binding.flatCountText.text.toString().toInt())
+        viewModel.setFlatCount(binding.flatCountText.text.toString().toLong())
     }
 }

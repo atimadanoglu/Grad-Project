@@ -27,7 +27,7 @@ class ResidentSiteInformationViewModel(
     private var _blockNo = ""
     val blockNo get() = _blockNo
 
-    private var _flatNo = 0
+    private var _flatNo = 0L
     val flatNo get() = _flatNo
 
     private var _resident = hashMapOf<String, Any>()
@@ -40,7 +40,7 @@ class ResidentSiteInformationViewModel(
     fun setCity(city: String) { _city = city }
     fun setDistrict(district: String) { _district = district }
     fun setBlockNo(blockNo: String) { _blockNo = blockNo }
-    fun setFlatNo(flatNo: Int) { _flatNo = flatNo }
+    fun setFlatNo(flatNo: Long) { _flatNo = flatNo }
 
 
     private suspend fun createResident(
@@ -68,7 +68,7 @@ class ResidentSiteInformationViewModel(
                 _resident["blockNo"] = blockNo
                 _resident["flatNo"] = flatNo
                 _resident["typeOfUser"] = "Sakin"
-                _resident["debt"] = 0.toDouble()
+                _resident["debt"] = 0L
                 true
             } catch (e: Exception) {
                 Log.e(TAG, "createResident ---> $e")
@@ -78,7 +78,7 @@ class ResidentSiteInformationViewModel(
     }
 
     suspend fun updateUserDisplayName() {
-        UserOperations.updateFullNameForAdmin(_resident["fullName"] as String)
+        UserOperations.updateFullNameForResident(_resident["fullName"] as String)
     }
 
     suspend fun saveResidentIntoDB(
