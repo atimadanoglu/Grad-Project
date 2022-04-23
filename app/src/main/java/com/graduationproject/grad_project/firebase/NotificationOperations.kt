@@ -1,42 +1,39 @@
 package com.graduationproject.grad_project.firebase
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.FirebaseException
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.toObject
 import com.graduationproject.grad_project.model.Notification
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
-import java.util.*
-import kotlin.collections.ArrayList
 
 object NotificationOperations: FirebaseConstants() {
 
     private const val TAG = "NotificationOperations"
 
-    fun deleteNotificationInAPosition(
-                           notifications: ArrayList<Notification>,
-                           position: Int) {
-        CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
+    fun deleteNotificationInAPosition(notification: Notification) {
+        CoroutineScope(ioDispatcher + coroutineExceptionHandler).launch {
             try {
-                adminRef.document(auth.currentUser?.email.toString())
-                    .collection("notifications")
-                    .document(notifications[position].id)
-                    .delete()
-                    .await().also {
-                        Log.d(TAG, "Deleting announcement operation is SUCCESSFUL!")
-                    }
+                currentUserEmail?.let {
+                    residentRef.document(it)
+                        .collection("notifications")
+                        .document(notification.id)
+                        .delete()
+                        .await().also {
+                            Log.d(TAG, "Deleting announcement operation is SUCCESSFUL!")
+                        }
+                }
             } catch (e: Exception) {
                 Log.e(TAG, "deleteNotificationInAPosition ---> $e")
             }
         }
     }
     fun saveNotificationIntoResidentDB(emailsOfResidents: ArrayList<String>, notification: Notification) {
-        CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
+        CoroutineScope(ioDispatcher + coroutineExceptionHandler).launch {
             for (emailOfResident in emailsOfResidents) {
                 try {
                     residentRef.document(emailOfResident)
@@ -72,48 +69,49 @@ object NotificationOperations: FirebaseConstants() {
         }
     }
 
-    fun deleteAllNotificationsForResident(email: String) {
-       CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
+    fun deleteAllNotificationsForResident() {
+       CoroutineScope(ioDispatcher + coroutineExceptionHandler).launch {
             try {
-                residentRef.document(email)
-                    .collection("notifications")
-                    .get()
-                    .addOnSuccessListener {
-                        it.forEach {  document ->
-                            document.reference.delete()
+                currentUserEmail?.let { email ->
+                    residentRef.document(email)
+                        .collection("notifications")
+                        .get()
+                        .await()
+                        .forEach {
+                            it.reference.delete()
                         }
-                    }
-                Log.d(TAG, "Deleting notifications operation is SUCCESSFUL!")
+                    Log.d(TAG, "Deleting notifications operation is SUCCESSFUL!")
+                }
             } catch (e: FirebaseException) {
-                Log.e(TAG, e.toString())
+                Log.e(TAG, "deleteAllNotificationsForResident --> $e")
             }
         }
     }
 
 
-    suspend fun orderNotificationsByDateAndFetch(email: String): ArrayList<Notification> {
-        return withContext(Dispatchers.IO + coroutineExceptionHandler) {
+    fun retrieveNotifications(notifications: MutableLiveData<ArrayList<Notification?>>) {
+        CoroutineScope(ioDispatcher + coroutineExceptionHandler).launch {
             try {
-                val notifications = arrayListOf<Notification>()
-                residentRef.document(email)
-                    .collection("notifications")
-                    .orderBy("date", Query.Direction.DESCENDING)
-                    .get()
-                    .await().forEach { document->
-                        notifications.add(
-                            Notification(
-                                document.get("title") as String,
-                                document.get("message") as String,
-                                document.get("pictureUri") as String,
-                                document.get("id") as String,
-                                Timestamp(Date())
-                            )
-                        )
-                    }
-                notifications
+                currentUserEmail?.let {
+                    residentRef.document(it)
+                        .collection("notifications")
+                        .orderBy("date", Query.Direction.DESCENDING)
+                        .addSnapshotListener { value, error ->
+                            if (error != null) {
+                                Log.e(TAG, "retrieveNotifications --> $error")
+                                return@addSnapshotListener
+                            }
+                            val documents = value?.documents
+                            val retrievedNotifications = arrayListOf<Notification?>()
+                            documents?.forEach { document ->
+                                retrievedNotifications.add(document.toObject<Notification>())
+                            }.also {
+                                notifications.postValue(retrievedNotifications)
+                            }
+                        }
+                }
             } catch (e: Exception) {
-                Log.e(TAG, e.toString())
-                arrayListOf()
+                Log.e(TAG, "retrieveNotifications --> $e")
             }
         }
     }

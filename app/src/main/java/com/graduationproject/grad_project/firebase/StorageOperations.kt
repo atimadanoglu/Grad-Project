@@ -11,11 +11,10 @@ object StorageOperations: FirebaseConstants() {
 
     private const val TAG = "StorageOperations"
 
-    suspend fun uploadImage(selectedPicture: Uri?): Boolean {
+    suspend fun uploadImage(selectedPicture: Uri?): Uri? {
         val uuid = UUID.randomUUID()
         val imageName = "$uuid.jpeg"
         val imageReference = storageRef.child("announcementDocuments").child(imageName)
-
         if (selectedPicture != null) {
             return try {
                 imageReference.putFile(selectedPicture).addOnSuccessListener {
@@ -23,12 +22,13 @@ object StorageOperations: FirebaseConstants() {
                 }.addOnFailureListener {
                     Log.e(TAG, it.toString())
                 }.await()
-                true
+                val a = imageReference.downloadUrl.await()
+                a
             } catch (e: Exception) {
                 Log.e(TAG, e.toString())
-                false
+                null
             }
         }
-        return false
+        return null
     }
 }

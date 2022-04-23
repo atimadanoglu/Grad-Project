@@ -31,14 +31,7 @@ class IncomingMessagesResidentFragment : Fragment() {
         binding.messageRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         recyclerViewAdapter = MessagesListRecyclerViewAdapter(requireContext(), parentFragmentManager)
         binding.messageRecyclerview.adapter = recyclerViewAdapter
-        binding.deleteMessageButton.setOnClickListener {
-            deleteMessageButtonClicked()
-        }
+        binding.viewModel = viewModel
         return view
     }
-
-    private fun deleteMessageButtonClicked() {
-        viewModel.clearMessages()
-    }
-
 }

@@ -1,5 +1,6 @@
 package com.graduationproject.grad_project.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,19 +10,18 @@ import kotlinx.coroutines.launch
 
 class NotificationsResidentViewModel : ViewModel(){
 
-    private val _notifications = MutableLiveData(arrayListOf<Notification>())
-    val notifications: MutableLiveData<ArrayList<Notification>?> get() = _notifications
+    private val _notifications = MutableLiveData<ArrayList<Notification?>>()
+    val notifications: LiveData<ArrayList<Notification?>> get() = _notifications
 
-    fun retrieveNotifications(email: String) {
+    fun retrieveNotifications() {
         viewModelScope.launch {
-            val allNotifications = NotificationOperations.orderNotificationsByDateAndFetch(email)
-            _notifications.value = allNotifications
+            NotificationOperations.retrieveNotifications(_notifications)
         }
     }
 
-    fun clearNotifications(email: String) {
+    fun clearNotifications() {
         viewModelScope.launch {
-            NotificationOperations.deleteAllNotificationsForResident(email)
+            NotificationOperations.deleteAllNotificationsForResident()
         }
     }
 }
