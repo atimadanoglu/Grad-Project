@@ -5,69 +5,54 @@ import android.view.LayoutInflater
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.PopupMenu
-import android.widget.TextView
 import androidx.fragment.app.FragmentManager
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.graduationproject.grad_project.R
+import com.graduationproject.grad_project.databinding.MessageRowLayoutBinding
 import com.graduationproject.grad_project.firebase.MessagesOperations
 import com.graduationproject.grad_project.model.Message
 import com.graduationproject.grad_project.view.resident.dialogs.ShowMessageDialogFragment
-import kotlinx.coroutines.*
 
 class MessagesListRecyclerViewAdapter(
-    private val messages: ArrayList<Message>,
     private val context: Context,
     private val fragmentManager: FragmentManager,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
-): RecyclerView.Adapter<MessagesListRecyclerViewAdapter.RowHolder>() {
+): ListAdapter<Message, MessagesListRecyclerViewAdapter.MessageViewHolder>(MessagesDiffUtil()) {
 
-    class RowHolder(view: View): RecyclerView.ViewHolder(view) {
-        private val title = itemView.findViewById<TextView>(R.id.item_title_announcement)
-        private val content = itemView.findViewById<TextView>(R.id.item_content_announcement)
-        val menu: ImageView = itemView.findViewById(R.id.more_icon_button_for_announcement)
+    class MessageViewHolder(val binding: MessageRowLayoutBinding): RecyclerView.ViewHolder(binding.root) {
+        companion object {
+            fun inflateFrom(parent: ViewGroup): MessageViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = MessageRowLayoutBinding.inflate(layoutInflater)
+                return MessageViewHolder(binding)
+            }
+        }
         fun bind(message: Message) {
-            title.text = message.title
-            content.text = message.content
+            binding.message = message
+            binding.executePendingBindings()
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RowHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.row_layout, parent, false)
-        return RowHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
+        return MessageViewHolder.inflateFrom(parent)
     }
 
-    override fun onBindViewHolder(holder: RowHolder, position: Int) {
-        holder.bind(messages[position])
-        holder.menu.setOnClickListener { view ->
+    override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
+        val item = getItem(position)
+        holder.bind(item)
+        holder.binding.messageOptions.setOnClickListener { view ->
             val popupMenu = createPopUpMenu(view)
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.announcementInfo -> {
-                        val showMessageDialogFragment = ShowMessageDialogFragment(
-                            messages[position].title,
-                            messages[position].content
-                        )
+                        val showMessageDialogFragment = ShowMessageDialogFragment(item)
                         showMessageDialogFragment.show(fragmentManager, "dialog")
                         true
                     }
                     R.id.deleteAnnouncement -> {
-                        CoroutineScope(ioDispatcher).launch {
-                            MessagesOperations
-                                .deleteMessageInSpecificPosition(
-                                    Firebase.auth.currentUser?.email.toString(),
-                                    messages,
-                                    position
-                                )
-                            withContext(Dispatchers.Main) {
-                                messages.removeAt(position)
-                                notifyItemRemoved(position)
-                            }
-                        }
+                        MessagesOperations.deleteMessageInSpecificPosition(item)
                         true
                     }
                     else -> false
@@ -76,7 +61,6 @@ class MessagesListRecyclerViewAdapter(
         }
     }
 
-
     private fun createPopUpMenu(view: View): PopupMenu {
         val popupMenu = PopupMenu(context, view)
         val inflater: MenuInflater = popupMenu.menuInflater
@@ -84,15 +68,15 @@ class MessagesListRecyclerViewAdapter(
         popupMenu.show()
         return popupMenu
     }
+}
 
-    fun updateMessagesList(newMessages: ArrayList<Message>) {
-        messages.clear()
-        messages.addAll(newMessages)
-        notifyDataSetChanged()
+class MessagesDiffUtil: DiffUtil.ItemCallback<Message>() {
+    override fun areItemsTheSame(oldItem: Message, newItem: Message): Boolean {
+        return oldItem.id == newItem.id
     }
 
-
-    override fun getItemCount(): Int {
-        return messages.count()
+    override fun areContentsTheSame(oldItem: Message, newItem: Message): Boolean {
+        return oldItem == newItem
     }
 }
+

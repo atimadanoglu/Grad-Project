@@ -37,6 +37,7 @@
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_home.xml" value="0.32971014492753625" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_home_page.xml" value="0.38405797101449274" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_home_resident.xml" value="0.381025641025641" />
+        <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_incoming_messages_resident.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_login.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_meeting_admin.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_meetings_resident.xml" value="0.38697916666666665" />
@@ -53,7 +54,6 @@
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_services_admin.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_services_resident.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_settings_admin.xml" value="0.38697916666666665" />
-        <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_settings_name.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_settings_email.xml" value="0.33" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_settings_name.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_settings_password.xml" value="0.38697916666666665" />
@@ -69,6 +69,7 @@
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_voting_admin.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/fragment_voting_results_resident.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/list_item.xml" value="0.36231884057971014" />
+        <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/message_row_layout.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/row_layout.xml" value="0.38405797101449274" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/send_message_item.xml" value="0.37182971014492755" />
         <entry key="..\:/Users/devel/Desktop/Grad-Project/app/src/main/res/layout/show_announcement_info_for_admin.xml" value="0.20923913043478262" />
