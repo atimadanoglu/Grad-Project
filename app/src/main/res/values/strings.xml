@@ -162,7 +162,7 @@
     <string name="evet">Evet</string>
     <string name="hayır">Hayır</string>
 
-    <string name="sitemizde_kay_tl_olan_hesap_bilgilerinizi_bu_men_den_g_ncelleyebilirsiniz">Sitemizde kayıtlı olan hesap bilgilerinizi bu menüden güncelleyebilirsiniz.</string>
+    <string name="settings_info">Sitemizde kayıtlı olan hesap bilgilerinizi bu menüden güncelleyebilirsiniz.</string>
     <string name="hesap_ayarlar">Hesap Ayarları</string>
     <string name="ad_soyad">Ad-Soyad</string>
     <string name="batuhan_goren">Batuhan Gören</string>
@@ -181,5 +181,10 @@
     <string name="sakinBlokNo">Blok: %s</string>
     <string name="sakinDaireNo">Daire: %d</string>
     <string name="sakinBorc">%d TL</string>
+    <string name="sifreyi_yinele">Şifreyi yinele</string>
+    <string name="eski_sifre">Eski şifre</string>
+    <string name="tarih_seciniz">Tarih seçiniz</string>
+    <string name="pending_info">Sitenizdeki askıda bekleyen sakinleri buradan görüntüleyebilirsiniz. Onaylanan sakinler siteye aidat bilgileriyle beraber otomatik olarak eklenir.</string>
+    <string name="tumunu_onayla">Tümünü onayla</string>
 
 </resources>
