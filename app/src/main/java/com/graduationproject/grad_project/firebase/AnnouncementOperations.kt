@@ -6,7 +6,6 @@ import com.graduationproject.grad_project.firebase.UserOperations.getAdmin
 import com.graduationproject.grad_project.firebase.UserOperations.getResidentsInASpecificSite
 import com.graduationproject.grad_project.model.Notification
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -14,23 +13,24 @@ object AnnouncementOperations: FirebaseConstants() {
 
     private const val TAG = "AnnouncementOperations"
 
-    suspend fun saveAnnouncementIntoDB(adminEmail: String, notificationID: String, notification: Notification) {
-        CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
+    fun saveAnnouncementIntoDB(notification: Notification) {
+        CoroutineScope(ioDispatcher + coroutineExceptionHandler).launch {
             try {
-                adminRef.document(adminEmail)
-                    .collection("announcements")
-                    .document(notificationID)
-                    .set(notification)
-                    .await()
-
+                currentUserEmail?.let {
+                    adminRef.document(it)
+                        .collection("announcements")
+                        .document(notification.id)
+                        .set(notification)
+                        .await()
+                }
             } catch (e: Exception) {
                 Log.e(TAG, e.toString())
             }
         }
     }
 
-    suspend fun shareAnnouncementWithResidents(notification: Notification) {
-        CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
+    fun shareAnnouncementWithResidents(notification: Notification) {
+        CoroutineScope(ioDispatcher + coroutineExceptionHandler).launch {
             try {
                 val email = auth.currentUser?.email
                 email?.let {

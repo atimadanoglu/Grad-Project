@@ -31,12 +31,14 @@ class AddExpendituresViewModel(
     val content: LiveData<String> get() = _content
     private val _amount = MutableLiveData(0)
     val amount: LiveData<Int> get() = _amount
-    private val _uri = MutableLiveData<Uri>()
-    val uri: LiveData<Uri> get() = _uri
+    private val _downloadUri = MutableLiveData<Uri?>()
+    val downloadUri: LiveData<Uri?> get() = _downloadUri
+    private val _selectedImage = MutableLiveData<Uri?>()
+    val selectedImage: LiveData<Uri?> get() = _selectedImage
     fun uploadDocument(uri: Uri) {
         viewModelScope.launch {
-            _uri.value = uri
-            StorageOperations.uploadImage(uri)
+            _downloadUri.value = uri
+            StorageOperations.uploadImage(_selectedImage.value)
         }
     }
 
@@ -76,20 +78,18 @@ class AddExpendituresViewModel(
                 }
             }
             launch {
-                email.await()?.let {
-                    sendPushNotification(it)
-                }
+                sendPushNotification()
             }
         }
     }
 
-    private suspend fun sendPushNotification(email: String) {
-        val ids = OneSignalOperations.takePlayerIDs(email)
+    private suspend fun sendPushNotification() {
+        val ids = OneSignalOperations.takePlayerIDs()
         val uuid = UUID.randomUUID()
         val notification = Notification(
             _title.value.toString(),
             _content.value.toString(),
-            _uri.value.toString(),
+            _downloadUri.value.toString(),
             uuid.toString(),
             Timestamp(Date())
         )
@@ -106,7 +106,7 @@ class AddExpendituresViewModel(
             _title.value = title
             _content.value = content
             _amount.value = amount
-            _uri.value = uri
+            _downloadUri.value = uri
             println("isNull -> ${isNull()}")
             if (!isNull()) {
                 val uuid = UUID.randomUUID()
@@ -115,7 +115,7 @@ class AddExpendituresViewModel(
                     _title.value.toString(),
                     _content.value.toString(),
                     _amount.value?.toInt()!!,
-                    _uri.value.toString(),
+                    _downloadUri.value.toString(),
                     Timestamp(Date())
                 )
             }

@@ -1,6 +1,7 @@
 package com.graduationproject.grad_project.onesignal
 
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 import com.graduationproject.grad_project.firebase.UserOperations
 import com.graduationproject.grad_project.model.Notification
 import com.onesignal.OneSignal
@@ -8,7 +9,6 @@ import kotlinx.coroutines.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import kotlin.coroutines.CoroutineContext
 
 object OneSignalOperations {
 
@@ -40,10 +40,11 @@ object OneSignalOperations {
     /**
      * It will be used to send push notification to residents by using
      * their player_ids
-     * @param adminEmail It's for taking the administrator's info from db
+     *
      * * */
-    suspend fun takePlayerIDs(adminEmail: String): ArrayList<String> {
-        val admin = UserOperations.getAdmin(adminEmail)
+    suspend fun takePlayerIDs(): ArrayList<String> {
+        val email = FirebaseAuth.getInstance().currentUser?.email
+        val admin = UserOperations.getAdmin(requireNotNull(email))
 
         val residents = admin?.let { UserOperations.getResidentsInASpecificSite(it) }
         val residentDocuments = residents?.documents
