@@ -56,9 +56,7 @@ class AddAnnouncementFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         updateUI()
         binding.shareAnnouncementButton.setOnClickListener {
-            viewLifecycleOwner.lifecycleScope.launch {
-                shareAnnouncementButtonClicked(view)
-            }
+            shareAnnouncementButtonClicked()
         }
         binding.takePhoto.setOnClickListener { selectImageButtonClicked(view) }
         binding.backButtonToAnnouncement.setOnClickListener { goToPreviousPage() }
@@ -70,28 +68,22 @@ class AddAnnouncementFragment : Fragment() {
         val content = binding.contentInput.text
         viewModel.setTitle(title.toString())
         viewModel.setContent(content.toString())
-        if (selectedPicture != null) {
-            viewModel.setSelectedPicture(selectedPicture)
-        }
-        binding.titleInput.setText(viewModel.title)
-        binding.contentInput.setText(viewModel.content)
     }
 
     private fun isBlank(): Boolean {
         return binding.titleInput.text!!.isBlank() || binding.contentInput.text!!.isBlank()
     }
 
-    private suspend fun shareAnnouncementButtonClicked(view: View) {
-        val currentUser = auth.currentUser
-        val notification = getNotificationInfo()
+    private fun shareAnnouncementButtonClicked() {
         if (isBlank()) {
             Toast.makeText(this.context, R.string.boşluklarıDoldur, Toast.LENGTH_LONG).show()
         } else {
             try {
-                currentUser?.email?.let { email ->
-                    viewModel.makeShareAnnouncementOperation(email, notification, view)
-                    goToPreviousPage()
-                }
+                viewModel.makeShareAnnouncementOperation(
+                    binding.titleInput.text.toString(),
+                    binding.contentInput.text.toString()
+                )
+                goToPreviousPage()
             } catch (e: Exception) {
                 Log.e(TAG, e.toString())
             }
@@ -144,17 +136,6 @@ class AddAnnouncementFragment : Fragment() {
             //start activity for result
             activityResultLauncher.launch(intentToGallery)
         }
-    }
-
-    private fun getNotificationInfo(): Notification {
-        val uuid = UUID.randomUUID()
-        return Notification(
-            binding.titleInput.text.toString(),
-            binding.contentInput.text.toString(),
-            selectedPicture.toString(),
-            uuid.toString(),
-            Timestamp(Date())
-        )
     }
 
     private fun goToPreviousPage() {

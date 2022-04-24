@@ -43,6 +43,10 @@ open class FirebaseConstants {
         auth.currentUser
     }
 
+    protected val currentUserEmail: String? by lazy {
+        currentUser?.email
+    }
+
     protected val storageRef: StorageReference by lazy {
         storage.reference
     }

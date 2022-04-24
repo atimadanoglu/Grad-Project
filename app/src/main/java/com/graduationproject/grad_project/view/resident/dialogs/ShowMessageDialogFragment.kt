@@ -2,24 +2,25 @@ package com.graduationproject.grad_project.view.resident.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
-import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.graduationproject.grad_project.R
+import com.graduationproject.grad_project.databinding.FragmentShowMessageDialogBinding
+import com.graduationproject.grad_project.model.Message
 
 class ShowMessageDialogFragment(
-    val title: String,
-    val content: String
+    private val message: Message
 ): DialogFragment() {
+
+    private var _binding: FragmentShowMessageDialogBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
-            val inflater = requireActivity().layoutInflater
-            val view = inflater.inflate(R.layout.fragment_show_message_dialog, null)
-            val a = view.findViewById<TextView>(R.id.message_content_text)
-            a?.text = content
+            _binding = FragmentShowMessageDialogBinding.inflate(layoutInflater)
+            binding.messageContentText.text = message.content
             val builder = MaterialAlertDialogBuilder(it)
                .setView(view)
-               .setTitle(title)
+               .setTitle(message.title)
                .setPositiveButton("Tamam") { _,_ ->
                    dismiss()
                }

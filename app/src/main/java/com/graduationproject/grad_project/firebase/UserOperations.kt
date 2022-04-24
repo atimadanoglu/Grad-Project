@@ -361,6 +361,7 @@ object UserOperations: FirebaseConstants() {
                 }
                 val type = admin.await()?.get("typeOfUser")
                 if (type == "Yönetici") isAdmin = true
+                isResident = false
                 isAdmin
             } catch (e: Exception) {
                 Log.e(TAG, "isAdmin ---> $e")
@@ -377,6 +378,7 @@ object UserOperations: FirebaseConstants() {
                 }
                 val type = resident.await()?.get("typeOfUser")
                 if (type == "Sakin") isResident = true
+                isAdmin = false
                 isResident
             } catch (e: Exception) {
                 Log.e(TAG, "isResident --> $e")
@@ -385,24 +387,28 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
-    suspend fun saveExpenditure(email: String, expenditure: Expenditure) {
-        try {
-            adminRef.document(email)
-                .collection("expenditures")
-                .document(expenditure.id)
-                .set(expenditure)
-                .await()
-        } catch (e: Exception) {
-            Log.e(TAG, "saveExpenditure --> $e")
+    fun saveExpenditure(expenditure: Expenditure) {
+        CoroutineScope(ioDispatcher).launch {
+            try {
+                adminRef.document(requireNotNull(currentUserEmail))
+                    .collection("expenditures")
+                    .document(expenditure.id)
+                    .set(expenditure)
+                    .await()
+            } catch (e: Exception) {
+                Log.e(TAG, "saveExpenditure --> $e")
+            }
         }
     }
 
-    suspend fun updateExpenditureAmount(email: String, expenditure: Expenditure) {
+    fun updateExpenditureAmount(expenditure: Expenditure) {
         CoroutineScope(ioDispatcher).launch {
             try {
-                adminRef.document(email)
-                    .update("expendituresAmount", FieldValue.increment(expenditure.amount.toLong()))
-                    .await()
+                currentUserEmail?.let {
+                    adminRef.document(it)
+                        .update("expendituresAmount", FieldValue.increment(expenditure.amount.toLong()))
+                        .await()
+                }
             } catch (e: Exception) {
                 Log.e(TAG, "updateExpenditureAmount --> $e")
             }

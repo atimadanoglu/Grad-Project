@@ -28,28 +28,26 @@ object SiteOperations: FirebaseConstants() {
         }
     }
 
-    fun saveExpenditure(email: String, expenditure: Expenditure) {
+    fun saveExpenditure(expenditure: Expenditure) {
         CoroutineScope(ioDispatcher).launch {
             try {
                 val admin = async {
-                    UserOperations.getAdmin(email)
+                    UserOperations.getAdmin(requireNotNull(currentUserEmail))
                 }
-                launch {
-                    siteRef
-                        .document("siteName:${admin.await()?.get("siteName")}" +
-                                "-city:${admin.await()?.get("city")}-district:${admin.await()?.get("district")}")
-                        .collection("expenditures")
-                        .document(expenditure.id)
-                        .set(expenditure)
-                        .await()
-                }
-                launch {
-                    siteRef
-                        .document("siteName:${admin.await()?.get("siteName")}" +
-                                "-city:${admin.await()?.get("city")}-district:${admin.await()?.get("district")}")
-                        .update("expendituresAmount", FieldValue.increment(expenditure.amount.toLong()))
-                        .await()
-                }
+                val setTask = siteRef
+                    .document("siteName:${admin.await()?.get("siteName")}" +
+                            "-city:${admin.await()?.get("city")}-district:${admin.await()?.get("district")}")
+                    .collection("expenditures")
+                    .document(expenditure.id)
+                    .set(expenditure)
+                setTask.continueWith {
+                    launch {
+                        siteRef
+                            .document("siteName:${admin.await()?.get("siteName")}" +
+                                    "-city:${admin.await()?.get("city")}-district:${admin.await()?.get("district")}")
+                            .update("expendituresAmount", FieldValue.increment(expenditure.amount.toLong()))
+                    }
+                }.await()
             } catch (e: FirebaseFirestoreException) {
                 Log.e(TAG, "saveExpenditure --> $e")
             }
