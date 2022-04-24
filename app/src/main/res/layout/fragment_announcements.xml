@@ -1,46 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".view.admin.AnnouncementsFragment">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/annou">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/announcementRecyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".view.admin.AnnouncementsFragment"
-            android:background="@color/secondary_color"
-            android:padding="20dp">
+            android:layout_height="0dp"
+            android:layout_above="@+id/addAnnouncementButton"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@+id/announcementInfoText"
+            app:layout_constraintBottom_toTopOf="@+id/addAnnouncementButton"
+            tools:listitem="@layout/row_layout" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/announcementRecyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@+id/addAnnouncementButton"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/row_layout" />
+        <Button
+            android:id="@+id/addAnnouncementButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/button"
+            android:backgroundTint="@color/primary_color"
+            android:text="@string/add_new_announcement"
+            android:textColor="@color/secondary_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
 
-            <Button
-                android:id="@+id/addAnnouncementButton"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/button"
-                android:backgroundTint="@color/primary_color"
-                android:text="@string/add_new_announcement"
-                android:textColor="@color/secondary_color" />
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/announcementInfoText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/announcementInfo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>
