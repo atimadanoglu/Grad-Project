@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.FragmentManager
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.graduationproject.grad_project.R
@@ -80,12 +81,15 @@ class ResidentsListAdapter(
     /*fun filterList(list: ArrayList<SiteResident?>) {
         siteResidents = list
         submitList(list)
+    }*/
+}
+
+class ResidentsListItemCallback: DiffUtil.ItemCallback<SiteResident>() {
+    override fun areItemsTheSame(oldItem: SiteResident, newItem: SiteResident): Boolean {
+        return oldItem.email == newItem.email
     }
 
-   fun updateResidentsList(newResidents: ArrayList<SiteResident?>) {
-       siteResidents.clear()
-       siteResidents.addAll(newResidents)
-       submitList(siteResidents)
-   }*/
-
+    override fun areContentsTheSame(oldItem: SiteResident, newItem: SiteResident): Boolean {
+        return oldItem == newItem
+    }
 }
