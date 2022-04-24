@@ -27,9 +27,7 @@ class SettingsAdminFragment : Fragment() {
         viewModel.fullName.observe(viewLifecycleOwner) {
             binding.nameText.text = it
         }
-        viewModel.email.observe(viewLifecycleOwner) {
-            binding.emailText.text = it
-        }
+
         viewModel.phoneNumber.observe(viewLifecycleOwner) {
             binding.phoneText.text = it
         }
