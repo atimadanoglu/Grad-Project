@@ -1,11 +1,15 @@
 package com.graduationproject.grad_project.firebase
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.toObject
 import com.graduationproject.grad_project.model.Message
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.lang.Exception
@@ -57,33 +61,34 @@ object MessagesOperations: FirebaseConstants() {
         }
     }
 
-    suspend fun deleteAllMessages(email: String) {
-        withContext(ioDispatcher + coroutineExceptionHandler) {
+    fun deleteAllMessages() {
+        CoroutineScope(ioDispatcher + coroutineExceptionHandler).launch {
             try {
-                residentRef.document(email)
-                    .collection("messages")
-                    .get()
-                    .await()
-                    .forEach { document ->
-                        document.reference.delete()
-                    }
+                currentUserEmail?.let {
+                    residentRef.document(it)
+                        .collection("messages")
+                        .get()
+                        .await()
+                        .forEach { document ->
+                            document.reference.delete()
+                        }
+                }
             } catch (e: FirebaseFirestoreException) {
                 Log.e(TAG, "deleteAllMessages --> $e")
             }
         }
     }
 
-    suspend fun deleteMessageInSpecificPosition(
-        email: String,
-        messages: ArrayList<Message>,
-        position: Int
-    ) {
-        withContext(ioDispatcher + coroutineExceptionHandler) {
+    fun deleteMessageInSpecificPosition(message: Message) {
+        CoroutineScope(ioDispatcher + coroutineExceptionHandler).launch {
             try {
-                residentRef.document(email)
-                    .collection("messages")
-                    .document(messages[position].id)
-                    .delete().await()
+                val email = currentUser?.email
+                email?.let {
+                    residentRef.document(it)
+                        .collection("messages")
+                        .document(message.id)
+                        .delete().await()
+                }
             } catch (e: FirebaseFirestoreException) {
                 Log.e(TAG, "deleteMessageInSpecificPosition --> $e")
             }
@@ -112,6 +117,34 @@ object MessagesOperations: FirebaseConstants() {
             }
         }
     }
+
+    fun retrieveMessagesWithSnapshot(messages: MutableLiveData<ArrayList<Message?>>) {
+        CoroutineScope(ioDispatcher + coroutineExceptionHandler).launch {
+            try {
+                currentUserEmail?.let {
+                    residentRef.document(it)
+                        .collection("messages")
+                        .orderBy("date", Query.Direction.DESCENDING)
+                        .addSnapshotListener { value, error ->
+                            if (error != null) {
+                                Log.e(TAG, "retrieveMessagesWithSnaphot --> $error")
+                                return@addSnapshotListener
+                            }
+                            val documents = value?.documents
+                            val retrievedMessages = arrayListOf<Message?>()
+                            documents?.forEach { documentSnapshot ->
+                                retrievedMessages.add(documentSnapshot.toObject<Message>())
+                            }.also {
+                                messages.postValue(retrievedMessages)
+                            }
+                        }
+                }
+            } catch (e: FirebaseFirestoreException) {
+                Log.e(TAG, "retrieveMessages --> $e")
+            }
+        }
+    }
+
 
 
 }

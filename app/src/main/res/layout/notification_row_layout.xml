@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+        <variable
+            name="notification"
+            type="com.graduationproject.grad_project.model.Notification" />
+
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="75dp"
@@ -14,10 +21,11 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/item_title_announcement"
+                android:id="@+id/notification_title"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:hint="@string/title"
+                android:text="@{notification.title}"
                 android:textSize="22sp"
                 android:textColor="@color/primary_color"
                 android:textColorHint="@color/primary_color"
@@ -32,10 +40,11 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/item_content_announcement"
+                    android:id="@+id/notification_content"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="@string/content"
+                    android:text="@{notification.message}"
                     android:textSize="16sp"
                     android:lines="1"
                     android:textColorHint="@color/primary_color"
@@ -50,7 +59,7 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/more_icon_button_for_announcement"
+            android:id="@+id/notification_options"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginEnd="10dp"

@@ -28,7 +28,10 @@ class HomeResidentViewModel: ViewModel() {
                     UserOperations.getResident(it)
                 }
                 launch {
-                    _myDebt.postValue(resident.await()?.get("debt").toString().toLong())
+                    val debt = resident.await()?.get("debt").toString()
+                    if (debt.isNotEmpty() && debt != "null") {
+                        _myDebt.postValue(resident.await()?.get("debt").toString().toLong())
+                    }
                 }
 
                 launch {

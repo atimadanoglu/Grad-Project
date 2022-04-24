@@ -26,7 +26,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/row_layout" />
+                tools:listitem="@layout/announcement_row_layout" />
 
             <Button
                 android:id="@+id/addAnnouncementButton"

@@ -5,94 +5,60 @@ import android.view.LayoutInflater
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.PopupMenu
-import android.widget.TextView
+import androidx.fragment.app.FragmentManager
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.graduationproject.grad_project.R
+import com.graduationproject.grad_project.databinding.AnnouncementRowLayoutBinding
+import com.graduationproject.grad_project.firebase.AnnouncementOperations
 import com.graduationproject.grad_project.model.Announcement
-import com.squareup.picasso.Picasso
+import com.graduationproject.grad_project.view.admin.dialogs.ShowingAnnouncementDialogFragment
 
-class AnnouncementRecyclerViewAdapter(private val announcements : ArrayList<Announcement>,
-                                      private val context: Context
-) :
-    RecyclerView.Adapter<AnnouncementRecyclerViewAdapter.RowHolder>() {
+class AnnouncementRecyclerViewAdapter(
+    private val fragmentManager: FragmentManager,
+    private val context: Context
+) : ListAdapter<Announcement, AnnouncementRecyclerViewAdapter.AnnouncementViewHolder>(AnnouncementDiffUtil()) {
 
-    private val db = FirebaseFirestore.getInstance()
-    private val auth = FirebaseAuth.getInstance()
-    private val adminRef = db.collection("administrators")
-
-    class RowHolder(view : View) : RecyclerView.ViewHolder(view) {
-        private val title : TextView = itemView.findViewById(R.id.item_title_announcement)
-        private val content : TextView = itemView.findViewById(R.id.item_content_announcement)
-        val menu: ImageView = itemView.findViewById(R.id.more_icon_button_for_announcement)
-
+    class AnnouncementViewHolder(val binding: AnnouncementRowLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
+        companion object {
+            fun inflateFrom(parent: ViewGroup): AnnouncementViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = AnnouncementRowLayoutBinding.inflate(layoutInflater)
+                return AnnouncementViewHolder(binding)
+            }
+        }
         fun bind(announcement: Announcement) {
-            title.text = announcement.title
-            content.text = announcement.message
+            binding.announcement = announcement
+            binding.executePendingBindings()
         }
     }
 
-    // This is for each row.
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RowHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.row_layout, parent, false)
-        return RowHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnnouncementViewHolder {
+        return AnnouncementViewHolder.inflateFrom(parent)
     }
 
-    // Hangi elemanın ne verisi gösterecek onu yazdığımız yer
-    override fun onBindViewHolder(holder: RowHolder, position: Int) {
-        holder.bind(announcements[position])
-        holder.menu.setOnClickListener { view ->
+    override fun onBindViewHolder(holder: AnnouncementViewHolder, position: Int) {
+        val item = getItem(position)
+        holder.bind(item)
+        holder.binding.announcementOptions.setOnClickListener { view ->
             val popupMenu = createPopUpMenu(view)
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.announcementInfo -> {
-                        val showAnnouncementLayout = LayoutInflater.from(view.context).inflate(R.layout.fragment_showing_announcement_dialog, null)
-                        /*showAnnouncement(showAnnouncementLayout, position)*/
-                        MaterialAlertDialogBuilder(context)
-                            .setTitle(announcements[position].title)
-                            .setMessage(announcements[position].message)
-                            .setPositiveButton("Tamam") { _,_ ->
-                            }.create().show()
-                       /* AlertDialog.Builder(view.context)
-                            .setView(showAnnouncementLayout)
-                            .setPositiveButton("Tamam") { dialog, _ ->
-                            }.create().show()*/
+                        val dialog = ShowingAnnouncementDialogFragment(item)
+                        dialog.show(fragmentManager, "announcementDialog")
                         true
                     }
                     R.id.deleteAnnouncement -> {
-                        adminRef.document(auth.currentUser?.email.toString())
-                            .collection("announcements")
-                            .document(announcements[position].id)
-                            .delete()
-                        announcements.removeAt(position)
-                        notifyItemRemoved(position)
-                        notifyItemRangeChanged(position, announcements.size)
+                        AnnouncementOperations.deleteAnnouncement(item)
                         true
                     }
                     else -> false
                 }
             }
         }
-    }
-
-    private fun showAnnouncement(showAnnouncementLayout: View, position: Int) {
-        //TODO
-      //  val announcementTitle = showAnnouncementLayout.findViewById<TextView>(R.id.announcement_title_text)
-        val announcementContent = showAnnouncementLayout.findViewById<TextView>(R.id.announcement_content_text)
-        val announcementPic = showAnnouncementLayout.findViewById<ImageView>(R.id.announcement_image_view)
-
-       // announcementTitle.text = announcements[position].title
-        announcementContent.text = announcements[position].message
-        Picasso.get().load(announcements[position].pictureUri).into(announcementPic)
-    }
-
-
-    override fun getItemCount(): Int {
-        return announcements.count()
     }
 
     private fun createPopUpMenu(view: View): PopupMenu {
@@ -102,5 +68,14 @@ class AnnouncementRecyclerViewAdapter(private val announcements : ArrayList<Anno
         popupMenu.show()
         return popupMenu
     }
+}
 
+class AnnouncementDiffUtil: DiffUtil.ItemCallback<Announcement>() {
+    override fun areItemsTheSame(oldItem: Announcement, newItem: Announcement): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: Announcement, newItem: Announcement): Boolean {
+        return oldItem == newItem
+    }
 }
