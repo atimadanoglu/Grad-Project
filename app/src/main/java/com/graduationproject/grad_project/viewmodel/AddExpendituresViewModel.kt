@@ -19,7 +19,6 @@ import com.graduationproject.grad_project.onesignal.OneSignalOperations
 import kotlinx.coroutines.*
 import java.util.*
 
-/*
 class AddExpendituresViewModel(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
@@ -39,7 +38,14 @@ class AddExpendituresViewModel(
     private val _selectedImage = MutableLiveData<Uri?>()
     val selectedImage: LiveData<Uri?> get() = _selectedImage
 
-private suspend fun uploadImage(selectedPicture: Uri?) = withContext(Dispatchers.IO) {
+    fun uploadDocument(uri: Uri) {
+        viewModelScope.launch {
+            _selectedImage.value = uri
+            StorageOperations.uploadImage(uri)
+        }
+    }
+
+    private suspend fun uploadImage(selectedPicture: Uri?) = withContext(Dispatchers.IO) {
         val uuid = UUID.randomUUID()
         val imageName = "$uuid.jpeg"
         val storage = FirebaseStorage.getInstance()
@@ -195,9 +201,9 @@ private suspend fun uploadImage(selectedPicture: Uri?) = withContext(Dispatchers
             || _content.value.isNullOrEmpty()
 
 }
-*/
 
 
+/*
 class AddExpendituresViewModel(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
@@ -301,3 +307,4 @@ class AddExpendituresViewModel(
             || _content.value.isNullOrEmpty()
 
 }
+*/

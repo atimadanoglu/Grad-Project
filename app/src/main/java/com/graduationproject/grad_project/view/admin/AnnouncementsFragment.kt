@@ -1,48 +1,24 @@
 package com.graduationproject.grad_project.view.admin
 
 import android.os.Bundle
-import android.util.Log
-import android.view.*
-import android.widget.PopupMenu
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import androidx.navigation.fragment.NavHostFragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.tasks.Task
-import com.google.firebase.Timestamp
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.core.OrderBy
-import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.adapter.AnnouncementRecyclerViewAdapter
 import com.graduationproject.grad_project.databinding.FragmentAnnouncementsBinding
-import com.graduationproject.grad_project.model.Announcement
-import java.util.*
-import kotlin.collections.ArrayList
+import com.graduationproject.grad_project.viewmodel.AnnouncementsViewModel
 
 class AnnouncementsFragment : Fragment() {
 
     private var _binding : FragmentAnnouncementsBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: AnnouncementsViewModel by viewModels()
 
-    private var announcementRecyclerViewAdapter : AnnouncementRecyclerViewAdapter? = null
-    private lateinit var db : FirebaseFirestore
-    private lateinit var auth: FirebaseAuth
-    private lateinit var adminRef: CollectionReference
-
-    companion object {
-        private const val TAG = "AnnouncementsFragment"
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        db = FirebaseFirestore.getInstance()
-        auth = FirebaseAuth.getInstance()
-        adminRef = db.collection("administrators")
-    }
+    private lateinit var announcementRecyclerViewAdapter: AnnouncementRecyclerViewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,64 +26,19 @@ class AnnouncementsFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentAnnouncementsBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val navHostFragment =
-            activity?.supportFragmentManager?.findFragmentById(R.id.mainFragmentContainerView) as NavHostFragment
-        val navController = navHostFragment.navController
+        binding.announcementRecyclerview.layoutManager = LinearLayoutManager(requireContext())
+        announcementRecyclerViewAdapter = AnnouncementRecyclerViewAdapter(parentFragmentManager, requireContext())
+        binding.announcementRecyclerview.adapter = announcementRecyclerViewAdapter
+        binding.lifecycleOwner = viewLifecycleOwner
+        viewModel.announcement.observe(viewLifecycleOwner) {
+            announcementRecyclerViewAdapter.submitList(it)
+        }
+        viewModel.retrieveAnnouncements()
         binding.addAnnouncementButton.setOnClickListener {
             val action = AnnouncementsFragmentDirections.actionAnnouncementsFragmentToAddAnnouncementFragment()
-            navController.navigate(action)
+            requireView().findNavController().navigate(action)
         }
-        displayAnnouncements()
+        return binding.root
     }
-
-    private fun orderAnnouncementsByDateAndFetch(email: String, announcements: ArrayList<Announcement>): Task<QuerySnapshot> {
-        return adminRef.document(email)
-            .collection("announcements")
-            .orderBy("date", Query.Direction.DESCENDING)
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    if (document != null) {
-                        announcements.add(
-                            Announcement(
-                                document.get("title") as String,
-                                document.get("message") as String,
-                                document.get("pictureUri") as String,
-                                document.get("id") as String,
-                                Timestamp(Date())
-                            )
-                        )
-                    }
-                }
-                adaptThisFragmentWithRecyclerView(announcements)
-            }.addOnFailureListener {
-                Log.w(TAG, "FAILED while getting announcements", it)
-            }
-    }
-
-    private fun displayAnnouncements() {
-        val currentUser = auth.currentUser
-        val announcements = ArrayList<Announcement>()
-        if (currentUser != null) {
-            currentUser.email?.let {
-                orderAnnouncementsByDateAndFetch(it, announcements)
-            }
-        }
-    }
-
-    private fun adaptThisFragmentWithRecyclerView(announcements: ArrayList<Announcement>) {
-        binding.announcementRecyclerview.layoutManager = LinearLayoutManager(this.context)
-        announcementRecyclerViewAdapter = this.context?.let { context ->
-            AnnouncementRecyclerViewAdapter(announcements, context)
-        }
-        binding.announcementRecyclerview.adapter = announcementRecyclerViewAdapter
-    }
-
 
 }
