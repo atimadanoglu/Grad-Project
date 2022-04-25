@@ -1,87 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <data>
-        <variable
-            name="request"
-            type="com.graduationproject.grad_project.model.Request" />
-    </data>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    android:orientation="horizontal"
+    android:layout_marginBottom="15dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    android:background="@drawable/recycleview_background">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
-        android:paddingBottom="10dp"
-        android:background="@drawable/recycleview_background">
+        android:id="@+id/account_info_linearLayout"
+        android:layout_width="290dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/titleOfRequest"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="@string/konu"
+            android:textSize="22sp"
+            android:textColor="@color/primary_color"
+            android:textColorHint="@color/primary_color"
+            android:fontFamily="@font/titillium_web_bold"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="10dp"/>
 
         <LinearLayout
-            android:id="@+id/account_info_linearLayout"
-            android:layout_width="290dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/titleOfRequest"
+                android:id="@+id/contentOfRequest"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:hint="@string/konu"
-                android:text="@{request.title}"
-                android:textSize="22sp"
-                android:textColor="@color/primary_color"
+                android:layout_height="55dp"
+                android:hint="@string/content"
+                android:textSize="18sp"
+                android:lines="2"
                 android:textColorHint="@color/primary_color"
-                android:fontFamily="@font/titillium_web_bold"
-                android:gravity="center_vertical"
+                android:fontFamily="@font/titillium_web"
+                android:textColor="@color/primary_color"
                 android:paddingStart="20dp"
-                android:paddingEnd="10dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/contentOfRequest"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/content"
-                    android:text="@{request.content}"
-                    android:textSize="18sp"
-                    android:lines="2"
-                    android:textColorHint="@color/primary_color"
-                    android:fontFamily="@font/titillium_web"
-                    android:textColor="@color/primary_color"
-                    android:paddingStart="30dp"
-                    android:paddingEnd="10dp"
-                    android:gravity="center_vertical" />
-
-                <TextView
-                    android:id="@+id/item_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/turu"
-                    android:text="@{request.type}"
-                    android:textSize="16sp"
-                    android:gravity="center_vertical"
-                    android:background="@drawable/back_green_button"
-                    android:textColorHint="@color/primary_color"
-                    android:fontFamily="@font/titillium_web"
-                    android:textColor="@color/primary_color"
-                    android:layout_marginStart="20dp"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp" />
-
-            </LinearLayout>
+                android:paddingEnd="10dp"
+                android:gravity="start"/>
+            <TextView
+                android:id="@+id/item_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/turu"
+                android:textSize="16sp"
+                android:background="@drawable/back_green_button"
+                android:textColorHint="@color/primary_color"
+                android:fontFamily="@font/titillium_web"
+                android:textColor="@color/primary_color"
+                android:layout_marginStart="20dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"/>
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/request_options"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/more_horiz"
-            android:layout_marginEnd="10dp"
-            android:contentDescription="@string/todo" />
     </LinearLayout>
-</layout>
+
+    <ImageView
+        android:id="@+id/more_icon_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/more_horiz"
+        android:layout_marginEnd="10dp"
+        android:contentDescription="@string/todo" />
+</LinearLayout>

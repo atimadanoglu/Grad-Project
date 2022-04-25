@@ -187,5 +187,18 @@
     <string name="pending_info">Sitenizdeki askıda bekleyen sakinleri buradan görüntüleyebilirsiniz. Onaylanan sakinler siteye aidat bilgileriyle beraber otomatik olarak eklenir.</string>
     <string name="tumunu_onayla">Tümünü onayla</string>
     <string name="sakinOnayBekliyor">%s sakini onay için bekliyor.</string>
+    <string name="waitingApprovalInfo">Sitenize kayıt olma talebinizi yöneticinize bildirdik. Bilgileriniz, yönetici tarafından doğrulandıktan sonra uygulamaya giriş yapabilirsiniz.</string>
+    <string name="announcementInfo">Sitenizde bulunan sakinlere genel bir bilgilendirme, hatırlatma yapmak için duyuru paylaşabilirsiniz.</string>
+    <string name="sakin_onaylandi">Sakin Onaylandı</string>
+    <string name="expendituresInfo">Sitenizde oluşan ekstra harcamaları gider olarak ekleyebilirsiniz. Sakinlerin bu gideri inceleyebilmeleri için fatura veya dekont ile belgelendirmeye özen gösteriniz.</string>
+    <string name="incomingMessagesInfo">Yönetici tarafından sadece sizinle paylaşılan mesajlar burada listelenir.</string>
+    <string name="notificationAdminInfo">Sakinler tarafından yapılan işlemlerin tümü burada bildirim listelenir.</string>
+    <string name="notificationResidentInfo">Yönetici tarafından yapılan işlemlerin tümü burada bildirim olarak listelenir.</string>
+    <string name="siteExpendituresInfo">Site içerisinde yer alan ekstra harcama ve giderleri buradan dekont veya faturasıyla beraber inceleyebilirsiniz.</string>
+    <string name="voteResidentInfo">Site içerisinde alınacak kararları belirlemek için açılan oylamalar burada listelenir. Yalnızca yönetici tarafından belirlenen süre içerisinde oy kullanabilirsiniz. Her sakinin sadece bir oy kullanma hakkı olduğunu unutmayınız.</string>
+    <string name="votingContinueAdminInfo">Site içerisinde alınacak kararları belirlemek için buradan genel bir oylama açabilirsiniz. Oylama süresini belirlerken, tüm sakinlerin oy kullanabilmesi için minimum 2 gün süre vermeniz tavsiye edilir.</string>
+    <string name="votingDoneAdminInfo">Biten oylamaları buradan görüntüleyebilirsiniz. Oylama sonuçlarını, alınan karar uygulandıktan en erken 1 hafta sonra silmeniz tavsiye edilir.</string>
+    <string name="voteResultResidentInfo">Biten oylamalar burada listelenir. Sonuçları % lik oranlarıyla beraber inceleyebilirsiniz.</string>
+    <string name="serviceResidentInfo">Yöneticinin site için seçtiği servisler burada listelenir. İhtiyacınız anında ilgili servisin iletişim bilgilerine ulaşabilirsiniz.</string>
 
 </resources>

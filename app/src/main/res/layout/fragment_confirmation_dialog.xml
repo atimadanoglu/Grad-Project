@@ -29,7 +29,7 @@
             android:layout_marginTop="12dp"
             android:textColor="@color/primary_color"
             android:fontFamily="@font/titillium_web"
-            android:text="Sakin Onaylandı"
+            android:text="@string/sakin_onaylandi"
             android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

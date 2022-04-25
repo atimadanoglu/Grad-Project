@@ -141,6 +141,8 @@
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/add_debt_item.xml" value="0.4" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/delete_debt_item.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/drawer_header.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/drawer_header_admin.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/drawer_header_resident.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/expenditures_item.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_add_announcement.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_add_expenditures.xml" value="0.38697916666666665" />
@@ -148,18 +150,27 @@
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_add_request.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_add_voting_admin.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_adding_debt_dialog.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_admin_new_account.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_admin_site_information.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_announcements.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_confirmation_dialog.xml" value="0.381025641025641" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_deleting_debt_dialog.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_error_dialog.xml" value="0.18819655521783182" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_expenditures.xml" value="0.4" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_home.xml" value="0.264" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_home_resident.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_incoming_messages_resident.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_login.xml" value="0.3220108695652174" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_meeting_admin.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_meetings_resident.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_notification_resident.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_notifications_admin.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_pay_debt.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_pending_approvals_admin.xml" value="0.38697916666666665" />
-        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_request.xml" value="0.18819655521783182" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_request.xml" value="0.4" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_resident_new_account.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_resident_site_information.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_residents_list.xml" value="0.4" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_residents_list_for_admin.xml" value="0.33" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_sending_message_to_resident_dialog.xml" value="0.4" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_services_admin.xml" value="0.38697916666666665" />
@@ -169,9 +180,13 @@
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_show_request_info_resident_dialog.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_show_vote_resident_dialog.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_showing_announcement_dialog.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_sign_up_main.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_site_expenditures_resident.xml" value="0.4" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_successful_dialog.xml" value="0.4" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_vote_resident.xml" value="0.38697916666666665" />
-        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_voting_admin.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_voting_admin.xml" value="0.4" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_voting_results_resident.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_waiting_approval_resident.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/header_navigation_drawer.xml" value="0.21240942028985507" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/list_item.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/request_dropdown_item.xml" value="0.38697916666666665" />
