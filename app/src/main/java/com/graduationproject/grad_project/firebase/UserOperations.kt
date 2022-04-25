@@ -37,6 +37,10 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
+    fun acceptResident() {
+
+    }
+
     fun reAuthenticateUser(email: String, password: String) {
         CoroutineScope(ioDispatcher).launch {
             try {

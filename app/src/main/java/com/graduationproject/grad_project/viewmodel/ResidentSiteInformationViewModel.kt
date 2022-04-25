@@ -68,6 +68,7 @@ class ResidentSiteInformationViewModel(
                 _resident["blockNo"] = blockNo
                 _resident["flatNo"] = flatNo
                 _resident["typeOfUser"] = "Sakin"
+                _resident["isVerified"] = false
                 _resident["debt"] = 0L
                 true
             } catch (e: Exception) {
