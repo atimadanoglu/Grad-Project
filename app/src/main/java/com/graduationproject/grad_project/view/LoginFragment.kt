@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -70,6 +71,11 @@ class LoginFragment : Fragment() {
         activity?.finish()
     }
 
+    private fun goToWaitingApprovalPage() {
+        val action = LoginFragmentDirections.actionLoginFragmentToWaitingApprovalResidentFragment()
+        requireView().findNavController().navigate(action)
+    }
+
     private fun isEmpty() = binding.TextEmailAddress.text!!.isEmpty() || binding.TextPassword.text.isEmpty()
 
     private fun loginButtonClicked(
@@ -90,9 +96,14 @@ class LoginFragment : Fragment() {
                         goToAdminHomePageActivity()
                     }
                 }
-                if (viewModel.typeOfUser == "Sakin"  && auth.currentUser != null) {
+                if (viewModel.typeOfUser == "Sakin"  && auth.currentUser != null && viewModel.isVerified()) {
                     withContext(mainDispatcher) {
                         goToResidentHomePageActivity()
+                    }
+                }
+                if (viewModel.typeOfUser == "Sakin" && auth.currentUser != null && !viewModel.isVerified()) {
+                    withContext(mainDispatcher) {
+                        goToWaitingApprovalPage()
                     }
                 }
             } else {
@@ -122,9 +133,14 @@ class LoginFragment : Fragment() {
                    goToAdminHomePageActivity()
                }
            }
-           if (viewModel.isSignedIn && userType.await() == "Sakin") {
+           if (viewModel.isSignedIn && userType.await() == "Sakin" && viewModel.isVerified()) {
                withContext(mainDispatcher) {
                    goToResidentHomePageActivity()
+               }
+           }
+           if (viewModel.typeOfUser == "Sakin" && auth.currentUser != null && !viewModel.isVerified()) {
+               withContext(mainDispatcher) {
+                   goToWaitingApprovalPage()
                }
            }
        }

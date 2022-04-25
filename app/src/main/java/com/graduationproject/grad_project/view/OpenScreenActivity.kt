@@ -63,8 +63,11 @@ class OpenScreenActivity : AppCompatActivity() {
             if (viewModel.isSignedIn && userType.await() == "Yönetici") {
                 goToAdminHomePageActivity()
             }
-            if (viewModel.isSignedIn && userType.await() == "Sakin") {
+            if (viewModel.isSignedIn && userType.await() == "Sakin" && viewModel.isVerified()) {
                 goToResidentHomePageActivity()
+            }
+            if (viewModel.isSignedIn && userType.await() == "Sakin" && !viewModel.isVerified()) {
+                startActivity(intent, options?.toBundle())
             }
             if (!viewModel.isSignedIn) {
                 startActivity(intent, options?.toBundle())

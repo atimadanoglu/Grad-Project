@@ -48,5 +48,7 @@ class OpenScreenViewModel: ViewModel() {
             }
         }
     }
-
+    suspend fun isVerified() = withContext(Dispatchers.IO) {
+        return@withContext UserOperations.isVerified()
+    }
 }

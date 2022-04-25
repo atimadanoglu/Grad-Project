@@ -37,8 +37,17 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
-    fun acceptResident() {
-
+    suspend fun isVerified() = withContext(ioDispatcher) {
+        return@withContext try {
+            val resident = currentUserEmail?.let {
+                residentRef.document(it)
+                    .get().await()
+            }
+            resident?.get("isVerified").toString().toBooleanStrict()
+        } catch (e: Exception) {
+            Log.e(TAG, "isVerified --> $e")
+            false
+        }
     }
 
     fun reAuthenticateUser(email: String, password: String) {
