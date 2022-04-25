@@ -1,15 +1,18 @@
 package com.graduationproject.grad_project.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.PendingItemBinding
 import com.graduationproject.grad_project.firebase.UserOperations
 import com.graduationproject.grad_project.model.SiteResident
 
-class PendingApprovalAdapter:
+class PendingApprovalAdapter(private val context: Context):
     ListAdapter<SiteResident, PendingApprovalAdapter.PendingApprovalViewHolder>(PendingApprovalDiffUtil()) {
     class PendingApprovalViewHolder(val binding: PendingItemBinding): RecyclerView.ViewHolder(binding.root) {
         companion object {
@@ -33,10 +36,28 @@ class PendingApprovalAdapter:
         val item = getItem(position)
         holder.bind(item)
         holder.binding.acceptButton.setOnClickListener {
-
+            showAlertMessageForAcceptButton(item)
+        }
+        holder.binding.rejectButton.setOnClickListener {
+            showAlertMessageForRejectButton()
         }
     }
+    private fun showAlertMessageForAcceptButton(resident: SiteResident) {
+        MaterialAlertDialogBuilder(context)
+            .setMessage(R.string.eminMisiniz)
+            .setPositiveButton(R.string.evet) { _, _ ->
+                UserOperations.acceptResident(resident)
+            }.setNegativeButton(R.string.hayır) { _, _ -> }
+            .create().show()
+    }
 
+    private fun showAlertMessageForRejectButton() {
+        MaterialAlertDialogBuilder(context)
+            .setMessage(R.string.eminMisiniz)
+            .setPositiveButton(R.string.evet) { _, _ -> }
+            .setNegativeButton(R.string.hayır) { _, _ -> }
+            .create().show()
+    }
 }
 
 class PendingApprovalDiffUtil: DiffUtil.ItemCallback<SiteResident>() {
