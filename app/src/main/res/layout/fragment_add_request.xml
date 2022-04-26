@@ -142,10 +142,9 @@
                         android:layout_weight="1"
                         android:inputType="none"
                         android:textColor="@color/primary_color"
+                        tools:ignore="LabelFor,TextContrastCheck"
                         tools:layout_editor_absoluteX="0dp"
-                        tools:layout_editor_absoluteY="75dp"
-                        tools:text="@string/öneri"
-                        tools:ignore="LabelFor" />
+                        tools:layout_editor_absoluteY="75dp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>

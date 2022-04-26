@@ -12,7 +12,7 @@
     <string name="sign_up_here_click">SignUpHereClick</string>
     <string name="new_account">Yeni Hesap</string>
     <string name="full_name">ad-soyad</string>
-    <string name="phone_number">telefon numarası</string>
+    <string name="phone_number">Telefon numarası</string>
     <string name="next">ileri</string>
     <string name="next_click">nextClick</string>
     <string name="not_the_first_time_here">Buraya ilk defa gelmiyor musun?</string>
@@ -199,5 +199,16 @@
     <string name="votingDoneAdminInfo">Biten oylamaları buradan görüntüleyebilirsiniz. Oylama sonuçlarını, alınan karar uygulandıktan en erken 1 hafta sonra silmeniz tavsiye edilir.</string>
     <string name="voteResultResidentInfo">Biten oylamalar burada listelenir. Sonuçları % lik oranlarıyla beraber inceleyebilirsiniz.</string>
     <string name="serviceResidentInfo">Yöneticinin site için seçtiği servisler burada listelenir. İhtiyacınız anında ilgili servisin iletişim bilgilerine ulaşabilirsiniz.</string>
+    <string name="serviceAdminInfo">Bu alanda, sakinlerin ihtiyaç anında iletişme geçmesi için yer alan servisler listelenir. Sakinlere kolaylık sunmak için bu bölümü güncel tutmayı unutmayınız.</string>
+    <string name="servis_adi">Servis adı</string>
+    <string name="servis_tipi">Servis Tipi</string>
+    <string name="textview">TextView</string>
+
+    <string-array name="serviceType_list">
+        <item>Taksi</item>
+        <item>Tesisatçı</item>
+        <item>Elektrikçi</item>
+        <item>Çilingir</item>
+    </string-array>
 
 </resources>
