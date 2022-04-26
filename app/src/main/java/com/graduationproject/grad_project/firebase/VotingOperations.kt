@@ -1,7 +1,9 @@
 package com.graduationproject.grad_project.firebase
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.ktx.toObject
 import com.graduationproject.grad_project.model.Voting
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -27,4 +29,58 @@ object VotingOperations: FirebaseConstants() {
             }
         }
     }
+
+    fun retrieveFinishedVoting(votingList: MutableLiveData<MutableList<Voting?>>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            currentUserEmail?.let {
+                adminRef.document(it)
+                    .collection("voting")
+                    .whereEqualTo("finished", true)
+                    .addSnapshotListener { value, error ->
+                        if (error != null) {
+                            Log.e(TAG, "retrieveVoting --> $error")
+                            return@addSnapshotListener
+                        }
+                        val documents = value?.documents
+                        val retrievedList = mutableListOf<Voting?>()
+                        documents?.forEach { document ->
+                            retrievedList.add(
+                                document.toObject<Voting>()
+                            )
+                        }.also {
+                            votingList.value = retrievedList
+                        }
+                    }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "retrieveVoting --> $e")
+        }
+    }
+    fun retrieveContinuesVoting(votingList: MutableLiveData<MutableList<Voting?>>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            currentUserEmail?.let {
+                adminRef.document(it)
+                    .collection("voting")
+                    .whereEqualTo("finished", false)
+                    .addSnapshotListener { value, error ->
+                        if (error != null) {
+                            Log.e(TAG, "retrieveVoting --> $error")
+                            return@addSnapshotListener
+                        }
+                        val documents = value?.documents
+                        val retrievedList = mutableListOf<Voting?>()
+                        documents?.forEach { document ->
+                            retrievedList.add(
+                                document.toObject<Voting>()
+                            )
+                        }.also {
+                            votingList.value = retrievedList
+                        }
+                    }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "retrieveVoting --> $e")
+        }
+    }
+
 }

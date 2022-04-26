@@ -6,5 +6,6 @@ data class Voting(
     val content: String = "",
     val date: String = "",
     val totalYes: Long = 0,
-    val totalNo: Long = 0
+    val totalNo: Long = 0,
+    val isFinished: Boolean = false
 )
