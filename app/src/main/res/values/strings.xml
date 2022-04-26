@@ -200,5 +200,6 @@
     <string name="votingDoneAdminInfo">Biten oylamaları buradan görüntüleyebilirsiniz. Oylama sonuçlarını, alınan karar uygulandıktan en erken 1 hafta sonra silmeniz tavsiye edilir.</string>
     <string name="voteResultResidentInfo">Biten oylamalar burada listelenir. Sonuçları % lik oranlarıyla beraber inceleyebilirsiniz.</string>
     <string name="serviceResidentInfo">Yöneticinin site için seçtiği servisler burada listelenir. İhtiyacınız anında ilgili servisin iletişim bilgilerine ulaşabilirsiniz.</string>
-
+    <string name="siteSakinOnayı">%s adlı kişiyi sitenize dahil etmek istediğinize emin misiniz?</string>
+    <string name="siteSakinReddi">%s adlı kişiyi sitenize dahil etmek istemediğinize emin misiniz?</string>
 </resources>
