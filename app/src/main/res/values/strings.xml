@@ -186,6 +186,7 @@
     <string name="tarih_seciniz">Tarih seçiniz</string>
     <string name="pending_info">Sitenizdeki askıda bekleyen sakinleri buradan görüntüleyebilirsiniz. Onaylanan sakinler siteye aidat bilgileriyle beraber otomatik olarak eklenir.</string>
     <string name="tumunu_onayla">Tümünü onayla</string>
+    <string name="sakinOnayBekliyor">%s sakini onay için bekliyor.</string>
     <string name="waitingApprovalInfo">Sitenize kayıt olma talebinizi yöneticinize bildirdik. Bilgileriniz, yönetici tarafından doğrulandıktan sonra uygulamaya giriş yapabilirsiniz.</string>
     <string name="announcementInfo">Sitenizde bulunan sakinlere genel bir bilgilendirme, hatırlatma yapmak için duyuru paylaşabilirsiniz.</string>
     <string name="sakin_onaylandi">Sakin Onaylandı</string>
@@ -199,6 +200,8 @@
     <string name="votingDoneAdminInfo">Biten oylamaları buradan görüntüleyebilirsiniz. Oylama sonuçlarını, alınan karar uygulandıktan en erken 1 hafta sonra silmeniz tavsiye edilir.</string>
     <string name="voteResultResidentInfo">Biten oylamalar burada listelenir. Sonuçları % lik oranlarıyla beraber inceleyebilirsiniz.</string>
     <string name="serviceResidentInfo">Yöneticinin site için seçtiği servisler burada listelenir. İhtiyacınız anında ilgili servisin iletişim bilgilerine ulaşabilirsiniz.</string>
+    <string name="siteSakinOnayı">%s adlı kişiyi sitenize dahil etmek istediğinize emin misiniz?</string>
+    <string name="siteSakinReddi">%s adlı kişiyi sitenize dahil etmek istemediğinize emin misiniz?</string>
     <string name="serviceAdminInfo">Bu alanda, sakinlerin ihtiyaç anında iletişme geçmesi için yer alan servisler listelenir. Sakinlere kolaylık sunmak için bu bölümü güncel tutmayı unutmayınız.</string>
     <string name="servis_adi">Servis adı</string>
     <string name="servis_tipi">Servis Tipi</string>

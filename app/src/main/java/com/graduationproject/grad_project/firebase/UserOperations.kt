@@ -2,17 +2,16 @@ package com.graduationproject.grad_project.firebase
 
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.MutableLiveData
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.EmailAuthCredential
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.ktx.userProfileChangeRequest
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.*
+import com.google.firebase.firestore.ktx.toObject
 import com.graduationproject.grad_project.model.Expenditure
+import com.graduationproject.grad_project.model.SiteResident
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 
@@ -34,6 +33,76 @@ object UserOperations: FirebaseConstants() {
         } catch (e: Exception) {
             Log.e(TAG, "getAdmin --> $e")
             null
+        }
+    }
+
+    suspend fun checkVerifiedStatus(isVerified: MutableLiveData<Boolean?>, email: String) = withContext(ioDispatcher) {
+        try {
+            residentRef.document(email)
+                .addSnapshotListener { value, error ->
+                    if (error != null) {
+                        Log.e(TAG, "checkVerifiedStatus error --> $error")
+                        return@addSnapshotListener
+                    }
+                    println("isVerified in operation: ${value?.get("isVerified").toString()}")
+                    if (value?.get("isVerified") == true) {
+                        println("isvERfied in operation is ${value.get("email")}")
+                        println("isVerified in operation: ${value.get("isVerified").toString()}")
+                        isVerified.postValue(true)
+                        return@addSnapshotListener
+                    }
+                }
+        } catch (e: Exception) {
+            Log.e(TAG, "checkVerifiedStatus exception --> $e")
+        }
+    }
+
+    suspend fun isVerified() = withContext(ioDispatcher) {
+        try {
+            val resident = currentUserEmail?.let {
+                residentRef.document(it)
+                    .get().await()
+            }
+            return@withContext resident?.get("isVerified").toString().toBoolean()
+        } catch (e: Exception) {
+            Log.e(TAG, "isVerified --> $e")
+            return@withContext false
+        }
+    }
+
+    suspend fun retrieveAwaitingResidents(awaitingResidents: MutableLiveData<MutableList<SiteResident?>>)
+        = CoroutineScope(ioDispatcher).launch {
+        try {
+            currentUserEmail?.let {
+                val adminInfo = async {
+                    getAdmin(it)
+                }
+                val query = residentRef.whereEqualTo("city", adminInfo.await()?.get("city"))
+                    .whereEqualTo("district", adminInfo.await()?.get("district"))
+                    .whereEqualTo("siteName", adminInfo.await()?.get("siteName"))
+                    .whereEqualTo("isVerified", false)
+
+                query.addSnapshotListener { value, error ->
+                    if (error != null) {
+                        Log.e(TAG, "retriveAwaitingResidents --> $error")
+                        return@addSnapshotListener
+                    }
+                    val documents = value?.documents
+                    documents?.sortBy {
+                        it["flatNo"].toString().toInt()
+                    }
+                    val retrievedAwaitingResidents = mutableListOf<SiteResident?>()
+                    documents?.forEach { document ->
+                        retrievedAwaitingResidents.add(
+                            document.toObject<SiteResident>()
+                        )
+                    }.also {
+                        awaitingResidents.postValue(retrievedAwaitingResidents)
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "retrieveAwaitingResidents -> $e")
         }
     }
 
@@ -89,6 +158,18 @@ object UserOperations: FirebaseConstants() {
         } catch (e: Exception) {
             Log.e(TAG, "getResident --> $e")
             null
+        }
+    }
+
+    fun acceptResident(resident: SiteResident) = CoroutineScope(ioDispatcher).launch {
+        try {
+            residentRef.document(resident.email)
+                .update("isVerified", true)
+                .await().also {
+                    Log.d(TAG, "acceptResident --> Updated resident verification status!")
+                }
+        } catch (e: Exception) {
+            Log.e(TAG, "acceptResident --> $e")
         }
     }
 
@@ -306,6 +387,45 @@ object UserOperations: FirebaseConstants() {
             } catch (e: FirebaseFirestoreException) {
                 Log.e(TAG, "updatePhoneNumberForResident ---> $e")
             }
+        }
+    }
+
+    fun login(email: String, password: String, isSignedIn: MutableLiveData<Boolean>)
+        = CoroutineScope(ioDispatcher).launch {
+        try {
+            if (currentUser == null) {
+                auth.signInWithEmailAndPassword(email, password).await().also {
+                    isSignedIn.postValue(it.user != null)
+                }
+            } else {
+                Log.d(TAG,"login --> there is a signed-in user")
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "login --> $e")
+        }
+    }
+
+    fun retrieveUserType(type: MutableLiveData<String>) {
+        CoroutineScope(ioDispatcher).launch {
+            currentUserEmail?.let {
+                val admin = async {
+                    getAdmin(it)
+                }
+                val resident = async {
+                    getResident(it)
+                }
+                if (resident.await()?.get("typeOfUser") == "Sakin") {
+                    println("type of user = sakin")
+                    type.postValue("Sakin")
+                    return@launch
+                }
+                if (admin.await()?.get("typeOfUser") == "Yönetici") {
+                    println("type of user = yönetici")
+                    type.postValue("Yönetici")
+                    return@launch
+                }
+            }
+
         }
     }
 

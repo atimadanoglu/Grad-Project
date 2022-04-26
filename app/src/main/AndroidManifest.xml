@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".ApplicationClass"
@@ -17,6 +17,7 @@
         <activity
             android:name=".view.OpenScreenActivity"
             android:theme="@style/Theme.GradProject"
+            android:noHistory="true"
             android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
@@ -27,12 +28,15 @@
 
         <activity
             android:name=".view.admin.HomePageAdminActivity"
+            android:noHistory="true"
             android:exported="false" />
         <activity
             android:name=".view.resident.HomePageResidentActivity"
+            android:noHistory="true"
             android:exported="false" />
         <activity
             android:name=".view.MainActivity"
+            android:noHistory="true"
             android:exported="false">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->

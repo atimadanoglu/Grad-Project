@@ -47,7 +47,7 @@ class RequestsListRecyclerViewAdapter(
     override fun onBindViewHolder(holder: RequestViewHolder, position: Int) {
         val request = getItem(position)
         holder.bind(request)
-        holder.binding.requestOptions.setOnClickListener { view ->
+        holder.binding.moreIconButton.setOnClickListener { view ->
             val popUpMenu = createPopUpMenu(view)
             popUpMenu.setOnMenuItemClickListener { menuItem ->
                 when(menuItem.itemId) {
