@@ -63,6 +63,7 @@
             android:layout_marginBottom="20dp"
             android:contentDescription="@string/todo"
             android:src="@drawable/add_icon"
+            android:backgroundTint="@color/primary_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="SpeakableTextPresentCheck" />

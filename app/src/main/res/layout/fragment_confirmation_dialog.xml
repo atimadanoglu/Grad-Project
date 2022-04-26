@@ -29,7 +29,7 @@
             android:layout_marginTop="12dp"
             android:textColor="@color/primary_color"
             android:fontFamily="@font/titillium_web"
-            android:text="@string/sakin_onaylandi"
+            android:text="@string/sakin_onaylanıyor"
             android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/titillium_web"
             android:textColor="@color/primary_color"
-            android:text="Ahmet Tekin sakinini siteye eklediniz."
+            android:text="@string/confirmationInfo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/confirmTile" />

@@ -17,31 +17,28 @@
         android:background="@color/background_settings">
 
         <TextView
+            android:id="@+id/settingsInfoText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/settings_info"
+            app:layout_constraintEnd_toStartOf="@+id/gifIcon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/accountSettingsText" />
+
+        <TextView
             android:id="@+id/accountSettingsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="52dp"
-            android:fontFamily="@font/titillium_web"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/nunito_sans_bold"
             android:text="@string/hesap_ayarlar"
             android:textColor="@color/primary_color"
-            android:textSize="30sp"
+            android:textSize="22sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/settingsInfoText"
-            android:layout_width="371dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:fontFamily="@font/titillium_web"
-            android:text="@string/settings_info"
-            android:textColor="@color/primary_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/accountSettingsText" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewName"
