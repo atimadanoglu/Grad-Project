@@ -188,10 +188,10 @@
     <string name="tumunu_onayla">Tümünü onayla</string>
     <string name="waitingApprovalInfo">Sitenize kayıt olma talebinizi yöneticinize bildirdik. Bilgileriniz, yönetici tarafından doğrulandıktan sonra uygulamaya giriş yapabilirsiniz.</string>
     <string name="announcementInfo">Sitenizde bulunan sakinlere genel bir bilgilendirme, hatırlatma yapmak için duyuru paylaşabilirsiniz.</string>
-    <string name="sakin_onaylandi">Sakin Onaylandı</string>
+    <string name="sakin_onaylanıyor">Sakin Onaylanıyor!</string>
     <string name="expendituresInfo">Sitenizde oluşan ekstra harcamaları gider olarak ekleyebilirsiniz. Sakinlerin bu gideri inceleyebilmeleri için fatura veya dekont ile belgelendirmeye özen gösteriniz.</string>
     <string name="incomingMessagesInfo">Yönetici tarafından sadece sizinle paylaşılan mesajlar burada listelenir.</string>
-    <string name="notificationAdminInfo">Sakinler tarafından yapılan işlemlerin tümü burada bildirim listelenir.</string>
+    <string name="notificationAdminInfo">Sakinler tarafından yapılan işlemlerin tümü burada listelenir.</string>
     <string name="notificationResidentInfo">Yönetici tarafından yapılan işlemlerin tümü burada bildirim olarak listelenir.</string>
     <string name="siteExpendituresInfo">Site içerisinde yer alan ekstra harcama ve giderleri buradan dekont veya faturasıyla beraber inceleyebilirsiniz.</string>
     <string name="voteResidentInfo">Site içerisinde alınacak kararları belirlemek için açılan oylamalar burada listelenir. Yalnızca yönetici tarafından belirlenen süre içerisinde oy kullanabilirsiniz. Her sakinin sadece bir oy kullanma hakkı olduğunu unutmayınız.</string>
@@ -200,9 +200,13 @@
     <string name="voteResultResidentInfo">Biten oylamalar burada listelenir. Sonuçları % lik oranlarıyla beraber inceleyebilirsiniz.</string>
     <string name="serviceResidentInfo">Yöneticinin site için seçtiği servisler burada listelenir. İhtiyacınız anında ilgili servisin iletişim bilgilerine ulaşabilirsiniz.</string>
     <string name="serviceAdminInfo">Bu alanda, sakinlerin ihtiyaç anında iletişme geçmesi için yer alan servisler listelenir. Sakinlere kolaylık sunmak için bu bölümü güncel tutmayı unutmayınız.</string>
+    <string name="requestAdminInfo">Bu alanda, sakinler tarafından paylaşılan öneri ve şikayetler yer alır. Sakinlerle etkileşimde kalmak için bu alanı sık sık ziyaret etmeniz önerilir.</string>
+    <string name="requestResidentInfo">Bu alanda, site hakkında yöneticiyle paylaşmak istediğiniz öneri veya şikayetleriniz yer alır.</string>
     <string name="servis_adi">Servis adı</string>
     <string name="servis_tipi">Servis Tipi</string>
     <string name="textview">TextView</string>
+    <string name="gelen_talepler">Gelen Talepler</string>
+    <string name="confirmationInfo">Ahmet Tekin sakinini sitenize eklemek üzeresiniz.</string>
 
     <string-array name="serviceType_list">
         <item>Taksi</item>

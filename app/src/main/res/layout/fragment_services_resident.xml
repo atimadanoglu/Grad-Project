@@ -10,13 +10,35 @@
 
     <TextView
         android:id="@+id/servicesResidentInfoText"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/serviceResidentInfo"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/serviceResidentInfo"
+        app:layout_constraintEnd_toStartOf="@+id/gifIcon"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/nunito_sans_bold"
+        android:text="@string/services"
+        android:textColor="@color/primary_color"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifIcon"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:src="@drawable/services_icon"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
