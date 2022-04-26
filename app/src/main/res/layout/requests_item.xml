@@ -76,7 +76,7 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/more_icon_button"
+            android:id="@+id/request_options"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/more_horiz"

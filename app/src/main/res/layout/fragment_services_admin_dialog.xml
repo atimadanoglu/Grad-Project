@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".view.admin.ServicesAdminDialogFragment">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutServicesName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:startIconDrawable="@drawable/person_icon"
+        android:hint="@string/servis_adi"
+        app:endIconMode="clear_text"
+        app:helperText="@string/required"
+        app:helperTextTextColor="@color/warning_color"
+        android:textColorHint="@color/primary_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/servicesNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="-10dp"
+            android:inputType="text"
+            android:textColor="@color/primary_color"
+            tools:ignore="TextContrastCheck"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="75dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ınputEditTextPhoneLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:hint="@string/phone_number"
+        app:counterEnabled="true"
+        app:counterMaxLength="10"
+        app:endIconMode="clear_text"
+        android:textColorHint="@color/primary_color"
+        app:helperText="(5**) *** ** **"
+        app:helperTextEnabled="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutServicesName"
+        app:prefixText="+90"
+        app:startIconDrawable="@drawable/phone_icon">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/servicePhoneEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="-10dp"
+            android:inputType="phone"
+            android:maxLength="10"
+            android:textColor="@color/primary_color"
+            tools:ignore="TextContrastCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutServicesType"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:helperTextEnabled="true"
+        app:helperText="@string/required"
+        app:helperTextTextColor="@color/warning_color"
+        android:hint="@string/turu"
+        android:textColorHint="@color/primary_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutServicesName">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/servicesTypeText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="none"
+            android:textColor="@color/primary_color"
+            tools:ignore="LabelFor,TextContrastCheck"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="75dp"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
