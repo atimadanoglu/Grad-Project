@@ -5,56 +5,34 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.graduationproject.grad_project.R
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.graduationproject.grad_project.adapter.PendingApprovalAdapter
+import com.graduationproject.grad_project.databinding.FragmentPendingApprovalsAdminBinding
+import com.graduationproject.grad_project.viewmodel.PendingApprovalsViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [PendingApprovalsAdminFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class PendingApprovalsAdminFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentPendingApprovalsAdminBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var adapter: PendingApprovalAdapter
+    private val viewModel: PendingApprovalsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pending_approvals_admin, container, false)
+        _binding = FragmentPendingApprovalsAdminBinding.inflate(inflater, container, false)
+        binding.awaitingResidentsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        adapter = PendingApprovalAdapter(requireContext())
+        binding.awaitingResidentsRecyclerView.adapter = adapter
+        viewModel.awaitingResidents.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
+        viewModel.retrieveAwaitingResidents()
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment PendingApprovalsAdminFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            PendingApprovalsAdminFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }

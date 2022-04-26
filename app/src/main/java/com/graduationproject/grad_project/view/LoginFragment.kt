@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -35,8 +36,10 @@ class LoginFragment : Fragment() {
         if (auth.currentUser != null) {
             viewModel.setIsSignedIn(true)
             viewModel.setEmail(auth.currentUser!!.email.toString())
+            checkIfThereIsAnyUserSignedInAndDirectToPage()
+        } else {
+            viewModel.setIsSignedIn(false)
         }
-        checkIfThereIsAnyUserSignedInAndDirectToPage()
     }
 
     override fun onCreateView(
@@ -70,6 +73,11 @@ class LoginFragment : Fragment() {
         activity?.finish()
     }
 
+    private fun goToWaitingApprovalPage() {
+        val action = LoginFragmentDirections.actionLoginFragmentToWaitingApprovalResidentFragment()
+        requireView().findNavController().navigate(action)
+    }
+
     private fun isEmpty() = binding.TextEmailAddress.text!!.isEmpty() || binding.TextPassword.text.isEmpty()
 
     private fun loginButtonClicked(
@@ -85,14 +93,23 @@ class LoginFragment : Fragment() {
                     val password = async { viewModel.password }
                     viewModel.makeLoginOperation(email.await(), password.await(), view)
                 }
+                val isVerified = viewModel.isVerified()
+                delay(1000L)
+                println(viewModel.typeOfUser)
+                println("is veritied dd: ${viewModel.isVerified()}")
                 if (viewModel.typeOfUser == "Yönetici" && auth.currentUser != null) {
                     withContext(mainDispatcher) {
                         goToAdminHomePageActivity()
                     }
                 }
-                if (viewModel.typeOfUser == "Sakin"  && auth.currentUser != null) {
+                if (viewModel.typeOfUser == "Sakin"  && auth.currentUser != null && requireNotNull(isVerified)) {
                     withContext(mainDispatcher) {
                         goToResidentHomePageActivity()
+                    }
+                }
+                if (viewModel.typeOfUser == "Sakin" && auth.currentUser != null && requireNotNull(!isVerified)) {
+                    withContext(mainDispatcher) {
+                        goToWaitingApprovalPage()
                     }
                 }
             } else {
@@ -116,15 +133,21 @@ class LoginFragment : Fragment() {
            val userType = async(ioDispatcher) {
                viewModel.takeTheUserType(viewModel.email)
            }
+           val isVerified = viewModel.isVerified()
            userType.await()?.let { viewModel.setTypeOfUser(it) }
            if (viewModel.isSignedIn && userType.await() == "Yönetici") {
                withContext(mainDispatcher) {
                    goToAdminHomePageActivity()
                }
            }
-           if (viewModel.isSignedIn && userType.await() == "Sakin") {
+           if (viewModel.isSignedIn && userType.await() == "Sakin" && requireNotNull(isVerified)) {
                withContext(mainDispatcher) {
                    goToResidentHomePageActivity()
+               }
+           }
+           if (viewModel.typeOfUser == "Sakin" && auth.currentUser != null && requireNotNull(!isVerified)) {
+               withContext(mainDispatcher) {
+                   goToWaitingApprovalPage()
                }
            }
        }

@@ -23,6 +23,11 @@
             app:destination="@id/homePageAdminActivity"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginFragment_to_waitingApprovalResidentFragment"
+            app:destination="@id/waitingApprovalResidentFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/signUpMainFragment"
@@ -90,8 +95,8 @@
             android:id="@+id/action_residentSiteInformationFragment_to_residentNewAccountFragment"
             app:destination="@id/residentNewAccountFragment" />
         <action
-            android:id="@+id/action_residentSiteInformationFragment_to_homePageResidentActivity"
-            app:destination="@id/homePageResidentActivity"
+            android:id="@+id/action_residentSiteInformationFragment_to_waitingApprovalResidentFragment"
+            app:destination="@id/waitingApprovalResidentFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -130,4 +135,9 @@
         android:id="@+id/homePageAdminActivity"
         android:name="com.graduationproject.grad_project.view.admin.HomePageAdminActivity"
         android:label="HomePageAdminActivity" />
+    <fragment
+        android:id="@+id/waitingApprovalResidentFragment"
+        android:name="com.graduationproject.grad_project.view.resident.WaitingApprovalResidentFragment"
+        android:label="fragment_waiting_approval_resident"
+        tools:layout="@layout/fragment_waiting_approval_resident" />
 </navigation>

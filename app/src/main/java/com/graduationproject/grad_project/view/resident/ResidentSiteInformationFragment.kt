@@ -35,15 +35,14 @@ class ResidentSiteInformationFragment(
         return view
     }
 
-    private fun goToResidentHomePageActivity() {
-        val intent = Intent(this.context, HomePageResidentActivity::class.java)
-        startActivity(intent)
-        activity?.finish()
-    }
-
     private fun goBackToResidentNewAccountFragment() {
         val action = ResidentSiteInformationFragmentDirections
             .actionResidentSiteInformationFragmentToResidentNewAccountFragment()
+        findNavController().navigate(action)
+    }
+    private fun goToWaitingApprovalPage() {
+        val action = ResidentSiteInformationFragmentDirections
+            .actionResidentSiteInformationFragmentToWaitingApprovalResidentFragment()
         findNavController().navigate(action)
     }
 
@@ -61,7 +60,9 @@ class ResidentSiteInformationFragment(
             if (b.await()) {
                 viewModel.saveSiteIntoDB()
                 updateUserInfo()
-                goToResidentHomePageActivity()
+                withContext(Dispatchers.Main) {
+                    goToWaitingApprovalPage()
+                }
             }
         }
     }

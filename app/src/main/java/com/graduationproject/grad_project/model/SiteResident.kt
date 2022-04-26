@@ -11,5 +11,6 @@ data class SiteResident(
     val typeOfUser: String = "",
     val siteName: String = "",
     val city: String = "",
-    val district: String = ""
+    val district: String = "",
+    val isVerified: Boolean = false
 )

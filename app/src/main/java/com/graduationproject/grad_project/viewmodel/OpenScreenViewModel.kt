@@ -2,14 +2,12 @@ package com.graduationproject.grad_project.viewmodel
 
 import android.view.View
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.graduationproject.grad_project.firebase.UserOperations
-import kotlinx.coroutines.*
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-class LoginViewModel: ViewModel() {
-
+class OpenScreenViewModel: ViewModel() {
     private var _email = ""
     val email get() = _email
 
@@ -51,16 +49,6 @@ class LoginViewModel: ViewModel() {
         }
     }
     suspend fun isVerified() = withContext(Dispatchers.IO) {
-        val db = FirebaseFirestore.getInstance()
-        val auth = FirebaseAuth.getInstance()
-        println("current user is : ${auth.currentUser?.email}")
-        auth.currentUser?.email?.let {
-            val resident = db.collection("residents")
-                .document(it)
-                .get()
-                .await()
-            return@withContext resident["isVerified"].toString().toBoolean()
-        }
+        return@withContext UserOperations.isVerified()
     }
-
 }

@@ -1,6 +1,7 @@
 package com.graduationproject.grad_project.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,8 +22,8 @@ class ResidentsListViewModel(
     companion object {
         const val TAG = "ResidentsListViewModel"
     }
-    private val _residentsList = MutableLiveData<ArrayList<SiteResident?>>(arrayListOf())
-    val residentsList get() = _residentsList
+    private val _residentsList = MutableLiveData<MutableList<SiteResident?>>(arrayListOf())
+    val residentsList: LiveData<MutableList<SiteResident?>> get() = _residentsList
 
   /*  fun filter(newText: String?) {
         viewModelScope.launch(mainDispatcher) {
@@ -57,22 +58,28 @@ class ResidentsListViewModel(
                         .document(adminEmail)
                         .get().await()
                 }
-                db.collection("residents").whereEqualTo("city", adminInfo.await().get("city"))
+                val query = db.collection("residents")
+                    .whereEqualTo("city", adminInfo.await().get("city"))
                     .whereEqualTo("district", adminInfo.await().get("district"))
                     .whereEqualTo("siteName", adminInfo.await().get("siteName"))
-                    .addSnapshotListener { value, error ->
-                        if (error != null) {
-                            Log.e(TAG, "getResidentsInASpecificSiteWithSnapshot --> $error")
-                            return@addSnapshotListener
-                        }
-                        val documents = value?.documents
-                        val residents = arrayListOf<SiteResident?>()
-                        documents?.forEach {
-                            residents.add(it.toObject<SiteResident>())
-                        }.also {
-                            _residentsList.postValue(residents)
-                        }
+                    .whereEqualTo("isVerified", true)
+
+                query.addSnapshotListener { value, error ->
+                    if (error != null) {
+                        Log.e(TAG, "getResidentsInASpecificSiteWithSnapshot --> $error")
+                        return@addSnapshotListener
                     }
+                    val documents = value?.documents
+                    val residents = mutableListOf<SiteResident?>()
+                    documents?.sortBy {
+                        it["flatNo"].toString().toInt()
+                    }
+                    documents?.forEach {
+                        residents.add(it.toObject<SiteResident>())
+                    }.also {
+                        _residentsList.postValue(residents)
+                    }
+                }
             } catch (e: Exception) {
                 Log.e(TAG, "getResidentsInASpecificSiteWithSnapshot --> $e")
             }

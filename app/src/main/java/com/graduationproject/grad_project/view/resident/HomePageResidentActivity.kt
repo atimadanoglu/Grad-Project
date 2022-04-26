@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 class HomePageResidentActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomePageResidentBinding
-    private lateinit var auth: FirebaseAuth
+    private var auth: FirebaseAuth? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,10 +43,11 @@ class HomePageResidentActivity : AppCompatActivity() {
         MaterialAlertDialogBuilder(this)
             .setMessage(R.string.eminMisiniz)
             .setPositiveButton(R.string.evet) { _, _ ->
-                auth.signOut()
+                auth?.signOut()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
+                auth = null
             }
             .setNegativeButton(R.string.hayır) { _, _ -> }
             .create().show()
@@ -55,18 +56,23 @@ class HomePageResidentActivity : AppCompatActivity() {
     private fun setDisplayName(drawerHeaderBinding: DrawerHeaderResidentBinding) {
         lifecycleScope.launch {
             val a = async {
-                if (auth.currentUser?.displayName.isNullOrEmpty()) {
+                if (auth?.currentUser?.displayName.isNullOrEmpty()) {
                     delay(1500L)
-                    if (auth.currentUser?.displayName == null) {
+                    if (auth?.currentUser?.displayName == null) {
                         delay(1500L)
                     }
-                    auth.currentUser?.displayName?.let {
+                    auth?.currentUser?.displayName?.let {
                         drawerHeaderBinding.headerAccountName.text = it
                     }
                 }
             }
             a.await()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        auth = null
     }
 
 }
