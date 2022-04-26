@@ -7,11 +7,15 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.graduationproject.grad_project.databinding.VotingContinuesAdminItemBinding
 import com.graduationproject.grad_project.model.Voting
+import java.util.*
 
 class ContinuesVotingAdminAdapter:
     ListAdapter<Voting, ContinuesVotingAdminAdapter.VotingViewHolder>(VotingDiffUtil()) {
 
     class VotingViewHolder(val binding: VotingContinuesAdminItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.viewHolder = this
+        }
         companion object {
             fun inflateFrom(parent: ViewGroup): VotingViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
@@ -19,9 +23,20 @@ class ContinuesVotingAdminAdapter:
                 return VotingViewHolder(binding)
             }
         }
+
         fun bind(voting: Voting) {
+            calculateDuration(voting)
             binding.voting = voting
             binding.executePendingBindings()
+        }
+
+        fun calculateDuration(voting: Voting): String {
+            val date = Date()
+            val diff: Long = voting.date - date.time
+            val seconds = diff / 1000
+            val minutes = seconds / 60
+            val hours = minutes / 60
+            return "$hours saat"
         }
     }
 
@@ -31,14 +46,9 @@ class ContinuesVotingAdminAdapter:
 
     override fun onBindViewHolder(holder: VotingViewHolder, position: Int) {
         val item = getItem(position)
-        holder.binding.adapter = this
         holder.bind(item)
-        calculateDuration(item)
     }
 
-    fun calculateDuration(voting: Voting): String {
-        return ""
-    }
 }
 
 class VotingDiffUtil: DiffUtil.ItemCallback<Voting>() {

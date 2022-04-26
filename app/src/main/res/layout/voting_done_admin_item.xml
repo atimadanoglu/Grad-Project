@@ -6,8 +6,8 @@
             name="voting"
             type="com.graduationproject.grad_project.model.Voting" />
         <variable
-            name="adapter"
-            type="com.graduationproject.grad_project.adapter.FinishedVotingAdminAdapter" />
+            name="viewHolder"
+            type="com.graduationproject.grad_project.adapter.FinishedVotingAdminAdapter.FinishedVotingViewHolder" />
     </data>
 
     <LinearLayout
@@ -25,6 +25,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/votingTitle"
                 android:layout_width="240dp"
                 android:layout_height="match_parent"
                 android:text="@{voting.title}"
@@ -35,10 +36,10 @@
                 android:paddingEnd="10dp" />
 
             <TextView
+                android:id="@+id/resultRate"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:hint="@string/_66"
-                android:text="@{adapter.calculateRate(voting)}"
                 android:gravity="center_vertical"
                 android:textColor="@color/primary_color"
                 android:fontFamily="@font/titillium_web_bold"
@@ -46,10 +47,10 @@
                 android:paddingEnd="10dp" />
 
             <TextView
+                android:id="@+id/resultText"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:hint="@string/yes"
-                android:text="@{adapter.displayYesOrNo(voting)}"
                 android:gravity="center_vertical"
                 android:textColor="@color/primary_color"
                 android:fontFamily="@font/titillium_web_bold"

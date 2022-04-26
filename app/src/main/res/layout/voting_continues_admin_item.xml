@@ -7,8 +7,8 @@
             name="voting"
             type="com.graduationproject.grad_project.model.Voting" />
         <variable
-            name="adapter"
-            type="com.graduationproject.grad_project.adapter.ContinuesVotingAdminAdapter" />
+            name="viewHolder"
+            type="com.graduationproject.grad_project.adapter.ContinuesVotingAdminAdapter.VotingViewHolder" />
     </data>
 
     <LinearLayout
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@{adapter.calculateDuration(voting)}"
+            android:text="@{viewHolder.calculateDuration(voting)}"
             android:gravity="center_vertical"
             android:drawablePadding="5dp"
             android:textColor="@color/primary_color"

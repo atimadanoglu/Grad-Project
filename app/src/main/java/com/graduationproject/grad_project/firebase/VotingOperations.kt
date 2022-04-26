@@ -8,6 +8,7 @@ import com.graduationproject.grad_project.model.Voting
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import java.util.*
 
 object VotingOperations: FirebaseConstants() {
 
@@ -56,6 +57,12 @@ object VotingOperations: FirebaseConstants() {
             Log.e(TAG, "retrieveVoting --> $e")
         }
     }
+
+    private fun isFinished(votingDate: Long): Boolean {
+        val date = Date().time
+        return votingDate - date < 0
+    }
+
     fun retrieveContinuesVoting(votingList: MutableLiveData<MutableList<Voting?>>) = CoroutineScope(ioDispatcher).launch {
         try {
             currentUserEmail?.let {
@@ -70,6 +77,9 @@ object VotingOperations: FirebaseConstants() {
                         val documents = value?.documents
                         val retrievedList = mutableListOf<Voting?>()
                         documents?.forEach { document ->
+                            if (isFinished(document["date"].toString().toLong())) {
+                                document.reference.update("finished", true)
+                            }
                             retrievedList.add(
                                 document.toObject<Voting>()
                             )

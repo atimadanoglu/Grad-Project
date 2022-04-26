@@ -21,9 +21,33 @@ class FinishedVotingAdminAdapter:
             }
         }
         fun bind(voting: Voting) {
+            binding.resultText.text = displayYesOrNo(voting)
+            binding.resultRate.text = calculateRate(voting)
             binding.voting = voting
             binding.executePendingBindings()
         }
+
+        private fun displayYesOrNo(voting: Voting): String {
+            val operation = voting.totalYes - voting.totalNo
+            val result = when {
+                operation > 0 -> "Evet"
+                operation < 0 -> "Hayır"
+                else -> "Eşit"
+            }
+            return result
+        }
+
+        private fun calculateRate(voting: Voting): String {
+            val noCount = voting.totalNo
+            val yesCount = voting.totalYes
+            val rate = when {
+                yesCount > noCount -> "%${(yesCount.toFloat() / (yesCount + noCount).toFloat() * 100).toInt()}"
+                noCount > yesCount -> "%${(noCount.toFloat() / (yesCount + noCount).toFloat() * 100).toInt()}"
+                else -> "%50"
+            }
+            return rate
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FinishedVotingViewHolder {
@@ -33,16 +57,9 @@ class FinishedVotingAdminAdapter:
     override fun onBindViewHolder(holder: FinishedVotingViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
-        calculateRate(item)
-        displayYesOrNo(item)
-    }
+        holder.binding.root.setOnClickListener {
 
-    fun calculateRate(voting: Voting): String {
-        return ""
-    }
-
-    fun displayYesOrNo(voting: Voting): String {
-        return ""
+        }
     }
 
 }
@@ -55,5 +72,4 @@ class FinishedVotingDiffUtil: DiffUtil.ItemCallback<Voting>() {
     override fun areContentsTheSame(oldItem: Voting, newItem: Voting): Boolean {
         return oldItem == newItem
     }
-
 }
