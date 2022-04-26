@@ -36,39 +36,37 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
-    suspend fun checkVerifiedStatus(isVerified: MutableLiveData<Boolean?>) = withContext(ioDispatcher) {
+    suspend fun checkVerifiedStatus(isVerified: MutableLiveData<Boolean?>, email: String) = withContext(ioDispatcher) {
         try {
-            currentUserEmail?.let {
-                residentRef.document(it)
-                    .addSnapshotListener { value, error ->
-                        if (error != null) {
-                            Log.e(TAG, "checkVerifiedStatus --> $error")
-                            return@addSnapshotListener
-                        }
-                        if (value?.get("isVerified") == true) {
-                            isVerified.postValue(true)
-                        }
+            residentRef.document(email)
+                .addSnapshotListener { value, error ->
+                    if (error != null) {
+                        Log.e(TAG, "checkVerifiedStatus error --> $error")
+                        return@addSnapshotListener
                     }
-            }
+                    println("isVerified in operation: ${value?.get("isVerified").toString()}")
+                    if (value?.get("isVerified") == true) {
+                        println("isvERfied in operation is ${value.get("email")}")
+                        println("isVerified in operation: ${value.get("isVerified").toString()}")
+                        isVerified.postValue(true)
+                        return@addSnapshotListener
+                    }
+                }
         } catch (e: Exception) {
-            Log.e(TAG, "checkVerifiedStatus --> $e")
+            Log.e(TAG, "checkVerifiedStatus exception --> $e")
         }
     }
 
-    fun isVerified(isVerified: MutableLiveData<Boolean?>) = CoroutineScope(ioDispatcher).launch {
+    suspend fun isVerified() = withContext(ioDispatcher) {
         try {
             val resident = currentUserEmail?.let {
                 residentRef.document(it)
                     .get().await()
             }
-            if (resident?.get("isVerified").toString().toBoolean()) {
-                println("isverified true")
-                isVerified.postValue(true)
-            } else {
-                Log.d(TAG, "User is not verified by admin")
-            }
+            return@withContext resident?.get("isVerified").toString().toBoolean()
         } catch (e: Exception) {
             Log.e(TAG, "isVerified --> $e")
+            return@withContext false
         }
     }
 

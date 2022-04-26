@@ -39,7 +39,6 @@ class OpenScreenActivity : AppCompatActivity() {
 
         Handler().postDelayed({
             val intent = Intent(this, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
             val options = ActivityOptions.makeSceneTransitionAnimation(this,
                 UtilPair.create(binding.mainIcon, "logo_image"),
                 UtilPair.create(binding.mainText, "logo_text"))

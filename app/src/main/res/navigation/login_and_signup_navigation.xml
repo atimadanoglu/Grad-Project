@@ -97,7 +97,7 @@
         <action
             android:id="@+id/action_residentSiteInformationFragment_to_waitingApprovalResidentFragment"
             app:destination="@id/waitingApprovalResidentFragment"
-            app:popUpTo="@id/residentSiteInformationFragment"
+            app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment

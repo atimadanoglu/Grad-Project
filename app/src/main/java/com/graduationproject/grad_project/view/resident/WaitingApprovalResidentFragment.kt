@@ -26,6 +26,7 @@ class WaitingApprovalResidentFragment : Fragment() {
         viewModel.checkVerifiedStatus()
         viewModel.isVerified.observe(viewLifecycleOwner) {
             if (it == true) {
+                println("true içi ${it.toString().toBoolean()}")
                 goToResidentHomePage()
             }
         }
@@ -39,8 +40,9 @@ class WaitingApprovalResidentFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
+        viewModel.clear()
         auth.signOut()
+        super.onDestroy()
     }
 
 }

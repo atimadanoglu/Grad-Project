@@ -2,8 +2,11 @@ package com.graduationproject.grad_project.viewmodel
 
 import android.view.View
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.graduationproject.grad_project.firebase.UserOperations
 import kotlinx.coroutines.*
+import kotlinx.coroutines.tasks.await
 
 class LoginViewModel: ViewModel() {
 
@@ -48,7 +51,16 @@ class LoginViewModel: ViewModel() {
         }
     }
     suspend fun isVerified() = withContext(Dispatchers.IO) {
-        return@withContext UserOperations.isVerified()
+        val db = FirebaseFirestore.getInstance()
+        val auth = FirebaseAuth.getInstance()
+        println("current user is : ${auth.currentUser?.email}")
+        auth.currentUser?.email?.let {
+            val resident = db.collection("residents")
+                .document(it)
+                .get()
+                .await()
+            return@withContext resident["isVerified"].toString().toBoolean()
+        }
     }
 
 }

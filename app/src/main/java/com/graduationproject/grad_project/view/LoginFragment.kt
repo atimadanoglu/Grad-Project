@@ -36,8 +36,10 @@ class LoginFragment : Fragment() {
         if (auth.currentUser != null) {
             viewModel.setIsSignedIn(true)
             viewModel.setEmail(auth.currentUser!!.email.toString())
+            checkIfThereIsAnyUserSignedInAndDirectToPage()
+        } else {
+            viewModel.setIsSignedIn(false)
         }
-        checkIfThereIsAnyUserSignedInAndDirectToPage()
     }
 
     override fun onCreateView(
@@ -91,17 +93,21 @@ class LoginFragment : Fragment() {
                     val password = async { viewModel.password }
                     viewModel.makeLoginOperation(email.await(), password.await(), view)
                 }
+                val isVerified = viewModel.isVerified()
+                delay(1000L)
+                println(viewModel.typeOfUser)
+                println("is veritied dd: ${viewModel.isVerified()}")
                 if (viewModel.typeOfUser == "Yönetici" && auth.currentUser != null) {
                     withContext(mainDispatcher) {
                         goToAdminHomePageActivity()
                     }
                 }
-                if (viewModel.typeOfUser == "Sakin"  && auth.currentUser != null && viewModel.isVerified()) {
+                if (viewModel.typeOfUser == "Sakin"  && auth.currentUser != null && requireNotNull(isVerified)) {
                     withContext(mainDispatcher) {
                         goToResidentHomePageActivity()
                     }
                 }
-                if (viewModel.typeOfUser == "Sakin" && auth.currentUser != null && !viewModel.isVerified()) {
+                if (viewModel.typeOfUser == "Sakin" && auth.currentUser != null && requireNotNull(!isVerified)) {
                     withContext(mainDispatcher) {
                         goToWaitingApprovalPage()
                     }
@@ -127,18 +133,19 @@ class LoginFragment : Fragment() {
            val userType = async(ioDispatcher) {
                viewModel.takeTheUserType(viewModel.email)
            }
+           val isVerified = viewModel.isVerified()
            userType.await()?.let { viewModel.setTypeOfUser(it) }
            if (viewModel.isSignedIn && userType.await() == "Yönetici") {
                withContext(mainDispatcher) {
                    goToAdminHomePageActivity()
                }
            }
-           if (viewModel.isSignedIn && userType.await() == "Sakin" && viewModel.isVerified()) {
+           if (viewModel.isSignedIn && userType.await() == "Sakin" && requireNotNull(isVerified)) {
                withContext(mainDispatcher) {
                    goToResidentHomePageActivity()
                }
            }
-           if (viewModel.typeOfUser == "Sakin" && auth.currentUser != null && !viewModel.isVerified()) {
+           if (viewModel.typeOfUser == "Sakin" && auth.currentUser != null && requireNotNull(!isVerified)) {
                withContext(mainDispatcher) {
                    goToWaitingApprovalPage()
                }
