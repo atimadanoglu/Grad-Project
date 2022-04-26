@@ -48,7 +48,6 @@
             android:layout_marginBottom="20dp"
             android:onClick="@{ () -> viewModel.clearNotifications()}"
             android:background="@drawable/button"
-            android:onClick="@{() -> viewModel.clearNotifications()}"
             android:backgroundTint="@color/primary_color"
             android:text="@string/bildirimleri_temizle"
             android:textColor="@color/secondary_color"
