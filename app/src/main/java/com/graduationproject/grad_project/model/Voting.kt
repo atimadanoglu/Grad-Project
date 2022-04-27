@@ -5,7 +5,8 @@ data class Voting(
     val title: String = "",
     val content: String = "",
     val date: Long = 0,
-    val totalYes: Long = 0,
-    val totalNo: Long = 0,
-    val isFinished: Boolean = false
+    var totalYes: Long = 0,
+    var totalNo: Long = 0,
+    val isFinished: Boolean = false,
+    val residentsWhoVoted: MutableList<ResidentsWhoVoted?> = mutableListOf()
 )

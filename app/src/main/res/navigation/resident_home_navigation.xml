@@ -87,11 +87,7 @@
         android:id="@+id/voteResidentFragment"
         android:name="com.graduationproject.grad_project.view.resident.VoteResidentFragment"
         android:label="fragment_vote_resident"
-        tools:layout="@layout/fragment_vote_resident" >
-        <action
-            android:id="@+id/action_voteResidentFragment_to_showVoteResidentDialogFragment"
-            app:destination="@id/showVoteResidentDialogFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_vote_resident" />
     <dialog
         android:id="@+id/successfulDialogFragment"
         android:name="com.graduationproject.grad_project.view.SuccessfulDialogFragment"
@@ -104,8 +100,4 @@
             android:name="paidAmount"
             app:argType="integer" />
     </dialog>
-    <dialog
-        android:id="@+id/showVoteResidentDialogFragment"
-        android:name="com.graduationproject.grad_project.view.resident.dialogs.ShowVoteResidentDialogFragment"
-        android:label="ShowVoteResidentDialogFragment" />
 </navigation>

@@ -8,10 +8,12 @@ class ShowVoteResidentDialogViewModel: ViewModel() {
 
     fun acceptButtonClicked(voting: Voting) {
         VotingOperations.acceptButtonClicked(voting)
+        VotingOperations.saveResidentWhoVoted(voting, true)
     }
 
     fun rejectButtonClicked(voting: Voting) {
         VotingOperations.rejectButtonClicked(voting)
+        VotingOperations.saveResidentWhoVoted(voting, false)
     }
 
 }

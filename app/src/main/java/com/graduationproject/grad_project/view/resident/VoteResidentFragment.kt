@@ -37,9 +37,4 @@ class VoteResidentFragment : Fragment() {
         return view
     }
 
-    fun goToShowVotingFragment() {
-        val action = VoteResidentFragmentDirections.actionVoteResidentFragmentToShowVoteResidentDialogFragment()
-        requireView().findNavController().navigate(action)
-    }
-
 }
