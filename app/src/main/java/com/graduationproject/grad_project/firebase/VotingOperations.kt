@@ -2,8 +2,10 @@ package com.graduationproject.grad_project.firebase
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ktx.toObject
+import com.graduationproject.grad_project.model.ResidentsWhoVoted
 import com.graduationproject.grad_project.model.Voting
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -17,20 +19,81 @@ object VotingOperations: FirebaseConstants() {
     fun saveVotingIntoDB(voting: Voting) {
         CoroutineScope(ioDispatcher).launch {
             try {
-                val email = auth.currentUser?.email
-                email?.let {
-                    adminRef.document(it)
+                currentUserEmail?.let {
+                    val admin = UserOperations.getAdmin(it)
+                    siteRef
+                        .document("siteName:${admin?.get("siteName")}" +
+                                "-city:${admin?.get("city")}" +
+                                "-district:${admin?.get("district")}")
                         .collection("voting")
                         .document(voting.id)
                         .set(voting)
                         .await()
                 }
             } catch (e: FirebaseFirestoreException) {
-                Log.e(TAG, "saveVotingIntoDB --> $e")
+                Log.e(TAG, "saveVotingIntoDBForAdmin --> $e")
             }
         }
     }
 
+    fun acceptButtonClicked(voting: Voting) = CoroutineScope(ioDispatcher).launch {
+        try {
+            currentUserEmail?.let {
+                val resident = UserOperations.getResident(it)
+                siteRef
+                    .document("siteName:${resident?.get("siteName")}" +
+                            "-city:${resident?.get("city")}" +
+                            "-district:${resident?.get("district")}")
+                    .collection("voting")
+                    .document(voting.id)
+                    .update("totalYes", FieldValue.increment(1))
+                    .await()
+            }
+        } catch (e: FirebaseFirestoreException) {
+            Log.e(TAG, "acceptButtonClicked --> $e")
+        }
+    }
+
+    fun rejectButtonClicked(voting: Voting) = CoroutineScope(ioDispatcher).launch {
+        try {
+            currentUserEmail?.let {
+                val resident = UserOperations.getResident(it)
+                siteRef
+                    .document("siteName:${resident?.get("siteName")}" +
+                            "-city:${resident?.get("city")}" +
+                            "-district:${resident?.get("district")}")
+                    .collection("voting")
+                    .document(voting.id)
+                    .update("totalNo", FieldValue.increment(1))
+                    .await()
+            }
+        } catch (e: FirebaseFirestoreException) {
+            Log.e(TAG, "rejectButtonClicked --> $e")
+        }
+    }
+
+    fun saveResidentWhoVoted(voting: Voting, votingResult: Boolean) = CoroutineScope(ioDispatcher).launch {
+        try {
+            currentUserEmail?.let {
+                val resident = UserOperations.getResident(it)
+                val uuid = UUID.randomUUID()
+                val document = ResidentsWhoVoted(resident?.get("email").toString(), votingResult)
+                siteRef
+                    .document("siteName:${resident?.get("siteName")}" +
+                            "-city:${resident?.get("city")}" +
+                            "-district:${resident?.get("district")}")
+                    .collection("voting")
+                    .document(voting.id)
+                    .collection("residentsWhoVoted")
+                    .document(uuid.toString())
+                    .set(document)
+                    .await()
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "saveResidentWhoVoted --> $e")
+        }
+    }
+/*
     fun retrieveFinishedVoting(votingList: MutableLiveData<MutableList<Voting?>>) = CoroutineScope(ioDispatcher).launch {
         try {
             currentUserEmail?.let {
@@ -56,6 +119,67 @@ object VotingOperations: FirebaseConstants() {
         } catch (e: Exception) {
             Log.e(TAG, "retrieveVoting --> $e")
         }
+    }*/
+
+
+    fun retrieveFinishedVotingForResident(votingList: MutableLiveData<MutableList<Voting?>>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            currentUserEmail?.let {
+                val resident = UserOperations.getResident(it)
+                siteRef.document("siteName:${resident?.get("siteName")}" +
+                        "-city:${resident?.get("city")}" +
+                        "-district:${resident?.get("district")}")
+                    .collection("voting")
+                    .whereEqualTo("finished", true)
+                    .addSnapshotListener { value, error ->
+                        if (error != null) {
+                            Log.e(TAG, "retrieveVoting --> $error")
+                            return@addSnapshotListener
+                        }
+                        val documents = value?.documents
+                        val retrievedList = mutableListOf<Voting?>()
+                        documents?.forEach { document ->
+                            retrievedList.add(
+                                document.toObject<Voting>()
+                            )
+                        }.also {
+                            votingList.value = retrievedList
+                        }
+                    }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "retrieveFinishedVoting --> $e")
+        }
+    }
+
+    fun retrieveFinishedVotingForAdmin(votingList: MutableLiveData<MutableList<Voting?>>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            currentUserEmail?.let {
+                val admin = UserOperations.getAdmin(it)
+                siteRef.document("siteName:${admin?.get("siteName")}" +
+                        "-city:${admin?.get("city")}" +
+                        "-district:${admin?.get("district")}")
+                    .collection("voting")
+                    .whereEqualTo("finished", true)
+                    .addSnapshotListener { value, error ->
+                        if (error != null) {
+                            Log.e(TAG, "retrieveVoting --> $error")
+                            return@addSnapshotListener
+                        }
+                        val documents = value?.documents
+                        val retrievedList = mutableListOf<Voting?>()
+                        documents?.forEach { document ->
+                            retrievedList.add(
+                                document.toObject<Voting>()
+                            )
+                        }.also {
+                            votingList.value = retrievedList
+                        }
+                    }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "retrieveFinishedVoting --> $e")
+        }
     }
 
     private fun isFinished(votingDate: Long): Boolean {
@@ -63,7 +187,7 @@ object VotingOperations: FirebaseConstants() {
         return votingDate - date < 0
     }
 
-    fun retrieveContinuesVoting(votingList: MutableLiveData<MutableList<Voting?>>) = CoroutineScope(ioDispatcher).launch {
+    /*fun retrieveContinuesVoting(votingList: MutableLiveData<MutableList<Voting?>>) = CoroutineScope(ioDispatcher).launch {
         try {
             currentUserEmail?.let {
                 adminRef.document(it)
@@ -90,6 +214,72 @@ object VotingOperations: FirebaseConstants() {
             }
         } catch (e: Exception) {
             Log.e(TAG, "retrieveVoting --> $e")
+        }
+    }*/
+
+    fun retrieveContinuesVotingForResident(votingList: MutableLiveData<MutableList<Voting?>>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            currentUserEmail?.let {
+                val resident = UserOperations.getResident(it)
+                siteRef.document("siteName:${resident?.get("siteName")}" +
+                        "-city:${resident?.get("city")}" +
+                        "-district:${resident?.get("district")}")
+                    .collection("voting")
+                    .whereEqualTo("finished", false)
+                    .addSnapshotListener { value, error ->
+                        if (error != null) {
+                            Log.e(TAG, "retrieveVoting --> $error")
+                            return@addSnapshotListener
+                        }
+                        val documents = value?.documents
+                        val retrievedList = mutableListOf<Voting?>()
+                        documents?.forEach { document ->
+                            if (isFinished(document["date"].toString().toLong())) {
+                                document.reference.update("finished", true)
+                            }
+                            retrievedList.add(
+                                document.toObject<Voting>()
+                            )
+                        }.also {
+                            votingList.value = retrievedList
+                        }
+                    }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "retrieveContinuesVoting --> $e")
+        }
+    }
+
+    fun retrieveContinuesVotingForAdmin(votingList: MutableLiveData<MutableList<Voting?>>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            currentUserEmail?.let {
+                val admin = UserOperations.getAdmin(it)
+                siteRef.document("siteName:${admin?.get("siteName")}" +
+                        "-city:${admin?.get("city")}" +
+                        "-district:${admin?.get("district")}")
+                    .collection("voting")
+                    .whereEqualTo("finished", false)
+                    .addSnapshotListener { value, error ->
+                        if (error != null) {
+                            Log.e(TAG, "retrieveVoting --> $error")
+                            return@addSnapshotListener
+                        }
+                        val documents = value?.documents
+                        val retrievedList = mutableListOf<Voting?>()
+                        documents?.forEach { document ->
+                            if (isFinished(document["date"].toString().toLong())) {
+                                document.reference.update("finished", true)
+                            }
+                            retrievedList.add(
+                                document.toObject<Voting>()
+                            )
+                        }.also {
+                            votingList.value = retrievedList
+                        }
+                    }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "retrieveContinuesVoting --> $e")
         }
     }
 

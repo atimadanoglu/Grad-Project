@@ -2,17 +2,20 @@ package com.graduationproject.grad_project.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.graduationproject.grad_project.databinding.VotingContinuesAdminItemBinding
 import com.graduationproject.grad_project.model.Voting
+import com.graduationproject.grad_project.view.resident.dialogs.ShowVoteResidentDialogFragment
 import java.util.*
 
-class ContinuesVotingAdminAdapter:
-    ListAdapter<Voting, ContinuesVotingAdminAdapter.VotingViewHolder>(VotingDiffUtil()) {
+class VoteResidentAdapter(
+    private val fragmentManager: FragmentManager
+): ListAdapter<Voting, VoteResidentAdapter.VotingViewHolder>(VoteResidentDiffUtil()) {
 
-    class VotingViewHolder(val binding: VotingContinuesAdminItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class VotingViewHolder(val binding: VotingContinuesAdminItemBinding): RecyclerView.ViewHolder(binding.root) {
         companion object {
             fun inflateFrom(parent: ViewGroup): VotingViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
@@ -20,7 +23,6 @@ class ContinuesVotingAdminAdapter:
                 return VotingViewHolder(binding)
             }
         }
-
         fun bind(voting: Voting) {
             binding.duration.text = calculateDuration(voting)
             binding.voting = voting
@@ -44,11 +46,15 @@ class ContinuesVotingAdminAdapter:
     override fun onBindViewHolder(holder: VotingViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
+        holder.binding.root.setOnClickListener {
+            val dialog = ShowVoteResidentDialogFragment(item)
+            dialog.show(fragmentManager, "showVoteResidentDialog")
+        }
     }
 
 }
 
-class VotingDiffUtil: DiffUtil.ItemCallback<Voting>() {
+class VoteResidentDiffUtil: DiffUtil.ItemCallback<Voting>() {
     override fun areItemsTheSame(oldItem: Voting, newItem: Voting): Boolean {
         return oldItem.id == newItem.id
     }
@@ -56,4 +62,5 @@ class VotingDiffUtil: DiffUtil.ItemCallback<Voting>() {
     override fun areContentsTheSame(oldItem: Voting, newItem: Voting): Boolean {
         return oldItem == newItem
     }
+
 }
