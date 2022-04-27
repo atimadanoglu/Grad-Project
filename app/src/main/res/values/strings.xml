@@ -218,4 +218,6 @@
         <item>Çilingir</item>
     </string-array>
 
+    <string name="kalanSure">Kalan Süre: %s</string>
+
 </resources>

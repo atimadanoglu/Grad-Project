@@ -38,7 +38,7 @@ class AddVotingViewModel: ViewModel() {
                     uuid.toString(),
                     _title.value!!,
                     _content.value!!,
-                    _chosenDate.value!!
+                    _dateLongValue.value!!
                 )
                 VotingOperations.saveVotingIntoDB(voting)
             }

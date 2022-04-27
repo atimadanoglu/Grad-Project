@@ -1,47 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="45dp"
-    android:background="@drawable/recycleview_dark_background"
-    android:layout_marginBottom="15dp"
-    android:layout_marginStart="20dp"
-    android:layout_marginEnd="20dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="voting"
+            type="com.graduationproject.grad_project.model.Voting" />
+    </data>
 
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="45dp"
+        android:background="@drawable/recycleview_dark_background"
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
 
-        <TextView
-            android:layout_width="240dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/test"
-            android:gravity="center_vertical"
-            android:textColor="@color/primary_color"
-            android:fontFamily="@font/titillium_web"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:hint="@string/_66"
-            android:gravity="center_vertical"
-            android:textColor="@color/primary_color"
-            android:fontFamily="@font/titillium_web_bold"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:hint="@string/yes"
-            android:gravity="center_vertical"
-            android:textColor="@color/primary_color"
-            android:fontFamily="@font/titillium_web_bold"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"/>
+            android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/votingTitle"
+                android:layout_width="240dp"
+                android:layout_height="match_parent"
+                android:text="@{voting.title}"
+                android:gravity="center_vertical"
+                android:textColor="@color/primary_color"
+                android:fontFamily="@font/titillium_web"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp" />
+
+            <TextView
+                android:id="@+id/resultRate"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:hint="@string/_66"
+                android:gravity="center_vertical"
+                android:textColor="@color/primary_color"
+                android:fontFamily="@font/titillium_web_bold"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp" />
+
+            <TextView
+                android:id="@+id/resultText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:hint="@string/yes"
+                android:gravity="center_vertical"
+                android:textColor="@color/primary_color"
+                android:fontFamily="@font/titillium_web_bold"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp" />
+
+
+        </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
+</layout>
