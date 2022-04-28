@@ -26,7 +26,6 @@ class RequestFragment: Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentRequestBinding.inflate(inflater, container, false)
         val view = binding.root
-        binding.requestsRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         requestsAdapter = RequestsListRecyclerViewAdapter(parentFragmentManager, requireContext())
         binding.requestsRecyclerview.adapter = requestsAdapter
         binding.lifecycleOwner = viewLifecycleOwner

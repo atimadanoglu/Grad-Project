@@ -27,7 +27,6 @@ class VoteResidentFragment : Fragment() {
         _binding = FragmentVoteResidentBinding.inflate(inflater, container, false)
         val view = binding.root
         viewModel.retrieveContinuesVoting()
-        binding.continuesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = VoteResidentAdapter(parentFragmentManager)
         binding.continuesRecyclerView.adapter = adapter
         binding.lifecycleOwner = viewLifecycleOwner

@@ -25,7 +25,7 @@ class MessagesListRecyclerViewAdapter(
         companion object {
             fun inflateFrom(parent: ViewGroup): MessageViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = MessageRowLayoutBinding.inflate(layoutInflater)
+                val binding = MessageRowLayoutBinding.inflate(layoutInflater, parent, false)
                 return MessageViewHolder(binding)
             }
         }

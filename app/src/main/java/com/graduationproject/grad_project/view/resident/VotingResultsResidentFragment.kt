@@ -30,7 +30,6 @@ class VotingResultsResidentFragment : Fragment() {
             adapter.submitList(it)
         }
         viewModel.retrieveVoting()
-        binding.doneRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = VotingResultsResidentAdapter()
         binding.doneRecyclerView.adapter = adapter
         binding.deleteFab
