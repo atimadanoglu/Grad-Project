@@ -24,7 +24,6 @@ class PendingApprovalsAdminFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentPendingApprovalsAdminBinding.inflate(inflater, container, false)
-        binding.awaitingResidentsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = PendingApprovalAdapter(requireContext())
         binding.awaitingResidentsRecyclerView.adapter = adapter
         viewModel.awaitingResidents.observe(viewLifecycleOwner) {

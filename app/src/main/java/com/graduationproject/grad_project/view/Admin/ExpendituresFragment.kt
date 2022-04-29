@@ -33,7 +33,6 @@ class ExpendituresFragment : Fragment() {
             }
         }
         viewModel.retrieveAllExpendituresWithSnapshot()
-        binding.expendituresRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         adapter = ExpendituresListAdapter(requireContext())
         binding.expendituresRecyclerview.adapter = adapter
         binding.lifecycleOwner = viewLifecycleOwner

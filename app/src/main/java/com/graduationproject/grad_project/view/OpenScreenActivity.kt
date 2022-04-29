@@ -56,7 +56,7 @@ class OpenScreenActivity : AppCompatActivity() {
     ) {
         lifecycleScope.launch {
             val userType = async {
-                viewModel.takeTheUserType(viewModel.email)
+                viewModel.takeTheUserType()
             }
             userType.await()?.let { viewModel.setTypeOfUser(it) }
             if (viewModel.isSignedIn && userType.await() == "Yönetici") {

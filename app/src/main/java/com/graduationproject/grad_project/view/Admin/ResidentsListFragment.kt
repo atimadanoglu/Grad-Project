@@ -29,7 +29,6 @@ class ResidentsListFragment : Fragment() {
             residentsListAdapter?.submitList(it)
         }
         viewModel.getResidentsInASpecificSiteWithSnapshot()
-        binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
         residentsListAdapter = ResidentsListAdapter(parentFragmentManager, requireContext())
         binding.recyclerview.adapter = residentsListAdapter
         binding.lifecycleOwner = viewLifecycleOwner

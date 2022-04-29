@@ -35,15 +35,15 @@ class LoginViewModel: ViewModel() {
     ): String {
         return withContext(scope) {
             UserOperations.loginWithEmailAndPassword(email, password, view)
-            takeTheUserType(email)
+            takeTheUserType()
             typeOfUser
         }
     }
 
-    suspend fun takeTheUserType(email: String, scope: CoroutineDispatcher = Dispatchers.IO): String? {
+    suspend fun takeTheUserType(scope: CoroutineDispatcher = Dispatchers.IO): String? {
         return withContext(scope) {
             try {
-                _typeOfUser = UserOperations.takeTheUserType(email)
+                _typeOfUser = UserOperations.takeTheUserType()
                 typeOfUser
             } catch (e: Exception) {
                 null
@@ -53,7 +53,7 @@ class LoginViewModel: ViewModel() {
     suspend fun isVerified() = withContext(Dispatchers.IO) {
         val db = FirebaseFirestore.getInstance()
         val auth = FirebaseAuth.getInstance()
-        println("current user is : ${auth.currentUser?.email}")
+        println("is verified : current user is : ${auth.currentUser?.email}")
         auth.currentUser?.email?.let {
             val resident = db.collection("residents")
                 .document(it)
