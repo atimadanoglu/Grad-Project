@@ -29,7 +29,7 @@ class ExpendituresListAdapter(private val context: Context?)
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ExpendituresItemBinding.inflate(layoutInflater)
+                val binding = ExpendituresItemBinding.inflate(layoutInflater, parent, false)
                 return ViewHolder(binding)
             }
         }

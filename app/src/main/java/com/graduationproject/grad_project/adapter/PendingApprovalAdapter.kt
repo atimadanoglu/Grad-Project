@@ -19,7 +19,7 @@ class PendingApprovalAdapter(private val context: Context):
         companion object {
             fun inflateFrom(parent: ViewGroup): PendingApprovalViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = PendingItemBinding.inflate(layoutInflater)
+                val binding = PendingItemBinding.inflate(layoutInflater, parent, false)
                 return PendingApprovalViewHolder(binding)
             }
         }

@@ -28,7 +28,7 @@ class RequestsListRecyclerViewAdapter(
         companion object {
             fun inflateFrom(parent: ViewGroup): RequestViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = RequestsItemBinding.inflate(layoutInflater)
+                val binding = RequestsItemBinding.inflate(layoutInflater, parent, false)
                 return RequestViewHolder(binding)
             }
         }

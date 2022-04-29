@@ -25,7 +25,7 @@ class NotificationsRecyclerViewAdapter(
         companion object {
             fun inflateFrom(parent: ViewGroup): NotificationViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = NotificationRowLayoutBinding.inflate(layoutInflater)
+                val binding = NotificationRowLayoutBinding.inflate(layoutInflater, parent, false)
                 return NotificationViewHolder(binding)
             }
         }

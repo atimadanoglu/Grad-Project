@@ -119,7 +119,7 @@ object VotingOperations: FirebaseConstants() {
                                 document.toObject<Voting>()
                             )
                         }.also {
-                            votingList.value = retrievedList
+                            votingList.postValue(retrievedList)
                         }
                     }
             }
@@ -150,7 +150,7 @@ object VotingOperations: FirebaseConstants() {
                                 document.toObject<Voting>()
                             )
                         }.also {
-                            votingList.value = retrievedList
+                            votingList.postValue(retrievedList)
                         }
                     }
             }
@@ -189,7 +189,7 @@ object VotingOperations: FirebaseConstants() {
                                 document.toObject<Voting>()
                             )
                         }.also {
-                            votingList.value = retrievedList
+                            votingList.postValue(retrievedList)
                         }
                     }
             }
@@ -223,7 +223,7 @@ object VotingOperations: FirebaseConstants() {
                                 document.toObject<Voting>()
                             )
                         }.also {
-                            votingList.value = retrievedList
+                            votingList.postValue(retrievedList)
                         }
                     }
             }

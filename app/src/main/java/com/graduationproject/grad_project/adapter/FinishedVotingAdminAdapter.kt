@@ -16,7 +16,7 @@ class FinishedVotingAdminAdapter:
         companion object {
             fun inflateFrom(parent: ViewGroup): FinishedVotingViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = VotingDoneAdminItemBinding.inflate(layoutInflater)
+                val binding = VotingDoneAdminItemBinding.inflate(layoutInflater, parent, false)
                 return FinishedVotingViewHolder(binding)
             }
         }

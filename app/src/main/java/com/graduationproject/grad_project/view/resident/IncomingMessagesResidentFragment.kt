@@ -28,7 +28,6 @@ class IncomingMessagesResidentFragment : Fragment() {
             recyclerViewAdapter?.submitList(it)
         }
         viewModel.retrieveMessages()
-        binding.messageRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         recyclerViewAdapter = MessagesListRecyclerViewAdapter(requireContext(), parentFragmentManager)
         binding.messageRecyclerview.adapter = recyclerViewAdapter
         binding.viewModel = viewModel

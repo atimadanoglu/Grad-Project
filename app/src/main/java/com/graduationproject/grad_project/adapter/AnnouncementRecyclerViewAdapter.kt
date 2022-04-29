@@ -25,7 +25,7 @@ class AnnouncementRecyclerViewAdapter(
         companion object {
             fun inflateFrom(parent: ViewGroup): AnnouncementViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = AnnouncementRowLayoutBinding.inflate(layoutInflater)
+                val binding = AnnouncementRowLayoutBinding.inflate(layoutInflater, parent, false)
                 return AnnouncementViewHolder(binding)
             }
         }

@@ -36,14 +36,14 @@
             android:id="@+id/gifIcon"
             android:layout_width="130dp"
             android:layout_height="130dp"
-            android:src="@drawable/services_icon"
+            android:src="@drawable/services_icon_image"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/notificationRecyclerview"
+            android:id="@+id/servicesRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="20dp"
