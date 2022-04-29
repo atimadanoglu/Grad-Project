@@ -3,12 +3,11 @@ package com.graduationproject.grad_project.view.resident
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -16,9 +15,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.FragmentAddRequestBinding
 import com.graduationproject.grad_project.viewmodel.dialogs.AddRequestViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class AddRequestFragment : Fragment(), AdapterView.OnItemSelectedListener {
+class AddRequestFragment : Fragment(){
 
     private var _binding: FragmentAddRequestBinding? = null
     private val binding get() = _binding!!
@@ -47,6 +49,7 @@ class AddRequestFragment : Fragment(), AdapterView.OnItemSelectedListener {
            if (!isEmpty()) {
                viewModel.setTitle(binding.titleInput.text.toString())
                viewModel.setContent(binding.contentInput.text.toString())
+               viewModel.setType(binding.requestTypeText.text.toString())
                CoroutineScope(ioDispatcher).launch {
                    viewModel.shareRequestWithAdmin()
                }.join()
@@ -71,7 +74,6 @@ class AddRequestFragment : Fragment(), AdapterView.OnItemSelectedListener {
             this.context?.let { ArrayAdapter(it, R.layout.request_dropdown_item, typeList) }
         binding.requestTypeText.inputType = InputType.TYPE_NULL
         binding.requestTypeText.setAdapter(arrayAdapter)
-        binding.requestTypeText.onItemSelectedListener = this
     }
 
     private fun showSpacesAreEmptySnackBar() {
@@ -90,13 +92,4 @@ class AddRequestFragment : Fragment(), AdapterView.OnItemSelectedListener {
         _binding = null
     }
 
-    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        println("seçiton")
-        println(p0?.getItemAtPosition(p2).toString())
-        viewModel.setContent(p0?.getItemAtPosition(p2).toString())
-    }
-
-    override fun onNothingSelected(p0: AdapterView<*>?) {
-        println("birşey seçmedin")
-    }
 }
