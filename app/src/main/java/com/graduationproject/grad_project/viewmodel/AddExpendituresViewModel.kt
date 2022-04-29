@@ -186,7 +186,7 @@ class AddExpendituresViewModel(
                     uuid.toString(),
                     _title.value.toString(),
                     _content.value.toString(),
-                    _amount.value?.toInt()!!,
+                    _amount.value?.toLong()!!,
                     _downloadUri.value.toString(),
                     Timestamp(Date())
                 )

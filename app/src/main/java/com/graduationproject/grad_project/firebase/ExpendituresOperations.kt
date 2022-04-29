@@ -3,9 +3,11 @@ package com.graduationproject.grad_project.firebase
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.toObject
 import com.graduationproject.grad_project.adapter.ExpendituresListAdapter
 import com.graduationproject.grad_project.model.Expenditure
 import kotlinx.coroutines.CoroutineScope
@@ -36,7 +38,7 @@ object ExpendituresOperations: FirebaseConstants() {
                         it["id"] as String,
                         it["title"] as String,
                         it["content"] as String,
-                        it["amount"].toString().toLong().toInt(),
+                        it["amount"].toString().toLong(),
                         it["documentUri"] as String,
                         it["date"] as Timestamp
                     )
@@ -52,9 +54,11 @@ object ExpendituresOperations: FirebaseConstants() {
     }
 
 
-    fun retrieveAllExpendituresWithSnapshot(email: String) {
-        CoroutineScope(ioDispatcher).launch {
-            try {
+    fun retrieveExpendituresForAdmin(expenditures: MutableLiveData<MutableList<Expenditure?>>)
+        = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            email?.let {
                 adminRef.document(email)
                     .collection("expenditures")
                     .orderBy("date", Query.Direction.DESCENDING)
@@ -64,26 +68,54 @@ object ExpendituresOperations: FirebaseConstants() {
                             return@addSnapshotListener
                         }
                         if (value?.documents?.isNotEmpty() == true) {
-                            val newArrayList = ArrayList<Expenditure?>()
+                            val list = mutableListOf<Expenditure?>()
                             value.documents.forEach {
-                                val expenditure = Expenditure(
-                                    it["id"] as String,
-                                    it["title"] as String,
-                                    it["content"] as String,
-                                    it["amount"].toString().toLong().toInt(),
-                                    it["documentUri"] as String,
-                                    it["date"] as Timestamp
+                                list.add(
+                                    it.toObject<Expenditure>()
                                 )
-                                newArrayList.add(expenditure)
                             }.also {
-                                list.postValue(newArrayList)
+                                expenditures.postValue(list)
                             }
                         }
                     }
-            } catch (e: FirebaseFirestoreException) {
-                Log.e(TAG, "retrieveAllExpenditures ---> $e")
             }
+        } catch (e: FirebaseFirestoreException) {
+            Log.e(TAG, "retrieveAllExpendituresWithSnapshot ---> $e")
         }
+
+    }
+    fun retrieveExpendituresForResident(expenditures: MutableLiveData<MutableList<Expenditure?>>)
+            = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            email?.let {
+                val resident = UserOperations.getResident(it)
+                siteRef.document("siteName:${resident?.get("siteName")}" +
+                        "-city:${resident?.get("city")}" +
+                        "-district:${resident?.get("district")}")
+                    .collection("expenditures")
+                    .orderBy("date", Query.Direction.DESCENDING)
+                    .addSnapshotListener { value, error ->
+                        if (error != null) {
+                            Log.e(TAG, "retrieveAllExpenditures --> $error")
+                            return@addSnapshotListener
+                        }
+                        if (value?.documents?.isNotEmpty() == true) {
+                            val list = mutableListOf<Expenditure?>()
+                            value.documents.forEach { document ->
+                                list.add(
+                                    document.toObject<Expenditure>()
+                                )
+                            }.also {
+                                expenditures.postValue(list)
+                            }
+                        }
+                    }
+            }
+        } catch (e: FirebaseFirestoreException) {
+            Log.e(TAG, "retrieveAllExpendituresWithSnapshot ---> $e")
+        }
+
     }
 
     fun deleteExpenditure(email: String, position: Int) {

@@ -219,5 +219,6 @@
     </string-array>
 
     <string name="kalanSure">Kalan Süre: %s</string>
+    <string name="expenditureAmount">%d TL</string>
 
 </resources>

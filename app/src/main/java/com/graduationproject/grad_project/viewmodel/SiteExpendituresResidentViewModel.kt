@@ -6,13 +6,12 @@ import androidx.lifecycle.ViewModel
 import com.graduationproject.grad_project.firebase.ExpendituresOperations
 import com.graduationproject.grad_project.model.Expenditure
 
-class ExpendituresViewModel: ViewModel() {
+class SiteExpendituresResidentViewModel: ViewModel() {
 
-    private var _expenditures = MutableLiveData<MutableList<Expenditure?>>()
+    private val _expenditures = MutableLiveData<MutableList<Expenditure?>>()
     val expenditures: LiveData<MutableList<Expenditure?>> get() = _expenditures
 
-    fun retrieveAllExpendituresWithSnapshot() {
-        ExpendituresOperations.retrieveExpendituresForAdmin(_expenditures)
+    fun retrieveExpenditures() {
+        ExpendituresOperations.retrieveExpendituresForResident(_expenditures)
     }
-
 }
