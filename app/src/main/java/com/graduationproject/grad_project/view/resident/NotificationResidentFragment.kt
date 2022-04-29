@@ -25,7 +25,6 @@ class NotificationResidentFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentNotificationResidentBinding.inflate(inflater, container, false)
         val view = binding.root
-        binding.notificationRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         notificationsRecyclerViewAdapter = NotificationsRecyclerViewAdapter(parentFragmentManager, requireContext())
         binding.notificationRecyclerview.adapter = notificationsRecyclerViewAdapter
         binding.lifecycleOwner = viewLifecycleOwner

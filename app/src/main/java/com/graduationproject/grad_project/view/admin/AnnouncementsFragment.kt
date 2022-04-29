@@ -26,7 +26,6 @@ class AnnouncementsFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentAnnouncementsBinding.inflate(inflater, container, false)
-        binding.announcementRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         announcementRecyclerViewAdapter = AnnouncementRecyclerViewAdapter(parentFragmentManager, requireContext())
         binding.announcementRecyclerview.adapter = announcementRecyclerViewAdapter
         binding.lifecycleOwner = viewLifecycleOwner

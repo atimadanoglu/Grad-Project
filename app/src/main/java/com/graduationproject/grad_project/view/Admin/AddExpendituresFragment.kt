@@ -165,14 +165,20 @@ class AddExpendituresFragment : Fragment() {
         if (!isEmpty()) {
             CoroutineScope(ioDispatcher).launch {
                 selectedPicture?.let { viewModel.uploadDocument(it) }
-                selectedPicture?.let {
+                /*selectedPicture?.let {
                     viewModel.saveExpenditureIntoDB(
                         binding.titleInput.text.toString(),
                         binding.contentInput.text.toString(),
                         binding.amountInput.text.toString().toInt(),
                         it
                     )
-                }
+                }*/
+                viewModel.saveExpenditureIntoDB(
+                    binding.titleInput.text.toString(),
+                    binding.contentInput.text.toString(),
+                    binding.amountInput.text.toString().toInt(),
+                    null
+                )
             }
             backToExpendituresFragment()
             return

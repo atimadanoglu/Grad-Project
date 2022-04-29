@@ -37,8 +37,6 @@ class VotingAdminFragment : Fragment() {
         viewModel.retrieveContinuesVoting()
         continuesAdapter = ContinuesVotingAdminAdapter()
         finishedAdapter = FinishedVotingAdminAdapter()
-        binding.doneRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.continuesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.continuesRecyclerView.adapter = continuesAdapter
         binding.doneRecyclerView.adapter = finishedAdapter
         binding.lifecycleOwner = viewLifecycleOwner

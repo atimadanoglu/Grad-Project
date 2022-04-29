@@ -24,7 +24,7 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private val viewModel: LoginViewModel by viewModels()
-    private val auth = FirebaseAuth.getInstance()
+    private lateinit var auth: FirebaseAuth
 
     companion object {
         private const val TAG = "LoginFragment"
@@ -49,6 +49,7 @@ class LoginFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         val view = binding.root
+        auth = FirebaseAuth.getInstance()
         binding.LogIn.setOnClickListener {
             loginButtonClicked()
         }
@@ -131,7 +132,7 @@ class LoginFragment : Fragment() {
     ) {
        lifecycleScope.launch(ioDispatcher) {
            val userType = async(ioDispatcher) {
-               viewModel.takeTheUserType(viewModel.email)
+               viewModel.takeTheUserType()
            }
            val isVerified = viewModel.isVerified()
            userType.await()?.let { viewModel.setTypeOfUser(it) }

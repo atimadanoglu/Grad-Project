@@ -1,60 +1,44 @@
 package com.graduationproject.grad_project.view.admin
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.graduationproject.grad_project.R
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
+import com.graduationproject.grad_project.adapter.ServicesAdminAdapter
+import com.graduationproject.grad_project.databinding.FragmentServicesAdminBinding
+import com.graduationproject.grad_project.viewmodel.ServicesAdminViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ServicesAdminFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ServicesAdminFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentServicesAdminBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: ServicesAdminViewModel by viewModels()
+    private lateinit var adapter: ServicesAdminAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_services_admin, container, false)
+        _binding = FragmentServicesAdminBinding.inflate(inflater, container, false)
+        val view = binding.root
+        adapter = ServicesAdminAdapter()
+        viewModel.retrieveServices()
+        viewModel.services.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
+        binding.servicesRecyclerView.setHasFixedSize(true)
+        binding.servicesRecyclerView.adapter = adapter
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.servicesAdminFloatingActionButton.setOnClickListener {
+            val action = ServicesAdminFragmentDirections.actionServicesAdminFragmentToServicesAdminDialogFragment()
+            requireView().findNavController().navigate(action)
+        }
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ServicesAdminFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ServicesAdminFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }

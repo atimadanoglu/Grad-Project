@@ -33,13 +33,7 @@ class SettingsAdminFragment : Fragment() {
         }
         binding.cardViewName.setOnClickListener { goToUpdateNamePage() }
         binding.cardViewPhone.setOnClickListener { goToUpdatePhoneNumberPage() }
-        binding.carViewPassword.setOnClickListener { goToUpdatePasswordPage() }
         return binding.root
-    }
-
-    private fun goToUpdatePasswordPage() {
-        val action = SettingsAdminFragmentDirections.actionSettingsAdminFragmentToSettingsPasswordFragment()
-        requireView().findNavController().navigate(action)
     }
 
     private fun goToUpdatePhoneNumberPage() {

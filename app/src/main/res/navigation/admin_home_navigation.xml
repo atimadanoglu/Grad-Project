@@ -52,7 +52,11 @@
         android:id="@+id/servicesAdminFragment"
         android:name="com.graduationproject.grad_project.view.admin.ServicesAdminFragment"
         android:label="fragment_services_admin"
-        tools:layout="@layout/fragment_services_admin" />
+        tools:layout="@layout/fragment_services_admin" >
+        <action
+            android:id="@+id/action_servicesAdminFragment_to_servicesAdminDialogFragment"
+            app:destination="@id/servicesAdminDialogFragment" />
+    </fragment>
     <fragment
         android:id="@+id/meetingAdminFragment"
         android:name="com.graduationproject.grad_project.view.admin.MeetingAdminFragment"
@@ -68,9 +72,6 @@
         android:name="com.graduationproject.grad_project.view.admin.SettingsAdminFragment"
         android:label="fragment_settings_admin"
         tools:layout="@layout/fragment_settings_admin" >
-        <action
-            android:id="@+id/action_settingsAdminFragment_to_settingsPasswordFragment"
-            app:destination="@id/settingsPasswordFragment" />
         <action
             android:id="@+id/action_settingsAdminFragment_to_settingsNameFragment"
             app:destination="@id/settingsNameFragment" />
@@ -99,15 +100,6 @@
             android:id="@+id/action_addExpendituresFragment_to_expendituresFragment"
             app:destination="@id/expendituresFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/settingsPasswordFragment"
-        android:name="com.graduationproject.grad_project.view.SettingsPasswordFragment"
-        android:label="fragment_settings_password"
-        tools:layout="@layout/fragment_settings_password" >
-        <action
-            android:id="@+id/action_settingsPasswordFragment_to_settingsAdminFragment"
-            app:destination="@id/settingsAdminFragment" />
-    </fragment>
 
     <fragment
         android:id="@+id/settingsNameFragment"
@@ -130,4 +122,13 @@
             android:id="@+id/action_settingsPhoneFragment_to_settingsAdminFragment"
             app:destination="@id/settingsAdminFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/servicesAdminDialogFragment"
+        android:name="com.graduationproject.grad_project.view.admin.ServicesAdminDialogFragment"
+        android:label="fragment_services_admin_dialog"
+        tools:layout="@layout/fragment_services_admin_dialog" >
+        <action
+            android:id="@+id/action_servicesAdminDialogFragment_to_servicesAdminFragment"
+            app:destination="@id/servicesAdminFragment" />
+    </dialog>
 </navigation>

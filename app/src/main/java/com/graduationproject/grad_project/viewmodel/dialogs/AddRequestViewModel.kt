@@ -62,6 +62,11 @@ class AddRequestViewModel(
                     admin.await()?.documents?.get(0)?.get("email").toString(), request
                 )
             }
+
+            launch {
+                RequestsOperations.saveRequestIntoNotificationCollection(notification)
+            }
+
             launch {
                 residentEmail?.let { residentEmail ->
                     RequestsOperations.saveRequestIntoResidentDB(residentEmail, request)

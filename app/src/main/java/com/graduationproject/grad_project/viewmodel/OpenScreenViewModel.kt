@@ -33,15 +33,15 @@ class OpenScreenViewModel: ViewModel() {
     ): String {
         return withContext(scope) {
             UserOperations.loginWithEmailAndPassword(email, password, view)
-            takeTheUserType(email)
+            takeTheUserType()
             typeOfUser
         }
     }
 
-    suspend fun takeTheUserType(email: String, scope: CoroutineDispatcher = Dispatchers.IO): String? {
+    suspend fun takeTheUserType(scope: CoroutineDispatcher = Dispatchers.IO): String? {
         return withContext(scope) {
             try {
-                _typeOfUser = UserOperations.takeTheUserType(email)
+                _typeOfUser = UserOperations.takeTheUserType()
                 typeOfUser
             } catch (e: Exception) {
                 null

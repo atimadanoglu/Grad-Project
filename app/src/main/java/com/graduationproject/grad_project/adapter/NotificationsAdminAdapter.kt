@@ -16,11 +16,11 @@ import com.graduationproject.grad_project.firebase.NotificationOperations
 import com.graduationproject.grad_project.model.Notification
 import com.graduationproject.grad_project.view.resident.dialogs.ShowNotificationDialogFragment
 
-class NotificationsRecyclerViewAdapter(
+class NotificationsAdminAdapter(
     private val fragmentManager: FragmentManager,
     private val context: Context
-    ) : ListAdapter<Notification, NotificationsRecyclerViewAdapter.NotificationViewHolder>(NotificationDiffUtil()) {
-
+):
+    ListAdapter<Notification, NotificationsAdminAdapter.NotificationViewHolder>(NotificationAdminDiffUtil()) {
     class NotificationViewHolder(val binding: NotificationRowLayoutBinding): RecyclerView.ViewHolder(binding.root) {
         companion object {
             fun inflateFrom(parent: ViewGroup): NotificationViewHolder {
@@ -35,7 +35,10 @@ class NotificationsRecyclerViewAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): NotificationViewHolder {
         return NotificationViewHolder.inflateFrom(parent)
     }
 
@@ -48,11 +51,11 @@ class NotificationsRecyclerViewAdapter(
                 when (menuItem.itemId) {
                     R.id.announcementInfo -> {
                         val dialog = ShowNotificationDialogFragment(item)
-                        dialog.show(fragmentManager, "notificationDialog")
+                        dialog.show(fragmentManager, "notificationAdminDialog")
                         true
                     }
                     R.id.deleteAnnouncement -> {
-                        NotificationOperations.deleteNotificationInAPosition(item)
+                        NotificationOperations.deleteNotificationForAdmin(item)
                         true
                     }
                     else -> false
@@ -68,10 +71,9 @@ class NotificationsRecyclerViewAdapter(
         popupMenu.show()
         return popupMenu
     }
-
 }
 
-class NotificationDiffUtil: DiffUtil.ItemCallback<Notification>() {
+class NotificationAdminDiffUtil: DiffUtil.ItemCallback<Notification>() {
     override fun areItemsTheSame(oldItem: Notification, newItem: Notification): Boolean {
         return oldItem.id == newItem.id
     }

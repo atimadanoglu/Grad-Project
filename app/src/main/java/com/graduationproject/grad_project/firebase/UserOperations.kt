@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.*
@@ -473,11 +474,14 @@ object UserOperations: FirebaseConstants() {
         return null
     }
 
-    private suspend fun isAdmin(email: String, scope: CoroutineDispatcher = Dispatchers.IO): Boolean {
+    private suspend fun isAdmin(scope: CoroutineDispatcher = Dispatchers.IO): Boolean {
         return withContext(scope) {
             try {
+                val email = FirebaseAuth.getInstance().currentUser?.email
                 val admin = async {
-                    getAdmin(email)
+                    email?.let {
+                        getAdmin(it)
+                    }
                 }
                 val type = admin.await()?.get("typeOfUser")
                 if (type == "Yönetici") isAdmin = true
@@ -490,11 +494,14 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
-    private suspend fun isResident(email: String, scope: CoroutineDispatcher = Dispatchers.IO): Boolean {
+    private suspend fun isResident(scope: CoroutineDispatcher = Dispatchers.IO): Boolean {
         return withContext(scope) {
             try {
+                val email = FirebaseAuth.getInstance().currentUser?.email
                 val resident = async {
-                    getResident(email)
+                    email?.let {
+                        getResident(it)
+                    }
                 }
                 val type = resident.await()?.get("typeOfUser")
                 if (type == "Sakin") isResident = true
@@ -535,17 +542,23 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
-    suspend fun takeTheUserType(email: String, scope: CoroutineDispatcher = Dispatchers.IO): String {
+    suspend fun takeTheUserType(scope: CoroutineDispatcher = Dispatchers.IO): String {
         return withContext(scope) {
+            val email = FirebaseAuth.getInstance().currentUser?.email
             val isAdmin = async {
-                isAdmin(email)
+                email?.let {
+                    isAdmin()
+                }
             }
             val isResident = async {
-                isResident(email)
+                email?.let {
+                    isResident()
+                }
             }
             var userType = ""
-            if (isAdmin.await()) userType = "Yönetici"
-            if (isResident.await()) userType = "Sakin"
+            println("retrievetype : $email")
+            if (isAdmin.await() == true) userType = "Yönetici"
+            if (isResident.await() == true) userType = "Sakin"
             userType
         }
     }
