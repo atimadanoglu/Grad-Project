@@ -11,8 +11,11 @@ class VotingResultsResidentViewModel: ViewModel() {
     private val _voting = MutableLiveData<MutableList<Voting?>>()
     val voting: LiveData<MutableList<Voting?>> get() = _voting
 
-    fun retrieveVoting() {
-        VotingOperations.retrieveFinishedVotingForResident(_voting)
+    fun retrieveVoting() = VotingOperations.retrieveFinishedVotingForResident(_voting)
+
+    override fun onCleared() {
+        super.onCleared()
+        retrieveVoting().cancel()
     }
 
 }

@@ -1,15 +1,12 @@
 package com.graduationproject.grad_project.view.resident
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.adapter.VotingResultsResidentAdapter
-import com.graduationproject.grad_project.databinding.FragmentVotingAdminBinding
 import com.graduationproject.grad_project.databinding.FragmentVotingResultsResidentBinding
 import com.graduationproject.grad_project.viewmodel.VotingResultsResidentViewModel
 
@@ -32,7 +29,6 @@ class VotingResultsResidentFragment : Fragment() {
         viewModel.retrieveVoting()
         adapter = VotingResultsResidentAdapter()
         binding.doneRecyclerView.adapter = adapter
-        binding.deleteFab
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }

@@ -41,11 +41,9 @@ class WaitingApprovalResidentFragment : Fragment() {
         startActivity(intent)
         activity?.finish()
     }
-
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clear()
-        auth.signOut()
     }
 
 }
