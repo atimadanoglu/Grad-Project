@@ -32,7 +32,7 @@ class ShowNotificationDialogFragment(
     }
 
     private fun showImage() {
-        if (notification.pictureUri == null) {
+        if (notification.pictureUri == null || notification.pictureUri.isEmpty()) {
             binding.notificationImage.visibility = View.GONE
         } else {
             binding.notificationImage.visibility = View.VISIBLE

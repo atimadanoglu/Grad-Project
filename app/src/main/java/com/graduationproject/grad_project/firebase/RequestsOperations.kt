@@ -3,9 +3,11 @@ package com.graduationproject.grad_project.firebase
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
+import com.graduationproject.grad_project.model.Notification
 import com.graduationproject.grad_project.model.Request
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -57,6 +59,27 @@ object RequestsOperations: FirebaseConstants() {
             } catch (e: FirebaseFirestoreException) {
                 Log.e(TAG, "saveRequestIntoAdminDB")
             }
+        }
+    }
+
+    fun saveRequestIntoNotificationCollection(notification: Notification) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            email?.let {
+                val resident = UserOperations.getResident(it)
+                adminRef.whereEqualTo("siteName", resident?.get("siteName").toString())
+                    .whereEqualTo("city", resident?.get("city").toString())
+                    .whereEqualTo("district", resident?.get("district").toString())
+                    .get().await().also { document ->
+                        adminRef.document(document?.documents?.get(0)?.get("email").toString())
+                            .collection("notifications")
+                            .document(notification.id)
+                            .set(notification)
+                            .await()
+                    }
+            }
+        } catch (e: FirebaseFirestoreException) {
+            Log.e(TAG, "saveRequestIntoNotificationCollection --> $e")
         }
     }
 

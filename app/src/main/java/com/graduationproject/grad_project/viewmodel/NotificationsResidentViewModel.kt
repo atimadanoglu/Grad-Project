@@ -15,7 +15,7 @@ class NotificationsResidentViewModel : ViewModel(){
 
     fun retrieveNotifications() {
         viewModelScope.launch {
-            NotificationOperations.retrieveNotifications(_notifications)
+            NotificationOperations.retrieveNotificationsForResident(_notifications)
         }
     }
 
