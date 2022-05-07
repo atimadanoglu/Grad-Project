@@ -9,7 +9,9 @@ import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.ServicesRowBinding
 import com.graduationproject.grad_project.model.Service
 
-class ServicesAdminAdapter: ListAdapter<Service, ServicesAdminAdapter.ServiceViewHolder>(ServiceAdminDiffUtil()) {
+class ServicesAdminAdapter(
+    private val clickListener: (phoneNumber: String) -> Unit
+): ListAdapter<Service, ServicesAdminAdapter.ServiceViewHolder>(ServiceAdminDiffUtil()) {
 
     class ServiceViewHolder(val binding: ServicesRowBinding): RecyclerView.ViewHolder(binding.root) {
         companion object {
@@ -19,9 +21,12 @@ class ServicesAdminAdapter: ListAdapter<Service, ServicesAdminAdapter.ServiceVie
                 return ServiceViewHolder(binding)
             }
         }
-        fun bind(service: Service) {
+        fun bind(service: Service, clickListener: (phoneNumber: String) -> Unit) {
             putImage(service)
             binding.service = service
+            binding.phoneNumberText.rootView.setOnClickListener {
+                clickListener(service.phoneNumber)
+            }
             binding.executePendingBindings()
         }
 
@@ -46,7 +51,7 @@ class ServicesAdminAdapter: ListAdapter<Service, ServicesAdminAdapter.ServiceVie
 
     override fun onBindViewHolder(holder: ServiceViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(item, clickListener)
     }
 }
 

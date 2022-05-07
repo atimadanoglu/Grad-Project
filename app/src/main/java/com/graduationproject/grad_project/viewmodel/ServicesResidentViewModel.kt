@@ -11,8 +11,17 @@ class ServicesResidentViewModel: ViewModel() {
     private val _services = MutableLiveData<MutableList<Service?>>()
     val services: LiveData<MutableList<Service?>> get() = _services
 
+    private val _navigateToPhoneDial = MutableLiveData<Boolean?>()
+    val navigateToPhoneDial: LiveData<Boolean?> get() = _navigateToPhoneDial
+    private var _phoneNumber: String = ""
+    val phoneNumber get() = _phoneNumber
+
     fun retrieveServices() {
         ServicesOperations.retrieveServicesForResident(_services)
     }
 
+    fun navigateToPhoneDial(phoneNumber: String) {
+        _phoneNumber = phoneNumber
+        _navigateToPhoneDial.value = true
+    }
 }
