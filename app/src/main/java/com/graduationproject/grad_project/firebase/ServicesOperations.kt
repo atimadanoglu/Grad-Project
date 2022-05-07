@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 import com.graduationproject.grad_project.model.Service
 import kotlinx.coroutines.CoroutineScope
@@ -45,6 +46,7 @@ object ServicesOperations: FirebaseConstants() {
                             "-city:${admin?.get("city")}" +
                             "-district:${admin?.get("district")}")
                     .collection("services")
+                    .orderBy("date", Query.Direction.DESCENDING)
                     .addSnapshotListener { value, error ->
                         if (error != null) {
                             Log.e(TAG, "retrieveServices --> $error")
@@ -52,9 +54,6 @@ object ServicesOperations: FirebaseConstants() {
                         }
                         val documents = value?.documents
                         val retrievedServices = mutableListOf<Service?>()
-                        documents?.sortByDescending {
-                            it["date"] as Timestamp
-                        }
                         documents?.forEach {
                             retrievedServices.add(
                                 it.toObject<Service>()

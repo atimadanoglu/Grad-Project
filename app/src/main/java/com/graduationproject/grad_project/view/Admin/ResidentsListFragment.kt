@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.graduationproject.grad_project.adapter.ResidentsListAdapter
 import com.graduationproject.grad_project.databinding.FragmentResidentsListBinding
 import com.graduationproject.grad_project.viewmodel.ResidentsListViewModel
@@ -28,6 +28,15 @@ class ResidentsListFragment : Fragment() {
         viewModel.residentsList.observe(viewLifecycleOwner) {
             residentsListAdapter?.submitList(it)
         }
+        binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.filter(newText)
+                return true
+            }
+        })
         viewModel.getResidentsInASpecificSiteWithSnapshot()
         residentsListAdapter = ResidentsListAdapter(parentFragmentManager, requireContext())
         binding.recyclerview.adapter = residentsListAdapter
