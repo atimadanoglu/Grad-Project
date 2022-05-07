@@ -13,7 +13,10 @@ import com.graduationproject.grad_project.databinding.PendingItemBinding
 import com.graduationproject.grad_project.firebase.UserOperations
 import com.graduationproject.grad_project.model.SiteResident
 
-class PendingApprovalAdapter(private val context: Context):
+class PendingApprovalAdapter(
+    private val context: Context,
+    private val clickListener: (phoneNumber: String) -> Unit
+):
     ListAdapter<SiteResident, PendingApprovalAdapter.PendingApprovalViewHolder>(PendingApprovalDiffUtil()) {
     class PendingApprovalViewHolder(val binding: PendingItemBinding): RecyclerView.ViewHolder(binding.root) {
         companion object {
@@ -23,8 +26,11 @@ class PendingApprovalAdapter(private val context: Context):
                 return PendingApprovalViewHolder(binding)
             }
         }
-        fun bind(siteResident: SiteResident) {
+        fun bind(siteResident: SiteResident, clickListener: (phoneNumber: String) -> Unit) {
             binding.siteResident = siteResident
+            binding.phoneText.setOnClickListener {
+                clickListener(siteResident.phoneNumber)
+            }
             binding.executePendingBindings()
         }
     }
@@ -35,7 +41,7 @@ class PendingApprovalAdapter(private val context: Context):
 
     override fun onBindViewHolder(holder: PendingApprovalViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(item, clickListener)
         holder.binding.acceptButton.setOnClickListener {
             showAlertMessageForAcceptButton(item)
         }

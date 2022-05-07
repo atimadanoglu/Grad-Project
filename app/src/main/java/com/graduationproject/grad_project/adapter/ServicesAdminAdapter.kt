@@ -24,7 +24,7 @@ class ServicesAdminAdapter(
         fun bind(service: Service, clickListener: (phoneNumber: String) -> Unit) {
             putImage(service)
             binding.service = service
-            binding.phoneNumberText.rootView.setOnClickListener {
+            binding.phoneNumberText.setOnClickListener {
                 clickListener(service.phoneNumber)
             }
             binding.executePendingBindings()
