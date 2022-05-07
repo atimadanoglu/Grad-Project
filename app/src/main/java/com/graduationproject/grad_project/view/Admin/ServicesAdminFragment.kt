@@ -19,7 +19,7 @@ class ServicesAdminFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: ServicesAdminViewModel by viewModels()
     private lateinit var adapter: ServicesAdminAdapter
-
+    private var callIntent: Intent? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,7 +35,7 @@ class ServicesAdminFragment : Fragment() {
             adapter.submitList(it)
         }
         viewModel.navigateToPhoneDial.observe(viewLifecycleOwner) {
-            val callIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${viewModel.phoneNumber}"))
+            callIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${viewModel.phoneNumber}"))
             requireActivity().startActivity(callIntent)
         }
         binding.servicesRecyclerView.setHasFixedSize(true)

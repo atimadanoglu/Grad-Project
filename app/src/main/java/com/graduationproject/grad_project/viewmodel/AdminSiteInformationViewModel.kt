@@ -30,6 +30,9 @@ class AdminSiteInformationViewModel(
     private var _flatCount = 0L
     val flatCount get() = _flatCount
 
+    private var _monthlyPayment = 0L
+    val monthlyPayment get() = _monthlyPayment
+
     private var _admin = hashMapOf<String, Any>()
     val admin get() = _admin
 
@@ -41,7 +44,7 @@ class AdminSiteInformationViewModel(
     fun setDistrict(district: String) { _district = district }
     fun setBlockCount(blockCount: String) { _blockCount = blockCount }
     fun setFlatCount(flatCount: Long) { _flatCount = flatCount }
-
+    fun setMonthlyPayment(value: Long) { _monthlyPayment = value }
     private suspend fun createAdmin(
         fullName: String,
         phoneNumber: String,
@@ -129,6 +132,7 @@ class AdminSiteInformationViewModel(
             "district" to district,
             "blockCount" to blockCount,
             "flatCount" to flatCount,
+            "monthlyPayment" to monthlyPayment
         )
     }
 }

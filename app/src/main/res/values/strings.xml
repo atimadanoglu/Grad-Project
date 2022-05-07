@@ -220,5 +220,6 @@
 
     <string name="kalanSure">Kalan Süre: %s</string>
     <string name="expenditureAmount">%d TL</string>
+    <string name="aidat">Aidat</string>
 
 </resources>
