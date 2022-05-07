@@ -60,7 +60,8 @@ object UserOperations: FirebaseConstants() {
 
     suspend fun isVerified() = withContext(ioDispatcher) {
         try {
-            val resident = currentUserEmail?.let {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            val resident = email?.let {
                 residentRef.document(it)
                     .get().await()
             }
@@ -533,7 +534,7 @@ object UserOperations: FirebaseConstants() {
             try {
                 currentUserEmail?.let {
                     adminRef.document(it)
-                        .update("expendituresAmount", FieldValue.increment(expenditure.amount.toLong()))
+                        .update("expendituresAmount", FieldValue.increment(expenditure.amount))
                         .await()
                 }
             } catch (e: Exception) {

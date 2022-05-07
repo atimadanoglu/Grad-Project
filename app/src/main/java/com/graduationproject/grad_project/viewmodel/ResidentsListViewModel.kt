@@ -22,23 +22,25 @@ class ResidentsListViewModel(
     companion object {
         const val TAG = "ResidentsListViewModel"
     }
-    private val _residentsList = MutableLiveData<MutableList<SiteResident?>>(arrayListOf())
-    val residentsList: LiveData<MutableList<SiteResident?>> get() = _residentsList
+    private val _residentsList = MutableLiveData<List<SiteResident?>>()
+    val residentsList: LiveData<List<SiteResident?>> get() = _residentsList
 
-  /*  fun filter(newText: String?) {
-        viewModelScope.launch(mainDispatcher) {
-            val list = _residentsList.value
-            list?.let {
-                for (resident in list) {
-                    resident?.let {
-                        if (contains(newText, it))
-                            _filteredList.value?.add(it)
-                    }
-                }
+    private var copiedData = listOf<SiteResident?>()
+
+    fun filter(newText: String?) {
+        viewModelScope.launch {
+            val newList = copiedData
+            if (newText.isNullOrEmpty()) {
+                _residentsList.value = copiedData
             }
+            val filteredList = newList.filter {
+                it?.let { siteResident ->
+                    contains(newText, siteResident)
+                } == true
+            }
+            _residentsList.value = filteredList
         }
-
-    }*/
+    }
 
     private fun contains(newText: String?, resident: SiteResident): Boolean {
         return resident.fullName.contains(newText.toString(), true)
@@ -78,6 +80,7 @@ class ResidentsListViewModel(
                         residents.add(it.toObject<SiteResident>())
                     }.also {
                         _residentsList.postValue(residents)
+                        copiedData = residents
                     }
                 }
             } catch (e: Exception) {
