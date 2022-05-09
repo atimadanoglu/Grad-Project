@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.lifecycle.lifecycleScope
 import com.graduationproject.grad_project.adapter.NotificationsRecyclerViewAdapter
 import com.graduationproject.grad_project.databinding.FragmentNotificationResidentBinding
 import com.graduationproject.grad_project.viewmodel.NotificationsResidentViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class NotificationResidentFragment : Fragment() {
 
@@ -32,9 +34,13 @@ class NotificationResidentFragment : Fragment() {
         viewModel.notifications.observe(viewLifecycleOwner) {
             notificationsRecyclerViewAdapter?.submitList(it)
         }
-        viewModel.retrieveNotifications()
         binding.deleteNotificationButton.setOnClickListener {
-           viewModel.clearNotifications()
+            viewLifecycleOwner.lifecycleScope.launch {
+                binding.notificationRecyclerview.alpha = 0F
+                viewModel.clearNotifications()
+                delay(4000L)
+                binding.notificationRecyclerview.alpha = 1F
+            }
         }
         return view
     }

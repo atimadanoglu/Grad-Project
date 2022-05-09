@@ -1,15 +1,17 @@
 package com.graduationproject.grad_project.view.resident
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.FragmentResidentSiteInformationBinding
 import com.graduationproject.grad_project.viewmodel.ResidentSiteInformationViewModel
 import kotlinx.coroutines.*
@@ -32,8 +34,49 @@ class ResidentSiteInformationFragment(
         val view = binding.root
         binding.backToResidentNewAccountFragmentButton.setOnClickListener { goBackToResidentNewAccountFragment() }
         binding.signUpButton.setOnClickListener { goToResidentHomePageButtonClicked() }
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         return view
     }
+
+    override fun onResume() {
+        super.onResume()
+        val cities = viewModel.cityAndDistricts.keys.toTypedArray()
+        val arrayAdapterForCities = ArrayAdapter(requireContext(), R.layout.request_dropdown_item, cities)
+        binding.cities.inputType = InputType.TYPE_NULL
+        binding.cities.setAdapter(arrayAdapterForCities)
+
+        viewModel.inputCity.observe(viewLifecycleOwner) {
+            binding.districts.setText("")
+            if (!it.isNullOrEmpty()) {
+                val districts: List<String> = when(it) {
+                    "İzmir" -> viewModel.cityAndDistricts.getValue("İzmir")
+                    "İstanbul" -> viewModel.cityAndDistricts.getValue("İstanbul")
+                    "Ankara" -> viewModel.cityAndDistricts.getValue("Ankara")
+                    else -> mutableListOf()
+                }
+                val arrayAdapterForDistricts = ArrayAdapter(requireContext(), R.layout.request_dropdown_item, districts)
+                binding.districts.inputType = InputType.TYPE_NULL
+                binding.districts.setAdapter(arrayAdapterForDistricts)
+            }
+        }
+        viewModel.inputDistrict.observe(viewLifecycleOwner) {
+            if (!it.isNullOrEmpty()) {
+                viewModel.retrieveAllSitesBasedOnCityAndDistrict(
+                    viewModel.inputCity.value!!,
+                    viewModel.inputDistrict.value!!)
+            }
+        }
+        viewModel.allSites.observe(viewLifecycleOwner) {
+            viewModel.allSiteNames.clear()
+            binding.sites.setText("")
+            viewModel.getSiteNames()
+            val arrayAdapterForSites = ArrayAdapter(requireContext(), R.layout.request_dropdown_item, viewModel.allSiteNames)
+            binding.sites.inputType = InputType.TYPE_NULL
+            binding.sites.setAdapter(arrayAdapterForSites)
+        }
+    }
+
 
     private fun goBackToResidentNewAccountFragment() {
         val action = ResidentSiteInformationFragmentDirections
@@ -47,7 +90,6 @@ class ResidentSiteInformationFragment(
     }
 
     private fun goToResidentHomePageButtonClicked() {
-        setViewModelData()
         lifecycleScope.launch(ioDispatcher) {
             val b = async {
                 viewModel.saveResidentIntoDB(
@@ -58,7 +100,6 @@ class ResidentSiteInformationFragment(
                 )
             }
             if (b.await()) {
-                viewModel.saveSiteIntoDB()
                 updateUserInfo()
                 withContext(Dispatchers.Main) {
                     goToWaitingApprovalPage()
@@ -72,13 +113,4 @@ class ResidentSiteInformationFragment(
             viewModel.updateUserDisplayName()
         }
     }
-
-    private fun setViewModelData() {
-        viewModel.setSiteName(binding.siteNameText.text.toString())
-        viewModel.setCity(binding.cityText.text.toString())
-        viewModel.setDistrict(binding.countyText.text.toString())
-        viewModel.setBlockNo(binding.blockNoText.text.toString())
-        viewModel.setFlatNo(binding.flatNoText.text.toString().toLong())
-    }
-
 }

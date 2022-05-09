@@ -1,11 +1,17 @@
 package com.graduationproject.grad_project.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.graduationproject.grad_project.firebase.SiteOperations
 import com.graduationproject.grad_project.firebase.UserOperations
+import com.graduationproject.grad_project.model.Site
 import com.graduationproject.grad_project.onesignal.OneSignalOperations
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 
 class ResidentSiteInformationViewModel(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -15,33 +21,41 @@ class ResidentSiteInformationViewModel(
         private const val TAG = "ResidentSiteInformationViewModel"
     }
 
-    private var _siteName = ""
-    val siteName get() = _siteName
-
-    private var _city = ""
-    val city get() = _city
-
-    private var _district = ""
-    val district get() = _district
-
-    private var _blockNo = ""
-    val blockNo get() = _blockNo
-
-    private var _flatNo = 0L
-    val flatNo get() = _flatNo
+    val inputCity = MutableLiveData("")
+    val inputDistrict = MutableLiveData("")
+    val inputSiteName = MutableLiveData("")
+    val inputBlockNo = MutableLiveData("")
+    val inputFlatNo = MutableLiveData("")
 
     private var _resident = hashMapOf<String, Any>()
     val resident get() = _resident
 
-    private var _site = hashMapOf<String, Any>()
-    val site get() = _site
+    private val _allSites = MutableLiveData<MutableList<Site?>>()
+    val allSites: LiveData<MutableList<Site?>> get() = _allSites
 
-    fun setSiteName(siteName: String) { _siteName = siteName }
-    fun setCity(city: String) { _city = city }
-    fun setDistrict(district: String) { _district = district }
-    fun setBlockNo(blockNo: String) { _blockNo = blockNo }
-    fun setFlatNo(flatNo: Long) { _flatNo = flatNo }
+    private val _allSiteNames = mutableListOf<String?>()
+    val allSiteNames: MutableList<String?> get() = _allSiteNames
 
+    fun retrieveAllSitesBasedOnCityAndDistrict(city: String, district: String) {
+        SiteOperations.retrieveAllSitesBasedOnCityAndDistrict(city, district, _allSites)
+    }
+
+    fun getSiteNames() {
+        println("_allSites size : ${_allSites.value?.size}")
+        _allSites.value?.forEach {
+            it?.let { site ->
+                println("site name -> ${it.siteName}")
+                _allSiteNames.add(site.siteName)
+                println("sonra size: ${_allSiteNames.size}")
+            }
+        }
+    }
+
+    val cityAndDistricts = hashMapOf(
+        "İzmir" to mutableListOf("Karşıyaka", "Konak", "Bayraklı", "Çiğli", "Buca"),
+        "İstanbul" to mutableListOf("Beşiktaş", "Kadıköy", "Şişli", "Bağcılar"),
+        "Ankara" to mutableListOf("Akyurt", "Altındağ", "Beypazarı", "Çankaya")
+    )
 
     private suspend fun createResident(
         fullName: String,
@@ -62,11 +76,11 @@ class ResidentSiteInformationViewModel(
                 _resident["fullName"] = fullName
                 _resident["phoneNumber"] = phoneNumber
                 _resident["email"] = email
-                _resident["siteName"] = siteName
-                _resident["city"] = city
-                _resident["district"] = district
-                _resident["blockNo"] = blockNo
-                _resident["flatNo"] = flatNo
+                _resident["siteName"] = inputSiteName.value.toString()
+                _resident["city"] = inputCity.value.toString()
+                _resident["district"] = inputDistrict.value.toString()
+                _resident["blockNo"] = inputBlockNo.value.toString()
+                _resident["flatNo"] = inputFlatNo.value.toString().toLong()
                 _resident["typeOfUser"] = "Sakin"
                 _resident["isVerified"] = false
                 _resident["debt"] = 0L
@@ -103,29 +117,5 @@ class ResidentSiteInformationViewModel(
                 false
             }
         }
-    }
-
-    fun saveSiteIntoDB() {
-        CoroutineScope(ioDispatcher).launch {
-            try {
-                val siteHashMap = async {
-                    convertSiteInfoHashMap()
-                }
-                _site = siteHashMap.await()
-                SiteOperations.saveSiteInfoIntoDB(_site)
-            } catch (e: Exception) {
-                Log.e(TAG, "saveSiteIntoDB --> $e")
-            }
-        }
-    }
-
-    private fun convertSiteInfoHashMap(): HashMap<String, Any> {
-        return hashMapOf(
-            "siteName" to siteName,
-            "city" to city,
-            "district" to district,
-            "blockNo" to blockNo,
-            "flatNo" to flatNo,
-        )
     }
 }

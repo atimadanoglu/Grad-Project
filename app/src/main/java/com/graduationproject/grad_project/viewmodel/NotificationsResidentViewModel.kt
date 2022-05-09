@@ -13,10 +13,11 @@ class NotificationsResidentViewModel : ViewModel(){
     private val _notifications = MutableLiveData<ArrayList<Notification?>>()
     val notifications: LiveData<ArrayList<Notification?>> get() = _notifications
 
-    fun retrieveNotifications() {
-        viewModelScope.launch {
+    private fun retrieveNotifications() = viewModelScope.launch {
             NotificationOperations.retrieveNotificationsForResident(_notifications)
-        }
+    }
+    init {
+        retrieveNotifications()
     }
 
     fun clearNotifications() {

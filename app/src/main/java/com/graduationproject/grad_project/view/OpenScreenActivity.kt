@@ -29,7 +29,6 @@ class OpenScreenActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         auth = FirebaseAuth.getInstance()
-
         val bottomAnimation = AnimationUtils.loadAnimation(this, R.anim.bottom_animation)
         val topAnimation = AnimationUtils.loadAnimation(this, R.anim.top_animation)
 
