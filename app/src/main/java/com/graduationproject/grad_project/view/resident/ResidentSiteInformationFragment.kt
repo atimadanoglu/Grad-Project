@@ -41,7 +41,10 @@ class ResidentSiteInformationFragment(
 
     override fun onResume() {
         super.onResume()
-        val cities = viewModel.cityAndDistricts.keys.toTypedArray()
+        val cities = resources.getStringArray(R.array.cities).toList()
+        val izmirDistricts = resources.getStringArray(R.array.izmirDistricts).toList()
+        val istanbulDistricts = resources.getStringArray(R.array.istanbulDistricts).toList()
+        val ankaraDistricts = resources.getStringArray(R.array.ankaraDistricts).toList()
         val arrayAdapterForCities = ArrayAdapter(requireContext(), R.layout.request_dropdown_item, cities)
         binding.cities.inputType = InputType.TYPE_NULL
         binding.cities.setAdapter(arrayAdapterForCities)
@@ -50,9 +53,9 @@ class ResidentSiteInformationFragment(
             binding.districts.setText("")
             if (!it.isNullOrEmpty()) {
                 val districts: List<String> = when(it) {
-                    "İzmir" -> viewModel.cityAndDistricts.getValue("İzmir")
-                    "İstanbul" -> viewModel.cityAndDistricts.getValue("İstanbul")
-                    "Ankara" -> viewModel.cityAndDistricts.getValue("Ankara")
+                    "İzmir" -> izmirDistricts
+                    "İstanbul" -> istanbulDistricts
+                    "Ankara" -> ankaraDistricts
                     else -> mutableListOf()
                 }
                 val arrayAdapterForDistricts = ArrayAdapter(requireContext(), R.layout.request_dropdown_item, districts)

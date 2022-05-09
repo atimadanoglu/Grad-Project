@@ -41,21 +41,12 @@ class ResidentSiteInformationViewModel(
     }
 
     fun getSiteNames() {
-        println("_allSites size : ${_allSites.value?.size}")
         _allSites.value?.forEach {
             it?.let { site ->
-                println("site name -> ${it.siteName}")
                 _allSiteNames.add(site.siteName)
-                println("sonra size: ${_allSiteNames.size}")
             }
         }
     }
-
-    val cityAndDistricts = hashMapOf(
-        "İzmir" to mutableListOf("Karşıyaka", "Konak", "Bayraklı", "Çiğli", "Buca"),
-        "İstanbul" to mutableListOf("Beşiktaş", "Kadıköy", "Şişli", "Bağcılar"),
-        "Ankara" to mutableListOf("Akyurt", "Altındağ", "Beypazarı", "Çankaya")
-    )
 
     private suspend fun createResident(
         fullName: String,
@@ -73,17 +64,19 @@ class ResidentSiteInformationViewModel(
                 data.await()
                 OneSignalOperations.savePlayerId(_resident)
 
-                _resident["fullName"] = fullName
-                _resident["phoneNumber"] = phoneNumber
-                _resident["email"] = email
-                _resident["siteName"] = inputSiteName.value.toString()
-                _resident["city"] = inputCity.value.toString()
-                _resident["district"] = inputDistrict.value.toString()
-                _resident["blockNo"] = inputBlockNo.value.toString()
-                _resident["flatNo"] = inputFlatNo.value.toString().toLong()
-                _resident["typeOfUser"] = "Sakin"
-                _resident["isVerified"] = false
-                _resident["debt"] = 0L
+                if (!areNull()) {
+                    _resident["fullName"] = fullName
+                    _resident["phoneNumber"] = phoneNumber
+                    _resident["email"] = email
+                    _resident["siteName"] = inputSiteName.value.toString()
+                    _resident["city"] = inputCity.value.toString()
+                    _resident["district"] = inputDistrict.value.toString()
+                    _resident["blockNo"] = inputBlockNo.value.toString()
+                    _resident["flatNo"] = inputFlatNo.value.toString().toLong()
+                    _resident["typeOfUser"] = "Sakin"
+                    _resident["isVerified"] = false
+                    _resident["debt"] = 0L
+                }
                 true
             } catch (e: Exception) {
                 Log.e(TAG, "createResident ---> $e")
@@ -91,6 +84,8 @@ class ResidentSiteInformationViewModel(
             }
         }
     }
+    private fun areNull() = inputSiteName.value == null && inputCity.value == null
+            && inputDistrict.value == null && inputBlockNo.value == null && inputFlatNo.value == null
 
     suspend fun updateUserDisplayName() {
         UserOperations.updateFullNameForResident(_resident["fullName"] as String)

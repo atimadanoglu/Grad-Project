@@ -1,6 +1,7 @@
 package com.graduationproject.grad_project.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.graduationproject.grad_project.firebase.SiteOperations
 import com.graduationproject.grad_project.firebase.UserOperations
@@ -15,36 +16,19 @@ class AdminSiteInformationViewModel(
     companion object {
         private const val TAG = "AdminSiteInformationViewModel"
     }
-    private var _siteName = ""
-    val siteName get() = _siteName
 
-    private var _city = ""
-    val city get() = _city
-
-    private var _district = ""
-    val district get() = _district
-
-    private var _blockCount = ""
-    val blockCount get() = _blockCount
-
-    private var _flatCount = 0L
-    val flatCount get() = _flatCount
-
-    private var _monthlyPayment = 0L
-    val monthlyPayment get() = _monthlyPayment
+    val inputCity = MutableLiveData("")
+    val inputDistrict = MutableLiveData("")
+    val inputSiteName = MutableLiveData("")
+    val inputBlockName = MutableLiveData("")
+    val inputFlatCount = MutableLiveData("")
+    val inputMonthlyPayment = MutableLiveData("")
 
     private var _admin = hashMapOf<String, Any>()
     val admin get() = _admin
 
     private var _site = hashMapOf<String, Any>()
-    val site get() = _site
 
-    fun setSiteName(siteName: String) { _siteName = siteName }
-    fun setCity(city: String) { _city = city }
-    fun setDistrict(district: String) { _district = district }
-    fun setBlockCount(blockCount: String) { _blockCount = blockCount }
-    fun setFlatCount(flatCount: Long) { _flatCount = flatCount }
-    fun setMonthlyPayment(value: Long) { _monthlyPayment = value }
     private suspend fun createAdmin(
         fullName: String,
         phoneNumber: String,
@@ -62,16 +46,18 @@ class AdminSiteInformationViewModel(
                 user?.let { saveAdminUid(it.uid) }
                 OneSignalOperations.savePlayerId(_admin)
 
-                _admin["fullName"] = fullName
-                _admin["phoneNumber"] = phoneNumber
-                _admin["email"] = email
-                _admin["password"] = password
-                _admin["siteName"] = siteName
-                _admin["city"] = city
-                _admin["district"] = district
-                _admin["blockCount"] = blockCount
-                _admin["flatCount"] = flatCount
-                _admin["typeOfUser"] = "Yönetici"
+                if (!areNull()) {
+                    _admin["fullName"] = fullName
+                    _admin["phoneNumber"] = phoneNumber
+                    _admin["email"] = email
+                    _admin["password"] = password
+                    _admin["siteName"] = inputSiteName.value.toString()
+                    _admin["city"] = inputCity.value.toString()
+                    _admin["district"] = inputDistrict.value.toString()
+                    _admin["blockName"] = inputBlockName.value.toString()
+                    _admin["flatCount"] = inputFlatCount.value.toString().toLong()
+                    _admin["typeOfUser"] = "Yönetici"
+                }
                 true
             } catch (e: Exception) {
                 Log.e(TAG, "createAdmin ---> $e")
@@ -79,6 +65,10 @@ class AdminSiteInformationViewModel(
             }
         }
     }
+
+    fun areNull() = inputSiteName.value == null && inputCity.value == null
+            && inputDistrict.value == null && inputBlockName.value == null && inputFlatCount.value == null
+            && inputMonthlyPayment.value == null
 
     suspend fun updateUserDisplayName() {
         UserOperations.updateFullNameForAdmin(_admin["fullName"] as String)
@@ -126,14 +116,17 @@ class AdminSiteInformationViewModel(
     }
 
     private fun convertSiteInfoHashMap(): HashMap<String, Any> {
-        return hashMapOf(
-            "siteName" to siteName,
-            "city" to city,
-            "district" to district,
-            "blockCount" to blockCount,
-            "flatCount" to flatCount,
-            "monthlyPayment" to monthlyPayment
-        )
+        if (!areNull()) {
+            return hashMapOf(
+                "siteName" to inputSiteName.value.toString(),
+                "city" to inputCity.value.toString(),
+                "district" to inputDistrict.value.toString(),
+                "blockName" to inputBlockName.value.toString(),
+                "flatCount" to inputFlatCount.value.toString().toLong(),
+                "monthlyPayment" to inputMonthlyPayment.value.toString().toLong()
+            )
+        }
+        return hashMapOf()
     }
 }
 

@@ -1,176 +1,219 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/primary_color"
-    tools:context=".view.admin.AdminSiteInformationFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <Button
-        android:id="@+id/backToAdminNewAccountFragmentButton"
-        android:layout_width="60dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="29dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="166dp"
-        android:background="@drawable/back_button_style"
-        android:drawableStart="@drawable/navigate_before_icon"
-        android:paddingStart="5dp"
-        android:paddingEnd="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/monthlyPayment"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+    <data>
+        <variable
+            name="viewModel"
+            type="com.graduationproject.grad_project.viewmodel.AdminSiteInformationViewModel" />
+    </data>
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="230dp"
-        android:layout_height="133dp"
-        android:layout_marginStart="55dp"
-        android:layout_marginTop="34dp"
-        android:layout_marginEnd="210dp"
-        android:fontFamily="@font/titillium_web_bold"
-        android:text="@string/site_information"
-        android:textColor="@color/secondary_color"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.178"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backToAdminNewAccountFragmentButton" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/primary_color"
+        tools:context=".view.resident.ResidentSiteInformationFragment">
 
-    <EditText
-        android:id="@+id/siteNameText"
-        android:layout_width="300dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="70dp"
-        android:autofillHints="siteName"
-        android:backgroundTint="@color/secondary_color"
-        android:drawableStart="@drawable/ic_site_icon"
-        android:drawablePadding="10dp"
-        android:ems="10"
-        android:hint="@string/site_name"
-        android:inputType="textPersonName"
-        android:textColor="@color/secondary_color"
-        android:textColorHint="@color/secondary_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-    <EditText
-        android:id="@+id/cityText"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="30dp"
-        android:autofillHints="cityName"
-        android:backgroundTint="@color/secondary_color"
-        android:drawableStart="@drawable/city_icon"
-        android:drawablePadding="10dp"
-        android:ems="10"
-        android:hint="@string/city"
-        android:inputType="textPersonName"
-        android:textColor="@color/secondary_color"
-        android:textColorHint="@color/secondary_color"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/siteNameText" />
-
-    <EditText
-        android:id="@+id/blockCountText"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="30dp"
-        android:autofillHints="blockCount"
-        android:backgroundTint="@color/secondary_color"
-        android:drawableStart="@drawable/block_icon"
-        android:drawablePadding="10dp"
-        android:ems="10"
-        android:hint="@string/block_count"
-        android:inputType="text"
-        android:textColor="@color/secondary_color"
-        android:textColorHint="@color/secondary_color"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cityText" />
-
-    <EditText
-        android:id="@+id/flatCountText"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="55dp"
-        android:autofillHints="flatCount"
-        android:backgroundTint="@color/secondary_color"
-        android:drawableStart="@drawable/flat_count_icon"
-        android:drawablePadding="10dp"
-        android:ems="10"
-        android:hint="@string/flat_count"
-        android:inputType="numberDecimal"
-        android:textColor="@color/secondary_color"
-        android:textColorHint="@color/secondary_color"
-        app:layout_constraintBottom_toBottomOf="@+id/blockCountText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/blockCountText"
-        app:layout_constraintTop_toBottomOf="@+id/countyText" />
+        <Button
+            android:id="@+id/backToAdminInfoFragment"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/back_button_style"
+            android:drawableStart="@drawable/navigate_before_icon"
+            android:paddingStart="5dp"
+            android:paddingEnd="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
 
-    <EditText
-        android:id="@+id/monthlyPayment"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="388dp"
-        android:autofillHints="flatCount"
-        android:backgroundTint="@color/secondary_color"
-        android:drawableStart="@drawable/flat_count_icon"
-        android:drawablePadding="10dp"
-        android:ems="10"
-        android:hint="@string/aidat"
-        android:inputType="numberDecimal"
-        android:textColor="@color/secondary_color"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/citiesLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:hint="@string/city"
+            android:textColorHint="@color/white"
+            app:helperText="@string/required"
+            app:helperTextTextColor="@color/warning_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        android:textColorHint="@color/secondary_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/cityText"
-        app:layout_constraintStart_toStartOf="@+id/siteNameText"
-        app:layout_constraintTop_toBottomOf="@+id/backToAdminNewAccountFragmentButton" />
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/cities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="none"
+                android:text="@={viewModel.inputCity}"
+                android:textColor="@color/white"
+                tools:ignore="TextContrastCheck"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="50dp" />
 
-    <EditText
-        android:id="@+id/countyText"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="55dp"
-        android:autofillHints="countyName"
-        android:backgroundTint="@color/secondary_color"
-        android:drawableStart="@drawable/county_icon"
-        android:drawablePadding="10dp"
-        android:ems="10"
-        android:hint="@string/county"
-        android:inputType="textPersonName"
-        android:textColor="@color/secondary_color"
-        android:textColorHint="@color/secondary_color"
-        app:layout_constraintBottom_toBottomOf="@+id/cityText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/siteNameText" />
-
-    <Button
-        android:id="@+id/signUpButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="76dp"
-        android:background="@drawable/button"
-        android:fontFamily="@font/titillium_web_bold"
-        android:shadowColor="@color/black"
-        android:shadowDy="-2"
-        android:shadowRadius="1"
-        android:text="@string/sign_up"
-        android:textAllCaps="false"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/signUpButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/button"
+            android:fontFamily="@font/titillium_web_bold"
+            android:shadowColor="@color/black"
+            android:shadowDy="-2"
+            android:shadowRadius="1"
+            android:text="@string/sign_up"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            android:enabled="@{!viewModel.areNull()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.546"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/districtsLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="@string/county"
+            android:textColorHint="@color/white"
+            app:helperText="@string/required"
+            app:helperTextTextColor="@color/warning_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/citiesLayout">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/districts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:text="@={viewModel.inputDistrict}"
+                android:textColor="@color/white"
+                tools:ignore="TextContrastCheck"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="170dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sitesLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:hint="@string/site_name"
+            android:textColorHint="@color/white"
+            app:helperText="@string/required"
+            app:helperTextTextColor="@color/warning_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/districtsLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sites"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textColor="@color/white"
+                android:text="@={viewModel.inputSiteName}"
+                tools:ignore="TextContrastCheck"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="280dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/blockNoLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="@string/blok_adı"
+            android:textColorHint="@color/white"
+            app:counterEnabled="true"
+            app:counterMaxLength="25"
+            app:endIconMode="clear_text"
+            app:helperText="@string/required"
+            app:helperTextTextColor="@color/warning_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sitesLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/blockNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:text="@={viewModel.inputBlockName}"
+                android:textColor="@color/white"
+                tools:ignore="TextContrastCheck"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="370dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/flatNoLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="@string/flat_count"
+            android:textColorHint="@color/white"
+            app:counterEnabled="true"
+            app:counterMaxLength="25"
+            app:endIconMode="clear_text"
+            app:helperText="@string/required"
+            app:helperTextTextColor="@color/warning_color"
+            app:layout_constraintTop_toBottomOf="@+id/blockNoLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/flatNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text="@={viewModel.inputFlatCount}"
+                android:textColor="@color/white"
+                tools:ignore="TextContrastCheck"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="450dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/monthlyPaymentLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:hint="@string/aidat"
+            android:textColorHint="@color/white"
+            app:helperText="@string/required"
+            app:helperTextTextColor="@color/warning_color"
+            app:layout_constraintTop_toBottomOf="@+id/flatNoLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/monthlyPayment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text="@={viewModel.inputMonthlyPayment}"
+                android:textColor="@color/white"
+                tools:ignore="TextContrastCheck"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="500dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
