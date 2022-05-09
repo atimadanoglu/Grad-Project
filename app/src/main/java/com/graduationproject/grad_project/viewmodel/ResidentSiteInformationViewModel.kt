@@ -51,13 +51,24 @@ class ResidentSiteInformationViewModel(
     private val _isThereAnyResident = MutableLiveData<Boolean?>()
     val isThereAnyResident: LiveData<Boolean?> get() = _isThereAnyResident
 
-    fun retrieveAllSitesBasedOnCityAndDistrict(city: String, district: String) {
-        SiteOperations.retrieveAllSitesBasedOnCityAndDistrict(city, district, _allSites)
+    fun clearLists() {
+        _allSiteNames.clear()
+        _flatList.value?.clear()
+        _listOfBlocks.clear()
+    }
+
+    fun retrieveAllSitesBasedOnCityAndDistrict() {
+        if (inputCity.value != null && inputDistrict.value != null) {
+            _allSites.value?.clear()
+            _allSiteNames.clear()
+            SiteOperations
+                .retrieveAllSitesBasedOnCityAndDistrict(inputCity.value!!, inputDistrict.value!!, _allSites)
+        }
     }
 
     fun getSiteNames() {
+        _allSiteNames.clear()
         _allSites.value?.forEach {
-            println("getSiteName --> ${it?.blockCount}")
             it?.let { site ->
                 _allSiteNames.add(site.siteName)
             }
@@ -72,7 +83,6 @@ class ResidentSiteInformationViewModel(
 
     fun retrieveBlockNameAndFlatCount() {
         if (!areTheyNull()) {
-            println("they are not null")
             SiteOperations.retrieveBlockNamesBasedOnSiteInfo(
                 inputSiteName.value!!, inputCity.value!!, inputDistrict.value!!, _blockNames, _totalFlatCount
             )
@@ -86,7 +96,6 @@ class ResidentSiteInformationViewModel(
             && inputDistrict.value == null
 
     fun getBlockNames() {
-        _listOfBlocks.clear()
         _blockNames.value?.forEach {
             it?.let {
                 _listOfBlocks.add(it)

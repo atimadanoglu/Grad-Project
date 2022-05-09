@@ -39,12 +39,12 @@ class ResidentSiteInformationFragment(
         }
         viewModel.isThereAnyResident.observe(viewLifecycleOwner) {
             if (it == true) {
+                goBackToResidentNewAccountFragment()
                 Snackbar.make(
                     requireView(),
-                    "Bu email adresi başka bir kullanıcı tarafından kullanılmaktadır",
+                    R.string.buEmailAdresiKullanıldı,
                     Snackbar.LENGTH_LONG
                 ).show()
-                goBackToResidentNewAccountFragment()
             } else {
                 goToResidentHomePageButtonClicked()
             }
@@ -65,37 +65,35 @@ class ResidentSiteInformationFragment(
         binding.cities.setAdapter(arrayAdapterForCities)
 
         viewModel.inputCity.observe(viewLifecycleOwner) {
+            viewModel.clearLists()
             if (!it.isNullOrEmpty()) {
                 binding.districts.setText("")
                 binding.sites.setText("")
                 binding.blockNo.setText("")
                 binding.flatNo.setText("")
-                if (!it.isNullOrEmpty()) {
-                    val districts: List<String> = when(it) {
-                        "İzmir" -> izmirDistricts
-                        "İstanbul" -> istanbulDistricts
-                        "Ankara" -> ankaraDistricts
-                        else -> mutableListOf()
-                    }
-                    val arrayAdapterForDistricts = ArrayAdapter(requireContext(), R.layout.request_dropdown_item, districts)
-                    binding.districts.inputType = InputType.TYPE_NULL
-                    binding.districts.setAdapter(arrayAdapterForDistricts)
+                val districts: List<String> = when(it) {
+                    "İzmir" -> izmirDistricts
+                    "İstanbul" -> istanbulDistricts
+                    "Ankara" -> ankaraDistricts
+                    else -> mutableListOf()
                 }
+                val arrayAdapterForDistricts = ArrayAdapter(requireContext(), R.layout.request_dropdown_item, districts)
+                binding.districts.inputType = InputType.TYPE_NULL
+                binding.districts.setAdapter(arrayAdapterForDistricts)
             }
         }
         viewModel.inputDistrict.observe(viewLifecycleOwner) {
+            viewModel.clearLists()
             if (!it.isNullOrEmpty()) {
                 binding.sites.setText("")
                 binding.blockNo.setText("")
                 binding.flatNo.setText("")
-                viewModel.retrieveAllSitesBasedOnCityAndDistrict(
-                    viewModel.inputCity.value!!,
-                    viewModel.inputDistrict.value!!)
+                viewModel.retrieveAllSitesBasedOnCityAndDistrict()
             }
         }
         viewModel.allSites.observe(viewLifecycleOwner) {
+            viewModel.clearLists()
             if (!it.isNullOrEmpty()) {
-                viewModel.allSiteNames.clear()
                 binding.sites.setText("")
                 viewModel.getSiteNames()
                 val arrayAdapterForSites = ArrayAdapter(requireContext(), R.layout.request_dropdown_item, viewModel.allSiteNames)
