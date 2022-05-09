@@ -223,6 +223,8 @@
     <string name="aidat">Aidat</string>
     <string name="blok_adı">Blok Adı</string>
     <string name="buEmailAdresiKullanıldı">Bu email adresi başka bir kullanıcı tarafından kullanılmaktadır!</string>
+    <string name="geçersizTelefonNo">Geçersiz Telefon No!</string>
+    <string name="şifreBilgi">En az bir adet küçük ve büyük harf, sayı ve noktalama işaretleri kullanın!</string>
 
     <string-array name="cities">
         <item>İzmir</item>
