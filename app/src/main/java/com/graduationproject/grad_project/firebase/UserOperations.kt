@@ -37,6 +37,60 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
+    fun takeFlatNumbers(
+        siteName: String,
+        city: String,
+        district: String,
+        flatCount: Long,
+        list: MutableLiveData<MutableList<Long?>>
+    ) = CoroutineScope(ioDispatcher).launch {
+        residentRef.whereEqualTo("siteName", siteName)
+            .whereEqualTo("city", city)
+            .whereEqualTo("district", district)
+            .get()
+            .await()
+            .also {
+                val documents = it.documents
+                val flats = mutableListOf<Long?>()
+                val numbers: MutableList<Long?> = (1..flatCount).toMutableList()
+                documents.forEach { snapshot ->
+                    flats.add(
+                        snapshot["flatNo"].toString().toLong()
+                    )
+                }.also {
+                    launch(Dispatchers.Default) {
+                        for (i in 1..flatCount) {
+                            if (flats.contains(i)) {
+                                numbers.remove(i)
+                            }
+                        }
+                    }
+                    list.postValue(numbers)
+                }
+            }
+    }
+
+    fun isThereAnyResident(
+        email: String,
+        isThereAnyUser: MutableLiveData<Boolean?>
+    ) = CoroutineScope(ioDispatcher).launch {
+        try {
+            residentRef.document(email)
+                .get().await().also {
+                    if (it["email"] != null) {
+                        println("var")
+                        isThereAnyUser.postValue(true)
+                    } else {
+                        println("yok")
+                        isThereAnyUser.postValue(false)
+                    }
+                }
+        } catch (e: Exception) {
+            Log.e(TAG, "isThereAnyResident --> $e")
+            isThereAnyUser.postValue(false)
+        }
+    }
+
     suspend fun checkVerifiedStatus(isVerified: MutableLiveData<Boolean?>, email: String) = withContext(ioDispatcher) {
         try {
             residentRef.document(email)

@@ -24,7 +24,7 @@ class ResidentSiteInformationViewModel(
     val inputCity = MutableLiveData("")
     val inputDistrict = MutableLiveData("")
     val inputSiteName = MutableLiveData("")
-    val inputBlockNo = MutableLiveData("")
+    val inputBlockName = MutableLiveData("")
     val inputFlatNo = MutableLiveData("")
 
     private var _resident = hashMapOf<String, Any>()
@@ -36,16 +36,66 @@ class ResidentSiteInformationViewModel(
     private val _allSiteNames = mutableListOf<String?>()
     val allSiteNames: MutableList<String?> get() = _allSiteNames
 
+    private val _blockNames = MutableLiveData<List<String?>>()
+    val blockNames: LiveData<List<String?>> get() = _blockNames
+
+    private val _listOfBlocks = mutableListOf<String?>()
+    val listOfBlocks: MutableList<String?> get() = _listOfBlocks
+
+    private val _totalFlatCount = MutableLiveData<Long?>()
+    val totalFlatCount: LiveData<Long?> get() = _totalFlatCount
+
+    private val _flatList = MutableLiveData<MutableList<Long?>>()
+    val flatList: LiveData<MutableList<Long?>> get() = _flatList
+
+    private val _isThereAnyResident = MutableLiveData<Boolean?>()
+    val isThereAnyResident: LiveData<Boolean?> get() = _isThereAnyResident
+
     fun retrieveAllSitesBasedOnCityAndDistrict(city: String, district: String) {
         SiteOperations.retrieveAllSitesBasedOnCityAndDistrict(city, district, _allSites)
     }
 
     fun getSiteNames() {
         _allSites.value?.forEach {
+            println("getSiteName --> ${it?.blockCount}")
             it?.let { site ->
                 _allSiteNames.add(site.siteName)
             }
         }
+    }
+
+    fun getFlats() {
+        UserOperations.takeFlatNumbers(
+            inputSiteName.value!!, inputCity.value!!, inputDistrict.value!!, _totalFlatCount.value!!, _flatList
+        )
+    }
+
+    fun retrieveBlockNameAndFlatCount() {
+        if (!areTheyNull()) {
+            println("they are not null")
+            SiteOperations.retrieveBlockNamesBasedOnSiteInfo(
+                inputSiteName.value!!, inputCity.value!!, inputDistrict.value!!, _blockNames, _totalFlatCount
+            )
+        }
+    }
+
+    /**
+     * It can be used to check these items are null before getting block names
+     * */
+    private fun areTheyNull() = inputSiteName.value == null && inputCity.value == null
+            && inputDistrict.value == null
+
+    fun getBlockNames() {
+        _listOfBlocks.clear()
+        _blockNames.value?.forEach {
+            it?.let {
+                _listOfBlocks.add(it)
+            }
+        }
+    }
+
+    fun checkEmailAddress(email: String) {
+        UserOperations.isThereAnyResident(email, _isThereAnyResident)
     }
 
     private suspend fun createResident(
@@ -71,7 +121,7 @@ class ResidentSiteInformationViewModel(
                     _resident["siteName"] = inputSiteName.value.toString()
                     _resident["city"] = inputCity.value.toString()
                     _resident["district"] = inputDistrict.value.toString()
-                    _resident["blockNo"] = inputBlockNo.value.toString()
+                    _resident["blockNo"] = inputBlockName.value.toString()
                     _resident["flatNo"] = inputFlatNo.value.toString().toLong()
                     _resident["typeOfUser"] = "Sakin"
                     _resident["isVerified"] = false
@@ -85,7 +135,7 @@ class ResidentSiteInformationViewModel(
         }
     }
     private fun areNull() = inputSiteName.value == null && inputCity.value == null
-            && inputDistrict.value == null && inputBlockNo.value == null && inputFlatNo.value == null
+            && inputDistrict.value == null && inputBlockName.value == null && inputFlatNo.value == null
 
     suspend fun updateUserDisplayName() {
         UserOperations.updateFullNameForResident(_resident["fullName"] as String)

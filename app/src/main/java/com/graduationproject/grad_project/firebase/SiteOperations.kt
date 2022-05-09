@@ -29,6 +29,34 @@ object SiteOperations: FirebaseConstants() {
         }
     }
 
+    fun retrieveBlockNamesBasedOnSiteInfo(
+        siteName: String,
+        city: String,
+        district: String,
+        blockNamesList: MutableLiveData<List<String?>>,
+        totalFlatCount: MutableLiveData<Long?>
+    ) = CoroutineScope(ioDispatcher).launch {
+        siteRef.whereEqualTo("siteName", siteName)
+            .whereEqualTo("city", city)
+            .whereEqualTo("district", district)
+            .get()
+            .await()
+            .also {
+                val documents = it.documents
+                val retrievedBlockNames = mutableListOf<String?>()
+                var flatCount = 0L
+                documents.forEach { document ->
+                    if (document["blockName"] != null) {
+                        retrievedBlockNames.add(document["blockName"].toString())
+                    }
+                    flatCount = document["flatCount"].toString().toLong()
+                }.also {
+                    blockNamesList.postValue(retrievedBlockNames)
+                    totalFlatCount.postValue(flatCount)
+                }
+            }
+    }
+
     fun retrieveAllSitesBasedOnCityAndDistrict(city: String, district: String, allSites: MutableLiveData<MutableList<Site?>>) = CoroutineScope(ioDispatcher).launch {
         try {
             siteRef.whereEqualTo("city", city)

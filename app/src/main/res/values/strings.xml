@@ -222,7 +222,7 @@
     <string name="expenditureAmount">%d TL</string>
     <string name="aidat">Aidat</string>
     <string name="blok_adı">Blok Adı</string>
-
+    <string name="buEmailAdresiKullanıldı">Bu email adresi başka bir kullanıcı tarafından kullanılmaktadır!</string>
 
     <string-array name="cities">
         <item>İzmir</item>
