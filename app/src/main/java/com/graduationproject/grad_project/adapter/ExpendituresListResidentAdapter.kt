@@ -5,16 +5,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.graduationproject.grad_project.databinding.ExpenditureResidentRowBinding
+import com.graduationproject.grad_project.databinding.ExpendituresItemBinding
 import com.graduationproject.grad_project.model.Expenditure
 
 class ExpendituresListResidentAdapter:
     ListAdapter<Expenditure, ExpendituresListResidentAdapter.ExpenditureViewHolder>(ExpendituresResidentDiffUtil()) {
-    class ExpenditureViewHolder(val binding: ExpenditureResidentRowBinding): RecyclerView.ViewHolder(binding.root) {
+    class ExpenditureViewHolder(val binding: ExpendituresItemBinding): RecyclerView.ViewHolder(binding.root) {
         companion object {
             fun inflateFrom(parent: ViewGroup): ExpenditureViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ExpenditureResidentRowBinding.inflate(layoutInflater, parent, false)
+                val binding = ExpendituresItemBinding.inflate(layoutInflater, parent, false)
                 return ExpenditureViewHolder(binding)
             }
         }

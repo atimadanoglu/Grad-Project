@@ -22,8 +22,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
             android:text="@string/settings_info"
-            app:layout_constraintEnd_toStartOf="@+id/gifIcon"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/accountSettingsText" />
 
@@ -48,14 +49,14 @@
             android:layout_marginTop="40dp"
             android:layout_marginEnd="10dp"
             app:cardCornerRadius="15dp"
+            app:cardElevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/settingsInfoText">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/NameTitle"
@@ -95,14 +96,14 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="10dp"
             app:cardCornerRadius="15dp"
+            app:cardElevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardViewName">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/phoneTitle"
@@ -116,20 +117,6 @@
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-
-<!--                <ImageButton-->
-<!--                    android:id="@+id/imageButton"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="20dp"-->
-<!--                    android:background="@drawable/iconstyle"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintHorizontal_bias="0.934"-->
-<!--                    app:layout_constraintStart_toEndOf="@+id/phoneTitle"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:srcCompat="@drawable/favorite_border"-->
-<!--                    tools:ignore="MissingConstraints,VectorDrawableCompat" />-->
 
                 <TextView
                     android:id="@+id/phoneText"
@@ -156,14 +143,14 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="10dp"
             app:cardCornerRadius="15dp"
+            app:cardElevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardViewPhone">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/passwordTitle"

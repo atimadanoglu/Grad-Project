@@ -6,6 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/background_settings"
         tools:context=".view.admin.AnnouncementsFragment">
 
         <TextView
@@ -52,7 +53,7 @@
             app:layout_constraintTop_toBottomOf="@+id/gifIcon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:listitem="@layout/announcement_item"/>
+            tools:listitem="@layout/announcement_row_layout"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addAnnouncementButton"
