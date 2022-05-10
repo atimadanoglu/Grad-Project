@@ -225,6 +225,15 @@
     <string name="buEmailAdresiKullanıldı">Bu email adresi başka bir kullanıcı tarafından kullanılmaktadır!</string>
     <string name="geçersizTelefonNo">Geçersiz Telefon No!</string>
     <string name="şifreBilgi">En az bir adet küçük ve büyük harf, sayı ve noktalama işaretleri kullanın!</string>
+    <string name="lütfenBirŞehirSeçiniz">Lütfen bir şehir seçiniz!</string>
+    <string name="lütfenBirİlçeSeçiniz">Lütfen bir ilçe seçiniz!</string>
+    <string name="lütfenBirSiteSeçiniz">Lütfen bir site seçiniz!</string>
+    <string name="lütfenBirSiteAdıYazınız">Lütfen bir site adı yazınız!</string>
+    <string name="lütfenBirBlokAdıSeçiniz">Lütfen bir blok adı seçiniz!</string>
+    <string name="lütfenBirDaireSeçiniz">Lütfen bir daire seçiniz!</string>
+    <string name="lütfenDaireSayınısıYazınız">Lütfen daire sayısını yazınız!</string>
+    <string name="lütfenBlokAdınıYazınız">Lütfen blok adını yazınız!</string>
+    <string name="lütfenAidatMiktarınıYazınız">Lütfen aidat miktarını giriniz!</string>
 
     <string-array name="cities">
         <item>İzmir</item>

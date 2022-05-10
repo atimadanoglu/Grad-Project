@@ -78,16 +78,33 @@ object UserOperations: FirebaseConstants() {
             residentRef.document(email)
                 .get().await().also {
                     if (it["email"] != null) {
-                        println("var")
                         isThereAnyUser.postValue(true)
                     } else {
-                        println("yok")
                         isThereAnyUser.postValue(false)
                     }
                 }
         } catch (e: Exception) {
             Log.e(TAG, "isThereAnyResident --> $e")
-            isThereAnyUser.postValue(false)
+            isThereAnyUser.postValue(true)
+        }
+    }
+
+    fun isThereAnyAdmin(
+        email: String,
+        isThereAnyUser: MutableLiveData<Boolean?>
+    ) = CoroutineScope(ioDispatcher).launch {
+        try {
+            adminRef.document(email)
+                .get().await().also {
+                    if (it["email"] != null) {
+                        isThereAnyUser.postValue(true)
+                    } else {
+                        isThereAnyUser.postValue(false)
+                    }
+                }
+        } catch (e: Exception) {
+            Log.e(TAG, "isThereAnyResident --> $e")
+            isThereAnyUser.postValue(true)
         }
     }
 
@@ -244,6 +261,26 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
+    suspend fun createUserWithEmailAndPassword(
+        email: String,
+        password: String,
+        isUserCreated: MutableLiveData<Boolean?>
+    ) = CoroutineScope(ioDispatcher).launch {
+        try {
+            auth.createUserWithEmailAndPassword(email, password).await().also {
+                if (it.user != null) {
+                    isUserCreated.postValue(true)
+                } else {
+                    isUserCreated.postValue(false)
+                }
+            }
+        } catch (e: FirebaseAuthException) {
+            Log.e(TAG, "createUserWithEmailAndPassword --> $e")
+            isUserCreated.postValue(null)
+        }
+    }
+
+
     suspend fun addDebt(email: String, debtAmount: Double) {
         withContext(ioDispatcher) {
             try {
@@ -268,11 +305,10 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
-    suspend fun saveAdminIntoDB(
-        admin: HashMap<String, Any>,
-        scope: CoroutineDispatcher = Dispatchers.IO
+    /*suspend fun saveAdminIntoDB(
+        admin: HashMap<String, Any>
     ) {
-        withContext(scope) {
+        withContext(ioDispatcher) {
             try {
                 adminRef
                     .document(admin["email"].toString())
@@ -282,7 +318,21 @@ object UserOperations: FirebaseConstants() {
                 Log.e(TAG, "saveAdminIntDB --> $e")
             }
         }
+    }*/
+
+    suspend fun saveAdminIntoDB(
+        admin: HashMap<String, Any>
+    ) = CoroutineScope(ioDispatcher).launch {
+        try {
+            adminRef
+                .document(admin["email"].toString())
+                .set(admin)
+                .await()
+        } catch (e: FirebaseFirestoreException) {
+            Log.e(TAG, "saveAdminIntDB --> $e")
+        }
     }
+
 
     suspend fun updateFullNameForAdmin(fullName: String) {
         CoroutineScope(ioDispatcher).launch {

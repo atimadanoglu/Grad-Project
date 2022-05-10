@@ -11,6 +11,5 @@ data class Administrator(
     val district: String? = null,
     val siteName: String? = null,
     val typeOfUser: String? = null,
-    val uid: String? = null,
     val expendituresAmount: Long? = 0
 )
