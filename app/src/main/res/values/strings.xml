@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Grad-Project</string>
     <string name="project_name">Apartopolis</string>
-    <string name="email_address">email adresi</string>
+    <string name="site_name">Site Adı</string>
     <string name="password">şifre</string>
     <string name="log_in">GİRİŞ</string>
     <string name="admin">Yönetici</string>
@@ -19,7 +19,6 @@
     <string name="log_in.">Giriş.</string>
     <string name="log_in_Clickable">logInClickable</string>
     <string name="site_information">Site Bilgisi</string>
-    <string name="site_name">site adı</string>
     <string name="city">şehir</string>
     <string name="county">ilçe</string>
     <string name="block_no">blok no</string>
@@ -58,7 +57,6 @@
     <string name="account_type">Hesap Tipi</string>
     <string name="x_blok">X-Blok</string>
     <string name="no_01">No: 01</string>
-    <string name="line">-</string>
     <string name="buradan_ara">Buradan Ara</string>
     <string name="herkes">Herkes</string>
     <string name="tutar">Tutar</string>
@@ -102,12 +100,11 @@
     <string name="kapat">Kapat</string>
     <string name="yönetici">Yönetici</string>
     <string name="sakin">Sakin</string>
-    <string name="new_voting">New Voting</string>
+    <string name="new_voting">Oylama Ekle</string>
     <string name="surec">Süreç</string>
     <string name="gun">gün</string>
     <string name="baslik_ekle">Başlık ekle</string>
     <string name="Icerik_ekle">İçerik ekle</string>
-    <string name="oylamalar">Oylamalar</string>
     <string name="devam_edenler">Devam edenler</string>
     <string name="bitenler">Bitenler</string>
     <string name="yes">Evet</string>
@@ -146,11 +143,11 @@
     <string name="reddet">Reddet</string>
     <string name="durations">Durations:</string>
     <string name="_16_s">16(s)</string>
-    <string name="site_management_app">Site management app</string>
+    <string name="site_management_app">Site yönetim uygulaması</string>
     <string name="site_Giderleri">Site Giderleri</string>
     <string name="isleminiz_tamamlandi">İşleminiz Tamamlandı</string>
-    <string name="bilgilerinizi_tekrar_kontrol_ediniz">Bilgilerinizi tekrar kontrol ediniz.</string>
-    <string name="isleminiz_basarisiz">İşleminiz Başarısız</string>
+    <string name="check_account_info">Hesap bilgilerinizi tekrar kontrol ediniz.</string>
+    <string name="reject_message">Talebiniz Reddedildi</string>
 
     <string-array name="type_list">
         <item>Öneri</item>
@@ -162,7 +159,7 @@
     <string name="evet">Evet</string>
     <string name="hayır">Hayır</string>
 
-    <string name="settings_info">Sitemizde kayıtlı olan hesap bilgilerinizi bu menüden güncelleyebilirsiniz.</string>
+    <string name="settings_info">Sitenizde kayıtlı olan hesap bilgilerinizi bu menüden güncelleyebilirsiniz.</string>
     <string name="hesap_ayarlar">Hesap Ayarları</string>
     <string name="ad_soyad">Ad-Soyad</string>
     <string name="batuhan_goren">Batuhan Gören</string>
@@ -260,10 +257,15 @@
         <item>Çankaya</item>
     </string-array>
 
-
-
-
-
-
+    <string name="home_page">Ana Sayfa</string>
+    <string name="homePageInfo">Sitenizdeki genel işlemleri buradan görüntüleyebilir ve içerik bilgilerine ulaşabilirsiniz.</string>
+    <string name="oylamalar">Oylamalar</string>
+    <string name="homeDebtInfoText">Sakinler tarafından tahsil edilen işlem özetleri</string>
+    <string name="line">-</string>
+    <string name="homeRequestInfo">Sakinler tarafından oluşturulan öneri veya şikayet listesi</string>
+    <string name="homeVoteInfo">Açılan ve sonuçlanan oylama listesi</string>
+    <string name="homeMyDebtInfo">Aidat ve ekstra gider tutarı</string>
+    <string name="homeRequestResidentInfo">Yöneticiyle paylaşılan öneri ve şikayet listem</string>
+    <string name="homeNotificationInfo">Yönetici tarafından yapılan işlem bildirimleri</string>
 
 </resources>

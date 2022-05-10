@@ -65,7 +65,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="13dp"
             android:fontFamily="@font/titillium_web"
-            android:hint="@string/email_address"
+            android:hint="@string/site_name"
             android:text="@{String.valueOf(auth.getInstance().currentUser.email)}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:textColor="@color/secondary_color"
