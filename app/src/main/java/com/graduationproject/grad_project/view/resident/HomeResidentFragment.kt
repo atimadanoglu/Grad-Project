@@ -32,9 +32,9 @@ class HomeResidentFragment : Fragment() {
         viewModel.myRequestsAmount.observe(viewLifecycleOwner) {
             binding.myRequestsAmountText.text = it.toString()
         }
-        binding.myRequestsText.setOnClickListener { goToRequestsPage() }
-        binding.notifications.setOnClickListener { goToNotificationsPage() }
-        binding.myDebtText.setOnClickListener { goToPayDebtPage() }
+        binding.request.setOnClickListener { goToRequestsPage() }
+        binding.notificationText.setOnClickListener { goToNotificationsPage() }
+        binding.myDebt.setOnClickListener { goToPayDebtPage() }
         binding.myRequestsAmountText.setOnClickListener { goToRequestsPage() }
         binding.myDebtAmountText.setOnClickListener { goToPayDebtPage() }
         binding.notificationsAmount.setOnClickListener { goToNotificationsPage() }

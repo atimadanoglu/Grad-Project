@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -7,80 +9,80 @@
             type="com.graduationproject.grad_project.model.Request" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:orientation="horizontal"
-        android:layout_marginBottom="15dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/recycleview_background">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
 
-        <LinearLayout
-            android:id="@+id/account_info_linearLayout"
-            android:layout_width="290dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/titleOfRequest"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:hint="@string/konu"
-                android:textSize="22sp"
-                android:text="@{request.title}"
-                android:textColor="@color/primary_color"
-                android:textColorHint="@color/primary_color"
-                android:fontFamily="@font/titillium_web_bold"
-                android:gravity="center_vertical"
-                android:paddingStart="20dp"
-                android:paddingEnd="10dp" />
+                android:layout_height="wrap_content"
+                android:padding="10dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/titleOfRequest"
+                    android:layout_width="280dp"
+                    android:layout_height="35dp"
+                    android:fontFamily="@font/titillium_web_bold"
+                    android:hint="@string/title"
+                    android:text="@{request.title}"
+                    android:textColor="@color/primary_color"
+                    android:textColorHint="@color/primary_color"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/contentOfRequest"
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:hint="@string/content"
-                    android:textSize="18sp"
-                    android:text="@{request.content}"
-                    android:lines="2"
-                    android:textColorHint="@color/primary_color"
+                    android:layout_width="280dp"
+                    android:layout_height="35dp"
                     android:fontFamily="@font/titillium_web"
+                    android:hint="@string/content"
+                    android:lines="1"
+                    android:text="@{request.content}"
                     android:textColor="@color/primary_color"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="10dp"
-                    android:gravity="start" />
+                    android:textColorHint="@color/primary_color"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/titleOfRequest" />
+
+                <ImageView
+                    android:id="@+id/request_options"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="24dp"
+                    android:contentDescription="@string/todo"
+                    android:src="@drawable/more_horiz"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/item_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/turu"
-                    android:textSize="16sp"
-                    android:text="@{request.type}"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/back_green_button"
-                    android:textColorHint="@color/primary_color"
                     android:fontFamily="@font/titillium_web"
-                    android:textColor="@color/primary_color"
-                    android:layout_marginStart="20dp"
+                    android:hint="@string/turu"
                     android:paddingStart="10dp"
-                    android:paddingEnd="10dp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/request_options"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/more_horiz"
-            android:layout_marginEnd="10dp"
-            android:contentDescription="@string/todo" />
-    </LinearLayout>
+                    android:paddingEnd="10dp"
+                    android:text="@{request.type}"
+                    android:textColor="@color/primary_color"
+                    android:textColorHint="@color/primary_color"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/contentOfRequest" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
