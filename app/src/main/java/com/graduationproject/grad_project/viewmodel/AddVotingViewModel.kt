@@ -23,9 +23,8 @@ class AddVotingViewModel: ViewModel() {
     private val _content = MutableLiveData("")
     val content: LiveData<String> get() = _content
     private val _dateLongValue = MutableLiveData(0L)
-    val dateLongValue: LiveData<Long> get() = _dateLongValue
-    private val _chosenDate = MutableLiveData("")
-    val chosenDate: LiveData<String> get() = _chosenDate
+    private val _chosenDate = MutableLiveData<String?>()
+    val chosenDate: LiveData<String?> get() = _chosenDate
 
     fun setDateLongValue(value: Long) { _dateLongValue.value = value }
 
@@ -50,18 +49,8 @@ class AddVotingViewModel: ViewModel() {
         _content.value = content
     }
 
-    fun convertLongToDate() {
-        val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-        try {
-            val dateLongValue = _dateLongValue.value
-            dateLongValue?.let {
-                val date = Date(it)
-                _chosenDate.value = dateFormat.format(date)
-                println(_chosenDate.value)
-            }
-        } catch (e: ParseException) {
-            Log.e(TAG, "convertLongToDate --> $e")
-        }
+    fun saveChosenDate(chosenDate: String) {
+        _chosenDate.value = chosenDate
     }
 
     private fun checkTheValuesAreNotNull(): Boolean {

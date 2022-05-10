@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.components.SnackBars
 import com.graduationproject.grad_project.databinding.FragmentResidentNewAccountBinding
 import com.graduationproject.grad_project.viewmodel.ResidentNewAccountViewModel
@@ -24,10 +26,60 @@ class ResidentNewAccountFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentResidentNewAccountBinding.inflate(inflater, container, false)
         val view = binding.root
-        binding.backToSignUpMainFragmentButton.setOnClickListener { goBackToSignUpMainFragment() }
-        binding.goToResidentSiteInfoButton.setOnClickListener { goToResidentSiteInfoButtonClicked() }
-        binding.goToLoginPageButton.setOnClickListener { goBackToLoginFragment() }
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+        emailAddressTextFocusChangeListener()
+        phoneNumberTextFocusChangeListener()
+        passwordTextChangeListener()
+        setOnClickListeners()
         return view
+    }
+
+    private fun setOnClickListeners() {
+        binding.goToLoginPageButton.setOnClickListener { goBackToLoginFragment() }
+        binding.goToResidentSiteInfoButton.setOnClickListener {
+            if (viewModel.allAreValid()) {
+                goToResidentSiteInfoButtonClicked()
+            }
+        }
+        binding.backToSignUpMainFragmentButton.setOnClickListener { goBackToSignUpMainFragment() }
+    }
+
+    private fun emailAddressTextFocusChangeListener() {
+        binding.email.setOnFocusChangeListener { _, b ->
+            if (!b) {
+                if (!viewModel.isValidEmail()) {
+                    val errorMessage = resources.getString(R.string.geçersizEmailAdresi)
+                    binding.emailLayout.error = errorMessage
+                } else {
+                    binding.emailLayout.error = null
+                }
+            }
+        }
+    }
+
+    private fun phoneNumberTextFocusChangeListener() {
+        binding.phoneNumber.setOnFocusChangeListener { _, b ->
+            if (!b) {
+                if (!viewModel.isValidPhoneNumber()) {
+                    val errorMessage = resources.getString(R.string.geçersizTelefonNo)
+                    binding.phoneNumberLayout.error = errorMessage
+                } else {
+                    binding.phoneNumberLayout.error = null
+                }
+            }
+        }
+    }
+
+    private fun passwordTextChangeListener() {
+        binding.password.addTextChangedListener {
+            if (!viewModel.isValidPassword()) {
+                val errorMessage = resources.getString(R.string.şifreBilgi)
+                binding.passwordLayout.error = errorMessage
+            } else {
+                binding.passwordLayout.error = null
+            }
+        }
     }
 
     private fun goBackToLoginFragment() {
@@ -36,41 +88,29 @@ class ResidentNewAccountFragment : Fragment() {
         findNavController().navigate(action)
     }
 
-    private fun updateViewModelData() {
-        viewModel.setFullName(binding.fullNameText.text.toString())
-        viewModel.setEmail(binding.TextEmailAddress.text.toString())
-        viewModel.setPhoneNumber(binding.phoneNumberText.text.toString())
-        viewModel.setPassword(binding.TextPassword.text.toString())
-    }
-
     private fun goToResidentSiteInfoButtonClicked() {
-        updateViewModelData()
-        if (!isBlank()) {
+        if (!viewModel.isEmpty()) {
             goToResidentSiteInfoFragment()
             return
         }
         SnackBars.showEmptySpacesSnackBar(view)
     }
 
-    private fun isBlank(): Boolean {
-        return viewModel.email.isBlank() || viewModel.fullName.isBlank()
-                || viewModel.phoneNumber.isBlank() || viewModel.password.isBlank()
-    }
-
     private fun goToResidentSiteInfoFragment() {
-        val action = ResidentNewAccountFragmentDirections
-            .actionResidentNewAccountFragmentToResidentSiteInformationFragment(
-                viewModel.fullName,
-                viewModel.phoneNumber,
-                viewModel.email,
-                viewModel.password
-            )
-        findNavController().navigate(action)
+        if (!viewModel.isEmpty()) {
+            val action = ResidentNewAccountFragmentDirections
+                .actionResidentNewAccountFragmentToResidentSiteInformationFragment(
+                    viewModel.fullName.value!!,
+                    viewModel.phoneNumber.value!!,
+                    viewModel.email.value!!,
+                    viewModel.password.value!!
+                )
+            findNavController().navigate(action)
+        }
     }
 
     private fun goBackToSignUpMainFragment() {
         val action = ResidentNewAccountFragmentDirections.actionResidentNewAccountFragmentToSignUpMainFragment()
         findNavController().navigate(action)
     }
-
 }

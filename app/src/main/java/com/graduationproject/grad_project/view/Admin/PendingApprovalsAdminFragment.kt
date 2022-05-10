@@ -1,5 +1,7 @@
 package com.graduationproject.grad_project.view.admin
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -24,14 +26,26 @@ class PendingApprovalsAdminFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentPendingApprovalsAdminBinding.inflate(inflater, container, false)
-        adapter = PendingApprovalAdapter(requireContext())
+        adapter = PendingApprovalAdapter(requireContext()) { phoneNumber ->
+            viewModel.navigateToPhoneDial(phoneNumber)
+        }
+        observeViewModelProperties()
         binding.awaitingResidentsRecyclerView.adapter = adapter
+        viewModel.retrieveAwaitingResidents()
+        return binding.root
+    }
+
+    private fun observeViewModelProperties() {
         viewModel.awaitingResidents.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
-        viewModel.retrieveAwaitingResidents()
-
-        return binding.root
+        viewModel.navigateToPhoneDial.observe(viewLifecycleOwner) {
+            it?.let {
+                val callIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${viewModel.phoneNumber}"))
+                startActivity(callIntent)
+                viewModel.navigatedToPhoneDial()
+            }
+        }
     }
 
 }

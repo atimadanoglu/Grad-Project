@@ -93,7 +93,9 @@
             app:argType="string" />
         <action
             android:id="@+id/action_residentSiteInformationFragment_to_residentNewAccountFragment"
-            app:destination="@id/residentNewAccountFragment" />
+            app:destination="@id/residentNewAccountFragment"
+            app:popUpTo="@id/signUpMainFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_residentSiteInformationFragment_to_waitingApprovalResidentFragment"
             app:destination="@id/waitingApprovalResidentFragment"

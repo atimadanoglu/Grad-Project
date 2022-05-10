@@ -28,11 +28,9 @@
 
         <activity
             android:name=".view.admin.HomePageAdminActivity"
-            android:noHistory="true"
             android:exported="false" />
         <activity
             android:name=".view.resident.HomePageResidentActivity"
-            android:noHistory="true"
             android:exported="false" />
         <activity
             android:name=".view.MainActivity"

@@ -86,24 +86,23 @@ object NotificationOperations: FirebaseConstants() {
         }
     }
 
-    fun deleteAllNotificationsForResident() {
-       CoroutineScope(ioDispatcher + coroutineExceptionHandler).launch {
-            try {
-                currentUserEmail?.let { email ->
-                    residentRef.document(email)
-                        .collection("notifications")
-                        .get()
-                        .await()
-                        .forEach {
-                            it.reference.delete()
-                        }
-                    Log.d(TAG, "Deleting notifications operation is SUCCESSFUL!")
-                }
-            } catch (e: FirebaseException) {
-                Log.e(TAG, "deleteAllNotificationsForResident --> $e")
+    fun deleteAllNotificationsForResident() = CoroutineScope(ioDispatcher + coroutineExceptionHandler).launch {
+        try {
+            currentUserEmail?.let { email ->
+                residentRef.document(email)
+                    .collection("notifications")
+                    .get()
+                    .await()
+                    .forEach {
+                        it.reference.delete().await()
+                    }
+                Log.d(TAG, "Deleting notifications operation is SUCCESSFUL!")
             }
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "deleteAllNotificationsForResident --> $e")
         }
     }
+
 
 
     fun retrieveNotificationsForResident(notifications: MutableLiveData<ArrayList<Notification?>>)

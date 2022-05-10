@@ -1,24 +1,41 @@
 package com.graduationproject.grad_project.viewmodel
 
+import android.text.TextUtils
+import android.util.Patterns
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class ResidentNewAccountViewModel: ViewModel() {
 
-    private var _fullName = ""
-    val fullName get() = _fullName
+    val fullName = MutableLiveData("")
+    val phoneNumber = MutableLiveData("")
+    val email = MutableLiveData("")
+    val password = MutableLiveData("")
 
-    private var _phoneNumber = ""
-    val phoneNumber get() = _phoneNumber
+    companion object {
+        const val PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+.,*=]).{4,}$"
+    }
 
-    private var _email = ""
-    val email get() = _email
+    fun isEmpty() = email.value.isNullOrBlank() || fullName.value.isNullOrBlank()
+                || phoneNumber.value.isNullOrBlank() || password.value.isNullOrBlank()
 
-    private var _password = ""
-    val password get() = _password
+    fun isValidEmail() = !TextUtils.isEmpty(email.value)
+            && Patterns.EMAIL_ADDRESS.matcher(email.value.toString()).matches()
 
-    fun setFullName(fullName: String) { _fullName = fullName }
-    fun setPhoneNumber(phoneNumber: String) { _phoneNumber = phoneNumber }
-    fun setEmail(email: String) { _email = email }
-    fun setPassword(password: String) { _password = password }
+    fun isValidPhoneNumber() = !TextUtils.isEmpty(phoneNumber.value)
+            && Patterns.PHONE.matcher(phoneNumber.value.toString()).matches()
+
+    fun isValidPassword(): Boolean {
+        password.value?.let {
+            val pattern: Pattern = Pattern.compile(PASSWORD_PATTERN)
+            val matcher: Matcher = pattern.matcher(password.value.toString())
+            return matcher.matches()
+        }
+        return false
+    }
+
+    fun allAreValid() = isValidEmail() && isValidPassword() && isValidPhoneNumber()
 
 }

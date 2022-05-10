@@ -1,11 +1,17 @@
 package com.graduationproject.grad_project.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.graduationproject.grad_project.firebase.SiteOperations
 import com.graduationproject.grad_project.firebase.UserOperations
+import com.graduationproject.grad_project.model.Site
 import com.graduationproject.grad_project.onesignal.OneSignalOperations
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 
 class ResidentSiteInformationViewModel(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -15,33 +21,91 @@ class ResidentSiteInformationViewModel(
         private const val TAG = "ResidentSiteInformationViewModel"
     }
 
-    private var _siteName = ""
-    val siteName get() = _siteName
-
-    private var _city = ""
-    val city get() = _city
-
-    private var _district = ""
-    val district get() = _district
-
-    private var _blockNo = ""
-    val blockNo get() = _blockNo
-
-    private var _flatNo = 0L
-    val flatNo get() = _flatNo
+    val inputCity = MutableLiveData("")
+    val inputDistrict = MutableLiveData("")
+    val inputSiteName = MutableLiveData("")
+    val inputBlockName = MutableLiveData("")
+    val inputFlatNo = MutableLiveData("")
 
     private var _resident = hashMapOf<String, Any>()
     val resident get() = _resident
 
-    private var _site = hashMapOf<String, Any>()
-    val site get() = _site
+    private val _allSites = MutableLiveData<MutableList<Site?>>()
+    val allSites: LiveData<MutableList<Site?>> get() = _allSites
 
-    fun setSiteName(siteName: String) { _siteName = siteName }
-    fun setCity(city: String) { _city = city }
-    fun setDistrict(district: String) { _district = district }
-    fun setBlockNo(blockNo: String) { _blockNo = blockNo }
-    fun setFlatNo(flatNo: Long) { _flatNo = flatNo }
+    private val _allSiteNames = mutableListOf<String?>()
+    val allSiteNames: MutableList<String?> get() = _allSiteNames
 
+    private val _blockNames = MutableLiveData<List<String?>>()
+    val blockNames: LiveData<List<String?>> get() = _blockNames
+
+    private val _listOfBlocks = mutableListOf<String?>()
+    val listOfBlocks: MutableList<String?> get() = _listOfBlocks
+
+    private val _totalFlatCount = MutableLiveData<Long?>()
+    val totalFlatCount: LiveData<Long?> get() = _totalFlatCount
+
+    private val _flatList = MutableLiveData<MutableList<Long?>>()
+    val flatList: LiveData<MutableList<Long?>> get() = _flatList
+
+    private val _isThereAnyResident = MutableLiveData<Boolean?>()
+    val isThereAnyResident: LiveData<Boolean?> get() = _isThereAnyResident
+
+    fun clearLists() {
+        _allSiteNames.clear()
+        _flatList.value?.clear()
+        _listOfBlocks.clear()
+    }
+
+    fun retrieveAllSitesBasedOnCityAndDistrict() {
+        if (inputCity.value != null && inputDistrict.value != null) {
+            _allSites.value?.clear()
+            _allSiteNames.clear()
+            SiteOperations
+                .retrieveAllSitesBasedOnCityAndDistrict(inputCity.value!!, inputDistrict.value!!, _allSites)
+        }
+    }
+
+    fun getSiteNames() {
+        _allSiteNames.clear()
+        _allSites.value?.forEach {
+            it?.let { site ->
+                _allSiteNames.add(site.siteName)
+            }
+        }
+    }
+
+    fun getFlats() {
+        UserOperations.takeFlatNumbers(
+            inputSiteName.value!!, inputCity.value!!, inputDistrict.value!!, _totalFlatCount.value!!, _flatList
+        )
+    }
+
+    fun retrieveBlockNameAndFlatCount() {
+        if (!areTheyNull()) {
+            SiteOperations.retrieveBlockNamesBasedOnSiteInfo(
+                inputSiteName.value!!, inputCity.value!!, inputDistrict.value!!, _blockNames, _totalFlatCount
+            )
+        }
+    }
+
+    /**
+     * It can be used to check these items are null before getting block names
+     * */
+    private fun areTheyNull() = inputSiteName.value == null && inputCity.value == null
+            && inputDistrict.value == null
+
+    fun getBlockNames() {
+        _blockNames.value?.forEach {
+            it?.let {
+                _listOfBlocks.add(it)
+            }
+        }
+    }
+
+    fun checkEmailAddress(email: String) {
+        UserOperations.isThereAnyResident(email, _isThereAnyResident)
+    }
 
     private suspend fun createResident(
         fullName: String,
@@ -59,17 +123,19 @@ class ResidentSiteInformationViewModel(
                 data.await()
                 OneSignalOperations.savePlayerId(_resident)
 
-                _resident["fullName"] = fullName
-                _resident["phoneNumber"] = phoneNumber
-                _resident["email"] = email
-                _resident["siteName"] = siteName
-                _resident["city"] = city
-                _resident["district"] = district
-                _resident["blockNo"] = blockNo
-                _resident["flatNo"] = flatNo
-                _resident["typeOfUser"] = "Sakin"
-                _resident["isVerified"] = false
-                _resident["debt"] = 0L
+                if (!areNull()) {
+                    _resident["fullName"] = fullName
+                    _resident["phoneNumber"] = phoneNumber
+                    _resident["email"] = email
+                    _resident["siteName"] = inputSiteName.value.toString()
+                    _resident["city"] = inputCity.value.toString()
+                    _resident["district"] = inputDistrict.value.toString()
+                    _resident["blockNo"] = inputBlockName.value.toString()
+                    _resident["flatNo"] = inputFlatNo.value.toString().toLong()
+                    _resident["typeOfUser"] = "Sakin"
+                    _resident["isVerified"] = false
+                    _resident["debt"] = 0L
+                }
                 true
             } catch (e: Exception) {
                 Log.e(TAG, "createResident ---> $e")
@@ -77,6 +143,8 @@ class ResidentSiteInformationViewModel(
             }
         }
     }
+    private fun areNull() = inputSiteName.value == null && inputCity.value == null
+            && inputDistrict.value == null && inputBlockName.value == null && inputFlatNo.value == null
 
     suspend fun updateUserDisplayName() {
         UserOperations.updateFullNameForResident(_resident["fullName"] as String)
@@ -103,29 +171,5 @@ class ResidentSiteInformationViewModel(
                 false
             }
         }
-    }
-
-    fun saveSiteIntoDB() {
-        CoroutineScope(ioDispatcher).launch {
-            try {
-                val siteHashMap = async {
-                    convertSiteInfoHashMap()
-                }
-                _site = siteHashMap.await()
-                SiteOperations.saveSiteInfoIntoDB(_site)
-            } catch (e: Exception) {
-                Log.e(TAG, "saveSiteIntoDB --> $e")
-            }
-        }
-    }
-
-    private fun convertSiteInfoHashMap(): HashMap<String, Any> {
-        return hashMapOf(
-            "siteName" to siteName,
-            "city" to city,
-            "district" to district,
-            "blockNo" to blockNo,
-            "flatNo" to flatNo,
-        )
     }
 }

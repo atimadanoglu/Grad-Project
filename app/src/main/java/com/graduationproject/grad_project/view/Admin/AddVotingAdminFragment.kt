@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.graduationproject.grad_project.databinding.FragmentAddVotingAdminBinding
+import com.graduationproject.grad_project.view.admin.dialogs.DatePickerDialogFragment
 import com.graduationproject.grad_project.viewmodel.AddVotingViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -33,6 +34,10 @@ class AddVotingAdminFragment : Fragment() {
         binding.backButtonVoting.setOnClickListener {
             goBackToVotingPage()
         }
+        viewModel.chosenDate.observe(viewLifecycleOwner) {
+            println("$it böyle")
+            binding.datePicker.text = it
+        }
         return binding.root
     }
 
@@ -43,23 +48,8 @@ class AddVotingAdminFragment : Fragment() {
 
     private fun datePickerSetOnClickListener() {
         binding.datePicker.setOnClickListener {
-            lifecycleScope.launch {
-                val a = async {
-                    val datePicker = MaterialDatePicker.Builder.datePicker()
-                        .setTitleText("Tarih Seçiniz")
-                        .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                        .setInputMode(MaterialDatePicker.INPUT_MODE_CALENDAR)
-                        .build()
-
-                    datePicker.addOnPositiveButtonClickListener {
-                        viewModel.setDateLongValue(it)
-                        viewModel.convertLongToDate()
-                        binding.datePicker.text = viewModel.chosenDate.value
-                    }
-                    datePicker.show(childFragmentManager, "datePicker")
-                }
-                a.await()
-            }
+            val dialog = DatePickerDialogFragment(viewModel)
+            dialog.show(parentFragmentManager, "datePicker")
         }
     }
 

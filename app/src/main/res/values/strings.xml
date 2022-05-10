@@ -217,6 +217,37 @@
 
     <string name="kalanSure">Kalan Süre: %s</string>
     <string name="expenditureAmount">%d TL</string>
+    <string name="aidat">Aidat</string>
+    <string name="blok_adı">Blok Adı</string>
+    <string name="buEmailAdresiKullanıldı">Bu email adresi başka bir kullanıcı tarafından kullanılmaktadır!</string>
+    <string name="geçersizTelefonNo">Geçersiz Telefon No!</string>
+    <string name="şifreBilgi">En az bir adet küçük ve büyük harf, sayı ve noktalama işaretleri kullanın!</string>
+
+    <string-array name="cities">
+        <item>İzmir</item>
+        <item>İstanbul</item>
+        <item>Ankara</item>
+    </string-array>
+    <string-array name="izmirDistricts">
+        <item>Bayraklı</item>
+        <item>Bornova</item>
+        <item>Buca</item>
+        <item>Çiğli</item>
+        <item>Konak</item>
+    </string-array>
+    <string-array name="istanbulDistricts">
+        <item>Beşiktaş</item>
+        <item>Beykoz</item>
+        <item>Kadıköy</item>
+        <item>Şişli</item>
+    </string-array>
+    <string-array name="ankaraDistricts">
+        <item>Altındağ</item>
+        <item>Akyurt</item>
+        <item>Beypazarı</item>
+        <item>Çankaya</item>
+    </string-array>
+
     <string name="home_page">Ana Sayfa</string>
     <string name="homePageInfo">Sitenizdeki genel işlemleri buradan görüntüleyebilir ve içerik bilgilerine ulaşabilirsiniz.</string>
     <string name="oylamalar">Oylamalar</string>
