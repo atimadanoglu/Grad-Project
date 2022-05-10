@@ -53,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageView
+                <pl.droidsonroids.gif.GifImageView
                     android:id="@+id/debtImage"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -125,7 +125,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageView
+                <pl.droidsonroids.gif.GifImageView
                     android:id="@+id/requestImage"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -199,7 +199,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageView
+                <pl.droidsonroids.gif.GifImageView
                     android:id="@+id/voteImage"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
