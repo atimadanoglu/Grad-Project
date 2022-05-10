@@ -86,7 +86,7 @@
         android:drawablePadding="15dp"
         android:ems="10"
         android:fontFamily="@font/titillium_web"
-        android:hint="@string/email_address"
+        android:hint="@string/mail_adresi"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         android:textColor="@color/secondary_color"
