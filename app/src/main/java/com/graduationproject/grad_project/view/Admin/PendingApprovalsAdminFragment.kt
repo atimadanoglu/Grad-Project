@@ -40,8 +40,11 @@ class PendingApprovalsAdminFragment : Fragment() {
             adapter.submitList(it)
         }
         viewModel.navigateToPhoneDial.observe(viewLifecycleOwner) {
-            val callIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${viewModel.phoneNumber}"))
-            startActivity(callIntent)
+            it?.let {
+                val callIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${viewModel.phoneNumber}"))
+                startActivity(callIntent)
+                viewModel.navigatedToPhoneDial()
+            }
         }
     }
 

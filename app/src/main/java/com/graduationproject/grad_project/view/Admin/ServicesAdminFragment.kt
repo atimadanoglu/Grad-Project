@@ -35,8 +35,11 @@ class ServicesAdminFragment : Fragment() {
             adapter.submitList(it)
         }
         viewModel.navigateToPhoneDial.observe(viewLifecycleOwner) {
-            callIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${viewModel.phoneNumber}"))
-            requireActivity().startActivity(callIntent)
+            it?.let {
+                callIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${viewModel.phoneNumber}"))
+                requireActivity().startActivity(callIntent)
+                viewModel.navigatedPhoneDial()
+            }
         }
         binding.servicesRecyclerView.setHasFixedSize(true)
         binding.servicesRecyclerView.adapter = adapter

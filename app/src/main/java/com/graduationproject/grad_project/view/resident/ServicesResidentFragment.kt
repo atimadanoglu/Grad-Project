@@ -40,9 +40,11 @@ class ServicesResidentFragment : Fragment() {
             adapter.submitList(it)
         }
         viewModel.navigateToPhoneDial.observe(viewLifecycleOwner) {
-            val callIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${viewModel.phoneNumber}"))
-            requireActivity().startActivity(callIntent)
+            it?.let {
+                val callIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${viewModel.phoneNumber}"))
+                requireActivity().startActivity(callIntent)
+                viewModel.navigatedPhoneDial()
+            }
         }
     }
-
 }

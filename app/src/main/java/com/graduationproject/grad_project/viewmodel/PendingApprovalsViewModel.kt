@@ -28,4 +28,8 @@ class PendingApprovalsViewModel: ViewModel() {
         _phoneNumber = phoneNumber
         _navigateToPhoneDial.value = true
     }
+
+    fun navigatedToPhoneDial() {
+        _navigateToPhoneDial.value = null
+    }
 }

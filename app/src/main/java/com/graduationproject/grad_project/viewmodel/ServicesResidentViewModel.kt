@@ -24,4 +24,7 @@ class ServicesResidentViewModel: ViewModel() {
         _phoneNumber = phoneNumber
         _navigateToPhoneDial.value = true
     }
+    fun navigatedPhoneDial() {
+        _navigateToPhoneDial.value = null
+    }
 }

@@ -25,4 +25,7 @@ class ServicesAdminViewModel: ViewModel() {
         _navigateToPhoneDial.value = true
     }
 
+    fun navigatedPhoneDial() {
+        _navigateToPhoneDial.value = null
+    }
 }
