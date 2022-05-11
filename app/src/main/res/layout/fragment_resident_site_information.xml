@@ -29,20 +29,37 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/titillium_web_bold"
+            android:text="@string/site_information"
+            android:textColor="@color/secondary_color"
+            android:textSize="40sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/backToResidentNewAccountFragmentButton" />
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/citiesLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="101dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="20dp"
+            app:startIconDrawable="@drawable/city_icon"
+            app:startIconTint="@color/secondary_color"
             android:hint="@string/city"
             android:textColorHint="@color/white"
-            app:helperText="@string/required"
-            app:helperTextTextColor="@color/warning_color"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:helperText="*"
+            app:helperTextTextColor="@color/secondary_color"
+            app:layout_constraintEnd_toStartOf="@+id/districtsLayout"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/title">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/cities"
@@ -50,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:inputType="none"
-                android:text = "@={viewModel.inputCity}"
+                android:text="@={viewModel.inputCity}"
                 android:textColor="@color/white"
                 tools:ignore="TextContrastCheck"
                 tools:layout_editor_absoluteX="0dp"
@@ -61,16 +78,17 @@
 
         <Button
             android:id="@+id/signUpButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="30dp"
             android:background="@drawable/button"
             android:fontFamily="@font/titillium_web_bold"
             android:shadowColor="@color/black"
             android:shadowDy="-2"
             android:shadowRadius="1"
             android:text="@string/sign_up"
-            android:textAllCaps="false"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -80,16 +98,19 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/districtsLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="20dp"
             android:hint="@string/county"
+            app:startIconDrawable="@drawable/county_icon"
+            app:startIconTint="@color/secondary_color"
             android:textColorHint="@color/white"
-            app:helperText="@string/required"
-            app:helperTextTextColor="@color/warning_color"
+            app:helperText="*"
+            app:helperTextTextColor="@color/secondary_color"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/citiesLayout">
+            app:layout_constraintStart_toEndOf="@+id/citiesLayout"
+            app:layout_constraintTop_toBottomOf="@+id/title">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/districts"
@@ -106,13 +127,17 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sitesLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="300dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="33dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
             android:hint="@string/site_name"
+            app:startIconDrawable="@drawable/ic_site_icon"
+            app:startIconTint="@color/secondary_color"
             android:textColorHint="@color/white"
-            app:helperText="@string/required"
-            app:helperTextTextColor="@color/warning_color"
+            app:helperText="*"
+            app:helperTextTextColor="@color/secondary_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/districtsLayout">
@@ -122,8 +147,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
-                android:textColor="@color/white"
                 android:text="@={viewModel.inputSiteName}"
+                android:textColor="@color/white"
                 tools:ignore="TextContrastCheck"
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="280dp" />
@@ -134,15 +159,18 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
             android:hint="@string/block_no"
             android:textColorHint="@color/white"
-
-            app:helperText="@string/required"
-            app:helperTextTextColor="@color/warning_color"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:helperText="*"
+            app:helperTextTextColor="@color/secondary_color"
+            app:layout_constraintEnd_toStartOf="@+id/flatNoLayout"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sitesLayout">
+            app:layout_constraintTop_toBottomOf="@+id/sitesLayout"
+            app:startIconDrawable="@drawable/block_icon"
+            app:startIconTint="@color/secondary_color">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/blockNo"
@@ -161,14 +189,17 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
             android:hint="@string/flat_no"
             android:textColorHint="@color/white"
-            app:helperText="@string/required"
-            app:helperTextTextColor="@color/warning_color"
-            app:layout_constraintBottom_toBottomOf="@+id/signUpButton"
+            app:helperText="*"
+            app:helperTextTextColor="@color/secondary_color"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toEndOf="@+id/blockNoLayout"
+            app:layout_constraintTop_toBottomOf="@+id/sitesLayout"
+            app:startIconDrawable="@drawable/flat_count_icon"
+            app:startIconTint="@color/secondary_color">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/flatNo"

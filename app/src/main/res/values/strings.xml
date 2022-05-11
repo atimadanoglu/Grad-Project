@@ -2,7 +2,7 @@
     <string name="app_name">Grad-Project</string>
     <string name="project_name">Apartopolis</string>
     <string name="site_name">Site Adı</string>
-    <string name="password">şifre</string>
+    <string name="password">Şifre</string>
     <string name="log_in">GİRİŞ</string>
     <string name="admin">Yönetici</string>
     <string name="resident">Sakin</string>
@@ -11,20 +11,20 @@
     <string name="sign_up_here">Buradan kayıt ol</string>
     <string name="sign_up_here_click">SignUpHereClick</string>
     <string name="new_account">Yeni Hesap</string>
-    <string name="full_name">ad-soyad</string>
-    <string name="phone_number">Telefon numarası</string>
-    <string name="next">ileri</string>
+    <string name="full_name">Ad-Soyad</string>
+    <string name="phone_number">Cep Telefonu</string>
+    <string name="next">İLERİ</string>
     <string name="next_click">nextClick</string>
     <string name="not_the_first_time_here">Buraya ilk defa gelmiyor musun?</string>
     <string name="log_in.">Giriş.</string>
     <string name="log_in_Clickable">logInClickable</string>
     <string name="site_information">Site Bilgisi</string>
-    <string name="city">şehir</string>
-    <string name="county">ilçe</string>
-    <string name="block_no">blok no</string>
-    <string name="flat_count">daire sayısı</string>
-    <string name="block_count">blok sayısı</string>
-    <string name="flat_no">daire no</string>
+    <string name="city">Şehir</string>
+    <string name="county">İlçe</string>
+    <string name="block_no">Blok No</string>
+    <string name="flat_count">Daire Sayısı</string>
+    <string name="block_count">Blok Sayısı</string>
+    <string name="flat_no">Daire No</string>
     <string name="sign_up">Kayıt ol</string>
     <string name="ap">AP</string>
     <string name="account_name">Hesap Adı</string>
@@ -93,7 +93,7 @@
     <string name="gelen_mesajlar">Gelen Mesajlar</string>
     <string name="site_giderleri">Site giderleri</string>
     <string name="oylama_sonuclar">Oylama sonuçları</string>
-    <string name="aktivasyon_kodu">aktivasyon kodu</string>
+    <string name="aktivasyon_kodu">Aktivasyon</string>
     <string name="bildirimleri_temizle">Bildirimleri temizle</string>
     <string name="mesajlar_sil">Mesajları sil</string>
     <string name="aç">Aç</string>
@@ -258,5 +258,6 @@
     <string name="homeMyDebtInfo">Aidat ve ekstra gider tutarı</string>
     <string name="homeRequestResidentInfo">Yöneticiyle paylaşılan öneri ve şikayet listem</string>
     <string name="homeNotificationInfo">Yönetici tarafından yapılan işlem bildirimleri</string>
+    <string name="phoneHelperText">05*** *** ** **</string>
 
 </resources>
