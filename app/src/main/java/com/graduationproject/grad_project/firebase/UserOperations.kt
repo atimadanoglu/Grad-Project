@@ -12,6 +12,7 @@ import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
 import com.graduationproject.grad_project.model.Expenditure
+import com.graduationproject.grad_project.model.RegistrationStatus
 import com.graduationproject.grad_project.model.SiteResident
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
@@ -36,6 +37,28 @@ object UserOperations: FirebaseConstants() {
             null
         }
     }
+
+    fun checkRegistrationStatus(status: MutableLiveData<String?>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            email?.let {
+                residentRef.document(it)
+                    .addSnapshotListener { value, error ->
+                        if (error != null) {
+                            Log.e(TAG, "checkRegistrationStatus --> $error")
+                            return@addSnapshotListener
+                        }
+                        println("status *> ${value?.get("registrationStatus")?.toString()}")
+                        status.postValue(
+                            value?.get("registrationStatus")?.toString()
+                        )
+                    }
+            }
+        } catch (e: FirebaseFirestoreException) {
+            Log.e(TAG, "checkRegistrationStatus -> $e")
+        }
+    }
+
 
     fun takeFlatNumbers(
         siteName: String,
@@ -153,7 +176,7 @@ object UserOperations: FirebaseConstants() {
                 val query = residentRef.whereEqualTo("city", adminInfo.await()?.get("city"))
                     .whereEqualTo("district", adminInfo.await()?.get("district"))
                     .whereEqualTo("siteName", adminInfo.await()?.get("siteName"))
-                    .whereEqualTo("isVerified", false)
+                    .whereEqualTo("registrationStatus", RegistrationStatus.PENDING)
 
                 query.addSnapshotListener { value, error ->
                     if (error != null) {
@@ -237,7 +260,19 @@ object UserOperations: FirebaseConstants() {
     fun acceptResident(resident: SiteResident) = CoroutineScope(ioDispatcher).launch {
         try {
             residentRef.document(resident.email)
-                .update("isVerified", true)
+                .update("registrationStatus", RegistrationStatus.VERIFIED)
+                .await().also {
+                    Log.d(TAG, "acceptResident --> Updated resident verification status!")
+                }
+        } catch (e: Exception) {
+            Log.e(TAG, "acceptResident --> $e")
+        }
+    }
+
+    fun rejectResident(resident: SiteResident) = CoroutineScope(ioDispatcher).launch {
+        try {
+            residentRef.document(resident.email)
+                .update("registrationStatus", RegistrationStatus.REJECTED)
                 .await().also {
                     Log.d(TAG, "acceptResident --> Updated resident verification status!")
                 }
@@ -496,18 +531,23 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
-    fun login(email: String, password: String, isSignedIn: MutableLiveData<Boolean>)
+    fun login(email: String, password: String, isSignedIn: MutableLiveData<Boolean?>)
         = CoroutineScope(ioDispatcher).launch {
         try {
-            if (currentUser == null) {
-                auth.signInWithEmailAndPassword(email, password).await().also {
-                    isSignedIn.postValue(it.user != null)
+            val a = FirebaseAuth.getInstance()
+            a.signInWithEmailAndPassword(email, password).await().also {
+                if (it.user != null) {
+                    println("null değil")
+                    isSignedIn.postValue(true)
+                } else {
+                    println("null")
+                    isSignedIn.postValue(false)
                 }
-            } else {
-                Log.d(TAG,"login --> there is a signed-in user")
             }
         } catch (e: Exception) {
             Log.e(TAG, "login --> $e")
+            println("exceptiohn")
+            isSignedIn.postValue(null)
         }
     }
 
@@ -534,6 +574,40 @@ object UserOperations: FirebaseConstants() {
 
         }
     }
+
+    suspend fun isAdmin(
+        email: String,
+        isAdmin: MutableLiveData<Boolean?>
+    ) = CoroutineScope(ioDispatcher).launch {
+        try {
+            adminRef.document(email)
+                .get().await().also {
+                    if (it["typeOfUser"] == "Yönetici") {
+                        isAdmin.postValue(true)
+                    }
+                }
+        } catch (e: FirebaseFirestoreException) {
+            Log.e(TAG, "isAdmin --> $e")
+            isAdmin.postValue(false)
+        }
+    }.join()
+
+    suspend fun isResident(
+        email: String,
+        isResident: MutableLiveData<Boolean?>
+    ) = CoroutineScope(ioDispatcher).launch {
+        try {
+            residentRef.document(email)
+                .get().await().also {
+                    if (it["typeOfUser"] == "Sakin") {
+                        isResident.postValue(true)
+                    }
+                }
+        } catch (e: FirebaseFirestoreException) {
+            Log.e(TAG, "isAdmin --> $e")
+            isResident.postValue(false)
+        }
+    }.join()
 
     suspend fun loginWithEmailAndPassword(
         email: String,

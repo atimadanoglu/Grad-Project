@@ -267,5 +267,6 @@
     <string name="homeMyDebtInfo">Aidat ve ekstra gider tutarı</string>
     <string name="homeRequestResidentInfo">Yöneticiyle paylaşılan öneri ve şikayet listem</string>
     <string name="homeNotificationInfo">Yönetici tarafından yapılan işlem bildirimleri</string>
+    <string name="email">Email</string>
 
 </resources>
