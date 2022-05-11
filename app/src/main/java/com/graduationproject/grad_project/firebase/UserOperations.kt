@@ -537,7 +537,6 @@ object UserOperations: FirebaseConstants() {
             val a = FirebaseAuth.getInstance()
             a.signInWithEmailAndPassword(email, password).await().also {
                 if (it.user != null) {
-                    println("null değil")
                     isSignedIn.postValue(true)
                 } else {
                     println("null")
@@ -546,7 +545,6 @@ object UserOperations: FirebaseConstants() {
             }
         } catch (e: Exception) {
             Log.e(TAG, "login --> $e")
-            println("exceptiohn")
             isSignedIn.postValue(null)
         }
     }
