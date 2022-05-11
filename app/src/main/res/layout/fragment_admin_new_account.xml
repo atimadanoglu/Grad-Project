@@ -77,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="81dp"
             android:layout_marginBottom="80dp"
-            android:hint="@string/mail_adresi"
+            android:hint="@string/email"
             android:textColorHint="@color/white"
             app:helperText="@string/required"
             app:helperTextTextColor="@color/warning_color"

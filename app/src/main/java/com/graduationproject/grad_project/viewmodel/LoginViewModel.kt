@@ -1,66 +1,58 @@
 package com.graduationproject.grad_project.viewmodel
 
-import android.view.View
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import androidx.lifecycle.viewModelScope
 import com.graduationproject.grad_project.firebase.UserOperations
-import kotlinx.coroutines.*
-import kotlinx.coroutines.tasks.await
+import com.graduationproject.grad_project.model.RegistrationStatus
+import kotlinx.coroutines.launch
 
 class LoginViewModel: ViewModel() {
 
-    private var _email = ""
-    val email get() = _email
+    val email = MutableLiveData("")
+    val password = MutableLiveData("")
 
-    private var _password = ""
-    val password get() = _password
+    private val _isAdmin = MutableLiveData<Boolean?>()
+    val isAdmin: LiveData<Boolean?> get() = _isAdmin
 
-    private var _isSignedIn = false
-    val isSignedIn get() = _isSignedIn
+    private val _isResident = MutableLiveData<Boolean?>()
+    val isResident: LiveData<Boolean?> get() = _isResident
 
-    private var _typeOfUser = ""
-    val typeOfUser get() = _typeOfUser
+    private val _isSignedIn = MutableLiveData(false)
+    val isSignedIn: LiveData<Boolean?> get() = _isSignedIn
 
-    fun setEmail(email: String) { _email = email }
-    fun setPassword(password: String) { _password = password }
-    fun setIsSignedIn(isSignedIn: Boolean) { _isSignedIn = isSignedIn }
-    fun setTypeOfUser(userType: String) { _typeOfUser = userType }
+    private val _registrationStatus = MutableLiveData("")
+    val registrationStatus: LiveData<String?> get() = _registrationStatus
 
-    suspend fun makeLoginOperation(
-        email: String,
-        password: String,
-        view: View?,
-        scope: CoroutineDispatcher = Dispatchers.IO
-    ): String {
-        return withContext(scope) {
-            UserOperations.loginWithEmailAndPassword(email, password, view)
-            takeTheUserType()
-            typeOfUser
+    fun login() {
+        if (!isNullOrEmpty()) {
+            UserOperations.login(email.value!!, password.value!!, _isSignedIn)
         }
     }
 
-    suspend fun takeTheUserType(scope: CoroutineDispatcher = Dispatchers.IO): String? {
-        return withContext(scope) {
-            try {
-                _typeOfUser = UserOperations.takeTheUserType()
-                typeOfUser
-            } catch (e: Exception) {
-                null
-            }
+    fun isNullOrEmpty() = email.value.isNullOrEmpty() && password.value.isNullOrBlank()
+
+    fun isAdmin() = viewModelScope.launch {
+        if (!isNullOrEmpty()) {
+            UserOperations.isAdmin(email.value.toString(), _isAdmin)
         }
     }
-    suspend fun isVerified() = withContext(Dispatchers.IO) {
-        val db = FirebaseFirestore.getInstance()
-        val auth = FirebaseAuth.getInstance()
-        println("is verified : current user is : ${auth.currentUser?.email}")
-        auth.currentUser?.email?.let {
-            val resident = db.collection("residents")
-                .document(it)
-                .get()
-                .await()
-            return@withContext resident["isVerified"].toString().toBoolean()
+    fun isResident() = viewModelScope.launch {
+        if (!isNullOrEmpty()) {
+            UserOperations.isResident(email.value.toString(), _isResident)
         }
     }
 
+    fun goToAdminHomePageRule() = _isAdmin.value == true && _isSignedIn.value == true
+    fun goToResidentHomePageRule() = _isResident.value == true && _isSignedIn.value == true
+            && _registrationStatus.value == RegistrationStatus.VERIFIED
+    fun goToRejectedResidentPageRule() = _isResident.value == true && _isSignedIn.value == true
+            && _registrationStatus.value == RegistrationStatus.REJECTED
+    fun goToPendingApprovalPageRule() = _isResident.value == true && _isSignedIn.value == true
+            && _registrationStatus.value == RegistrationStatus.PENDING
+
+    fun checkStatus() = viewModelScope.launch {
+        UserOperations.checkRegistrationStatus(_registrationStatus)
+    }
 }

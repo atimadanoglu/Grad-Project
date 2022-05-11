@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.graduationproject.grad_project.firebase.SiteOperations
 import com.graduationproject.grad_project.firebase.UserOperations
+import com.graduationproject.grad_project.model.RegistrationStatus
 import com.graduationproject.grad_project.model.Site
 import com.graduationproject.grad_project.onesignal.OneSignalOperations
 import kotlinx.coroutines.CoroutineDispatcher
@@ -133,7 +134,7 @@ class ResidentSiteInformationViewModel(
                     _resident["blockNo"] = inputBlockName.value.toString()
                     _resident["flatNo"] = inputFlatNo.value.toString().toLong()
                     _resident["typeOfUser"] = "Sakin"
-                    _resident["isVerified"] = false
+                    _resident["registrationStatus"] = RegistrationStatus.PENDING
                     _resident["debt"] = 0L
                 }
                 true
