@@ -7,14 +7,12 @@ import android.os.Handler
 import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.ActivityOpenScreenBinding
 import com.graduationproject.grad_project.view.admin.HomePageAdminActivity
 import com.graduationproject.grad_project.view.resident.HomePageResidentActivity
 import com.graduationproject.grad_project.viewmodel.OpenScreenViewModel
-import kotlinx.coroutines.*
 import android.util.Pair as UtilPair
 
 class OpenScreenActivity : AppCompatActivity() {
@@ -28,7 +26,6 @@ class OpenScreenActivity : AppCompatActivity() {
         binding = ActivityOpenScreenBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        auth = FirebaseAuth.getInstance()
         val bottomAnimation = AnimationUtils.loadAnimation(this, R.anim.bottom_animation)
         val topAnimation = AnimationUtils.loadAnimation(this, R.anim.top_animation)
 
@@ -41,38 +38,54 @@ class OpenScreenActivity : AppCompatActivity() {
             val options = ActivityOptions.makeSceneTransitionAnimation(this,
                 UtilPair.create(binding.mainIcon, "logo_image"),
                 UtilPair.create(binding.mainText, "logo_text"))
-            if (auth.currentUser != null) {
-                viewModel.setIsSignedIn(true)
-                viewModel.setEmail(auth.currentUser!!.email.toString())
-            }
-            checkIfThereIsAnyUserSignedInAndDirectToPage(intent, options)
+            viewModel.checkSignedInStatus()
+            observe(intent, options)
         },splashScreen.toLong())
     }
 
-    private fun checkIfThereIsAnyUserSignedInAndDirectToPage(
-        intent: Intent,
-        options: ActivityOptions?
-    ) {
-        lifecycleScope.launch {
-            val userType = async {
-                viewModel.takeTheUserType()
+    private fun observe(intent: Intent, options: ActivityOptions) {
+        viewModel.isSignedIn.observe(this) {
+            it?.let {
+                if (it) {
+                    viewModel.isResident()
+                    viewModel.isAdmin()
+                } else {
+                    startActivity(intent, options.toBundle())
+                }
             }
-            userType.await()?.let { viewModel.setTypeOfUser(it) }
-            if (viewModel.isSignedIn && userType.await() == "Yönetici") {
-                goToAdminHomePageActivity()
+        }
+        viewModel.isAdmin.observe(this) {
+            it?.let {
+                if (it) {
+                    if (viewModel.goToAdminHomePageRule()) {
+                        goToAdminHomePageActivity()
+                    }
+                }
             }
-            if (viewModel.isSignedIn && userType.await() == "Sakin" && viewModel.isVerified()) {
-                goToResidentHomePageActivity()
+        }
+        viewModel.isResident.observe(this) {
+            it?.let {
+                if (it) {
+                    viewModel.checkStatus()
+                }
             }
-            if (viewModel.isSignedIn && userType.await() == "Sakin" && !viewModel.isVerified()) {
-                startActivity(intent, options?.toBundle())
-            }
-            if (!viewModel.isSignedIn) {
-                startActivity(intent, options?.toBundle())
+        }
+        viewModel.registrationStatus.observe(this) {
+            if (!it.isNullOrEmpty()) {
+                if (viewModel.goToResidentHomePageRule()) {
+                    goToResidentHomePageActivity()
+                }
+                if (viewModel.goToRejectedResidentPageRule()) {
+                    intent.putExtra("fragmentName", "rejectedFragment")
+                    startActivity(intent, options.toBundle())
+                }
+                if (viewModel.goToPendingApprovalPageRule()) {
+                    intent.putExtra("fragmentName", "pendingApprovalFragment")
+                    startActivity(intent, options.toBundle())
+                }
             }
         }
     }
-
 
     private fun goToResidentHomePageActivity() {
         val intent = Intent(this, HomePageResidentActivity::class.java)
@@ -85,5 +98,4 @@ class OpenScreenActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
-
 }

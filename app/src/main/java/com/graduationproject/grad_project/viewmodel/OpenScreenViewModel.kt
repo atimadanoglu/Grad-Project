@@ -1,54 +1,56 @@
 package com.graduationproject.grad_project.viewmodel
 
-import android.view.View
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
 import com.graduationproject.grad_project.firebase.UserOperations
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.graduationproject.grad_project.model.RegistrationStatus
+import kotlinx.coroutines.launch
 
 class OpenScreenViewModel: ViewModel() {
-    private var _email = ""
-    val email get() = _email
+    val email = MutableLiveData("")
+    val password = MutableLiveData("")
 
-    private var _password = ""
-    val password get() = _password
-
-    private var _isSignedIn = false
-    val isSignedIn get() = _isSignedIn
-
-    private var _typeOfUser = ""
-    val typeOfUser get() = _typeOfUser
-
-    fun setEmail(email: String) { _email = email }
-    fun setPassword(password: String) { _password = password }
-    fun setIsSignedIn(isSignedIn: Boolean) { _isSignedIn = isSignedIn }
-    fun setTypeOfUser(userType: String) { _typeOfUser = userType }
-
-    suspend fun makeLoginOperation(
-        email: String,
-        password: String,
-        view: View?,
-        scope: CoroutineDispatcher = Dispatchers.IO
-    ): String {
-        return withContext(scope) {
-            UserOperations.loginWithEmailAndPassword(email, password, view)
-            takeTheUserType()
-            typeOfUser
-        }
+    private val auth by lazy {
+        FirebaseAuth.getInstance()
     }
 
-    suspend fun takeTheUserType(scope: CoroutineDispatcher = Dispatchers.IO): String? {
-        return withContext(scope) {
-            try {
-                _typeOfUser = UserOperations.takeTheUserType()
-                typeOfUser
-            } catch (e: Exception) {
-                null
-            }
-        }
+    private val _isAdmin = MutableLiveData<Boolean?>()
+    val isAdmin: LiveData<Boolean?> get() = _isAdmin
+
+    private val _isResident = MutableLiveData<Boolean?>()
+    val isResident: LiveData<Boolean?> get() = _isResident
+
+    private val _isSignedIn = MutableLiveData(false)
+    val isSignedIn: LiveData<Boolean?> get() = _isSignedIn
+
+    private val _registrationStatus = MutableLiveData("")
+    val registrationStatus: LiveData<String?> get() = _registrationStatus
+
+    fun checkSignedInStatus() {
+        _isSignedIn.value = auth.currentUser != null
     }
-    suspend fun isVerified() = withContext(Dispatchers.IO) {
-        return@withContext UserOperations.isVerified()
+
+    fun isNullOrEmpty() = email.value.isNullOrEmpty() && password.value.isNullOrBlank()
+
+    fun isAdmin() = viewModelScope.launch {
+        auth.currentUser?.email?.let { UserOperations.isAdmin(it, _isAdmin) }
+    }
+    fun isResident() = viewModelScope.launch {
+        auth.currentUser?.email?.let { UserOperations.isResident(it, _isResident) }
+    }
+
+    fun goToAdminHomePageRule() = _isAdmin.value == true && _isSignedIn.value == true
+    fun goToResidentHomePageRule() = _isResident.value == true && _isSignedIn.value == true
+            && _registrationStatus.value == RegistrationStatus.VERIFIED
+    fun goToRejectedResidentPageRule() = _isResident.value == true && _isSignedIn.value == true
+            && _registrationStatus.value == RegistrationStatus.REJECTED
+    fun goToPendingApprovalPageRule() = _isResident.value == true && _isSignedIn.value == true
+            && _registrationStatus.value == RegistrationStatus.PENDING
+
+    fun checkStatus() = viewModelScope.launch {
+        UserOperations.checkRegistrationStatus(_registrationStatus)
     }
 }
