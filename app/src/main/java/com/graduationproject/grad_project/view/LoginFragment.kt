@@ -2,22 +2,19 @@ package com.graduationproject.grad_project.view
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.FragmentLoginBinding
 import com.graduationproject.grad_project.view.admin.HomePageAdminActivity
 import com.graduationproject.grad_project.view.resident.HomePageResidentActivity
 import com.graduationproject.grad_project.viewmodel.LoginViewModel
-import kotlinx.coroutines.*
 
 class LoginFragment : Fragment() {
 
@@ -30,18 +27,6 @@ class LoginFragment : Fragment() {
         private const val TAG = "LoginFragment"
     }
 
-    override fun onStart() {
-        super.onStart()
-        /*auth.signOut()*/
-        if (auth.currentUser != null) {
-            viewModel.setIsSignedIn(true)
-            viewModel.setEmail(auth.currentUser!!.email.toString())
-            checkIfThereIsAnyUserSignedInAndDirectToPage()
-        } else {
-            viewModel.setIsSignedIn(false)
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,10 +35,49 @@ class LoginFragment : Fragment() {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         val view = binding.root
         auth = FirebaseAuth.getInstance()
-        binding.LogIn.setOnClickListener {
-            loginButtonClicked()
-        }
+
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.signUpHereTextButton.setOnClickListener { goToSignUpMainFragment() }
+
+        viewModel.isSignedIn.observe(viewLifecycleOwner) {
+            it?.let {
+                if (it) {
+                    viewModel.isResident()
+                    viewModel.isAdmin()
+                } else {
+                    Log.d(TAG, "viewModel.isSignedIn.observe --> There is no signed-in user")
+                }
+            }
+        }
+        viewModel.isAdmin.observe(viewLifecycleOwner) {
+            it?.let {
+                if (it) {
+                    if (viewModel.goToAdminHomePageRule())
+                        goToAdminHomePageActivity()
+                }
+            }
+        }
+        viewModel.isResident.observe(viewLifecycleOwner) {
+            it?.let {
+                if (it) {
+                    viewModel.checkStatus()
+                }
+            }
+        }
+        viewModel.registrationStatus.observe(viewLifecycleOwner) {
+            if (!it.isNullOrEmpty()) {
+                if (viewModel.goToResidentHomePageRule()) {
+                    goToResidentHomePageActivity()
+                }
+                if (viewModel.goToRejectedResidentPageRule()) {
+                    goToRejectedResidentPage()
+                }
+                if (viewModel.goToPendingApprovalPageRule()) {
+                    goToWaitingApprovalPage()
+                }
+            }
+        }
         return view
     }
 
@@ -79,79 +103,8 @@ class LoginFragment : Fragment() {
         requireView().findNavController().navigate(action)
     }
 
-    private fun isEmpty() = binding.TextEmailAddress.text!!.isEmpty() || binding.TextPassword.text.isEmpty()
-
-    private fun loginButtonClicked(
-        ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
-        mainDispatcher: CoroutineDispatcher = Dispatchers.Main
-    ) {
-        lifecycleScope.launch {
-            if (!isEmpty()) {
-                withContext(ioDispatcher) {
-                    viewModel.setPassword(binding.TextPassword.text.toString())
-                    viewModel.setEmail(binding.TextEmailAddress.text.toString())
-                    val email = async { viewModel.email }
-                    val password = async { viewModel.password }
-                    viewModel.makeLoginOperation(email.await(), password.await(), view)
-                }
-                val isVerified = viewModel.isVerified()
-                delay(1000L)
-                println(viewModel.typeOfUser)
-                println("is veritied dd: ${viewModel.isVerified()}")
-                if (viewModel.typeOfUser == "Yönetici" && auth.currentUser != null) {
-                    withContext(mainDispatcher) {
-                        goToAdminHomePageActivity()
-                    }
-                }
-                if (viewModel.typeOfUser == "Sakin"  && auth.currentUser != null && requireNotNull(isVerified)) {
-                    withContext(mainDispatcher) {
-                        goToResidentHomePageActivity()
-                    }
-                }
-                if (viewModel.typeOfUser == "Sakin" && auth.currentUser != null && requireNotNull(!isVerified)) {
-                    withContext(mainDispatcher) {
-                        goToWaitingApprovalPage()
-                    }
-                }
-            } else {
-                view?.let {
-                    Snackbar.make(
-                        it,
-                        R.string.boşluklarıDoldur,
-                        Snackbar.LENGTH_LONG
-                    ).show()
-                }
-            }
-
-        }
+    private fun goToRejectedResidentPage() {
+        val action = LoginFragmentDirections.actionLoginFragmentToErrorDialogFragment()
+        findNavController().navigate(action)
     }
-
-    private fun checkIfThereIsAnyUserSignedInAndDirectToPage(
-        ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
-        mainDispatcher: CoroutineDispatcher = Dispatchers.Main
-    ) {
-       lifecycleScope.launch(ioDispatcher) {
-           val userType = async(ioDispatcher) {
-               viewModel.takeTheUserType()
-           }
-           val isVerified = viewModel.isVerified()
-           userType.await()?.let { viewModel.setTypeOfUser(it) }
-           if (viewModel.isSignedIn && userType.await() == "Yönetici") {
-               withContext(mainDispatcher) {
-                   goToAdminHomePageActivity()
-               }
-           }
-           if (viewModel.isSignedIn && userType.await() == "Sakin" && requireNotNull(isVerified)) {
-               withContext(mainDispatcher) {
-                   goToResidentHomePageActivity()
-               }
-           }
-           if (viewModel.typeOfUser == "Sakin" && auth.currentUser != null && requireNotNull(!isVerified)) {
-               withContext(mainDispatcher) {
-                   goToWaitingApprovalPage()
-               }
-           }
-       }
-    }
-
 }

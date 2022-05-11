@@ -28,6 +28,11 @@
             app:destination="@id/waitingApprovalResidentFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginFragment_to_errorDialogFragment"
+            app:destination="@id/errorDialogFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/signUpMainFragment"
@@ -141,5 +146,26 @@
         android:id="@+id/waitingApprovalResidentFragment"
         android:name="com.graduationproject.grad_project.view.resident.WaitingApprovalResidentFragment"
         android:label="fragment_waiting_approval_resident"
-        tools:layout="@layout/fragment_waiting_approval_resident" />
+        tools:layout="@layout/fragment_waiting_approval_resident" >
+        <action
+            android:id="@+id/action_waitingApprovalResidentFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment" />
+        <action
+            android:id="@+id/action_waitingApprovalResidentFragment_to_errorDialogFragment"
+            app:destination="@id/errorDialogFragment"
+            app:popUpTo="@id/waitingApprovalResidentFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/errorDialogFragment"
+        android:name="com.graduationproject.grad_project.view.ErrorDialogFragment"
+        android:label="fragment_error_dialog"
+        tools:layout="@layout/fragment_error_dialog" >
+        <action
+            android:id="@+id/action_errorDialogFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>
