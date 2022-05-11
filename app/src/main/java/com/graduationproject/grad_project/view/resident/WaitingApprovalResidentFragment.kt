@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.FragmentWaitingApprovalResidentBinding
 import com.graduationproject.grad_project.model.RegistrationStatus
 import com.graduationproject.grad_project.viewmodel.WaitingApprovalResidentViewModel
@@ -39,7 +41,30 @@ class WaitingApprovalResidentFragment : Fragment() {
                 }
             }
         }
+        binding.signOut.setOnClickListener {
+            viewModel.signOut()
+        }
+        viewModel.isSignedOut.observe(viewLifecycleOwner) {
+            if (it == null) {
+                Snackbar.make(
+                    requireView(),
+                    R.string.oturumKapatılamadı,
+                    Snackbar.LENGTH_LONG
+                ).show()
+            }
+            it?.let {
+                if (it) {
+                    goToLoginPage()
+                }
+            }
+        }
         return binding.root
+    }
+
+    private fun goToLoginPage() {
+        val action = WaitingApprovalResidentFragmentDirections
+            .actionWaitingApprovalResidentFragmentToLoginFragment()
+        findNavController().navigate(action)
     }
 
     private fun goToResidentHomePage() {
