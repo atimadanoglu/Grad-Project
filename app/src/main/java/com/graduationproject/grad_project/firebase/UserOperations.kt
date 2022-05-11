@@ -640,7 +640,19 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
-    fun signOut() = auth.signOut()
+    fun signOut(isSignedOut: MutableLiveData<Boolean?>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            auth.signOut().also {
+                if (auth.currentUser == null)
+                    isSignedOut.postValue(true)
+                else
+                    isSignedOut.postValue(false)
+            }
+        } catch (e: FirebaseAuthException) {
+            Log.e(TAG, "signOut --> $e")
+            isSignedOut.postValue(null)
+        }
+    }
 
     private fun isSignedIn() = auth.currentUser != null
 

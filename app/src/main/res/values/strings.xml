@@ -270,4 +270,5 @@
     <string name="email">Email</string>
 
     <string name="lütfenEmailVeŞifreniziKontrolEdiniz">Lütfen email adresinizi ve şifrenizi kontrol ediniz!</string>
+    <string name="oturumKapatılamadı">Oturum kapatılamadı. Bir daha deneyiniz!</string>
 </resources>
