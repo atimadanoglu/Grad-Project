@@ -60,6 +60,7 @@ class AddAnnouncementViewModel: ViewModel() {
                 Log.e(TAG, "uploadImageAndShareNotification --> $e")
             }
         } else {
+            makeShareAnnouncementOperation("")
             Log.e(TAG, "uploadImageAndShareNotification --> selectedPicture is null")
         }
     }
