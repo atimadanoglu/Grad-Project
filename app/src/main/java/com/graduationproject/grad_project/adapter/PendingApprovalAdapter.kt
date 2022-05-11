@@ -1,7 +1,6 @@
 package com.graduationproject.grad_project.adapter
 
 import android.content.Context
-import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -63,7 +62,9 @@ class PendingApprovalAdapter(
         val text = context.resources.getString(R.string.siteSakinReddi, resident.fullName)
         MaterialAlertDialogBuilder(context)
             .setMessage(text)
-            .setPositiveButton(R.string.evet) { _, _ -> }
+            .setPositiveButton(R.string.evet) { _, _ ->
+                UserOperations.rejectResident(resident)
+            }
             .setNegativeButton(R.string.hayır) { _, _ -> }
             .create().show()
     }

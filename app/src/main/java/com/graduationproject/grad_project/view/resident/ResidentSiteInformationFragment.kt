@@ -38,15 +38,17 @@ class ResidentSiteInformationFragment(
             viewModel.checkEmailAddress(args.email)
         }
         viewModel.isThereAnyResident.observe(viewLifecycleOwner) {
-            if (it == true) {
-                goBackToResidentNewAccountFragment()
-                Snackbar.make(
-                    requireView(),
-                    R.string.buEmailAdresiKullanıldı,
-                    Snackbar.LENGTH_LONG
-                ).show()
-            } else {
-                goToResidentHomePageButtonClicked()
+            it?.let {
+                if (it) {
+                    Snackbar.make(
+                        requireView(),
+                        R.string.buEmailAdresiKullanıldı,
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                    goBackToResidentNewAccountFragment()
+                } else {
+                    goToResidentHomePageButtonClicked()
+                }
             }
         }
         binding.viewModel = viewModel

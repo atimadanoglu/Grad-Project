@@ -3,19 +3,18 @@ package com.graduationproject.grad_project.view.admin
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.FragmentAdminSiteInformationBinding
 import com.graduationproject.grad_project.viewmodel.AdminSiteInformationViewModel
-import kotlinx.coroutines.*
 
 class AdminSiteInformationFragment : Fragment() {
 
@@ -33,13 +32,72 @@ class AdminSiteInformationFragment : Fragment() {
         val view = binding.root
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.backToAdminInfoFragment.setOnClickListener { goBackToSignMainFragment() }
+        binding.backToAdminInfoFragment.setOnClickListener { goBackToAdminNewAccountFragment() }
         binding.signUpButton.setOnClickListener {
-            lifecycleScope.launch {
-                signUpButtonClicked()
+            checkBlockName()
+            checkFlatCount()
+            checkSiteName()
+            checkMonthlyPayment()
+            if (!viewModel.isEmpty()) {
+                viewModel.setAdminInfo(args.fullName, args.phoneNumber, args.email)
+                viewModel.checkEmailAddress(args.email)
+            }
+        }
+
+        viewModel.isThereAnyAdmin.observe(viewLifecycleOwner) {
+            it?.let {
+                if (it) {
+                    Snackbar.make(
+                        requireView(),
+                        R.string.buEmailAdresiKullanıldı,
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                    goBackToAdminNewAccountFragment()
+                } else {
+                    viewModel.registerUserWithEmailAndPassword(args.email, args.password)
+                }
+            }
+        }
+
+        viewModel.isUserCreated.observe(viewLifecycleOwner) {
+            it?.let {
+                if (it) {
+                    viewModel.saveAdminInfoToDB()
+                    viewModel.saveSiteIntoDB()
+                    viewModel.updateUserDisplayName()
+                    goToAdminHomePage()
+                }
             }
         }
         return view
+    }
+
+    private fun checkSiteName() {
+        if (binding.sites.text.isNullOrBlank()) {
+            val error = resources.getString(R.string.lütfenBirSiteAdıYazınız)
+            binding.sitesLayout.error = error
+        }
+    }
+
+    private fun checkBlockName() {
+        if (binding.blockNo.text.isNullOrBlank()) {
+            val error = resources.getString(R.string.lütfenBlokAdınıYazınız)
+            binding.blockNoLayout.error = error
+        }
+    }
+
+    private fun checkFlatCount() {
+        if (binding.flatNo.text.isNullOrBlank()) {
+            val error = resources.getString(R.string.lütfenDaireSayınısıYazınız)
+            binding.blockNoLayout.error = error
+        }
+    }
+
+    private fun checkMonthlyPayment() {
+        if (binding.monthlyPayment.text.isNullOrBlank()) {
+            val error = resources.getString(R.string.lütfenAidatMiktarınıYazınız)
+            binding.monthlyPaymentLayout.error = error
+        }
     }
 
     override fun onResume() {
@@ -68,26 +126,7 @@ class AdminSiteInformationFragment : Fragment() {
         }
     }
 
-
-    private suspend fun signUpButtonClicked(scope: CoroutineDispatcher = Dispatchers.IO) {
-        lifecycleScope.launch(scope) {
-            val b = async {
-                viewModel.saveAdminIntoDB(
-                    args.fullName,
-                    args.phoneNumber,
-                    args.email,
-                    args.password
-                )
-            }
-            if (b.await()) {
-                viewModel.saveSiteIntoDB()
-                viewModel.updateUserDisplayName()
-                goToAdminHomePage()
-            }
-        }
-    }
-
-    private fun goBackToSignMainFragment() {
+    private fun goBackToAdminNewAccountFragment() {
         val action = AdminSiteInformationFragmentDirections
             .actionAdminSiteInformationFragmentToAdminNewAccountFragment()
         findNavController().navigate(action)
