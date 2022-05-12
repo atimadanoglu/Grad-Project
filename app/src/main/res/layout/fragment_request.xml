@@ -6,7 +6,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/requestResidentInfoText"
@@ -36,7 +37,7 @@
             android:id="@+id/gifIcon"
             android:layout_width="130dp"
             android:layout_height="130dp"
-            android:src="@drawable/message"
+            android:src="@drawable/request_anim"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"

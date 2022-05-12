@@ -11,8 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/recycleview_background">
+        android:layout_margin="10dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -26,7 +25,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp">
+                android:padding="10dp"
+                android:background="@color/card_view_color_for_include_anim">
 
                 <TextView
                     android:id="@+id/blokNoText"

@@ -55,33 +55,43 @@
             app:layout_constraintTop_toBottomOf="@+id/settingsInfoText">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/nameConstraint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/account_anim"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/account_anim"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/nameConstraint"/>
 
                 <TextView
                     android:id="@+id/NameTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="15dp"
                     android:fontFamily="@font/titillium_web_bold"
                     android:text="@string/ad_soyad"
                     android:textColor="@color/primary_color"
                     android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/account_anim"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/nameText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:hint="@string/batuhan_goren"
                     android:text="@{String.valueOf(viewModel.fullName)}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/NameTitle"
                     app:layout_constraintTop_toBottomOf="@+id/NameTitle"
                     tools:ignore="MissingConstraints" />
 
@@ -93,7 +103,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="25dp"
             android:layout_marginEnd="10dp"
             app:cardCornerRadius="15dp"
             app:cardElevation="5dp"
@@ -102,33 +112,43 @@
             app:layout_constraintTop_toBottomOf="@+id/cardViewName">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/phoneConstraint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/phone_anim"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/phone_anim"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/phoneConstraint"/>
 
                 <TextView
                     android:id="@+id/phoneTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="15dp"
                     android:fontFamily="@font/titillium_web_bold"
                     android:text="@string/cep_telefonu"
                     android:textColor="@color/primary_color"
                     android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/phone_anim"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/phoneText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:hint="@string/_90_555_333_12_08"
                     android:text="@{String.valueOf(viewModel.phoneNumber)}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/phoneTitle"
                     app:layout_constraintTop_toBottomOf="@+id/phoneTitle"
                     tools:ignore="MissingConstraints" />
 
@@ -140,7 +160,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="25dp"
             android:layout_marginEnd="10dp"
             app:cardCornerRadius="15dp"
             app:cardElevation="5dp"
@@ -149,32 +169,44 @@
             app:layout_constraintTop_toBottomOf="@+id/cardViewPhone">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/passwordConstraint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/password_anim"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/password_anim"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/passwordConstraint"/>
+
 
                 <TextView
                     android:id="@+id/passwordTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="15dp"
                     android:fontFamily="@font/titillium_web_bold"
                     android:text="@string/sifre"
                     android:textColor="@color/primary_color"
                     android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/password_anim"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/passwordText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:text="@string/passwordStars"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/passwordTitle"
                     app:layout_constraintTop_toBottomOf="@+id/passwordTitle"
                     tools:ignore="MissingConstraints" />
 
