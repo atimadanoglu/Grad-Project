@@ -4,53 +4,51 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable
-            name="viewModel"
-            type="com.graduationproject.grad_project.viewmodel.IncomingMessagesResidentViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.resident.IncomingMessagesResidentFragment"
-        android:background="@color/white">
+        android:background="@color/white"
+        tools:context=".view.admin.CollectionOfDebtFragment">
 
         <TextView
-            android:id="@+id/incomingMessagesText"
+            android:id="@+id/collectionDebtTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="30dp"
             android:fontFamily="@font/nunito_sans_bold"
-            android:text="@string/gelen_mesajlar"
+            android:text="@string/collection_of_debt"
             android:textColor="@color/primary_color"
             android:textSize="22sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/incomingMessageText"
+            android:id="@+id/collectionDebtText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginStart="20dp"
-            android:text="@string/incomingMessagesInfo"
-            app:layout_constraintTop_toBottomOf="@+id/incomingMessagesText"
+            android:text="@string/homeDebtInfoText"
+            app:layout_constraintTop_toBottomOf="@+id/collectionDebtTitle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/incomingGif"/>
+            app:layout_constraintEnd_toStartOf="@+id/collectionDebtGif"/>
 
         <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/incomingGif"
+            android:id="@+id/collectionDebtGif"
             android:layout_width="130dp"
             android:layout_height="130dp"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/incoming_messages_anim"
+            android:src="@drawable/credit_card_animation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/messageRecyclerview"
+            android:id="@+id/collectionOfDebtRecyclerview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="20dp"
@@ -58,22 +56,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/incomingGif"
-            tools:listitem="@layout/row_layout" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/deleteMessageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="15dp"
-            android:backgroundTint="@color/primary_color"
-            android:contentDescription="@string/todo"
-            android:src="@drawable/delete_white_icon"
-            android:onClick="@{ () -> viewModel.clearMessages()}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
+            app:layout_constraintTop_toBottomOf="@+id/collectionDebtGif"
+            tools:listitem="@layout/list_item" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

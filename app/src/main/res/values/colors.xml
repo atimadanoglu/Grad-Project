@@ -12,5 +12,8 @@
     <color name="transparent">#00FFFFFF</color>
     <color name="background_gray">#99CDCDC6</color>
     <color name="warning_color">#C6CD0707</color>
+    <color name="card_view_color_for_include_anim">#59CDCDC6</color>
     <color name="background_settings">#2DCDCDC6</color>
+    <color name="text_input_layout_stroke_color">#fafaf9</color>
+
 </resources>

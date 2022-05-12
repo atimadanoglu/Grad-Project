@@ -28,25 +28,29 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp">
+                android:padding="10dp"
+                android:background="@color/card_view_color_for_include_anim">
 
                 <TextView
                     android:id="@+id/announcement_title"
-                    android:layout_width="280dp"
+                    android:layout_width="0dp"
                     android:layout_height="35dp"
+                    android:layout_marginEnd="20dp"
                     android:fontFamily="@font/titillium_web_bold"
                     android:hint="@string/title"
                     android:text="@{announcement.title}"
                     android:textColor="@color/primary_color"
                     android:textColorHint="@color/primary_color"
                     android:textSize="22sp"
+                    app:layout_constraintEnd_toStartOf="@+id/announcement_options"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/announcement_content"
-                    android:layout_width="280dp"
+                    android:layout_width="0dp"
                     android:layout_height="35dp"
+                    android:layout_marginEnd="20dp"
                     android:fontFamily="@font/titillium_web"
                     android:hint="@string/content"
                     android:lines="1"
@@ -54,6 +58,7 @@
                     android:textColor="@color/primary_color"
                     android:textColorHint="@color/primary_color"
                     android:textSize="16sp"
+                    app:layout_constraintEnd_toStartOf="@+id/announcement_options"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/announcement_title" />
 
