@@ -34,7 +34,7 @@
         app:counterEnabled="true"
         app:counterMaxLength="10"
         app:helperTextEnabled="true"
-        app:helperText="(5**) *** ** **"
+        app:helperText="@string/phoneHelperText"
         app:endIconMode="clear_text"
         app:prefixText="+90"
         app:layout_constraintEnd_toEndOf="parent"

@@ -17,7 +17,6 @@
         android:paddingStart="15dp"
         android:paddingEnd="10dp"
         android:gravity="center_vertical"
-        android:background="@drawable/textview_box"
         android:textSize="18sp"
         android:textColor="@color/primary_color"
         app:layout_constraintEnd_toEndOf="parent"

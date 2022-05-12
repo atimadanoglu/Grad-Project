@@ -25,7 +25,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp">
+                android:padding="10dp"
+                android:background="@color/card_view_color_for_include_anim">
 
                 <TextView
                     android:id="@+id/item_title_announcement"

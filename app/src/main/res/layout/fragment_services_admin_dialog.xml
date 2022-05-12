@@ -42,17 +42,19 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/ınputEditTextPhoneLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="210dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         android:hint="@string/phone_number"
+        android:textColorHint="@color/primary_color"
         app:counterEnabled="true"
         app:counterMaxLength="10"
         app:endIconMode="clear_text"
-        android:textColorHint="@color/primary_color"
-        app:helperText="(5**) *** ** **"
+        app:helperText="@string/phoneHelperText"
         app:helperTextEnabled="true"
+        app:layout_constraintEnd_toStartOf="@+id/textInputLayoutServicesType"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutServicesName"
         app:prefixText="+90"
@@ -76,12 +78,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        app:helperTextEnabled="true"
-        app:helperText="@string/required"
-        app:helperTextTextColor="@color/warning_color"
         android:hint="@string/turu"
         android:textColorHint="@color/primary_color"
+        app:helperText="@string/required"
+        app:helperTextEnabled="true"
+        app:helperTextTextColor="@color/warning_color"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ınputEditTextPhoneLayout"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutServicesName">
 
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -93,7 +96,7 @@
             android:textColor="@color/primary_color"
             tools:ignore="LabelFor,TextContrastCheck"
             tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="75dp"/>
+            tools:layout_editor_absoluteY="75dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
