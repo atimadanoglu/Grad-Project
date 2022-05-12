@@ -53,7 +53,11 @@
     <fragment
         android:id="@+id/notificationResidentFragment"
         android:name="com.graduationproject.grad_project.view.resident.NotificationResidentFragment"
-        android:label="NotificationResidentFragment" />
+        android:label="NotificationResidentFragment" >
+        <action
+            android:id="@+id/action_notificationResidentFragment_to_showNotificationDialogFragment"
+            app:destination="@id/showNotificationDialogFragment" />
+    </fragment>
     <fragment
         android:id="@+id/incomingMessagesResidentFragment"
         android:name="com.graduationproject.grad_project.view.resident.IncomingMessagesResidentFragment"
