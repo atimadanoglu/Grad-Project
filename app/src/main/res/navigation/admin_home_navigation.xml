@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_announcementsFragment_to_addAnnouncementFragment"
             app:destination="@id/addAnnouncementFragment" />
+        <action
+            android:id="@+id/action_announcementsFragment_to_showNotificationDialogFragment2"
+            app:destination="@id/showNotificationDialogFragment2" />
     </fragment>
     <fragment
         android:id="@+id/expendituresFragment"
@@ -40,7 +43,11 @@
         android:id="@+id/notificationsAdminFragment"
         android:name="com.graduationproject.grad_project.view.admin.NotificationsAdminFragment"
         android:label="fragment_notifications_admin"
-        tools:layout="@layout/fragment_notifications_admin" />
+        tools:layout="@layout/fragment_notifications_admin" >
+        <action
+            android:id="@+id/action_notificationsAdminFragment_to_showNotificationDialogFragment2"
+            app:destination="@id/showNotificationDialogFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/votingAdminFragment"
         android:name="com.graduationproject.grad_project.view.admin.VotingAdminFragment"
@@ -138,5 +145,20 @@
             app:destination="@id/servicesAdminFragment"
             app:popUpTo="@id/servicesAdminDialogFragment"
             app:popUpToInclusive="true" />
+    </dialog>
+    <dialog
+        android:id="@+id/showNotificationDialogFragment2"
+        android:name="com.graduationproject.grad_project.view.resident.dialogs.ShowNotificationDialogFragment"
+        android:label="fragment_show_notification_dialog"
+        tools:layout="@layout/fragment_show_notification_dialog" >
+        <argument
+            android:name="downloadUri"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="content"
+            app:argType="string" />
     </dialog>
 </navigation>
