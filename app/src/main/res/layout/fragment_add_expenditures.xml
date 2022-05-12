@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.graduationproject.grad_project.viewmodel.AddExpendituresViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -59,6 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
+                    android:text="@={viewModel.title}"
                     android:maxLength="26"
                     android:textColor="@color/primary_color"
                     tools:ignore="TextContrastCheck"
@@ -90,6 +97,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="top"
                     android:inputType="textMultiLine"
+                    android:text="@={viewModel.content}"
                     android:lines="5"
                     android:textColor="@color/primary_color"
                     tools:ignore="TextContrastCheck" />
@@ -117,6 +125,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:textColor="@color/primary_color"
+                    android:text="@={viewModel.amount}"
                     tools:ignore="TextContrastCheck"
                     tools:layout_editor_absoluteX="0dp"
                     tools:layout_editor_absoluteY="75dp" />

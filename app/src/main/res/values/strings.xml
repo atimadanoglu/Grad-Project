@@ -200,7 +200,7 @@
     <string name="siteSakinOnayı">%s adlı kişiyi sitenize dahil etmek istediğinize emin misiniz?</string>
     <string name="siteSakinReddi">%s adlı kişiyi sitenize dahil etmek istemediğinize emin misiniz?</string>
     <string name="serviceAdminInfo">Bu alanda, sakinlerin ihtiyaç anında iletişme geçmesi için yer alan servisler listelenir. Sakinlere kolaylık sunmak için bu bölümü güncel tutmayı unutmayınız.</string>
-    <string name="requestAdminInfo">Bu alanda, sakinler tarafından paylaşılan öneri ve şikayetler yer alır. Sakinlerle etkileşimde kalmak için bu alanı sık sık ziyaret etmeniz önerilir.</string>
+    <string name="requestAdminInfo">Bu alanda, sakinler tarafından paylaşılan öneri ve şikayetler yer alır. Sakinlerle etkileşimde kalmak için bu alanı sık ziyaret etmeniz önerilir.</string>
     <string name="requestResidentInfo">Bu alanda, site hakkında yöneticiyle paylaşmak istediğiniz öneri veya şikayetleriniz yer alır.</string>
     <string name="servis_adi">Servis adı</string>
     <string name="servis_tipi">Servis Tipi</string>
@@ -272,5 +272,11 @@
     <string name="email">Email</string>
     <string name="lütfenEmailVeŞifreniziKontrolEdiniz">Lütfen email adresinizi ve şifrenizi kontrol ediniz!</string>
     <string name="oturumKapatılamadı">Oturum kapatılamadı. Bir daha deneyiniz!</string>
+
+    <string name="dosyaİndiriliyor">Dosya indiriliyor…</string>
+    <string name="dosyaİndirmeBaşarısız">Dosya indirme başarısız!</string>
+    <string name="fotograf_ekle">FOTOĞRAF EKLE</string>
+
     <string name="oturumu_kapat"><u>Oturumu Kapat</u></string>
+
 </resources>

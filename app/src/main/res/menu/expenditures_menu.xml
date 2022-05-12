@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/deleteExpenditure"
-        android:title="@string/sil"
-        android:icon="@drawable/delete_icon"/>
+    <group>
+        <item android:id="@+id/showExpenditure"
+            android:title="@string/bilgi"
+            android:icon="@drawable/delete_icon"/>
+        <item android:id="@+id/deleteExpenditure"
+            android:title="@string/sil"
+            android:icon="@drawable/delete_icon"/>
+    </group>
+
 </menu>

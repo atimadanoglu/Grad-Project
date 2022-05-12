@@ -53,7 +53,11 @@
     <fragment
         android:id="@+id/notificationResidentFragment"
         android:name="com.graduationproject.grad_project.view.resident.NotificationResidentFragment"
-        android:label="NotificationResidentFragment" />
+        android:label="NotificationResidentFragment" >
+        <action
+            android:id="@+id/action_notificationResidentFragment_to_showNotificationDialogFragment"
+            app:destination="@id/showNotificationDialogFragment" />
+    </fragment>
     <fragment
         android:id="@+id/incomingMessagesResidentFragment"
         android:name="com.graduationproject.grad_project.view.resident.IncomingMessagesResidentFragment"
@@ -62,7 +66,11 @@
         android:id="@+id/siteExpendituresResidentFragment"
         android:name="com.graduationproject.grad_project.view.resident.SiteExpendituresResidentFragment"
         android:label="fragment_site_expenditures_resident"
-        tools:layout="@layout/fragment_site_expenditures_resident" />
+        tools:layout="@layout/fragment_site_expenditures_resident" >
+        <action
+            android:id="@+id/action_siteExpendituresResidentFragment_to_showNotificationDialogFragment"
+            app:destination="@id/showNotificationDialogFragment" />
+    </fragment>
     <fragment
         android:id="@+id/servicesResidentFragment"
         android:name="com.graduationproject.grad_project.view.resident.ServicesResidentFragment"
@@ -99,5 +107,25 @@
         <argument
             android:name="paidAmount"
             app:argType="integer" />
+    </dialog>
+    <dialog
+        android:id="@+id/showNotificationDialogFragment"
+        android:name="com.graduationproject.grad_project.view.resident.dialogs.ShowNotificationDialogFragment"
+        android:label="fragment_show_notification_dialog"
+        tools:layout="@layout/fragment_show_notification_dialog" >
+        <action
+            android:id="@+id/action_showNotificationDialogFragment_to_siteExpendituresResidentFragment"
+            app:destination="@id/siteExpendituresResidentFragment"
+            app:popUpTo="@id/showNotificationDialogFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="downloadUri"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="content"
+            app:argType="string" />
     </dialog>
 </navigation>

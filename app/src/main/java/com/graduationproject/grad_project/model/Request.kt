@@ -7,6 +7,7 @@ data class Request(
     val title: String = "",
     val content: String = "",
     val type: String = "",
+    val documentUri: String = "",
     val sentBy: String = "",
     val date: Timestamp? = null
 )
