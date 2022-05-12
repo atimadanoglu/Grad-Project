@@ -75,7 +75,7 @@ class AnnouncementsFragment : Fragment() {
                     goToShowAnnouncementFragment(
                         viewModel.announcement.value?.pictureUri!!,
                         viewModel.announcement.value?.title!!,
-                        viewModel.announcement.value?.pictureUri!!
+                        viewModel.announcement.value?.message!!
                     )
                     true
                 }
