@@ -1,24 +1,16 @@
 package com.graduationproject.grad_project.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.AnnouncementRowLayoutBinding
-import com.graduationproject.grad_project.firebase.AnnouncementOperations
 import com.graduationproject.grad_project.model.Announcement
-import com.graduationproject.grad_project.view.admin.dialogs.ShowingAnnouncementDialogFragment
 
 class AnnouncementRecyclerViewAdapter(
-    private val fragmentManager: FragmentManager,
-    private val context: Context
+    private val clickListener: (announcement: Announcement?, view: View?) -> Unit
 ) : ListAdapter<Announcement, AnnouncementRecyclerViewAdapter.AnnouncementViewHolder>(AnnouncementDiffUtil()) {
 
     class AnnouncementViewHolder(val binding: AnnouncementRowLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -29,8 +21,11 @@ class AnnouncementRecyclerViewAdapter(
                 return AnnouncementViewHolder(binding)
             }
         }
-        fun bind(announcement: Announcement) {
+        fun bind(announcement: Announcement, clickListener: (announcement: Announcement?, view: View?) -> Unit) {
             binding.announcement = announcement
+            binding.announcementOptions.setOnClickListener {
+                clickListener(announcement, it)
+            }
             binding.executePendingBindings()
         }
     }
@@ -41,32 +36,7 @@ class AnnouncementRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: AnnouncementViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
-        holder.binding.announcementOptions.setOnClickListener { view ->
-            val popupMenu = createPopUpMenu(view)
-            popupMenu.setOnMenuItemClickListener { menuItem ->
-                when (menuItem.itemId) {
-                    R.id.announcementInfo -> {
-                        val dialog = ShowingAnnouncementDialogFragment(item)
-                        dialog.show(fragmentManager, "announcementDialog")
-                        true
-                    }
-                    R.id.deleteAnnouncement -> {
-                        AnnouncementOperations.deleteAnnouncement(item)
-                        true
-                    }
-                    else -> false
-                }
-            }
-        }
-    }
-
-    private fun createPopUpMenu(view: View): PopupMenu {
-        val popupMenu = PopupMenu(context, view)
-        val inflater: MenuInflater = popupMenu.menuInflater
-        inflater.inflate(R.menu.announcement_more_menu, popupMenu.menu)
-        popupMenu.show()
-        return popupMenu
+        holder.bind(item, clickListener)
     }
 }
 
