@@ -54,7 +54,7 @@ class SendingMessageToResidentDialogViewModel(
                 "",
                 Timestamp(Date())
             )
-            val playerID = arrayListOf(resident.player_id)
+            val playerID = arrayListOf<String?>(resident.player_id)
             println("resident player_id --> ${resident.player_id}")
             try {
                 OneSignalOperations.postNotification(playerID, notification)

@@ -115,6 +115,7 @@ object RequestsOperations: FirebaseConstants() {
                                     it.get("title").toString(),
                                     it.get("content").toString(),
                                     it.get("type").toString(),
+                                    it.get("documentUri").toString(),
                                     it.get("sentBy").toString(),
                                     it.get("date") as Timestamp
                                 )

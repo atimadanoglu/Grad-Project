@@ -13,7 +13,7 @@ import org.json.JSONObject
 object OneSignalOperations {
 
     fun postNotification(
-        playerIDs: ArrayList<String>,
+        playerIDs: ArrayList<String?>,
         notification: Notification
     ) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -42,13 +42,13 @@ object OneSignalOperations {
      * their player_ids
      *
      * * */
-    suspend fun takePlayerIDs(): ArrayList<String> {
+    suspend fun takePlayerIDs(): ArrayList<String?> {
         val email = FirebaseAuth.getInstance().currentUser?.email
         val admin = UserOperations.getAdmin(requireNotNull(email))
 
         val residents = admin?.let { UserOperations.getResidentsInASpecificSite(it) }
         val residentDocuments = residents?.documents
-        val playerIDs = arrayListOf<String>()
+        val playerIDs = arrayListOf<String?>()
         if (residentDocuments != null) {
             for (document in residentDocuments) {
                 playerIDs.add(document["player_id"].toString())
@@ -78,7 +78,7 @@ object OneSignalOperations {
         }
     }
 
-    private fun createJsonObjectForNotification(title: String, message: String, playerIDs: ArrayList<String>): JSONObject {
+    private fun createJsonObjectForNotification(title: String, message: String, playerIDs: ArrayList<String?>): JSONObject {
         val jsonObject = JSONObject(
             "{'headings': {'en': '$title'}," +
                     "'contents': {'en': '$message'}," +

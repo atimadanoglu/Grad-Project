@@ -77,11 +77,6 @@ class ResidentsListAdapter(
         popup.show()
         return popup
     }
-
-    /*fun filterList(list: ArrayList<SiteResident?>) {
-        siteResidents = list
-        submitList(list)
-    }*/
 }
 
 class ResidentsListItemCallback: DiffUtil.ItemCallback<SiteResident>() {
