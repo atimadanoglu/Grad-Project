@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.ktx.toObjects
 import com.graduationproject.grad_project.model.Notification
 import com.graduationproject.grad_project.model.Request
 import kotlinx.coroutines.CoroutineScope
@@ -83,17 +84,44 @@ object RequestsOperations: FirebaseConstants() {
         }
     }
 
-    fun deleteRequestFromAdminDB(email: String, request: Request) {
-        CoroutineScope(ioDispatcher + coroutineExceptionHandler).launch {
-            try {
-                adminRef.document(email)
+    fun deleteRequestFromAdminDB(request: Request) = CoroutineScope(ioDispatcher + coroutineExceptionHandler).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            email?.let {
+                adminRef.document(it)
                     .collection("requests")
                     .document(request.id)
                     .delete()
                     .await()
-            } catch (e: FirebaseFirestoreException) {
-                Log.e(TAG, "deleteRequestFromAdminDB")
             }
+        } catch (e: FirebaseFirestoreException) {
+            Log.e(TAG, "deleteRequestFromAdminDB")
+        }
+    }
+
+
+    fun retrieveRequestsForAdmin(requests: MutableLiveData<List<Request?>>)
+    = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            email?.let { adminEmail ->
+                adminRef.document(adminEmail)
+                    .collection("requests")
+                    .orderBy("date", Query.Direction.DESCENDING)
+                    .addSnapshotListener { value, error ->
+                        if (error != null) {
+                            Log.e(TAG, "retrieveRequestsForAdmin --> $error")
+                            return@addSnapshotListener
+                        }
+                        if (value?.isEmpty == false) {
+                            value.toObjects<Request>().also {
+                                requests.postValue(it)
+                            }
+                        }
+                    }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "retrieveRequestsForAdmin --> $e")
         }
     }
 

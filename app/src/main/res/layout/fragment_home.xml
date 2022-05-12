@@ -182,7 +182,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/expenditures"
+            android:id="@+id/votingCardView"
             android:layout_width="match_parent"
             android:layout_height="110dp"
             android:layout_marginStart="10dp"
