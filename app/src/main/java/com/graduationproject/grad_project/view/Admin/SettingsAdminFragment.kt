@@ -26,11 +26,15 @@ class SettingsAdminFragment : Fragment() {
         _binding = FragmentSettingsAdminBinding.inflate(inflater, container, false)
         viewModel.getAdmin()
         viewModel.fullName.observe(viewLifecycleOwner) {
-            binding.nameText.text = it
+            it?.let {
+                binding.nameText.text = it
+            }
         }
 
         viewModel.phoneNumber.observe(viewLifecycleOwner) {
-            binding.phoneText.text = it
+            it?.let {
+                binding.phoneText.text = it
+            }
         }
         binding.cardViewName.setOnClickListener { goToUpdateNamePage() }
         binding.cardViewPhone.setOnClickListener { goToUpdatePhoneNumberPage() }
@@ -39,15 +43,15 @@ class SettingsAdminFragment : Fragment() {
     }
 
     private fun goToUpdatePhoneNumberPage() {
-        val action = SettingsAdminFragmentDirections.actionSettingsAdminFragmentToSettingsPhoneFragment()
+        val action = SettingsAdminFragmentDirections
+            .actionSettingsAdminFragmentToSettingsPhoneFragment()
         requireView().findNavController().navigate(action)
     }
 
     private fun goToUpdateNamePage() {
         val action = viewModel.fullName.value?.let {
-            SettingsAdminFragmentDirections.actionSettingsAdminFragmentToSettingsNameFragment(
-                it
-            )
+            SettingsAdminFragmentDirections
+                .actionSettingsAdminFragmentToSettingsNameFragment(it)
         }
         if (action != null) {
             requireView().findNavController().navigate(action)
@@ -57,5 +61,4 @@ class SettingsAdminFragment : Fragment() {
         val action = SettingsAdminFragmentDirections.actionSettingsAdminFragmentToSettingsPasswordFragment2()
         findNavController().navigate(action)
     }
-
 }
