@@ -565,20 +565,29 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
-    fun updatePhoneNumberForAdmin(phoneNumber: String) {
-        CoroutineScope(ioDispatcher).launch {
-            try {
-                val email = currentUser?.email
-                email?.let {
-                    adminRef.document(it)
-                        .update("phoneNumber", phoneNumber)
-                        .await()
-                }
-            } catch (e: FirebaseFirestoreException) {
-                Log.e(TAG, "updatePhoneNumberForAdmin --> $e")
+    fun updatePhoneNumberForAdmin(phoneNumber: String, isSuccessful: MutableLiveData<Boolean?>)
+            = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = currentUser?.email
+            var newPhoneNumber = "+90"
+            newPhoneNumber += phoneNumber
+            email?.let {
+                adminRef.document(it)
+                    .update("phoneNumber", newPhoneNumber)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            isSuccessful.postValue(true)
+                        } else {
+                            isSuccessful.postValue(false)
+                        }
+                    }
             }
+        } catch (e: FirebaseFirestoreException) {
+            Log.e(TAG, "updatePhoneNumberForAdmin --> $e")
+            isSuccessful.postValue(null)
         }
     }
+
 
     fun updatePhoneNumberForResident(phoneNumber: String) {
         CoroutineScope(ioDispatcher).launch {

@@ -4,64 +4,71 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.SettingsPhoneFragment">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_settings">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.graduationproject.grad_project.viewmodel.SettingsPhoneViewModel" />
+    </data>
 
-    <TextView
-        android:id="@+id/phoneInfoText"
-        android:layout_width="360dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="25dp"
-        android:text="@string/settingsPhoneInfo"
-        android:textColor="@color/primary_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/phoneLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
-        android:hint="@string/phone_number"
-        app:counterEnabled="true"
-        app:counterMaxLength="10"
-        app:helperTextEnabled="true"
-        app:helperText="@string/phoneHelperText"
-        app:endIconMode="clear_text"
-        app:prefixText="+90"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneInfoText"
-        app:startIconDrawable="@drawable/phone_icon">
+        android:layout_height="match_parent"
+        android:background="@color/background_settings">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/phoneEditText"
+        <TextView
+            android:id="@+id/phoneInfoText"
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="25dp"
+            android:text="@string/settingsPhoneInfo"
+            android:textColor="@color/primary_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/phoneLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="phone"
-            android:maxLength="10"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:hint="@string/phone_number"
+            app:counterEnabled="true"
+            app:counterMaxLength="10"
+            app:helperTextEnabled="true"
+            app:helperText="@string/phoneHelperText"
+            app:endIconMode="clear_text"
+            app:prefixText="+90"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/phoneInfoText"
+            app:startIconDrawable="@drawable/phone_icon">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/phoneEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:text="@={viewModel.phoneNumber}"
+                android:maxLength="10"
+                android:textColor="@color/primary_color"
+                tools:ignore="TextContrastCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/updateButton"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/primary_color"
-            tools:ignore="TextContrastCheck" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginEnd="15dp"
+            android:text="@string/guncelle"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <Button
-        android:id="@+id/updateButton"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="15dp"
-        android:textColor="@color/primary_color"
-        android:layout_marginEnd="15dp"
-        android:text="@string/guncelle"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
