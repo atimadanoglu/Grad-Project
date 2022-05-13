@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="payment"
+            type="com.graduationproject.grad_project.model.Payment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:background="@color/card_view_color_for_include_anim">
+
+                <TextView
+                    android:id="@+id/account_name_text_list_item"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:fontFamily="@font/titillium_web_bold"
+                    android:gravity="center_vertical"
+                    android:hint="@string/account_name"
+                    android:maxLength="20"
+                    android:text="@{payment.thePersonNameWhoPaid}"
+                    android:textColor="@color/primary_color"
+                    android:textColorHint="@color/primary_color"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/block_no_text_list_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/titillium_web"
+                    android:gravity="center_vertical"
+                    android:hint="@string/x_blok"
+                    android:text="@{@string/sakinBlokNo(payment.thePersonBlockNameWhoPaid)}"
+                    android:textColor="@color/primary_color"
+                    android:textColorHint="@color/primary_color"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/account_name_text_list_item" />
+
+                <TextView
+                    android:id="@+id/flat_no_add_debt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/titillium_web"
+                    android:gravity="center_vertical"
+                    android:hint="@string/no_01"
+                    android:text="@{@string/sakinDaireNo(payment.thePersonFlatNoWhoPaid)}"
+                    android:textColor="@color/primary_color"
+                    android:textColorHint="@color/primary_color"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/block_no_text_list_item"
+                    app:layout_constraintTop_toBottomOf="@+id/account_name_text_list_item" />
+
+                <TextView
+                    android:id="@+id/debtAmount"
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/titillium_web_bold"
+                    android:gravity="center"
+                    android:hint="@string/line"
+                    android:text="@{@string/sakinBorc(payment.paidAmount)}"
+                    android:textColor="@color/primary_color"
+                    android:textColorHint="@color/primary_color"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/paymentOptions"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/paymentOptions"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="24dp"
+                    android:contentDescription="@string/todo"
+                    android:src="@drawable/more_horiz"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
