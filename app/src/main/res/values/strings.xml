@@ -278,5 +278,6 @@
     <string name="fotograf_ekle">FOTOĞRAF EKLE</string>
 
     <string name="oturumu_kapat"><u>Oturumu Kapat</u></string>
-
+    <string name="şifreDeğiştirmeBaşarılı">Şifre değiştirme işlemi başarılı!</string>
+    <string name="şifreDeğiştirmeBaşarısız">Şifre değiştirme işlemi başarısız!</string>
 </resources>

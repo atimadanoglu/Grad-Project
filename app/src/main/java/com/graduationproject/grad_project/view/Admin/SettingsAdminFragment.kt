@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.graduationproject.grad_project.databinding.FragmentSettingsAdminBinding
 import com.graduationproject.grad_project.viewmodel.SettingsAdminViewModel
 
@@ -33,6 +34,7 @@ class SettingsAdminFragment : Fragment() {
         }
         binding.cardViewName.setOnClickListener { goToUpdateNamePage() }
         binding.cardViewPhone.setOnClickListener { goToUpdatePhoneNumberPage() }
+        binding.carViewPassword.setOnClickListener { goToUpdatePasswordPage() }
         return binding.root
     }
 
@@ -50,6 +52,10 @@ class SettingsAdminFragment : Fragment() {
         if (action != null) {
             requireView().findNavController().navigate(action)
         }
+    }
+    private fun goToUpdatePasswordPage() {
+        val action = SettingsAdminFragmentDirections.actionSettingsAdminFragmentToSettingsPasswordFragment2()
+        findNavController().navigate(action)
     }
 
 }
