@@ -2,6 +2,7 @@ package com.graduationproject.grad_project.view.admin
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
@@ -12,6 +13,7 @@ import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.ActivityHomePageAdminBinding
 import com.graduationproject.grad_project.databinding.DrawerHeaderAdminBinding
 import com.graduationproject.grad_project.view.MainActivity
+import com.graduationproject.grad_project.viewmodel.HomePageAdminViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -19,7 +21,7 @@ import kotlinx.coroutines.launch
 class HomePageAdminActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityHomePageAdminBinding
-    private lateinit var auth : FirebaseAuth
+    private val viewModel: HomePageAdminViewModel by viewModels()
 
     companion object {
         private const val TAG = "HomePageAdminActivity"
@@ -30,17 +32,28 @@ class HomePageAdminActivity : AppCompatActivity() {
         binding = ActivityHomePageAdminBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        auth = FirebaseAuth.getInstance()
-        val header = binding.navigationView.getHeaderView(0)
-        val drawerHeaderBinding = DrawerHeaderAdminBinding.bind(header)
-        setDisplayName(drawerHeaderBinding)
-
         val navHostFragment =
             binding.mainFragmentContainerView.getFragment() as NavHostFragment
         val navController = navHostFragment.navController
+        setDrawerHeader()
         binding.bottomNavigation.setupWithNavController(navController)
         binding.navigationView.setupWithNavController(navController)
+        viewModel.isSignedOut.observe(this) {
+            it?.let {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+    }
 
+    private fun setDrawerHeader() {
+        val header = binding.navigationView.getHeaderView(0)
+        val drawerHeaderBinding = DrawerHeaderAdminBinding.bind(header)
+        /*setDisplayName(drawerHeaderBinding)*/
+        drawerHeaderBinding.viewModel = viewModel
+        drawerHeaderBinding.lifecycleOwner = this
+        viewModel.retrieveSiteName()
         drawerHeaderBinding.signOut.setOnClickListener {
             showAlertMessage()
         }
@@ -50,15 +63,12 @@ class HomePageAdminActivity : AppCompatActivity() {
         MaterialAlertDialogBuilder(this)
             .setMessage(R.string.eminMisiniz)
             .setPositiveButton(R.string.evet) { _, _ ->
-                auth.signOut()
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                finish()
+                viewModel.signOut()
             }.setNegativeButton(R.string.hayır) { _, _ -> }
             .create().show()
     }
 
-    private fun setDisplayName(drawerHeaderBinding: DrawerHeaderAdminBinding) {
+/*    private fun setDisplayName(drawerHeaderBinding: DrawerHeaderAdminBinding) {
         lifecycleScope.launch {
             val a = async {
                 if (auth.currentUser?.displayName.isNullOrEmpty()) {
@@ -73,5 +83,5 @@ class HomePageAdminActivity : AppCompatActivity() {
             }
             a.await()
         }
-    }
+    }*/
 }

@@ -17,17 +17,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.FragmentAddAnnouncementBinding
-import com.graduationproject.grad_project.model.Notification
 import com.graduationproject.grad_project.viewmodel.AddAnnouncementViewModel
-import kotlinx.coroutines.launch
-import java.util.*
 
 
 class AddAnnouncementFragment : Fragment() {
@@ -52,37 +47,25 @@ class AddAnnouncementFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentAddAnnouncementBinding.inflate(inflater, container, false)
         val view = binding.root
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         registerLauncher()
         auth = FirebaseAuth.getInstance()
-        updateUI()
         binding.shareAnnouncementButton.setOnClickListener {
             shareAnnouncementButtonClicked()
         }
         binding.takePhoto.setOnClickListener { selectImageButtonClicked(view) }
         binding.backButtonToAnnouncement.setOnClickListener { goToPreviousPage() }
+
         return view
     }
 
-    private fun updateUI() {
-        val title = binding.titleInput.text
-        val content = binding.contentInput.text
-        viewModel.setTitle(title.toString())
-        viewModel.setContent(content.toString())
-    }
-
-    private fun isBlank(): Boolean {
-        return binding.titleInput.text!!.isBlank() || binding.contentInput.text!!.isBlank()
-    }
-
     private fun shareAnnouncementButtonClicked() {
-        if (isBlank()) {
+        if (viewModel.areNull()) {
             Toast.makeText(this.context, R.string.boşluklarıDoldur, Toast.LENGTH_LONG).show()
         } else {
             try {
-                viewModel.makeShareAnnouncementOperation(
-                    binding.titleInput.text.toString(),
-                    binding.contentInput.text.toString()
-                )
+                viewModel.uploadImageAndShareNotification(selectedPicture)
                 goToPreviousPage()
             } catch (e: Exception) {
                 Log.e(TAG, e.toString())
@@ -110,11 +93,9 @@ class AddAnnouncementFragment : Fragment() {
                 Toast.makeText(this.context, "Permission needed", Toast.LENGTH_LONG).show()
             }
         }
-
     }
 
     private fun selectImageButtonClicked(view : View) {
-
         if (ContextCompat
                 .checkSelfPermission(
                     view.context,

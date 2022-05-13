@@ -11,6 +11,8 @@ import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.ktx.toObjects
+import com.graduationproject.grad_project.model.Administrator
 import com.graduationproject.grad_project.model.Expenditure
 import com.graduationproject.grad_project.model.RegistrationStatus
 import com.graduationproject.grad_project.model.SiteResident
@@ -37,6 +39,34 @@ object UserOperations: FirebaseConstants() {
             null
         }
     }
+
+    fun retrieveSiteNameForAdmin(siteName: MutableLiveData<String?>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            email?.let {
+                adminRef.document(it).get().await().also { document ->
+                    siteName.postValue(document["siteName"].toString())
+                }
+            }
+        } catch (e: FirebaseFirestoreException) {
+            Log.e(TAG, "retrieveSiteNameForAdmin --> $e")
+        }
+    }
+
+
+    fun retrieveSiteNameForResident(siteName: MutableLiveData<String?>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            email?.let {
+                residentRef.document(it).get().await().also { document ->
+                    siteName.postValue(document["siteName"].toString())
+                }
+            }
+        } catch (e: FirebaseFirestoreException) {
+            Log.e(TAG, "retrieveSiteNameForAdmin --> $e")
+        }
+    }
+
 
     fun checkRegistrationStatus(status: MutableLiveData<String?>) = CoroutineScope(ioDispatcher).launch {
         try {
@@ -254,6 +284,40 @@ object UserOperations: FirebaseConstants() {
         } catch (e: Exception) {
             Log.e(TAG, "getResident --> $e")
             null
+        }
+    }
+
+    fun takeResident(email: String, resident: MutableLiveData<SiteResident?>)
+     = CoroutineScope(ioDispatcher).launch {
+         try {
+             residentRef.document(email)
+                 .get()
+                 .await().also {
+                     val item = it.toObject<SiteResident?>()
+                     resident.postValue(item)
+                 }
+         } catch (e: Exception) {
+             Log.e(TAG, "takeResident --> $e")
+             resident.postValue(null)
+         }
+    }
+
+
+    fun takeAdminInSpecificSite(
+        resident: SiteResident,
+        admin: MutableLiveData<Administrator?>
+    ) = CoroutineScope(ioDispatcher).launch {
+        try {
+            adminRef.whereEqualTo("city", resident.city)
+                .whereEqualTo("district", resident.district)
+                .whereEqualTo("siteName", resident.siteName)
+                .get().await().also {
+                    val documents = it.toObjects<Administrator>()
+                    admin.postValue(documents[0])
+                }
+        } catch (e: Exception) {
+            Log.e(TAG, "takeAdminInSpecificSite --> $e")
+            admin.postValue(null)
         }
     }
 

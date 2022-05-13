@@ -37,7 +37,7 @@ class VoteResidentAdapter(
             val seconds = diff / 1000
             val minutes = seconds / 60
             val hours = minutes / 60
-            return "$hours saat"
+            return "$hours (s)"
         }
     }
 

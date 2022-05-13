@@ -56,7 +56,7 @@ class DeletingDebtDialogViewModel(
                 uuid.toString(),
                 Timestamp.now()
             )
-            val playerID = arrayListOf(resident.player_id)
+            val playerID = arrayListOf<String?>(resident.player_id)
             try {
                 withContext(ioDispatcher) {
                     OneSignalOperations.postNotification(playerID, notification)
