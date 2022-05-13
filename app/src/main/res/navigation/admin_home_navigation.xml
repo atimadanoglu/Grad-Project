@@ -131,4 +131,13 @@
             android:id="@+id/action_servicesAdminDialogFragment_to_servicesAdminFragment"
             app:destination="@id/servicesAdminFragment" />
     </dialog>
+    <fragment
+        android:id="@+id/collectionOfDebtFragment"
+        android:name="com.graduationproject.grad_project.view.admin.CollectionOfDebtFragment"
+        android:label="CollectionOfDebtFragment" />
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.graduationproject.grad_project.AboutFragment"
+        android:label="fragment_about"
+        tools:layout="@layout/fragment_about" />
 </navigation>

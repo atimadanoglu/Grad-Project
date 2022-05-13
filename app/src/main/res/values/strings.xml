@@ -141,7 +141,7 @@
     <string name="belge_ekle">Belge ekle</string>
     <string name="onayla">Onayla</string>
     <string name="reddet">Reddet</string>
-    <string name="durations">Durations:</string>
+    <string name="durations">Süre:</string>
     <string name="_16_s">16(s)</string>
     <string name="site_management_app">Site yönetim uygulaması</string>
     <string name="site_Giderleri">Site Giderleri</string>
@@ -273,4 +273,10 @@
     <string name="lütfenEmailVeŞifreniziKontrolEdiniz">Lütfen email adresinizi ve şifrenizi kontrol ediniz!</string>
     <string name="oturumKapatılamadı">Oturum kapatılamadı. Bir daha deneyiniz!</string>
     <string name="oturumu_kapat"><u>Oturumu Kapat</u></string>
+    <string name="application">UYGULAMA</string>
+    <string name="hakkinda">Hakkında</string>
+    <string name="referans">Referans</string>
+    <string name="referenceFirstText">Freepik tarafından</string>
+    <string name="referenceSecondText">www.flaticon.com dan yapılan simge.</string>
+
 </resources>
