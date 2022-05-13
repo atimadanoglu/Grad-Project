@@ -106,6 +106,9 @@
         <action
             android:id="@+id/action_settingsAdminFragment_to_settingsPasswordFragment2"
             app:destination="@id/settingsPasswordFragment" />
+        <action
+            android:id="@+id/action_settingsAdminFragment_to_settingsNameFragment2"
+            app:destination="@id/settingsNameFragment" />
     </fragment>
     <fragment
         android:id="@+id/addVotingAdminFragment"
@@ -230,5 +233,8 @@
             app:destination="@id/settingsAdminFragment"
             app:popUpTo="@id/settingsPasswordFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_settingsPasswordFragment_to_settingsAdminFragment2"
+            app:destination="@id/settingsAdminFragment" />
     </fragment>
 </navigation>
