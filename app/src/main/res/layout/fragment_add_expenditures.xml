@@ -12,26 +12,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
         tools:context=".view.admin.AddExpendituresFragment">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/linearBox"
-            android:layout_width="340dp"
-            android:layout_height="520dp"
-            android:background="@drawable/search_box"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:backgroundTint="@color/background_gray">
 
             <Button
                 android:id="@+id/backButtonToAnnouncement"
                 android:layout_width="60dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="40dp"
                 android:background="@drawable/back_green_button"
                 android:drawableStart="@drawable/back_arrow_green_icon"
                 android:paddingStart="5dp"
@@ -46,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginEnd="20dp"
                 android:hint="@string/borc_adi"
                 app:boxStrokeColor="@color/primary_color"
@@ -159,26 +147,29 @@
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayoutContent" />
 
 <!--            picture_view-->
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:fontFamily="@font/roboto_medium"
-                android:gravity="center"
-                android:text="@string/Gider_Ekle"
-                android:textColor="@color/primary_color"
-                android:textSize="25sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:text="@string/Gider_Ekle"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/primary_color"
+            android:textSize="25sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/backButtonToAnnouncement" />
 
             <Button
                 android:id="@+id/shareButton"
-                android:layout_width="120dp"
+                android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="15dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/button"
                 android:backgroundTint="@color/primary_color"
                 android:text="@string/share"
@@ -188,6 +179,4 @@
                 app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="TouchTargetSizeCheck" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
