@@ -26,6 +26,9 @@ class MeetingAdminViewModel: ViewModel() {
     private val _meetings = MutableLiveData<List<Meeting?>>()
     val meetings: LiveData<List<Meeting?>> get() = _meetings
 
+    private val _meeting = MutableLiveData<Meeting?>()
+    val meeting: LiveData<Meeting?> get() = _meeting
+
     val meetingUri = MutableLiveData("")
 
     private val _meetingID = MutableLiveData("")
@@ -52,8 +55,9 @@ class MeetingAdminViewModel: ViewModel() {
         UserOperations.retrieveResidentsInSpecificSite(_residents)
     }
 
-    fun saveViewHolderData(id: String) {
-        _meetingID.value = id
+    fun saveViewHolderData(meeting: Meeting) {
+        _meeting.value = meeting
+        _meetingID.value = meeting.id
     }
 
     fun retrieveMeetings() = viewModelScope.launch {

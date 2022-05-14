@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.view.admin.MeetingAdminFragment
 
 class AlarmReceiver: BroadcastReceiver() {
@@ -16,8 +17,9 @@ class AlarmReceiver: BroadcastReceiver() {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
 
         val builder = NotificationCompat.Builder(context!!, "adminChannel")
+            .setSmallIcon(R.drawable.ic_site_icon)
             .setContentTitle("Toplantı")
-            .setContentText("Toplantınızın saati yaklaştı. Lütfen bir toplantı açıp sakinleriniz ile paylaşın!")
+            .setContentText("Toplantınızın saati yaklaştı...")
             .setAutoCancel(true)
             .setDefaults(NotificationCompat.DEFAULT_ALL)
             .setPriority(NotificationCompat.PRIORITY_HIGH)

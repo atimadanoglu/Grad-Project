@@ -10,7 +10,7 @@ import com.graduationproject.grad_project.databinding.MeetingItemBinding
 import com.graduationproject.grad_project.model.Meeting
 
 class MeetingAdminAdapter(
-    private val clickListener: (id: String, view: View) -> Unit
+    private val clickListener: (id: Meeting, view: View) -> Unit
 ): ListAdapter<Meeting, MeetingAdminAdapter.MeetingViewHolder>(MeetingDiffUtil()) {
     class MeetingViewHolder(private val binding: MeetingItemBinding): RecyclerView.ViewHolder(binding.root) {
         companion object {
@@ -20,11 +20,11 @@ class MeetingAdminAdapter(
                 return MeetingViewHolder(binding)
             }
         }
-        fun bind(meeting: Meeting, position: Int, clickListener: (id: String, view: View) -> Unit) {
+        fun bind(meeting: Meeting, position: Int, clickListener: (id: Meeting, view: View) -> Unit) {
             setVisibilityOfView(position, binding.openMeetingImage)
             binding.meeting = meeting
             binding.openMeetingImage.setOnClickListener {
-                clickListener(meeting.id, it)
+                clickListener(meeting, it)
             }
             binding.executePendingBindings()
         }
