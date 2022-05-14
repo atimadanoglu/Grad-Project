@@ -17,14 +17,12 @@ class HomePageAdminActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityHomePageAdminBinding
     private val viewModel: HomePageAdminViewModel by viewModels()
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomePageAdminBinding.inflate(layoutInflater)
         val view = binding.root
 
-        auth = FirebaseAuth.getInstance()
         setContentView(view)
         val navHostFragment =
             binding.mainFragmentContainerView.getFragment() as NavHostFragment
