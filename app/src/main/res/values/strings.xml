@@ -93,7 +93,6 @@
     <string name="gelen_mesajlar">Gelen Mesajlar</string>
     <string name="site_giderleri">Site giderleri</string>
     <string name="oylama_sonuclar">Oylama Sonuçları</string>
-    <string name="aktivasyon_kodu">Aktivasyon</string>
     <string name="bildirimleri_temizle">Bildirimleri temizle</string>
     <string name="mesajlar_sil">Mesajları sil</string>
     <string name="aç">Aç</string>
@@ -287,5 +286,6 @@
     <string name="referans">Referans</string>
     <string name="referenceFirstText">Freepik tarafından</string>
     <string name="referenceSecondText">www.flaticon.com dan yapılan simge.</string>
+    <string name="activation">Erişim</string>
 
 </resources>
