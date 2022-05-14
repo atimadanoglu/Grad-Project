@@ -287,5 +287,9 @@
     <string name="referenceFirstText">Freepik tarafından</string>
     <string name="referenceSecondText">www.flaticon.com dan yapılan simge.</string>
     <string name="activation">Erişim</string>
+    <string name="meetingInfoText">Sakinlerle video-konferans görüşmesi yapmak için toplantı planlayabilirsiniz. Toplantıyı oluşturduktan sonra linki sakinlerle paylaşmayı unutmayınız.</string>
+    <string name="toplant_planla">Toplantı Planla</string>
+    <string name="toplant_linki">Toplantı Linki</string>
+    <string name="createMeeting">Toplantı Oluştur</string>
 
 </resources>

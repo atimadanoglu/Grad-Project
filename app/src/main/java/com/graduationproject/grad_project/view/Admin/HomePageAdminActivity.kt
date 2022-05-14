@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -27,6 +26,7 @@ class HomePageAdminActivity : AppCompatActivity() {
         binding = ActivityHomePageAdminBinding.inflate(layoutInflater)
         val view = binding.root
         createNotificationChannel()
+
         setContentView(view)
         val navHostFragment =
             binding.mainFragmentContainerView.getFragment() as NavHostFragment
