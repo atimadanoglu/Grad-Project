@@ -164,6 +164,31 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
+    /**
+     * It will be used to send push notification to residents by using
+     * their player_ids
+     *
+     * * */
+    fun retrieveResidentsPlayerIDs(residentPlayerIDs: MutableLiveData<ArrayList<String?>>) = CoroutineScope(ioDispatcher).launch {
+        val email = FirebaseAuth.getInstance().currentUser?.email
+        val admin = email?.let {
+            getAdmin(it)
+        }
+
+        val residents = admin?.let { getResidentsInASpecificSite(it) }
+        val residentDocuments = residents?.documents
+        val playerIDs = arrayListOf<String?>()
+        if (residentDocuments != null) {
+            println("docuemnt size ${residentDocuments.size}")
+            for (document in residentDocuments) {
+                playerIDs.add(document["player_id"].toString())
+            }
+            residentPlayerIDs.postValue(playerIDs)
+        }
+    }
+
+
+
     suspend fun retrieveAwaitingResidents(awaitingResidents: MutableLiveData<MutableList<SiteResident?>>)
         = CoroutineScope(ioDispatcher).launch {
         try {

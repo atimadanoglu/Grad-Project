@@ -6,13 +6,14 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.graduationproject.grad_project.view.admin.HomePageAdminActivity
+import com.graduationproject.grad_project.view.admin.MeetingAdminFragment
 
 class AlarmReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-        val i = Intent(context, HomePageAdminActivity::class.java)
+        val i = Intent(context, MeetingAdminFragment::class.java)
         intent!!.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        val pendingIntent = PendingIntent.getActivity(context, 0, i, 0)
+        val pendingIntent = PendingIntent.getActivity(context, 0, i,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
 
         val builder = NotificationCompat.Builder(context!!, "adminChannel")
             .setContentTitle("Toplantı")
