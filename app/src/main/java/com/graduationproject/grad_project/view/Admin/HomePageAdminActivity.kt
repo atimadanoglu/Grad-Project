@@ -1,9 +1,13 @@
 package com.graduationproject.grad_project.view.admin
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -22,7 +26,7 @@ class HomePageAdminActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomePageAdminBinding.inflate(layoutInflater)
         val view = binding.root
-
+        createNotificationChannel()
         setContentView(view)
         val navHostFragment =
             binding.mainFragmentContainerView.getFragment() as NavHostFragment
@@ -36,6 +40,20 @@ class HomePageAdminActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }
+        }
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "adminReminderChannel"
+            val description = "Channel for Alarm Manager"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel("adminChannel", name, importance)
+            channel.description = description
+            val notificationManager = getSystemService(
+                NotificationManager::class.java
+            )
+            notificationManager.createNotificationChannel(channel)
         }
     }
 
