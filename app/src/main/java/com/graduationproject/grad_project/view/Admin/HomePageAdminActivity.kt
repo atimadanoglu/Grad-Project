@@ -22,7 +22,6 @@ class HomePageAdminActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomePageAdminBinding.inflate(layoutInflater)
         val view = binding.root
-
         setContentView(view)
         val navHostFragment =
             binding.mainFragmentContainerView.getFragment() as NavHostFragment

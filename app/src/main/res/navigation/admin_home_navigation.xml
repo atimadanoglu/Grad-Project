@@ -86,7 +86,11 @@
         android:id="@+id/meetingAdminFragment"
         android:name="com.graduationproject.grad_project.view.admin.MeetingAdminFragment"
         android:label="fragment_meeting_admin"
-        tools:layout="@layout/fragment_meeting_admin" />
+        tools:layout="@layout/fragment_meeting_admin" >
+        <action
+            android:id="@+id/action_meetingAdminFragment_to_createMeetingFragment"
+            app:destination="@id/createMeetingFragment" />
+    </fragment>
     <fragment
         android:id="@+id/pendingApprovalsAdminFragment"
         android:name="com.graduationproject.grad_project.view.admin.PendingApprovalsAdminFragment"
@@ -185,10 +189,6 @@
     </dialog>
 
     <fragment
-        android:id="@+id/collectionOfDebtFragment"
-        android:name="com.graduationproject.grad_project.view.admin.CollectionOfDebtFragment"
-        android:label="CollectionOfDebtFragment" />
-    <fragment
         android:id="@+id/aboutFragment"
         android:name="com.graduationproject.grad_project.AboutFragment"
         android:label="fragment_about"
@@ -248,6 +248,16 @@
         <action
             android:id="@+id/action_settingsPasswordFragment_to_settingsAdminFragment2"
             app:destination="@id/settingsAdminFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createMeetingFragment"
+        android:name="com.graduationproject.grad_project.view.admin.CreateMeetingFragment"
+        android:label="CreateMeetingFragment" >
+        <action
+            android:id="@+id/action_createMeetingFragment_to_meetingAdminFragment"
+            app:destination="@id/meetingAdminFragment"
+            app:popUpTo="@id/createMeetingFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
 </navigation>
