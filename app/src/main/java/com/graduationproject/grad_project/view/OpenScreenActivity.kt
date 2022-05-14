@@ -7,7 +7,6 @@ import android.os.Handler
 import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.ActivityOpenScreenBinding
 import com.graduationproject.grad_project.view.admin.HomePageAdminActivity

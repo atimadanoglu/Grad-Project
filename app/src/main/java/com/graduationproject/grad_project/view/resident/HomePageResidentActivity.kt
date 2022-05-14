@@ -40,8 +40,9 @@ class HomePageResidentActivity : AppCompatActivity() {
     private fun setDrawerHeader() {
         val header = binding.navigationView.getHeaderView(0)
         val drawerHeaderBinding = DrawerHeaderResidentBinding.bind(header)
+        drawerHeaderBinding.lifecycleOwner = this
         drawerHeaderBinding.viewModel = viewModel
-        viewModel.retrieveSiteName()
+        viewModel.retrieveUserNameAndSiteName()
         drawerHeaderBinding.signOut.setOnClickListener {
             showAlertMessage()
         }

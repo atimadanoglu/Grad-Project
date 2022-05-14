@@ -46,6 +46,9 @@ class ExpendituresListAdapter(private val context: Context?)
             val popupMenu = createPopUpMenu(it)
             popupMenu?.setOnMenuItemClickListener { menuItem ->
                 when(menuItem.itemId) {
+                    R.id.showExpenditure -> {
+                        true
+                    }
                     R.id.deleteExpenditure -> {
                         ExpendituresOperations.deleteExpenditure(item)
                         true
