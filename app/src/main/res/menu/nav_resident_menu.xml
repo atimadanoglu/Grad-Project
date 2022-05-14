@@ -31,5 +31,16 @@
             </menu>
         </item>
 
+        <item android:title="@string/application"
+            android:id="@+id/appSub_menu">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item android:title="@string/hakkinda"
+                        android:id="@+id/aboutFragment"
+                        android:icon="@drawable/info_icon"/>
+                </group>
+            </menu>
+        </item>
+
     </group>
 </menu>

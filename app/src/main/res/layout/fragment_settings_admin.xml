@@ -37,14 +37,14 @@
             android:fontFamily="@font/nunito_sans_bold"
             android:text="@string/hesap_ayarlar"
             android:textColor="@color/primary_color"
-            android:textSize="22sp"
+            android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="110dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="40dp"
             android:layout_marginEnd="10dp"
@@ -57,12 +57,12 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/nameConstraint"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <pl.droidsonroids.gif.GifImageView
                     android:id="@+id/account_anim"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_marginStart="10dp"
                     android:src="@drawable/account_anim"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -74,11 +74,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="20dp"
                     android:fontFamily="@font/titillium_web_bold"
                     android:text="@string/ad_soyad"
                     android:textColor="@color/primary_color"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     app:layout_constraintStart_toEndOf="@+id/account_anim"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -90,7 +90,7 @@
                     android:layout_marginBottom="10dp"
                     android:hint="@string/batuhan_goren"
                     android:text="@{String.valueOf(viewModel.fullName)}"
-                    app:layout_constraintBottom_toBottomOf="parent"
+
                     app:layout_constraintStart_toStartOf="@+id/NameTitle"
                     app:layout_constraintTop_toBottomOf="@+id/NameTitle"
                     tools:ignore="MissingConstraints" />
@@ -101,7 +101,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewPhone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="110dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="25dp"
             android:layout_marginEnd="10dp"
@@ -114,12 +114,12 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/phoneConstraint"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <pl.droidsonroids.gif.GifImageView
                     android:id="@+id/phone_anim"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_marginStart="10dp"
                     android:src="@drawable/phone_anim"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -131,11 +131,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="20dp"
                     android:fontFamily="@font/titillium_web_bold"
                     android:text="@string/cep_telefonu"
                     android:textColor="@color/primary_color"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     app:layout_constraintStart_toEndOf="@id/phone_anim"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -144,10 +144,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
                     android:hint="@string/_90_555_333_12_08"
                     android:text="@{String.valueOf(viewModel.phoneNumber)}"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@id/phoneTitle"
                     app:layout_constraintTop_toBottomOf="@+id/phoneTitle"
                     tools:ignore="MissingConstraints" />
@@ -158,7 +156,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/carViewPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="110dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="25dp"
             android:layout_marginEnd="10dp"
@@ -171,13 +169,13 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/passwordConstraint"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
 
                 <pl.droidsonroids.gif.GifImageView
                     android:id="@+id/password_anim"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_marginStart="10dp"
                     android:src="@drawable/password_anim"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -190,11 +188,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="20dp"
                     android:fontFamily="@font/titillium_web_bold"
                     android:text="@string/sifre"
                     android:textColor="@color/primary_color"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     app:layout_constraintStart_toEndOf="@+id/password_anim"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -203,9 +201,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
                     android:text="@string/passwordStars"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/passwordTitle"
                     app:layout_constraintTop_toBottomOf="@+id/passwordTitle"
                     tools:ignore="MissingConstraints" />

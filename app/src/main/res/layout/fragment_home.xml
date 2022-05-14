@@ -16,7 +16,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="30dp"
             android:text="@string/home_page"
-            android:fontFamily="@font/titillium_web"
+            android:fontFamily="@font/nunito_sans_bold"
             android:textColor="@color/primary_color"
             android:textSize="32sp"
             app:layout_constraintStart_toStartOf="parent"
