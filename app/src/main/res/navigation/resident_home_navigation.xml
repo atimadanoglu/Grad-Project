@@ -90,7 +90,17 @@
         android:id="@+id/settingsResidentFragment"
         android:name="com.graduationproject.grad_project.view.resident.SettingsResidentFragment"
         android:label="fragment_settings_resident"
-        tools:layout="@layout/fragment_settings_resident" />
+        tools:layout="@layout/fragment_settings_resident" >
+        <action
+            android:id="@+id/action_settingsResidentFragment_to_settingsResidentPasswordFragment"
+            app:destination="@id/settingsResidentPasswordFragment" />
+        <action
+            android:id="@+id/action_settingsResidentFragment_to_settingsResidentPhoneFragment"
+            app:destination="@id/settingsResidentPhoneFragment" />
+        <action
+            android:id="@+id/action_settingsResidentFragment_to_settingsResidentNameFragment"
+            app:destination="@id/settingsResidentNameFragment" />
+    </fragment>
     <fragment
         android:id="@+id/voteResidentFragment"
         android:name="com.graduationproject.grad_project.view.resident.VoteResidentFragment"
@@ -135,5 +145,34 @@
             android:name="content"
             app:argType="string" />
     </dialog>
+
+    <fragment
+        android:id="@+id/settingsResidentPasswordFragment"
+        android:name="com.graduationproject.grad_project.view.SettingsResidentPasswordFragment"
+        android:label="SettingsResidentPasswordFragment" >
+        <action
+            android:id="@+id/action_settingsResidentPasswordFragment_to_settingsResidentFragment"
+            app:destination="@id/settingsResidentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsResidentPhoneFragment"
+        android:name="com.graduationproject.grad_project.view.SettingsResidentPhoneFragment"
+        android:label="SettingsResidentPhoneFragment" >
+        <action
+            android:id="@+id/action_settingsResidentPhoneFragment_to_settingsResidentFragment"
+            app:destination="@id/settingsResidentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsResidentNameFragment"
+        android:name="com.graduationproject.grad_project.view.resident.SettingsResidentNameFragment"
+        android:label="fragment_settings_resident_name"
+        tools:layout="@layout/fragment_settings_resident_name" >
+        <action
+            android:id="@+id/action_settingsResidentNameFragment_to_settingsResidentFragment"
+            app:destination="@id/settingsResidentFragment" />
+        <argument
+            android:name="fullName"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

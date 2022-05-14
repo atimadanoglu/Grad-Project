@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SettingsPasswordViewModel: ViewModel() {
+class SettingsResidentPasswordViewModel: ViewModel() {
 
     companion object {
         const val TAG = "SettingsPasswordViewModel"

@@ -66,18 +66,19 @@
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipGroup"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            app:selectionRequired="true"
+            android:layout_marginTop="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/request_content_text"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
+            app:selectionRequired="true"
             app:singleSelection="true">
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/acceptChip"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/onayla"
@@ -86,6 +87,7 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/rejectChip"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/reddet"
