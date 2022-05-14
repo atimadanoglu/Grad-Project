@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.graduationproject.grad_project.viewmodel.MeetingAdminViewModel" />
+            type="com.graduationproject.grad_project.viewmodel.CreateMeetingViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -9,13 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.graduationproject.grad_project.databinding.FragmentCreateMeetingBinding
-import com.graduationproject.grad_project.viewmodel.MeetingAdminViewModel
+import com.graduationproject.grad_project.viewmodel.CreateMeetingViewModel
 
 class CreateMeetingFragment : Fragment() {
 
     private var _binding: FragmentCreateMeetingBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: MeetingAdminViewModel by viewModels()
+   private val viewModel: CreateMeetingViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,7 +28,14 @@ class CreateMeetingFragment : Fragment() {
         binding.timePicker.setIs24HourView(true)
         setTime()
         checkTitleIsEmpty()
-        viewModel.retrieveResidentsPlayerIDs()
+        viewModel.retrieveResidents()
+        viewModel.residents.observe(viewLifecycleOwner) {
+            it?.let {
+                if (it.isNotEmpty()) {
+                    viewModel.setPlayerIdsAndEmails()
+                }
+            }
+        }
         viewModel.navigateToMeetingsFragment.observe(viewLifecycleOwner) {
             it?.let {
                 if (it) {
@@ -60,5 +67,4 @@ class CreateMeetingFragment : Fragment() {
             viewModel.setMinute(minute.toLong())
         }
     }
-
 }
