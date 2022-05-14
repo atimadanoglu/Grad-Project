@@ -40,12 +40,16 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
-    fun retrieveSiteNameForAdmin(siteName: MutableLiveData<String?>) = CoroutineScope(ioDispatcher).launch {
+    fun retrieveSiteNameAndUserNameForAdmin(
+        siteName: MutableLiveData<String?>,
+        userName: MutableLiveData<String?>
+    ) = CoroutineScope(ioDispatcher).launch {
         try {
             val email = FirebaseAuth.getInstance().currentUser?.email
             email?.let {
                 adminRef.document(it).get().await().also { document ->
                     siteName.postValue(document["siteName"].toString())
+                    userName.postValue(document["fullName"].toString())
                 }
             }
         } catch (e: FirebaseFirestoreException) {
@@ -53,20 +57,22 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
-
-    fun retrieveSiteNameForResident(siteName: MutableLiveData<String?>) = CoroutineScope(ioDispatcher).launch {
+    fun retrieveSiteNameAndUserNameForResident(
+        siteName: MutableLiveData<String?>,
+        userName: MutableLiveData<String?>
+    ) = CoroutineScope(ioDispatcher).launch {
         try {
             val email = FirebaseAuth.getInstance().currentUser?.email
             email?.let {
                 residentRef.document(it).get().await().also { document ->
                     siteName.postValue(document["siteName"].toString())
+                    userName.postValue(document["fullName"].toString())
                 }
             }
         } catch (e: FirebaseFirestoreException) {
             Log.e(TAG, "retrieveSiteNameForAdmin --> $e")
         }
     }
-
 
     fun checkRegistrationStatus(status: MutableLiveData<String?>) = CoroutineScope(ioDispatcher).launch {
         try {

@@ -8,17 +8,18 @@ import com.graduationproject.grad_project.firebase.UserOperations
 import kotlinx.coroutines.launch
 
 class HomePageAdminViewModel: ViewModel() {
-
     val siteName = MutableLiveData("")
+    val userName = MutableLiveData("")
 
     private val _isSignedOut = MutableLiveData<Boolean?>()
     val isSignedOut: LiveData<Boolean?> get() = _isSignedOut
 
-    fun retrieveSiteName() = viewModelScope.launch {
-        UserOperations.retrieveSiteNameForAdmin(siteName)
+    fun retrieveUserNameAndSiteName() = viewModelScope.launch {
+        UserOperations.retrieveSiteNameAndUserNameForAdmin(
+            siteName, userName
+        )
     }
     fun signOut() {
         UserOperations.signOut(_isSignedOut)
     }
-
 }

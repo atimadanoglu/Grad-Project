@@ -3,22 +3,23 @@ package com.graduationproject.grad_project.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.graduationproject.grad_project.firebase.UserOperations
+import kotlinx.coroutines.launch
 
 class HomePageResidentViewModel: ViewModel() {
-
-    private val _siteName = MutableLiveData("")
-    val siteName: LiveData<String?> get() = _siteName
+    val siteName = MutableLiveData("")
+    val userName = MutableLiveData("")
 
     private val _isSignedOut = MutableLiveData<Boolean?>()
     val isSignedOut: LiveData<Boolean?> get() = _isSignedOut
 
-    fun retrieveSiteName() {
-        UserOperations.retrieveSiteNameForResident(_siteName)
+    fun retrieveUserNameAndSiteName() = viewModelScope.launch {
+        UserOperations.retrieveSiteNameAndUserNameForResident(
+            siteName, userName
+        )
     }
-
     fun signOut() {
         UserOperations.signOut(_isSignedOut)
     }
-
 }

@@ -4,9 +4,6 @@
 
     <data>
         <variable
-            name="auth"
-            type="com.google.firebase.auth.FirebaseAuth" />
-        <variable
             name="viewModel"
             type="com.graduationproject.grad_project.viewmodel.HomePageResidentViewModel" />
     </data>
@@ -25,7 +22,7 @@
             android:layout_marginTop="24dp"
             android:fontFamily="@font/titillium_web"
             android:hint="@string/account_name"
-            android:text="@{String.valueOf(auth.getInstance().currentUser.displayName)}"
+            android:text="@{viewModel.userName}"
             android:textAppearance="?attr/textAppearanceHeadline6"
             android:textColor="@color/secondary_color"
             android:textColorHint="@color/secondary_color"
