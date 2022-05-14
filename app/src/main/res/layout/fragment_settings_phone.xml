@@ -41,6 +41,8 @@
             app:counterMaxLength="10"
             app:helperTextEnabled="true"
             app:helperText="@string/phoneHelperText"
+            app:boxStrokeColor="@color/primary_color"
+            app:hintTextColor="@color/primary_color"
             app:endIconMode="clear_text"
             app:prefixText="+90"
             app:layout_constraintEnd_toEndOf="parent"
