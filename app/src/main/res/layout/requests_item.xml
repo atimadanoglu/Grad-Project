@@ -33,7 +33,7 @@
                     android:id="@+id/titleOfRequest"
                     android:layout_width="280dp"
                     android:layout_height="35dp"
-                    android:fontFamily="@font/titillium_web_bold"
+                    android:fontFamily="@font/roboto_medium"
                     android:hint="@string/title"
                     android:text="@{request.title}"
                     android:textColor="@color/primary_color"
@@ -46,7 +46,7 @@
                     android:id="@+id/contentOfRequest"
                     android:layout_width="280dp"
                     android:layout_height="35dp"
-                    android:fontFamily="@font/titillium_web"
+                    android:fontFamily="@font/roboto_regular"
                     android:hint="@string/content"
                     android:lines="1"
                     android:text="@{request.content}"
@@ -67,22 +67,22 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <com.google.android.material.chip.Chip
                     android:id="@+id/item_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/back_green_button"
-                    android:fontFamily="@font/titillium_web"
+                    android:checkable="false"
+                    android:backgroundTint="#DF284443"
+                    android:fontFamily="@font/roboto_regular"
                     android:hint="@string/turu"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
+                    android:textColor="@color/secondary_color"
+                    android:textColorHint="@color/secondary_color"
+                    android:padding="5dp"
                     android:text="@{request.type}"
-                    android:textColor="@color/primary_color"
-                    android:textColorHint="@color/primary_color"
-                    android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/contentOfRequest" />
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
