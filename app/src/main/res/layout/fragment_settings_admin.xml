@@ -37,7 +37,7 @@
             android:fontFamily="@font/nunito_sans_bold"
             android:text="@string/hesap_ayarlar"
             android:textColor="@color/primary_color"
-            android:textSize="24sp"
+            android:textSize="22sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -78,7 +78,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/ad_soyad"
                     android:textColor="@color/primary_color"
-                    android:textSize="20sp"
+                    android:textSize="17sp"
                     app:layout_constraintStart_toEndOf="@+id/account_anim"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -90,7 +90,6 @@
                     android:layout_marginBottom="10dp"
                     android:hint="@string/batuhan_goren"
                     android:text="@{String.valueOf(viewModel.fullName)}"
-
                     app:layout_constraintStart_toStartOf="@+id/NameTitle"
                     app:layout_constraintTop_toBottomOf="@+id/NameTitle"
                     tools:ignore="MissingConstraints" />
@@ -135,7 +134,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/cep_telefonu"
                     android:textColor="@color/primary_color"
-                    android:textSize="20sp"
+                    android:textSize="17sp"
                     app:layout_constraintStart_toEndOf="@id/phone_anim"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -192,7 +191,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/sifre"
                     android:textColor="@color/primary_color"
-                    android:textSize="20sp"
+                    android:textSize="17sp"
                     app:layout_constraintStart_toEndOf="@+id/password_anim"
                     app:layout_constraintTop_toTopOf="parent" />
 
