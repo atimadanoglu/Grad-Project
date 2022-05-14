@@ -11,40 +11,33 @@
         <Button
             android:id="@+id/backButtonVoting"
             android:layout_width="60dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="32dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="40dp"
             android:background="@drawable/back_green_button"
             android:drawableStart="@drawable/back_arrow_green_icon"
             android:paddingStart="5dp"
-            android:paddingEnd="5dp"
+            android:paddingEnd="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
-        <ImageView
-            android:id="@+id/voteIcon"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="30dp"
-            android:contentDescription="@string/todo"
-            android:src="@drawable/assessment_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/mainTitle"
-            android:layout_width="130dp"
-            android:layout_height="110dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="36dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_medium"
-            android:text="@string/new_voting"
+            android:gravity="center"
+            android:text="@string/add_voting"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             android:textColor="@color/primary_color"
-            android:textSize="38sp"
+            android:textSize="25sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/backButtonVoting" />
+
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutTitle"
@@ -52,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="20dp"
             android:hint="@string/title"
             app:boxStrokeColor="@color/primary_color"
@@ -115,7 +108,7 @@
             android:layout_gravity="center"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/button"
             android:backgroundTint="@color/primary_color"
             android:text="@string/share"

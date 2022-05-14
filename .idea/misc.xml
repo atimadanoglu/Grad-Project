@@ -138,6 +138,7 @@
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/drawable/electric_icon.xml" value="0.2975" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/drawable/error_icon.xml" value="0.2975" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/drawable/flat_count_icon.xml" value="0.2975" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/drawable/hamburger_icon.xml" value="0.174" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/drawable/home_card_view_background.xml" value="0.2" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/drawable/ic_baseline_person_outline_24.xml" value="0.1" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1915" />
@@ -207,7 +208,7 @@
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_add_announcement.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_add_expenditures.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_add_expenditures_fragment.xml" value="0.38697916666666665" />
-        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_add_request.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_add_request.xml" value="0.4" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_add_voting_admin.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_adding_debt_dialog.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/user/Desktop/Graduation_Project/app/src/main/res/layout/fragment_admin_new_account.xml" value="0.38697916666666665" />

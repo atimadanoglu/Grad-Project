@@ -35,7 +35,7 @@
     <string name="home">Ana Sayfa</string>
     <string name="announcements">Duyurular</string>
     <string name="residents">Sakinler</string>
-    <string name="add_new_announcement">Yeni duyuru ekle</string>
+    <string name="add_new_announcement">Yeni Duyuru Ekle</string>
     <string name="todo">TODO</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title">Başlık</string>
@@ -99,7 +99,7 @@
     <string name="kapat">Kapat</string>
     <string name="yönetici">Yönetici</string>
     <string name="sakin">Sakin</string>
-    <string name="new_voting">Oylama Ekle</string>
+    <string name="add_voting">Oylama Ekle</string>
     <string name="surec">Süreç</string>
     <string name="gun">gün</string>
     <string name="baslik_ekle">Başlık ekle</string>

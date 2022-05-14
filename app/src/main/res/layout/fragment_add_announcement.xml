@@ -12,7 +12,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
         tools:context=".view.admin.AddAnnouncementFragment">
 
         <Button
@@ -20,7 +19,7 @@
             android:layout_width="60dp"
             android:layout_height="30dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="40dp"
             android:background="@drawable/back_green_button"
             android:drawableStart="@drawable/back_arrow_green_icon"
             android:paddingStart="5dp"
@@ -50,14 +49,14 @@
             android:layout_gravity="center"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/button"
             android:backgroundTint="@color/primary_color"
             android:text="@string/share"
             android:textColor="@color/secondary_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="TouchTargetSizeCheck" />
 
@@ -86,7 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="108dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="20dp"
             app:boxStrokeColor="@color/primary_color"
             app:hintTextColor="@color/primary_color"
@@ -98,7 +97,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/textView5">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/titleInput"
