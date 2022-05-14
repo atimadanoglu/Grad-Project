@@ -25,14 +25,15 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp">
+                android:padding="10dp"
+                android:background="@color/card_view_color_for_include_anim">
 
                 <TextView
                     android:id="@+id/expenditures_type_textView"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="20dp"
-                    android:fontFamily="@font/titillium_web_bold"
+                    android:fontFamily="@font/roboto_medium"
                     android:hint="@string/gider_tipi"
                     android:lines="1"
                     android:text="@{expenditure.title}"
@@ -48,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginTop="5dp"
-                    android:fontFamily="@font/titillium_web"
+                    android:fontFamily="@font/roboto_light"
                     android:gravity="center_vertical"
                     android:hint="@string/tarih"
                     android:text="@{String.valueOf(expenditure.date.toDate())}"
@@ -65,7 +66,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="8dp"
                     android:gravity="center"
-                    android:fontFamily="@font/titillium_web_bold"
+                    android:fontFamily="@font/roboto_medium"
                     android:hint="@string/line"
                     android:paddingTop="10dp"
                     android:text="@{@string/expenditureAmount(expenditure.amount)}"
@@ -82,7 +83,7 @@
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="20dp"
-                    android:fontFamily="@font/titillium_web"
+                    android:fontFamily="@font/roboto_regular"
                     android:hint="@string/content"
                     android:lines="2"
                     android:text="@{expenditure.content}"

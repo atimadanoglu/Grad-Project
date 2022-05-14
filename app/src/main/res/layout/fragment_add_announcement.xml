@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
-                android:fontFamily="@font/titillium_web_bold"
+                android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
                 android:text="@string/add_new_announcement"
                 android:textColor="@color/primary_color"
