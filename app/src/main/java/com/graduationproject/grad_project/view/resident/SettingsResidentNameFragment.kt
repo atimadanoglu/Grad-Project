@@ -1,4 +1,4 @@
-package com.graduationproject.grad_project.view
+package com.graduationproject.grad_project.view.resident
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,25 +8,25 @@ import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.DrawerHeaderAdminBinding
-import com.graduationproject.grad_project.databinding.FragmentSettingsNameBinding
-import com.graduationproject.grad_project.viewmodel.SettingsNameViewModel
+import com.graduationproject.grad_project.databinding.FragmentSettingsResidentNameBinding
+import com.graduationproject.grad_project.view.SettingsNameFragmentArgs
+import com.graduationproject.grad_project.viewmodel.SettingsResidentNameViewModel
 
+class SettingsResidentNameFragment : Fragment() {
 
-class SettingsNameFragment : Fragment() {
-
-    private var _binding: FragmentSettingsNameBinding? = null
+    private var _binding: FragmentSettingsResidentNameBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: SettingsNameViewModel by viewModels()
+    private val viewModel: SettingsResidentNameViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentSettingsNameBinding.inflate(inflater, container, false)
+        _binding = FragmentSettingsResidentNameBinding.inflate(inflater, container, false)
         val args: SettingsNameFragmentArgs by navArgs()
         binding.nameEditText.setText(args.fullName)
         binding.nameEditText.addTextChangedListener {
@@ -65,17 +65,8 @@ class SettingsNameFragment : Fragment() {
     }
 
     private fun goBackToSettingsPage() {
-        val action = SettingsNameFragmentDirections
-            .actionSettingsNameFragmentToSettingsAdminFragment()
-        findNavController().navigate(action)
-    }
-
-    private fun isValid() {
-        if (viewModel.isSame.value == true) {
-            binding.nameLayout.error = "Aynı isim girilemez!"
-        } else {
-            binding.nameLayout.error = null
-        }
+        val action = SettingsResidentNameFragmentDirections.actionSettingsResidentNameFragmentToSettingsResidentFragment()
+        requireView().findNavController().navigate(action)
     }
 
     /**

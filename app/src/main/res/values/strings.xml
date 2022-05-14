@@ -278,12 +278,14 @@
     <string name="fotograf_ekle">FOTOĞRAF EKLE</string>
 
     <string name="oturumu_kapat"><u>Oturumu Kapat</u></string>
+    <string name="şifreDeğiştirmeBaşarılı">Şifre değiştirme işlemi başarılı!</string>
+    <string name="şifreDeğiştirmeBaşarısız">Şifre değiştirme işlemi başarısız!</string>
+    <string name="telefonNoDeğiştirilemedi">Telefon numarası değiştirilemedi. Bir süre sonra bir daha deneyiniz!</string>
 
     <string name="application">UYGULAMA</string>
     <string name="hakkinda">Hakkında</string>
     <string name="referans">Referans</string>
     <string name="referenceFirstText">Freepik tarafından</string>
     <string name="referenceSecondText">www.flaticon.com dan yapılan simge.</string>
-
 
 </resources>

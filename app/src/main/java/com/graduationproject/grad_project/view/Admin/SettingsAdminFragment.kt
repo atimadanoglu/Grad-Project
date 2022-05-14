@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.graduationproject.grad_project.databinding.FragmentSettingsAdminBinding
 import com.graduationproject.grad_project.viewmodel.SettingsAdminViewModel
 
@@ -25,31 +26,39 @@ class SettingsAdminFragment : Fragment() {
         _binding = FragmentSettingsAdminBinding.inflate(inflater, container, false)
         viewModel.getAdmin()
         viewModel.fullName.observe(viewLifecycleOwner) {
-            binding.nameText.text = it
+            it?.let {
+                binding.nameText.text = it
+            }
         }
 
         viewModel.phoneNumber.observe(viewLifecycleOwner) {
-            binding.phoneText.text = it
+            it?.let {
+                binding.phoneText.text = it
+            }
         }
         binding.cardViewName.setOnClickListener { goToUpdateNamePage() }
         binding.cardViewPhone.setOnClickListener { goToUpdatePhoneNumberPage() }
+        binding.carViewPassword.setOnClickListener { goToUpdatePasswordPage() }
         return binding.root
     }
 
     private fun goToUpdatePhoneNumberPage() {
-        val action = SettingsAdminFragmentDirections.actionSettingsAdminFragmentToSettingsPhoneFragment()
+        val action = SettingsAdminFragmentDirections
+            .actionSettingsAdminFragmentToSettingsPhoneFragment()
         requireView().findNavController().navigate(action)
     }
 
     private fun goToUpdateNamePage() {
         val action = viewModel.fullName.value?.let {
-            SettingsAdminFragmentDirections.actionSettingsAdminFragmentToSettingsNameFragment(
-                it
-            )
+            SettingsAdminFragmentDirections
+                .actionSettingsAdminFragmentToSettingsNameFragment(it)
         }
         if (action != null) {
             requireView().findNavController().navigate(action)
         }
     }
-
+    private fun goToUpdatePasswordPage() {
+        val action = SettingsAdminFragmentDirections.actionSettingsAdminFragmentToSettingsPasswordFragment2()
+        findNavController().navigate(action)
+    }
 }

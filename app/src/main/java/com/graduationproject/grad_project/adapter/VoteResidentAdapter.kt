@@ -1,5 +1,6 @@
 package com.graduationproject.grad_project.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.VotingContinuesAdminItemBinding
 import com.graduationproject.grad_project.model.Voting
 import com.graduationproject.grad_project.view.resident.dialogs.ShowVoteResidentDialogFragment
@@ -54,6 +56,8 @@ class VoteResidentAdapter(
         }
         if (filtered.isNotEmpty()) {
             holder.binding.root.isEnabled = false
+            holder.binding.constraintOfCardViewVoting
+                .setBackgroundColor(Color.parseColor("#3B284443"))
         }
 
         if (filtered.isEmpty() || item.residentsWhoVoted.isEmpty()) {

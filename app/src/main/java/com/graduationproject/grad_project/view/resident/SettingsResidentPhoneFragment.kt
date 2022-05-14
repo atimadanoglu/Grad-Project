@@ -1,30 +1,29 @@
 package com.graduationproject.grad_project.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.graduationproject.grad_project.R
-import com.graduationproject.grad_project.components.SnackBars
-import com.graduationproject.grad_project.databinding.FragmentSettingsPhoneBinding
-import com.graduationproject.grad_project.viewmodel.SettingsPhoneViewModel
+import com.graduationproject.grad_project.databinding.FragmentSettingsResidentPhoneBinding
+import com.graduationproject.grad_project.viewmodel.SettingsResidentPhoneViewModel
 
-class SettingsPhoneFragment : Fragment() {
+class SettingsResidentPhoneFragment : Fragment() {
 
-    private var _binding: FragmentSettingsPhoneBinding? = null
+    private var _binding: FragmentSettingsResidentPhoneBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: SettingsPhoneViewModel by viewModels()
+    private val viewModel: SettingsResidentPhoneViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentSettingsPhoneBinding.inflate(inflater, container, false)
+        _binding = FragmentSettingsResidentPhoneBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         binding.updateButton.setOnClickListener {
@@ -47,7 +46,7 @@ class SettingsPhoneFragment : Fragment() {
     }
 
     private fun goToSettingsPage() {
-        val action = SettingsPhoneFragmentDirections.actionSettingsPhoneFragmentToSettingsAdminFragment()
+        val action = SettingsResidentPhoneFragmentDirections.actionSettingsResidentPhoneFragmentToSettingsResidentFragment()
         findNavController().navigate(action)
     }
 }

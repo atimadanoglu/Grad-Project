@@ -2,12 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".view.SettingsPhoneFragment">
+    tools:context=".view.resident.SettingsResidentPhoneFragment">
 
     <data>
         <variable
             name="viewModel"
-            type="com.graduationproject.grad_project.viewmodel.SettingsPhoneViewModel" />
+            type="com.graduationproject.grad_project.viewmodel.SettingsResidentPhoneViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
