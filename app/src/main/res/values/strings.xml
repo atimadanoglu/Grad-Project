@@ -291,5 +291,6 @@
     <string name="toplant_planla">Toplantı Planla</string>
     <string name="toplant_linki">Toplantı Linki</string>
     <string name="createMeeting">Toplantı Oluştur</string>
+    <string name="meetingTime">%d:%d</string>
 
 </resources>

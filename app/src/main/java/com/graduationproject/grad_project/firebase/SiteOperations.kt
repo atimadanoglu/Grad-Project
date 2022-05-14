@@ -5,7 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.FirebaseException
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.toObjects
 import com.graduationproject.grad_project.model.Expenditure
+import com.graduationproject.grad_project.model.Meeting
 import com.graduationproject.grad_project.model.Site
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
@@ -26,6 +29,65 @@ object SiteOperations: FirebaseConstants() {
             } catch (e: FirebaseException) {
                 Log.e(TAG, "saveSiteInfoDB --> $e")
             }
+        }
+    }
+
+    fun retrieveMeetings(meetings: MutableLiveData<List<Meeting?>>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = auth.currentUser?.email
+            val admin = async {
+                email?.let { UserOperations.getAdmin(it) }
+            }
+            siteRef.document("siteName:${admin.await()?.get("siteName")}" +
+                    "-city:${admin.await()?.get("city")}" +
+                    "-district:${admin.await()?.get("district")}")
+                .collection("meetings")
+                .orderBy("date", Query.Direction.DESCENDING)
+                .addSnapshotListener { value, error ->
+                    if (error != null) {
+                        Log.e(TAG, "retrieveMeetings --> $error")
+                        return@addSnapshotListener
+                    }
+                    value?.toObjects<Meeting>().also {
+                        meetings.postValue(it)
+                    }
+                }
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "saveMeetingInfo --> $e")
+        }
+    }
+
+    fun saveMeetingInfo(meeting: Meeting) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = auth.currentUser?.email
+            val admin = async {
+                email?.let { UserOperations.getAdmin(it) }
+            }
+            siteRef.document("siteName:${admin.await()?.get("siteName")}" +
+                    "-city:${admin.await()?.get("city")}" +
+                    "-district:${admin.await()?.get("district")}")
+                .collection("meetings")
+                .document(meeting.id)
+                .set(meeting).await()
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "saveMeetingInfo --> $e")
+        }
+    }
+
+    fun addMeetingUriIntoDB(id: String, uri: String) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = auth.currentUser?.email
+            val admin = async {
+                email?.let { UserOperations.getAdmin(it) }
+            }
+            siteRef.document("siteName:${admin.await()?.get("siteName")}" +
+                    "-city:${admin.await()?.get("city")}" +
+                    "-district:${admin.await()?.get("district")}")
+                .collection("meetings")
+                .document(id)
+                .update("meetingUri", uri).await()
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "saveMeetingInfo --> $e")
         }
     }
 

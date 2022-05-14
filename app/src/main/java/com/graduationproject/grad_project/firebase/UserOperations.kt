@@ -1,21 +1,19 @@
 package com.graduationproject.grad_project.firebase
 
 import android.util.Log
-import android.view.View
 import androidx.lifecycle.MutableLiveData
-import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.FirebaseException
 import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.ktx.userProfileChangeRequest
-import com.google.firebase.firestore.*
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
-import com.graduationproject.grad_project.model.Administrator
-import com.graduationproject.grad_project.model.Expenditure
-import com.graduationproject.grad_project.model.RegistrationStatus
-import com.graduationproject.grad_project.model.SiteResident
+import com.graduationproject.grad_project.model.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 
@@ -69,6 +67,22 @@ object UserOperations: FirebaseConstants() {
             }
         } catch (e: FirebaseFirestoreException) {
             Log.e(TAG, "retrieveSiteNameForAdmin --> $e")
+        }
+    }
+
+    fun saveMeetingNotification(emails: MutableLiveData<MutableList<String?>>, notification: Notification) = CoroutineScope(ioDispatcher).launch {
+        try {
+            emails.value?.forEach {
+                it?.let {
+                    residentRef.document(it)
+                        .collection("notifications")
+                        .document(notification.id)
+                        .set(notification)
+                        .await()
+                }
+            }
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "saveMeetingNotification -> $e")
         }
     }
 
@@ -236,6 +250,26 @@ object UserOperations: FirebaseConstants() {
             null
         }
     }
+
+    fun retrieveResidentsInSpecificSite(siteResidents: MutableLiveData<MutableList<SiteResident?>>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            val admin = async {
+                email?.let { getAdmin(it) }
+            }
+            residentRef.whereEqualTo("city", admin.await()?.get("city"))
+                .whereEqualTo("district", admin.await()?.get("district"))
+                .whereEqualTo("siteName", admin.await()?.get("siteName"))
+                .get().await().also {
+                    it.toObjects<SiteResident>().also { list ->
+                        siteResidents.postValue(list.toMutableList())
+                    }
+                }
+        } catch (e: Exception) {
+            Log.e(TAG, "getResidentsInASpecificSite -> $e")
+        }
+    }
+
 
     suspend fun getResident(email: String): DocumentSnapshot? {
         return try {

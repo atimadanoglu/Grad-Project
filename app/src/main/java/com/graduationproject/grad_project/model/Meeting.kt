@@ -7,5 +7,6 @@ data class Meeting(
     val title: String = "",
     val hour: Long = 0,
     val minute: Long = 0,
+    val meetingUri: String = "",
     val date: Timestamp? = null
 )
