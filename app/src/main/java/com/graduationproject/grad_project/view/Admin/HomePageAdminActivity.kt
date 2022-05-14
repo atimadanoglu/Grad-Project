@@ -22,6 +22,7 @@ class HomePageAdminActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityHomePageAdminBinding
     private val viewModel: HomePageAdminViewModel by viewModels()
+    private lateinit var auth: FirebaseAuth
 
     companion object {
         private const val TAG = "HomePageAdminActivity"
@@ -31,6 +32,8 @@ class HomePageAdminActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomePageAdminBinding.inflate(layoutInflater)
         val view = binding.root
+
+        auth = FirebaseAuth.getInstance()
         setContentView(view)
         val navHostFragment =
             binding.mainFragmentContainerView.getFragment() as NavHostFragment
@@ -68,7 +71,7 @@ class HomePageAdminActivity : AppCompatActivity() {
             .create().show()
     }
 
-/*    private fun setDisplayName(drawerHeaderBinding: DrawerHeaderAdminBinding) {
+   /* private fun setDisplayName(drawerHeaderBinding: DrawerHeaderAdminBinding) {
         lifecycleScope.launch {
             val a = async {
                 if (auth.currentUser?.displayName.isNullOrEmpty()) {

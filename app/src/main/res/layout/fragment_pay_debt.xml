@@ -163,7 +163,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:fontFamily="@font/titillium_web"
+        android:fontFamily="@font/roboto_regular"
         android:minHeight="48dp"
         android:text="@string/terms"
         app:layout_constraintStart_toStartOf="parent"

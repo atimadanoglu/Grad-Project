@@ -27,7 +27,7 @@
             android:layout_marginEnd="20dp"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
-            android:fontFamily="@font/titillium_web"
+            android:fontFamily="@font/roboto_medium"
             android:hint="@string/başlık"
             android:text="@{voting.title}"
             android:textColorHint="@color/primary_color"
@@ -48,7 +48,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/textview_box"
-            android:fontFamily="@font/titillium_web"
+            android:fontFamily="@font/roboto_regular"
             android:gravity="start"
             android:hint="@string/content"
             android:text="@{voting.content}"
@@ -82,6 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/onayla"
+                android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/primary_color"
                 app:chipIcon="@drawable/_done_icon" />
 
@@ -90,6 +91,7 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
                 android:text="@string/reddet"
                 android:textColor="#E8CD0707"
                 app:chipIcon="@drawable/close_icon" />

@@ -19,7 +19,7 @@ class OpenScreenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityOpenScreenBinding
     private val viewModel: OpenScreenViewModel by viewModels()
-    private val splashScreen = 4000
+    private val splashScreen = 3000
     private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
