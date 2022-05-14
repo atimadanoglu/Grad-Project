@@ -32,6 +32,8 @@
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp"
         android:hint="@string/ad_soyad"
+        app:boxStrokeColor="@color/primary_color"
+        app:hintTextColor="@color/primary_color"
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
