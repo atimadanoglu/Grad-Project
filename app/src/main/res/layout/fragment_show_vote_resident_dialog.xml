@@ -99,12 +99,10 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:hint="@string/durations"
+            android:layout_marginTop="10dp"
             android:text="@{@string/kalanSure(dialog.calculateDuration(voting))}"
-            app:layout_constraintBottom_toBottomOf="@+id/chipGroup"
-            app:layout_constraintStart_toEndOf="@+id/chipGroup"
-            app:layout_constraintTop_toTopOf="@+id/chipGroup" />
+            app:layout_constraintStart_toStartOf="@+id/chipGroup"
+            app:layout_constraintTop_toBottomOf="@+id/chipGroup" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
