@@ -113,10 +113,8 @@ object RequestsOperations: FirebaseConstants() {
                             Log.e(TAG, "retrieveRequestsForAdmin --> $error")
                             return@addSnapshotListener
                         }
-                        if (value?.isEmpty == false) {
-                            value.toObjects<Request>().also {
-                                requests.postValue(it)
-                            }
+                        value?.toObjects<Request>().also {
+                            requests.postValue(it)
                         }
                     }
             }

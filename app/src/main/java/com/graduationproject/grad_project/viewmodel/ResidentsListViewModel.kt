@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import com.graduationproject.grad_project.model.RegistrationStatus
 import com.graduationproject.grad_project.model.SiteResident
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -64,7 +65,7 @@ class ResidentsListViewModel(
                     .whereEqualTo("city", adminInfo.await().get("city"))
                     .whereEqualTo("district", adminInfo.await().get("district"))
                     .whereEqualTo("siteName", adminInfo.await().get("siteName"))
-                    .whereEqualTo("isVerified", true)
+                    .whereEqualTo("registrationStatus", RegistrationStatus.VERIFIED)
 
                 query.addSnapshotListener { value, error ->
                     if (error != null) {

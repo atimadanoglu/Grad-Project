@@ -67,15 +67,13 @@ object ExpendituresOperations: FirebaseConstants() {
                             Log.e(TAG, "retrieveAllExpenditures --> $error")
                             return@addSnapshotListener
                         }
-                        if (value?.documents?.isNotEmpty() == true) {
-                            val list = mutableListOf<Expenditure?>()
-                            value.documents.forEach {
-                                list.add(
-                                    it.toObject<Expenditure>()
-                                )
-                            }.also {
-                                expenditures.postValue(list)
-                            }
+                        val list = mutableListOf<Expenditure?>()
+                        value?.documents?.forEach {
+                            list.add(
+                                it.toObject<Expenditure>()
+                            )
+                        }.also {
+                            expenditures.postValue(list)
                         }
                     }
             }

@@ -22,8 +22,6 @@ import kotlinx.coroutines.tasks.await
 object UserOperations: FirebaseConstants() {
 
     private const val TAG = "UserOperations"
-    private var isAdmin = false
-    private var isResident = false
 
     suspend fun getAdmin(email: String): DocumentSnapshot? {
         return try {
@@ -94,7 +92,6 @@ object UserOperations: FirebaseConstants() {
             Log.e(TAG, "checkRegistrationStatus -> $e")
         }
     }
-
 
     fun takeFlatNumbers(
         siteName: String,
@@ -167,41 +164,6 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
-    suspend fun checkVerifiedStatus(isVerified: MutableLiveData<Boolean?>, email: String) = withContext(ioDispatcher) {
-        try {
-            residentRef.document(email)
-                .addSnapshotListener { value, error ->
-                    if (error != null) {
-                        Log.e(TAG, "checkVerifiedStatus error --> $error")
-                        return@addSnapshotListener
-                    }
-                    println("isVerified in operation: ${value?.get("isVerified").toString()}")
-                    if (value?.get("isVerified") == true) {
-                        println("isvERfied in operation is ${value.get("email")}")
-                        println("isVerified in operation: ${value.get("isVerified").toString()}")
-                        isVerified.postValue(true)
-                        return@addSnapshotListener
-                    }
-                }
-        } catch (e: Exception) {
-            Log.e(TAG, "checkVerifiedStatus exception --> $e")
-        }
-    }
-
-    suspend fun isVerified() = withContext(ioDispatcher) {
-        try {
-            val email = FirebaseAuth.getInstance().currentUser?.email
-            val resident = email?.let {
-                residentRef.document(it)
-                    .get().await()
-            }
-            return@withContext resident?.get("isVerified").toString().toBoolean()
-        } catch (e: Exception) {
-            Log.e(TAG, "isVerified --> $e")
-            return@withContext false
-        }
-    }
-
     suspend fun retrieveAwaitingResidents(awaitingResidents: MutableLiveData<MutableList<SiteResident?>>)
         = CoroutineScope(ioDispatcher).launch {
         try {
@@ -235,37 +197,6 @@ object UserOperations: FirebaseConstants() {
             }
         } catch (e: Exception) {
             Log.e(TAG, "retrieveAwaitingResidents -> $e")
-        }
-    }
-
-    fun reAuthenticateUser(email: String, password: String) {
-        CoroutineScope(ioDispatcher).launch {
-            try {
-                val credential = EmailAuthProvider.getCredential(
-                    email, password
-                )
-                val currentUser = currentUser!!
-                currentUser.reauthenticate(credential).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        Log.d(TAG, "reAuthenticateUser --> ReAuthentication is successful!")
-                    }
-                }.await()
-            } catch (e: Exception) {
-                Log.e(TAG, "reAuthenticateUser --> $e")
-            }
-        }
-    }
-
-    suspend fun getAdminInSpecificSite(residentInfo: DocumentSnapshot): QuerySnapshot? {
-        return try {
-            val admin = adminRef.whereEqualTo("city", residentInfo["city"])
-                .whereEqualTo("district", residentInfo["district"])
-                .whereEqualTo("siteName", residentInfo["siteName"])
-                .get().await()
-            admin
-        } catch (e: FirebaseFirestoreException) {
-            Log.e(TAG, "getAdminInSpecificSite ---> $e")
-            null
         }
     }
 
@@ -410,21 +341,6 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
-    /*suspend fun saveAdminIntoDB(
-        admin: HashMap<String, Any>
-    ) {
-        withContext(ioDispatcher) {
-            try {
-                adminRef
-                    .document(admin["email"].toString())
-                    .set(admin)
-                    .await()
-            } catch (e: FirebaseFirestoreException) {
-                Log.e(TAG, "saveAdminIntDB --> $e")
-            }
-        }
-    }*/
-
     suspend fun saveAdminIntoDB(
         admin: HashMap<String, Any>
     ) = CoroutineScope(ioDispatcher).launch {
@@ -497,80 +413,6 @@ object UserOperations: FirebaseConstants() {
         }.join()
     }
 
-    fun updateEmailForAdmin(newEmail: String) {
-        CoroutineScope(ioDispatcher).launch {
-            try {
-                val currentUser = async {
-                    auth.currentUser
-                }
-                val currentUserEmail = async {
-                    currentUser.await()?.email
-                }
-                launch {
-                    currentUser.await()?.updateEmail(newEmail)?.await()
-                }
-                launch {
-                    currentUserEmail.await()?.let {
-                        adminRef.document(it)
-                            .update("email", newEmail).await()
-                    }
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, "updateEmailInfo --> $e")
-            }
-        }
-    }
-
-    fun updateEmailForResident(email: String) {
-        CoroutineScope(ioDispatcher).launch {
-            try {
-                val currentUser = async {
-                    auth.currentUser
-                }
-                val currentUserEmail = async {
-                    currentUser.await()?.email
-                }
-                launch {
-                    currentUser.await()?.updateEmail(email)?.await()
-                }
-                launch {
-                    currentUserEmail.await()?.let {
-                        residentRef.document(it)
-                            .update("email", email).await()
-                    }
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, "updateEmailInfo --> $e")
-            }
-        }
-    }
-
-
-
-    fun updatePassword(password: String, view: View) {
-        CoroutineScope(ioDispatcher).launch {
-            try {
-                currentUser?.updatePassword(password)?.addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        Log.d(TAG, "updatePassword --> Updating password is SUCCESSFUL!")
-                        Snackbar.make(
-                            view,
-                            "Şifre değiştirme başarılı!",
-                            Snackbar.LENGTH_LONG
-                        ).show()
-                    }
-                }?.await()
-            } catch (e: Exception) {
-                Log.e(TAG, "updatePassword ---> $e")
-                Snackbar.make(
-                    view,
-                    e.toString(),
-                    Snackbar.LENGTH_LONG
-                ).show()
-            }
-        }
-    }
-
     fun updatePhoneNumberForAdmin(phoneNumber: String, isSuccessful: MutableLiveData<Boolean?>)
             = CoroutineScope(ioDispatcher).launch {
         try {
@@ -636,30 +478,6 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
-    fun retrieveUserType(type: MutableLiveData<String>) {
-        CoroutineScope(ioDispatcher).launch {
-            currentUserEmail?.let {
-                val admin = async {
-                    getAdmin(it)
-                }
-                val resident = async {
-                    getResident(it)
-                }
-                if (resident.await()?.get("typeOfUser") == "Sakin") {
-                    println("type of user = sakin")
-                    type.postValue("Sakin")
-                    return@launch
-                }
-                if (admin.await()?.get("typeOfUser") == "Yönetici") {
-                    println("type of user = yönetici")
-                    type.postValue("Yönetici")
-                    return@launch
-                }
-            }
-
-        }
-    }
-
     suspend fun isAdmin(
         email: String,
         isAdmin: MutableLiveData<Boolean?>
@@ -694,39 +512,6 @@ object UserOperations: FirebaseConstants() {
         }
     }.join()
 
-    suspend fun loginWithEmailAndPassword(
-        email: String,
-        password: String,
-        view: View?,
-        scope: CoroutineDispatcher = Dispatchers.IO
-    ): AuthResult? {
-        return withContext(scope) {
-            try {
-                var data: AuthResult? = null
-                if (auth.currentUser == null) {
-                    try {
-                        data = auth.signInWithEmailAndPassword(email, password).await().also {
-                            Log.d(TAG, "loginWithEmailAndPassword --> $it")
-                        }
-                    } catch (e: FirebaseAuthException) {
-                        view?.let {
-                            Snackbar.make(
-                                it,
-                                e.message.toString(),
-                                Snackbar.LENGTH_LONG
-                            ).show()
-                        }
-
-                    }
-                }
-                data
-            } catch (e: Exception) {
-                Log.e(TAG, "loginWithEmailAndPassword -->  $e")
-                null
-            }
-        }
-    }
-
     fun signOut(isSignedOut: MutableLiveData<Boolean?>) = CoroutineScope(ioDispatcher).launch {
         try {
             auth.signOut().also {
@@ -738,55 +523,6 @@ object UserOperations: FirebaseConstants() {
         } catch (e: FirebaseAuthException) {
             Log.e(TAG, "signOut --> $e")
             isSignedOut.postValue(null)
-        }
-    }
-
-    private fun isSignedIn() = auth.currentUser != null
-
-    fun takeTheUserEmailIfSignedIn(): String? {
-        if (isSignedIn()) {
-            return auth.currentUser?.email.toString()
-        }
-        return null
-    }
-
-    private suspend fun isAdmin(scope: CoroutineDispatcher = Dispatchers.IO): Boolean {
-        return withContext(scope) {
-            try {
-                val email = FirebaseAuth.getInstance().currentUser?.email
-                val admin = async {
-                    email?.let {
-                        getAdmin(it)
-                    }
-                }
-                val type = admin.await()?.get("typeOfUser")
-                if (type == "Yönetici") isAdmin = true
-                isResident = false
-                isAdmin
-            } catch (e: Exception) {
-                Log.e(TAG, "isAdmin ---> $e")
-                isAdmin
-            }
-        }
-    }
-
-    private suspend fun isResident(scope: CoroutineDispatcher = Dispatchers.IO): Boolean {
-        return withContext(scope) {
-            try {
-                val email = FirebaseAuth.getInstance().currentUser?.email
-                val resident = async {
-                    email?.let {
-                        getResident(it)
-                    }
-                }
-                val type = resident.await()?.get("typeOfUser")
-                if (type == "Sakin") isResident = true
-                isAdmin = false
-                isResident
-            } catch (e: Exception) {
-                Log.e(TAG, "isResident --> $e")
-                isResident
-            }
         }
     }
 
@@ -815,27 +551,6 @@ object UserOperations: FirebaseConstants() {
             } catch (e: Exception) {
                 Log.e(TAG, "updateExpenditureAmount --> $e")
             }
-        }
-    }
-
-    suspend fun takeTheUserType(scope: CoroutineDispatcher = Dispatchers.IO): String {
-        return withContext(scope) {
-            val email = FirebaseAuth.getInstance().currentUser?.email
-            val isAdmin = async {
-                email?.let {
-                    isAdmin()
-                }
-            }
-            val isResident = async {
-                email?.let {
-                    isResident()
-                }
-            }
-            var userType = ""
-            println("retrievetype : $email")
-            if (isAdmin.await() == true) userType = "Yönetici"
-            if (isResident.await() == true) userType = "Sakin"
-            userType
         }
     }
 
