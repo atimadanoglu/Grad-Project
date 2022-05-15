@@ -36,7 +36,8 @@
             android:src="@drawable/electric_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/todo" />
 
         <TextView
             android:id="@+id/service_name_text"
@@ -84,7 +85,7 @@
             android:gravity="center_vertical"
             android:fontFamily="@font/roboto_regular"
             android:hint="@string/phone_number"
-            android:text="@{service.phoneNumber}"
+            android:text="@{@string/servicePhoneNumber(service.phoneNumber)}"
             android:textColor="@color/primary_color"
             android:textSize="16sp"
             app:drawableStartCompat="@drawable/phone_icon"

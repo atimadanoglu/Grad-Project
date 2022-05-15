@@ -296,5 +296,6 @@
     <string name="noMeetingText">Yönetici tarafından açılmış herhangi bir toplantı bulunamadı</string>
     <string name="toplantıSaatiYaklaştıResident">Toplantı başlamak üzere. Katılmanız önemle rica olunur!</string>
     <string name="toplantıyaSon15Dakika">Toplantınız 15 dakika içinde başlayacaktır!</string>
+    <string name="servicePhoneNumber">+90%s</string>
 
 </resources>
