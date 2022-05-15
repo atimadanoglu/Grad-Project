@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.graduationproject.grad_project.firebase.NotificationOperations
+import com.graduationproject.grad_project.firebase.UserOperations
 import com.graduationproject.grad_project.model.Notification
 
 class NotificationsAdminViewModel: ViewModel() {
@@ -22,6 +23,14 @@ class NotificationsAdminViewModel: ViewModel() {
     fun saveInfo(notification: Notification) {
         _notification.value = notification
         _openMenuOptions.value = true
+    }
+
+    fun deleteNotification() {
+        _notification.value?.let { UserOperations.deleteNotificationForAdmin(it) }
+    }
+
+    fun deleteAllNotifications() {
+        UserOperations.deleteAllNotificationsForAdmin()
     }
 
     override fun onCleared() {

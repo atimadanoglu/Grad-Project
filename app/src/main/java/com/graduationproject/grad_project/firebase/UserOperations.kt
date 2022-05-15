@@ -94,6 +94,41 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
+
+    fun deleteNotificationForAdmin(notification: Notification) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            email?.let {
+                adminRef.document(it)
+                    .collection("notifications")
+                    .document(notification.id)
+                    .delete()
+                    .await()
+            }
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "deleteNotificationForAdmin -> $e")
+        }
+    }
+
+    fun deleteAllNotificationsForAdmin() = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            email?.let {
+                adminRef.document(it)
+                    .collection("notifications")
+                    .get().await().also { querySnapshot ->
+                        val documents = querySnapshot.documents
+                        documents.forEach { document ->
+                            document.reference.delete()
+                        }
+                    }
+            }
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "deleteNotificationForAdmin -> $e")
+        }
+    }
+
+
     fun checkRegistrationStatus(status: MutableLiveData<String?>) = CoroutineScope(ioDispatcher).launch {
         try {
             val email = FirebaseAuth.getInstance().currentUser?.email
