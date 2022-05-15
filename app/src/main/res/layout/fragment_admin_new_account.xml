@@ -176,7 +176,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/activationCodeLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="135dp"
+            android:layout_width="115dp"
             android:layout_height="wrap_content"
             android:hint="@string/activation"
             android:textColorHint="@color/white"
