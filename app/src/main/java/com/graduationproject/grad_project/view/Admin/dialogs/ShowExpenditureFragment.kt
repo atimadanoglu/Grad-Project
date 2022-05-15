@@ -9,46 +9,49 @@ import android.os.Environment
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.graduationproject.grad_project.R
-import com.graduationproject.grad_project.databinding.FragmentShowRequestInfoDialogBinding
+import com.graduationproject.grad_project.databinding.FragmentShowExpenditureBinding
+import com.graduationproject.grad_project.model.Expenditure
 import com.squareup.picasso.Picasso
 import java.io.File
 import java.util.*
 
-class ShowRequestInfoDialogFragment : DialogFragment() {
+class ShowExpenditureFragment(
+    private val expenditure: Expenditure
+) : DialogFragment() {
 
-    private var _binding : FragmentShowRequestInfoDialogBinding? = null
+    private var _binding: FragmentShowExpenditureBinding? = null
     private val binding get() = _binding!!
-    private val args: ShowRequestInfoDialogFragmentArgs by navArgs()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
-            _binding = FragmentShowRequestInfoDialogBinding.inflate(layoutInflater)
+            _binding = FragmentShowExpenditureBinding.inflate(layoutInflater)
             val view = binding.root
-            binding.requestTitleText.text = args.title
-            binding.requestContentText.text = args.content
-            binding.requestTypeText.text = args.type
+            val message = "Harcanan Tutar: ${expenditure.amount} TL"
+            binding.expenditureContent.text = message
             showImage()
             val uuid = UUID.randomUUID()
-            binding.imageOfRequest.setOnClickListener {
-                downloadImageNew(uuid.toString(), args.downloadUri)
+            binding.expenditureDocument.setOnClickListener {
+                downloadImageNew(uuid.toString(), expenditure.documentUri)
             }
-            val materialDialog = MaterialAlertDialogBuilder(requireContext())
+            val dialog = MaterialAlertDialogBuilder(requireContext())
                 .setView(view)
+                .setTitle(expenditure.title)
                 .setPositiveButton(R.string.tamam) { _, _ -> }
                 .create()
 
-            materialDialog
+            dialog
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 
     private fun showImage() {
-        if (args.downloadUri.isNotEmpty()) {
-            Picasso.get().load(args.downloadUri).into(binding.imageOfRequest)
+        binding.expenditureDocument.visibility = View.GONE
+        if (expenditure.documentUri.isNotEmpty()) {
+            binding.expenditureDocument.visibility = View.VISIBLE
+            Picasso.get().load(expenditure.documentUri).into(binding.expenditureDocument)
         } else {
-            binding.imageOfRequest.visibility = View.GONE
+            binding.expenditureDocument.visibility = View.GONE
         }
     }
 
