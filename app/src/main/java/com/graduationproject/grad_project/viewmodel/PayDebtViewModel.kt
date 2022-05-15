@@ -4,12 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.toObject
+import com.graduationproject.grad_project.firebase.PaymentOperations
+import com.graduationproject.grad_project.firebase.SiteOperations
 import com.graduationproject.grad_project.firebase.UserOperations
+import com.graduationproject.grad_project.model.Payment
+import com.graduationproject.grad_project.model.SiteResident
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.util.*
 
 class PayDebtViewModel(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -42,6 +49,9 @@ class PayDebtViewModel(
     private val _highestAmount = MutableLiveData(0)
     val highestAmount: LiveData<Int> get() = _highestAmount
 
+    private val _siteResident = MutableLiveData<SiteResident?>()
+    val siteResident: LiveData<SiteResident?> get() = _siteResident
+
     fun setIsValidAmount(value: Int) {
         viewModelScope.launch {
             val email = FirebaseAuth.getInstance().currentUser?.email
@@ -64,6 +74,21 @@ class PayDebtViewModel(
         _allValid.value = value
     }
 
+    fun savePayment() {
+        val uuid = UUID.randomUUID()
+        val payment = Payment(
+            uuid.toString(),
+            _siteResident.value?.fullName!!,
+            _siteResident.value?.blockNo!!,
+            _siteResident.value?.flatNo!!,
+            _amount.value?.toLong()!!,
+            Timestamp.now()
+        )
+        SiteOperations.savePayment(payment)
+        PaymentOperations.savePaymentIntoResidentCollection(payment)
+        SiteOperations.updateCollectedMoney(payment)
+    }
+
     fun payDebt() {
         viewModelScope.launch {
             val email = FirebaseAuth.getInstance().currentUser?.email
@@ -73,6 +98,20 @@ class PayDebtViewModel(
                 }
             }
         }
+    }
+
+    private fun retrieveResident() = viewModelScope.launch {
+        val email = FirebaseAuth.getInstance().currentUser?.email
+        email?.let {
+            val resident = async {
+                UserOperations.getResident(email)
+            }
+            _siteResident.postValue(resident.await()?.toObject())
+        }
+    }
+
+    init {
+        retrieveResident()
     }
 
     fun setHighestValue() {

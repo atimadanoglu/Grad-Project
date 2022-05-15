@@ -3,6 +3,7 @@ package com.graduationproject.grad_project.firebase
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.FirebaseException
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
@@ -10,6 +11,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import com.graduationproject.grad_project.model.Expenditure
 import com.graduationproject.grad_project.model.Meeting
+import com.graduationproject.grad_project.model.Payment
 import com.graduationproject.grad_project.model.Site
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
@@ -128,6 +130,39 @@ object SiteOperations: FirebaseConstants() {
                 .set(meeting).await()
         } catch (e: FirebaseException) {
             Log.e(TAG, "saveMeetingInfo --> $e")
+        }
+    }
+
+    fun savePayment(payment: Payment) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            val resident = async {
+                email?.let { UserOperations.getResident(it) }
+            }
+            siteRef.document("siteName:${resident.await()?.get("siteName")}" +
+                    "-city:${resident.await()?.get("city")}" +
+                    "-district:${resident.await()?.get("district")}")
+                .collection("payments")
+                .document(payment.id)
+                .set(payment).await()
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "saveMeetingInfo --> $e")
+        }
+    }
+
+    fun updateCollectedMoney(payment: Payment) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            val resident = async {
+                email?.let { UserOperations.getResident(it) }
+            }
+            val money = payment.paidAmount
+            siteRef.document("siteName:${resident.await()?.get("siteName")}" +
+                    "-city:${resident.await()?.get("city")}" +
+                    "-district:${resident.await()?.get("district")}")
+                .update("collectedMoney", FieldValue.increment(money)).await()
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "updateCollectedMoney --> $e")
         }
     }
 

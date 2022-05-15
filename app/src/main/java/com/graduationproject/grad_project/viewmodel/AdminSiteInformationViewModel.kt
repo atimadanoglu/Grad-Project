@@ -98,7 +98,8 @@ class AdminSiteInformationViewModel: ViewModel() {
                 "district" to inputDistrict.value.toString(),
                 "blockName" to inputBlockName.value.toString(),
                 "flatCount" to inputFlatCount.value.toString().toLong(),
-                "monthlyPayment" to inputMonthlyPayment.value.toString().toLong()
+                "monthlyPayment" to inputMonthlyPayment.value.toString().toLong(),
+                "collectedMoney" to 0L
             )
         }
         return hashMapOf()

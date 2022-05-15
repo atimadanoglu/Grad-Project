@@ -11,5 +11,6 @@ data class Site(
     val services : List<Service>? = null,
     val meetings : List<Meeting>? = null,
     val requests : List<Request>? = null,
-    private var monthlyPayment: Long = 0
+    var monthlyPayment: Long = 0,
+    val collectedMoney: Long = 0
 )
