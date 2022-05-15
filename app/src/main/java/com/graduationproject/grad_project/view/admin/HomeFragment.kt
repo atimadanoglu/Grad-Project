@@ -21,6 +21,7 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.request.setOnClickListener { goToRequestsPage() }
         binding.votingCardView.setOnClickListener { goToVotingPage() }
+        binding.collectionOfDebt.setOnClickListener { goToPaymentsListPage() }
         return binding.root
     }
 
@@ -31,6 +32,11 @@ class HomeFragment : Fragment() {
 
     private fun goToVotingPage() {
         val action = HomeFragmentDirections.actionHomeFragmentToVotingAdminFragment()
+        findNavController().navigate(action)
+    }
+
+    private fun goToPaymentsListPage() {
+        val action = HomeFragmentDirections.actionHomeFragmentToCollectionOfDebtFragment()
         findNavController().navigate(action)
     }
 }
