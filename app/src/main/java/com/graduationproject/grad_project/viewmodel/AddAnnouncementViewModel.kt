@@ -2,17 +2,19 @@ package com.graduationproject.grad_project.viewmodel
 
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
 import com.google.firebase.storage.FirebaseStorage
 import com.graduationproject.grad_project.firebase.AnnouncementOperations
+import com.graduationproject.grad_project.firebase.UserOperations
 import com.graduationproject.grad_project.model.Notification
 import com.graduationproject.grad_project.onesignal.OneSignalOperations
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class AddAnnouncementViewModel: ViewModel() {
 
@@ -22,26 +24,56 @@ class AddAnnouncementViewModel: ViewModel() {
     fun setSelectedPicture(value: Uri?) { _selectedPicture.value = value }
     private var _downloadUri = ""
 
-    private var notification: Notification? = Notification()
+    private val _notification = MutableLiveData<Notification?>()
+    val notification: LiveData<Notification?> get() = _notification
+
+    private val _isShared = MutableLiveData<Boolean?>()
+    val isShared: LiveData<Boolean?> get() = _isShared
+
+    private val _isShareAnnouncementButtonClicked = MutableLiveData<Boolean?>()
+    val isShareAnnouncementButtonClicked: LiveData<Boolean?> get() = _isShareAnnouncementButtonClicked
+
+    private val _playerIDs = MutableLiveData<ArrayList<String?>>()
+    val playerIDs: LiveData<ArrayList<String?>> get() = _playerIDs
 
     companion object {
         private const val TAG = "AddAnnouncementViewModel"
     }
 
-    private fun makeShareAnnouncementOperation(uri: String?) = viewModelScope.launch {
-        println("içi $_downloadUri")
-        notification = getNotificationInfo(uri)
-        notification?.let {
+    fun shareAnnouncementClicked() {
+        _isShareAnnouncementButtonClicked.value = true
+    }
+
+    private fun takePlayerIDsAndSetNotification(downloadUri: String) {
+        UserOperations.retrieveResidentsPlayerIDs(_playerIDs)
+        val uuid = UUID.randomUUID()
+        if (!areNull()) {
+            _notification.value = Notification(
+                title.value!!,
+                content.value!!,
+                downloadUri,
+                uuid.toString(),
+                Timestamp(Date())
+            )
+        }
+    }
+
+    fun saveAnnouncementIntoDB() = CoroutineScope(Dispatchers.IO).launch {
+        notification.value?.let {
             AnnouncementOperations.saveAnnouncementIntoDB(it)
             AnnouncementOperations.shareAnnouncementWithResidents(it)
+        }
+    }
 
-            val playerIDs = OneSignalOperations.takePlayerIDs()
-            OneSignalOperations.postNotification(playerIDs, it)
+    fun sendPushNotification(playerIds: ArrayList<String?>) = CoroutineScope(Dispatchers.IO).launch {
+        notification.value?.let {
+            OneSignalOperations.postNotification(playerIds, it)
+            _isShared.postValue(true)
         }
     }
 
     fun uploadImageAndShareNotification(selectedPicture: Uri?)
-    = viewModelScope.launch(Dispatchers.IO) {
+            = viewModelScope.launch(Dispatchers.IO) {
         val uuid = UUID.randomUUID()
         val imageName = "$uuid.jpeg"
         val storage = FirebaseStorage.getInstance()
@@ -52,32 +84,19 @@ class AddAnnouncementViewModel: ViewModel() {
                 uploadTask.onSuccessTask {
                     it.storage.downloadUrl.addOnSuccessListener { uri ->
                         _downloadUri = uri.toString()
-                        makeShareAnnouncementOperation(_downloadUri)
-                        println(uri.toString())
+                        takePlayerIDsAndSetNotification(_downloadUri)
                     }
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "uploadImageAndShareNotification --> $e")
             }
         } else {
-            makeShareAnnouncementOperation("")
+            launch(Dispatchers.Main) {
+                takePlayerIDsAndSetNotification("")
+            }
             Log.e(TAG, "uploadImageAndShareNotification --> selectedPicture is null")
         }
     }
-    private fun getNotificationInfo(uri: String?): Notification? {
-        val uuid = UUID.randomUUID()
-        if (!areNull()) {
-            return Notification(
-                title.value!!,
-                content.value!!,
-                uri,
-                uuid.toString(),
-                Timestamp(Date())
-            )
-        }
-        return null
-    }
 
-    fun areNull() = title.value == null && content.value == null
-            && _selectedPicture.value == null
+    private fun areNull() = title.value.isNullOrEmpty() || content.value.isNullOrEmpty()
 }

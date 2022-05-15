@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.FragmentAddAnnouncementBinding
 import com.graduationproject.grad_project.viewmodel.AddAnnouncementViewModel
 
@@ -33,12 +31,7 @@ class AddAnnouncementFragment : Fragment() {
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var permissionLauncher: ActivityResultLauncher<String> // Manifest.permission.READ_EXTERNAL_STORAGE is a String
     private var selectedPicture : Uri? = null
-
     private val viewModel: AddAnnouncementViewModel by viewModels()
-
-    companion object {
-        private const val TAG = "AddAnnouncementFragment"
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,25 +45,42 @@ class AddAnnouncementFragment : Fragment() {
         registerLauncher()
         auth = FirebaseAuth.getInstance()
         binding.shareAnnouncementButton.setOnClickListener {
-            shareAnnouncementButtonClicked()
+            viewModel.shareAnnouncementClicked()
+        }
+        viewModel.isShareAnnouncementButtonClicked.observe(viewLifecycleOwner) {
+            it?.let {
+                if (it) {
+                    viewModel.uploadImageAndShareNotification(selectedPicture)
+                    Snackbar.make(
+                        binding.shareAnnouncementButton,
+                        "Duyurunuz sakinlerle paylaşılıyor...",
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+        viewModel.notification.observe(viewLifecycleOwner) {
+            it?.let {
+                viewModel.saveAnnouncementIntoDB()
+            }
+        }
+        viewModel.playerIDs.observe(viewLifecycleOwner) {
+            it?.let {
+                if (it.isNotEmpty()) {
+                    viewModel.sendPushNotification(it)
+                }
+            }
         }
         binding.takePhoto.setOnClickListener { selectImageButtonClicked(view) }
         binding.backButtonToAnnouncement.setOnClickListener { goToPreviousPage() }
-
-        return view
-    }
-
-    private fun shareAnnouncementButtonClicked() {
-        if (viewModel.areNull()) {
-            Toast.makeText(this.context, R.string.boşluklarıDoldur, Toast.LENGTH_LONG).show()
-        } else {
-            try {
-                viewModel.uploadImageAndShareNotification(selectedPicture)
-                goToPreviousPage()
-            } catch (e: Exception) {
-                Log.e(TAG, e.toString())
+        viewModel.isShared.observe(viewLifecycleOwner) {
+            it?.let {
+                if (it) {
+                    goToPreviousPage()
+                }
             }
         }
+        return view
     }
 
     private fun registerLauncher() {

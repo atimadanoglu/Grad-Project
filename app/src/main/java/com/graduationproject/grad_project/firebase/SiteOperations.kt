@@ -6,6 +6,7 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import com.graduationproject.grad_project.model.Expenditure
 import com.graduationproject.grad_project.model.Meeting
@@ -56,6 +57,62 @@ object SiteOperations: FirebaseConstants() {
             Log.e(TAG, "saveMeetingInfo --> $e")
         }
     }
+
+
+    fun retrieveMeeting(meeting: MutableLiveData<Meeting?>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = auth.currentUser?.email
+            val admin = async {
+                email?.let { UserOperations.getAdmin(it) }
+            }
+            siteRef.document("siteName:${admin.await()?.get("siteName")}" +
+                    "-city:${admin.await()?.get("city")}" +
+                    "-district:${admin.await()?.get("district")}")
+                .collection("meetings")
+                .orderBy("date", Query.Direction.DESCENDING)
+                .addSnapshotListener { value, error ->
+                    if (error != null) {
+                        Log.e(TAG, "retrieveMeetings --> $error")
+                        return@addSnapshotListener
+                    }
+                    if (value?.documents?.isNotEmpty() == true) {
+                        value.documents[0]?.toObject<Meeting?>().also {
+                            meeting.postValue(it)
+                        }
+                    }
+                }
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "saveMeetingInfo --> $e")
+        }
+    }
+
+    fun retrieveMeetingForResident(meeting: MutableLiveData<Meeting?>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = auth.currentUser?.email
+            val resident = async {
+                email?.let { UserOperations.getResident(it) }
+            }
+            siteRef.document("siteName:${resident.await()?.get("siteName")}" +
+                    "-city:${resident.await()?.get("city")}" +
+                    "-district:${resident.await()?.get("district")}")
+                .collection("meetings")
+                .orderBy("date", Query.Direction.DESCENDING)
+                .addSnapshotListener { value, error ->
+                    if (error != null) {
+                        Log.e(TAG, "retrieveMeetings --> $error")
+                        return@addSnapshotListener
+                    }
+                    if (value?.documents?.isNotEmpty() == true) {
+                        value.documents[0]?.toObject<Meeting?>().also {
+                            meeting.postValue(it)
+                        }
+                    }
+                }
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "saveMeetingInfo --> $e")
+        }
+    }
+
 
     fun saveMeetingInfo(meeting: Meeting) = CoroutineScope(ioDispatcher).launch {
         try {

@@ -189,15 +189,19 @@ object UserOperations: FirebaseConstants() {
             getAdmin(it)
         }
 
-        val residents = admin?.let { getResidentsInASpecificSite(it) }
-        val residentDocuments = residents?.documents
+        val residents = async {
+            admin?.let { getResidentsInASpecificSite(it) }
+        }
+        val residentDocuments = residents.await()?.documents
         val playerIDs = arrayListOf<String?>()
         if (residentDocuments != null) {
             println("docuemnt size ${residentDocuments.size}")
-            for (document in residentDocuments) {
-                playerIDs.add(document["player_id"].toString())
+            residentDocuments.forEach {
+                playerIDs.add(it["player_id"].toString())
+            }.also {
+                println("playerids size : ${playerIDs.size}")
+                residentPlayerIDs.postValue(playerIDs)
             }
-            residentPlayerIDs.postValue(playerIDs)
         }
     }
 
