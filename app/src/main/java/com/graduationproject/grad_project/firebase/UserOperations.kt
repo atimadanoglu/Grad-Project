@@ -43,9 +43,13 @@ object UserOperations: FirebaseConstants() {
         try {
             val email = FirebaseAuth.getInstance().currentUser?.email
             email?.let {
-                adminRef.document(it).get().await().also { document ->
-                    siteName.postValue(document["siteName"].toString())
-                    userName.postValue(document["fullName"].toString())
+                adminRef.document(it).addSnapshotListener { value, error ->
+                    if (error != null) {
+                        Log.e(TAG, "retrieveSiteNameUserNameForResident --> $error")
+                        return@addSnapshotListener
+                    }
+                    siteName.postValue(value?.get("siteName")?.toString())
+                    userName.postValue(value?.get("fullName")?.toString())
                 }
             }
         } catch (e: FirebaseFirestoreException) {
@@ -60,9 +64,13 @@ object UserOperations: FirebaseConstants() {
         try {
             val email = FirebaseAuth.getInstance().currentUser?.email
             email?.let {
-                residentRef.document(it).get().await().also { document ->
-                    siteName.postValue(document["siteName"].toString())
-                    userName.postValue(document["fullName"].toString())
+                residentRef.document(it).addSnapshotListener { value, error ->
+                    if (error != null) {
+                        Log.e(TAG, "retrieveSiteNameUserNameForResident --> $error")
+                        return@addSnapshotListener
+                    }
+                    siteName.postValue(value?.get("siteName")?.toString())
+                    userName.postValue(value?.get("fullName")?.toString())
                 }
             }
         } catch (e: FirebaseFirestoreException) {

@@ -160,6 +160,9 @@
         <action
             android:id="@+id/action_settingsPhoneFragment_to_settingsAdminFragment"
             app:destination="@id/settingsAdminFragment" />
+        <argument
+            android:name="phoneNumber"
+            app:argType="string" />
     </fragment>
     <dialog
         android:id="@+id/servicesAdminDialogFragment"

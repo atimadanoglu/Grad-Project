@@ -22,6 +22,8 @@ class SettingsResidentFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentSettingsResidentBinding.inflate(inflater, container, false)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         viewModel.getResident()
         viewModel.fullName.observe(viewLifecycleOwner) {
             binding.nameText.text = it
@@ -37,8 +39,13 @@ class SettingsResidentFragment : Fragment() {
     }
 
     private fun goToUpdatePhoneNumberPage() {
-        val action = SettingsResidentFragmentDirections.actionSettingsResidentFragmentToSettingsResidentPhoneFragment()
-        requireView().findNavController().navigate(action)
+        val action = viewModel.phoneNumber.value?.let {
+            SettingsResidentFragmentDirections
+                .actionSettingsResidentFragmentToSettingsResidentPhoneFragment(it)
+        }
+        if (action != null) {
+            requireView().findNavController().navigate(action)
+        }
     }
 
     private fun goToUpdateNamePage() {
