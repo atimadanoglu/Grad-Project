@@ -294,5 +294,7 @@
     <string name="createMeeting">Toplantı Oluştur</string>
     <string name="meetingTime">%d:%d</string>
     <string name="noMeetingText">Yönetici tarafından açılmış herhangi bir toplantı bulunamadı</string>
+    <string name="toplantıSaatiYaklaştıResident">Toplantı başlamak üzere. Katılmanız önemle rica olunur!</string>
+    <string name="toplantıyaSon15Dakika">Toplantınız 15 dakika içinde başlayacaktır!</string>
 
 </resources>

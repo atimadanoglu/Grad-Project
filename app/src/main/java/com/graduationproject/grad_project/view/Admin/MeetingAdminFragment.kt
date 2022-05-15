@@ -33,6 +33,7 @@ class MeetingAdminFragment : Fragment() {
     private lateinit var alarmManager: AlarmManager
     private lateinit var pendingIntent: PendingIntent
     private val calendar = Calendar.getInstance()
+    private val currentTime = Calendar.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,6 +74,7 @@ class MeetingAdminFragment : Fragment() {
                     calendar[Calendar.MINUTE] = meeting.minute.toInt()
                     calendar[Calendar.SECOND] = 0
                     calendar[Calendar.MILLISECOND] = 0
+                    viewModel.setMeeting(meeting)
                     setAlarm()
                 }
             }
@@ -96,12 +98,20 @@ class MeetingAdminFragment : Fragment() {
             AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
             AlarmManager.INTERVAL_DAY, pendingIntent
         )
+        viewModel.meeting.value?.let {
+            if (currentTime[Calendar.HOUR_OF_DAY] >= it.hour &&
+                    currentTime[Calendar.MINUTE] >= it.minute) {
+                alarmManager.cancel(pendingIntent)
+            }
+        }
     }
 
     private fun checkShareLinkButton() {
         binding.shareLinkButton.isEnabled = false
         binding.linkEditText.addTextChangedListener {
-            binding.shareLinkButton.isEnabled = binding.linkEditText.text?.isNotEmpty() == true
+            viewModel.checkLinkValidity(it.toString())
+            binding.shareLinkButton.isEnabled =
+                binding.linkEditText.text?.isNotEmpty() == true && viewModel.isValidUri.value == true
         }
     }
 

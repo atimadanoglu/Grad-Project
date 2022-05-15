@@ -1,5 +1,6 @@
 package com.graduationproject.grad_project.viewmodel
 
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -31,9 +32,17 @@ class MeetingAdminViewModel: ViewModel() {
 
     val meetingUri = MutableLiveData("")
 
+    private val _isValidUri = MutableLiveData<Boolean?>()
+    val isValidUri: LiveData<Boolean?> get() = _isValidUri
+
     private val _meetingID = MutableLiveData("")
 
     fun setMeetingID(id: String) { _meetingID.value = id }
+    fun setMeeting(meeting: Meeting) { _meeting.value = meeting }
+
+    fun checkLinkValidity(text: String) {
+        _isValidUri.value = Patterns.WEB_URL.matcher(text).matches()
+    }
 
     private var notification: Notification? = null
 
@@ -64,25 +73,33 @@ class MeetingAdminViewModel: ViewModel() {
         SiteOperations.retrieveMeetings(_meetings)
     }
 
+    private fun convertUriIntoValidFormatIfItIsNot() {
+        if (meetingUri.value?.startsWith("https://") == false) {
+            val newText = "https://" + meetingUri.value
+            meetingUri.value = newText
+        }
+    }
+
     fun shareLinkButtonClicked() {
-        println("meeting ID : ${meetingUri.value}")
         if (_meetingID.value != null && meetingUri.value != null) {
+            val message = "Toplantı başlamak üzere. Katılmanız önemle rica olunur!"
+            convertUriIntoValidFormatIfItIsNot()
             SiteOperations.addMeetingUriIntoDB(
                 _meetingID.value!!,
                 meetingUri.value!!
             )
-            sendPushNotificationForURI().also {
+            sendPushNotificationForURI(message).also {
                 meetingUri.value = ""
                 _isLinkShared.value = true
             }
         }
     }
 
-    private fun sendPushNotificationForURI() {
+    private fun sendPushNotificationForURI(message: String) {
         val uuid = UUID.randomUUID()
         notification = Notification(
             "Toplantı",
-            "Toplantı başlamak üzere. Katılmanız önemle rica olunur!",
+            message,
             "",
             uuid.toString(),
             Timestamp.now()
