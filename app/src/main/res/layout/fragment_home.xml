@@ -89,12 +89,14 @@
 
                 <TextView
                     android:id="@+id/debtInfo"
-                    android:layout_width="200dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="5dp"
+                    android:layout_marginEnd="20dp"
                     android:text="@string/homeDebtInfoText"
+                    app:layout_constraintEnd_toStartOf="@+id/collectionOfDebtCount"
                     app:layout_constraintStart_toEndOf="@+id/debtImage"
                     app:layout_constraintTop_toBottomOf="@+id/collectionDebtText" />
 
@@ -103,6 +105,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center"
+                    android:layout_marginEnd="20dp"
                     android:fontFamily="@font/roboto_medium"
                     android:hint="@string/line"
                     android:textColor="@color/primary_color"
