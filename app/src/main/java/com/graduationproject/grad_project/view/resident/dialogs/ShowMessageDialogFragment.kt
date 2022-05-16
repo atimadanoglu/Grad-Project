@@ -12,18 +12,17 @@ class ShowMessageDialogFragment(
 ): DialogFragment() {
 
     private var _binding: FragmentShowMessageDialogBinding? = null
-    private val binding get() = _binding!!
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             _binding = FragmentShowMessageDialogBinding.inflate(layoutInflater)
-            binding.messageContentText.text = message.content
             val builder = MaterialAlertDialogBuilder(it)
-               .setView(view)
-               .setTitle(message.title)
-               .setPositiveButton("Tamam") { _,_ ->
-                   dismiss()
-               }
+                .setView(view)
+                .setTitle(message.title)
+                .setMessage(message.content)
+                .setPositiveButton("Tamam") { _,_ ->
+                    dismiss()
+                }
            builder.create()
        } ?: throw IllegalStateException("Activity cannot be null")
    }
