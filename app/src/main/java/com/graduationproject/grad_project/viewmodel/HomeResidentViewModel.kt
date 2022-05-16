@@ -1,5 +1,6 @@
 package com.graduationproject.grad_project.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -10,13 +11,17 @@ import kotlinx.coroutines.tasks.await
 class HomeResidentViewModel: ViewModel() {
 
     private var _myDebt = MutableLiveData(0L)
-    val myDebt get() = _myDebt
-    private var _myRequestsAmount = MutableLiveData(0)
-    val myRequestsAmount get() = _myRequestsAmount
-    private var _myNotificationsCount = MutableLiveData(0)
-    val myNotificationsCount get() = _myNotificationsCount
+    val myDebt: LiveData<Long?> get() = _myDebt
+    private var _myRequestsAmount = MutableLiveData(0L)
+    val myRequestsAmount: LiveData<Long?> get() = _myRequestsAmount
+    private var _myNotificationsCount = MutableLiveData(0L)
+    val myNotificationsCount: LiveData<Long?> get() = _myNotificationsCount
 
-    fun retrieveResidentInformation(
+    fun retrieveMyDebtInfo() = UserOperations.retrieveResidentDebt(_myDebt)
+    fun retrieveMyRequestsCount() = UserOperations.retrieveResidentRequestsCount(_myRequestsAmount)
+    fun retrieveMyNotificationsCount() = UserOperations.retrieveResidentNotificationCount(_myNotificationsCount)
+
+   /* fun retrieveResidentInformation(
         auth: FirebaseAuth = FirebaseAuth.getInstance(),
         ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
         mainDispatcher: CoroutineDispatcher = Dispatchers.Main
@@ -58,6 +63,6 @@ class HomeResidentViewModel: ViewModel() {
                 }
             }
         }
-    }
+    }*/
 
 }

@@ -12,13 +12,19 @@
         tools:layout="@layout/fragment_home_resident" >
         <action
             android:id="@+id/action_homeResidentFragment_to_requestsFragment"
-            app:destination="@id/requestsFragment" />
+            app:destination="@id/requestsFragment"
+            app:popUpTo="@id/homeResidentFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_homeResidentFragment_to_notificationResidentFragment"
-            app:destination="@id/notificationResidentFragment" />
+            app:destination="@id/notificationResidentFragment"
+            app:popUpTo="@id/homeResidentFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_homeResidentFragment_to_payDebtFragment"
-            app:destination="@id/payDebtFragment" />
+            app:destination="@id/payDebtFragment"
+            app:popUpTo="@id/homeResidentFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/requestsFragment"

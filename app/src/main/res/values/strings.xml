@@ -298,6 +298,7 @@
     <string name="toplantıyaSon15Dakika">Toplantınız 15 dakika içinde başlayacaktır!</string>
     <string name="servicePhoneNumber">+90%s</string>
     <string name="collectedMoney">%d TL</string>
+    <string name="myDebt">%d TL</string>
     <string name="bills_added">Fatura eklendi.</string>
     <string name="photoAdded">Fotoğraf eklendi.</string>
 
