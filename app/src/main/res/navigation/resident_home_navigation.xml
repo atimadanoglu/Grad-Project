@@ -120,7 +120,7 @@
     </dialog>
 
     <fragment
-        android:id="@+id/aboutFragment2"
+        android:id="@+id/aboutFragment"
         android:name="com.graduationproject.grad_project.AboutFragment"
         android:label="fragment_about"
         tools:layout="@layout/fragment_about" />
@@ -160,7 +160,12 @@
         android:label="SettingsResidentPhoneFragment" >
         <action
             android:id="@+id/action_settingsResidentPhoneFragment_to_settingsResidentFragment"
-            app:destination="@id/settingsResidentFragment" />
+            app:destination="@id/settingsResidentFragment"
+            app:popUpTo="@id/settingsResidentPhoneFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="phoneNumber"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/settingsResidentNameFragment"

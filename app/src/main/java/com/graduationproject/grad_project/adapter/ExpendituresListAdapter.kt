@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,8 +13,12 @@ import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.ExpendituresItemBinding
 import com.graduationproject.grad_project.firebase.ExpendituresOperations
 import com.graduationproject.grad_project.model.Expenditure
+import com.graduationproject.grad_project.view.admin.dialogs.ShowExpenditureFragment
 
-class ExpendituresListAdapter(private val context: Context?)
+class ExpendituresListAdapter(
+    private val fragmentManager: FragmentManager,
+    private val context: Context?,
+)
     : ListAdapter<Expenditure, ExpendituresListAdapter.ViewHolder>(ExpendituresDiffCallback()) {
 
     companion object {
@@ -21,17 +26,16 @@ class ExpendituresListAdapter(private val context: Context?)
     }
 
     class ViewHolder private constructor(val binding: ExpendituresItemBinding): RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(item: Expenditure) {
-            binding.expenditure = item
-            binding.executePendingBindings()
-        }
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ExpendituresItemBinding.inflate(layoutInflater, parent, false)
                 return ViewHolder(binding)
             }
+        }
+        fun bind(item: Expenditure) {
+            binding.expenditure = item
+            binding.executePendingBindings()
         }
     }
 
@@ -47,6 +51,8 @@ class ExpendituresListAdapter(private val context: Context?)
             popupMenu?.setOnMenuItemClickListener { menuItem ->
                 when(menuItem.itemId) {
                     R.id.showExpenditure -> {
+                        val dialog = ShowExpenditureFragment(item)
+                        dialog.show(fragmentManager, "expenditureDialog")
                         true
                     }
                     R.id.deleteExpenditure -> {

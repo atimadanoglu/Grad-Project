@@ -24,6 +24,8 @@ class SettingsAdminFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentSettingsAdminBinding.inflate(inflater, container, false)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         viewModel.getAdmin()
         viewModel.fullName.observe(viewLifecycleOwner) {
             it?.let {
@@ -43,9 +45,13 @@ class SettingsAdminFragment : Fragment() {
     }
 
     private fun goToUpdatePhoneNumberPage() {
-        val action = SettingsAdminFragmentDirections
-            .actionSettingsAdminFragmentToSettingsPhoneFragment()
-        requireView().findNavController().navigate(action)
+        val action = viewModel.phoneNumber.value?.let {
+            SettingsAdminFragmentDirections
+                .actionSettingsAdminFragmentToSettingsPhoneFragment(it)
+        }
+        if (action != null) {
+            findNavController().navigate(action)
+        }
     }
 
     private fun goToUpdateNamePage() {

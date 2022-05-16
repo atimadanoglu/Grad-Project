@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.DrawerHeaderAdminBinding
+import com.graduationproject.grad_project.databinding.DrawerHeaderResidentBinding
 import com.graduationproject.grad_project.databinding.FragmentSettingsResidentNameBinding
 import com.graduationproject.grad_project.view.SettingsNameFragmentArgs
 import com.graduationproject.grad_project.viewmodel.SettingsResidentNameViewModel
@@ -46,7 +47,6 @@ class SettingsResidentNameFragment : Fragment() {
         viewModel.checkPreviousAndNewName()
         isValid(fullName)
         if (fullName.isNotEmpty() && viewModel.isSame.value == false) {
-            updateDrawerHeader()
             viewModel.updateName(fullName)
             goBackToSettingsPage()
         }
@@ -67,15 +67,5 @@ class SettingsResidentNameFragment : Fragment() {
     private fun goBackToSettingsPage() {
         val action = SettingsResidentNameFragmentDirections.actionSettingsResidentNameFragmentToSettingsResidentFragment()
         requireView().findNavController().navigate(action)
-    }
-
-    /**
-     * It can be used to update drawer header's fullName attribute
-     * after updating that data
-     * */
-    private fun updateDrawerHeader() {
-        val header = requireActivity().findViewById<View>(R.id.drawerLayoutAdmin)
-        val binding = DataBindingUtil.bind<DrawerHeaderAdminBinding>(header)
-        binding?.headerAccountName?.text = viewModel.name.value
     }
 }

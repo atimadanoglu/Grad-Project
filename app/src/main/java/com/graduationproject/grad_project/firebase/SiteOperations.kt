@@ -3,6 +3,7 @@ package com.graduationproject.grad_project.firebase
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.FirebaseException
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
@@ -10,6 +11,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import com.graduationproject.grad_project.model.Expenditure
 import com.graduationproject.grad_project.model.Meeting
+import com.graduationproject.grad_project.model.Payment
 import com.graduationproject.grad_project.model.Site
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
@@ -30,6 +32,100 @@ object SiteOperations: FirebaseConstants() {
             } catch (e: FirebaseException) {
                 Log.e(TAG, "saveSiteInfoDB --> $e")
             }
+        }
+    }
+
+    fun retrievePayments(meetings: MutableLiveData<List<Payment?>>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = auth.currentUser?.email
+            val admin = async {
+                email?.let { UserOperations.getAdmin(it) }
+            }
+            siteRef.document("siteName:${admin.await()?.get("siteName")}" +
+                    "-city:${admin.await()?.get("city")}" +
+                    "-district:${admin.await()?.get("district")}")
+                .collection("payments")
+                .orderBy("date", Query.Direction.DESCENDING)
+                .addSnapshotListener { value, error ->
+                    if (error != null) {
+                        Log.e(TAG, "retrieveMeetings --> $error")
+                        return@addSnapshotListener
+                    }
+                    value?.toObjects<Payment>().also {
+                        meetings.postValue(it)
+                    }
+                }
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "saveMeetingInfo --> $e")
+        }
+    }
+
+    fun retrieveTotalPayment(totalPayment: MutableLiveData<Long?>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = auth.currentUser?.email
+            val admin = async {
+                email?.let { UserOperations.getAdmin(it) }
+            }
+            siteRef.document("siteName:${admin.await()?.get("siteName")}" +
+                    "-city:${admin.await()?.get("city")}" +
+                    "-district:${admin.await()?.get("district")}")
+                .addSnapshotListener { value, error ->
+                    if (error != null) {
+                        Log.e(TAG, "retrieveMeetings --> $error")
+                        return@addSnapshotListener
+                    }
+                    totalPayment.postValue(
+                        value?.get("collectedMoney").toString().toLong()
+                    )
+                }
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "saveMeetingInfo --> $e")
+        }
+    }
+
+    fun retrieveRequestsCount(totalRequestCount: MutableLiveData<Long?>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            email?.let {
+                adminRef.document(it)
+                    .collection("requests")
+                    .addSnapshotListener { value, error ->
+                        if (error != null) {
+                            Log.e(TAG, "retrieveMeetings --> $error")
+                            return@addSnapshotListener
+                        }
+                        val documents = value?.documents
+                        totalRequestCount.postValue(
+                            documents?.size?.toLong()
+                        )
+                    }
+            }
+
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "saveMeetingInfo --> $e")
+        }
+    }
+
+    fun retrieveTotalVotingCount(totalVotingCount: MutableLiveData<Long?>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            email?.let {
+                adminRef.document(it)
+                    .collection("requests")
+                    .addSnapshotListener { value, error ->
+                        if (error != null) {
+                            Log.e(TAG, "retrieveTotalVotingCount --> $error")
+                            return@addSnapshotListener
+                        }
+                        val documents = value?.documents
+                        totalVotingCount.postValue(
+                            documents?.size?.toLong()
+                        )
+                    }
+            }
+
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "saveMeetingInfo --> $e")
         }
     }
 
@@ -128,6 +224,39 @@ object SiteOperations: FirebaseConstants() {
                 .set(meeting).await()
         } catch (e: FirebaseException) {
             Log.e(TAG, "saveMeetingInfo --> $e")
+        }
+    }
+
+    fun savePayment(payment: Payment) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            val resident = async {
+                email?.let { UserOperations.getResident(it) }
+            }
+            siteRef.document("siteName:${resident.await()?.get("siteName")}" +
+                    "-city:${resident.await()?.get("city")}" +
+                    "-district:${resident.await()?.get("district")}")
+                .collection("payments")
+                .document(payment.id)
+                .set(payment).await()
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "saveMeetingInfo --> $e")
+        }
+    }
+
+    fun updateCollectedMoney(payment: Payment) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            val resident = async {
+                email?.let { UserOperations.getResident(it) }
+            }
+            val money = payment.paidAmount
+            siteRef.document("siteName:${resident.await()?.get("siteName")}" +
+                    "-city:${resident.await()?.get("city")}" +
+                    "-district:${resident.await()?.get("district")}")
+                .update("collectedMoney", FieldValue.increment(money)).await()
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "updateCollectedMoney --> $e")
         }
     }
 

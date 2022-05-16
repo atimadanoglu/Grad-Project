@@ -67,15 +67,29 @@ class MeetingAdminFragment : Fragment() {
         }
         viewModel.meetings.observe(viewLifecycleOwner) {
             it?.let {
-                adapter.submitList(it)
-                it[0]?.id?.let { it1 -> viewModel.setMeetingID(it1) }
-                it[0]?.let { meeting ->
-                    calendar[Calendar.HOUR_OF_DAY] = meeting.hour.toInt()
-                    calendar[Calendar.MINUTE] = meeting.minute.toInt()
-                    calendar[Calendar.SECOND] = 0
-                    calendar[Calendar.MILLISECOND] = 0
-                    viewModel.setMeeting(meeting)
-                    setAlarm()
+                if (it.isNotEmpty()) {
+                    adapter.submitList(it)
+                    it[0]?.id?.let { it1 -> viewModel.setMeetingID(it1) }
+                    it[0]?.let { meeting ->
+                        if (meeting.minute.toInt() > 10) {
+                            calendar[Calendar.HOUR_OF_DAY] = meeting.hour.toInt()
+                            calendar[Calendar.MINUTE] = meeting.minute.toInt() - 10
+                            calendar[Calendar.SECOND] = 0
+                            calendar[Calendar.MILLISECOND] = 0
+                        } else if (meeting.minute.toInt() == 0) {
+                            calendar[Calendar.HOUR_OF_DAY] = meeting.hour.toInt() - 1
+                            calendar[Calendar.MINUTE] = 50
+                            calendar[Calendar.SECOND] = 0
+                            calendar[Calendar.MILLISECOND] = 0
+                        } else if (meeting.minute.toInt() in 1..10) {
+                            calendar[Calendar.HOUR_OF_DAY] = meeting.hour.toInt() - 1
+                            calendar[Calendar.MINUTE] = 60 - (10 - meeting.minute.toInt())
+                            calendar[Calendar.SECOND] = 0
+                            calendar[Calendar.MILLISECOND] = 0
+                        }
+                        viewModel.setMeeting(meeting)
+                        setAlarm()
+                    }
                 }
             }
         }

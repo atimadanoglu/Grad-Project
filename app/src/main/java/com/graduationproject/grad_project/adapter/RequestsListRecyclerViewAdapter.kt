@@ -1,6 +1,8 @@
 package com.graduationproject.grad_project.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.MenuInflater
 import android.view.View
@@ -26,15 +28,33 @@ class RequestsListRecyclerViewAdapter(
     }
     class RequestViewHolder(val binding: RequestsItemBinding): RecyclerView.ViewHolder(binding.root) {
         companion object {
+
+            private const val RED = "#8f170e"
+            private const val GREEN = "#284443"
+            private const val SUGGESTION = "Öneri"
+            private const val COMPLAINT = "Şikayet"
+
             fun inflateFrom(parent: ViewGroup): RequestViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = RequestsItemBinding.inflate(layoutInflater, parent, false)
                 return RequestViewHolder(binding)
             }
         }
+        @SuppressLint("ResourceAsColor")
+        private fun setColor(request: Request) {
+            if (request.type == SUGGESTION) {
+                binding.itemType.setBackgroundColor(R.color.primary_color)
+                binding.itemType.setTextColor(Color.WHITE)
+            }
+            if (request.type == COMPLAINT) {
+                binding.itemType.setBackgroundColor(R.color.warning_color)
+                binding.itemType.setTextColor(Color.WHITE)
+            }
+        }
 
-        fun bind(request: Request?) {
+        fun bind(request: Request) {
             binding.request = request
+            setColor(request)
             binding.executePendingBindings()
         }
     }

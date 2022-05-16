@@ -46,7 +46,6 @@ class SettingsNameFragment : Fragment() {
         viewModel.checkPreviousAndNewName()
         isValid(fullName)
         if (fullName.isNotEmpty() && viewModel.isSame.value == false) {
-            updateDrawerHeader()
             viewModel.updateName(fullName)
             goBackToSettingsPage()
         }
@@ -68,23 +67,5 @@ class SettingsNameFragment : Fragment() {
         val action = SettingsNameFragmentDirections
             .actionSettingsNameFragmentToSettingsAdminFragment()
         findNavController().navigate(action)
-    }
-
-    private fun isValid() {
-        if (viewModel.isSame.value == true) {
-            binding.nameLayout.error = "Aynı isim girilemez!"
-        } else {
-            binding.nameLayout.error = null
-        }
-    }
-
-    /**
-     * It can be used to update drawer header's fullName attribute
-     * after updating that data
-     * */
-    private fun updateDrawerHeader() {
-        val header = requireActivity().findViewById<View>(R.id.drawerLayoutAdmin)
-        val binding = DataBindingUtil.bind<DrawerHeaderAdminBinding>(header)
-        binding?.headerAccountName?.text = viewModel.name.value
     }
 }

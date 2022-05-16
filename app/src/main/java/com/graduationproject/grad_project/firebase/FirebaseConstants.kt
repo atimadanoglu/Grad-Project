@@ -32,6 +32,11 @@ open class FirebaseConstants {
     protected val siteRef: CollectionReference by lazy {
         db.collection("sites")
     }
+
+    protected val paymentRef: CollectionReference by lazy {
+        db.collection("payments")
+    }
+
     protected val auth: FirebaseAuth by lazy {
         FirebaseAuth.getInstance()
     }

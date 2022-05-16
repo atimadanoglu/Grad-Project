@@ -54,6 +54,7 @@ class PayDebtFragment : Fragment() {
                 if (isChecked()) {
                     if (isAllValid()) {
                         viewModel.payDebt()
+                        viewModel.savePayment()
                         val text = "İşleminiz gerçekleştiriliyor..."
                         Snackbar.make(requireView(), text, 2000)
                             .setAnchorView(bottomNavigationView)

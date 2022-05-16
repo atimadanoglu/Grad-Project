@@ -30,7 +30,7 @@ class ExpendituresFragment : Fragment() {
             adapter.submitList(it)
         }
         viewModel.retrieveAllExpendituresWithSnapshot()
-        adapter = ExpendituresListAdapter(requireContext())
+        adapter = ExpendituresListAdapter(parentFragmentManager, requireContext())
         binding.expendituresRecyclerview.adapter = adapter
         binding.lifecycleOwner = viewLifecycleOwner
         binding.addExpendituresButton.setOnClickListener {

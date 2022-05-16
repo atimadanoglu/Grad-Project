@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.adapter.NotificationsAdminAdapter
 import com.graduationproject.grad_project.databinding.FragmentNotificationsAdminBinding
@@ -38,6 +39,9 @@ class NotificationsAdminFragment : Fragment() {
         viewModel.retrieveNotifications()
         binding.notificationRecyclerview.adapter = adapter
         binding.lifecycleOwner = viewLifecycleOwner
+        binding.deleteNotificationButton.setOnClickListener {
+            areYouSureYouWantToDeleteAllNotifications()
+        }
 
         viewModel.openMenuOptions.observe(viewLifecycleOwner) {
             it?.let {
@@ -52,16 +56,25 @@ class NotificationsAdminFragment : Fragment() {
     private fun createPopUpMenu(): androidx.appcompat.widget.PopupMenu? {
         val popupMenu = menuView?.let { androidx.appcompat.widget.PopupMenu(requireContext(), it) }
         val inflater = popupMenu?.menuInflater
-        inflater?.inflate(R.menu.expenditures_menu, popupMenu.menu)
+        inflater?.inflate(R.menu.announcement_more_menu, popupMenu.menu)
         popupMenu?.show()
         return popupMenu
+    }
+
+    private fun areYouSureYouWantToDeleteAllNotifications() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setMessage("Bütün bildirimleri silmek istediğinize emin misiniz?")
+            .setPositiveButton(R.string.evet) { _, _ ->
+                viewModel.deleteAllNotifications()
+            }.setNegativeButton(R.string.hayır) { _, _ -> }
+            .create().show()
     }
 
     private fun chooseAction() {
         val menu = createPopUpMenu()
         menu?.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.showExpenditure -> {
+                R.id.announcementInfo -> {
                     goToShowNotificationFragment(
                         viewModel.notification.value?.pictureUri!!,
                         viewModel.notification.value?.title!!,
@@ -69,7 +82,8 @@ class NotificationsAdminFragment : Fragment() {
                     )
                     true
                 }
-                R.id.deleteExpenditure -> {
+                R.id.deleteAnnouncement -> {
+                    viewModel.deleteNotification()
                     true
                 }
                 else -> false

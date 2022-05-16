@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.FragmentSettingsResidentPhoneBinding
@@ -24,6 +25,9 @@ class SettingsResidentPhoneFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentSettingsResidentPhoneBinding.inflate(inflater, container, false)
+        val args: SettingsResidentPhoneFragmentArgs by navArgs()
+        viewModel.phoneNumber.postValue(args.phoneNumber)
+        binding.phoneEditText.setText(args.phoneNumber)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         binding.updateButton.setOnClickListener {

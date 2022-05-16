@@ -28,7 +28,7 @@ class HomePageAdminActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         setDrawerHeader()
         binding.bottomNavigation.setupWithNavController(navController)
-        binding.navigationView.setupWithNavController(navController)
+        binding.navigationViewAdmin.setupWithNavController(navController)
         viewModel.isSignedOut.observe(this) {
             it?.let {
                 val intent = Intent(this, MainActivity::class.java)
@@ -39,7 +39,7 @@ class HomePageAdminActivity : AppCompatActivity() {
     }
 
     private fun setDrawerHeader() {
-        val header = binding.navigationView.getHeaderView(0)
+        val header = binding.navigationViewAdmin.getHeaderView(0)
         val drawerHeaderBinding = DrawerHeaderAdminBinding.bind(header)
         drawerHeaderBinding.viewModel = viewModel
         drawerHeaderBinding.lifecycleOwner = this

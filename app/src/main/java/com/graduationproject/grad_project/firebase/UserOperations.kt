@@ -43,9 +43,13 @@ object UserOperations: FirebaseConstants() {
         try {
             val email = FirebaseAuth.getInstance().currentUser?.email
             email?.let {
-                adminRef.document(it).get().await().also { document ->
-                    siteName.postValue(document["siteName"].toString())
-                    userName.postValue(document["fullName"].toString())
+                adminRef.document(it).addSnapshotListener { value, error ->
+                    if (error != null) {
+                        Log.e(TAG, "retrieveSiteNameUserNameForResident --> $error")
+                        return@addSnapshotListener
+                    }
+                    siteName.postValue(value?.get("siteName")?.toString())
+                    userName.postValue(value?.get("fullName")?.toString())
                 }
             }
         } catch (e: FirebaseFirestoreException) {
@@ -60,9 +64,13 @@ object UserOperations: FirebaseConstants() {
         try {
             val email = FirebaseAuth.getInstance().currentUser?.email
             email?.let {
-                residentRef.document(it).get().await().also { document ->
-                    siteName.postValue(document["siteName"].toString())
-                    userName.postValue(document["fullName"].toString())
+                residentRef.document(it).addSnapshotListener { value, error ->
+                    if (error != null) {
+                        Log.e(TAG, "retrieveSiteNameUserNameForResident --> $error")
+                        return@addSnapshotListener
+                    }
+                    siteName.postValue(value?.get("siteName")?.toString())
+                    userName.postValue(value?.get("fullName")?.toString())
                 }
             }
         } catch (e: FirebaseFirestoreException) {
@@ -85,6 +93,41 @@ object UserOperations: FirebaseConstants() {
             Log.e(TAG, "saveMeetingNotification -> $e")
         }
     }
+
+
+    fun deleteNotificationForAdmin(notification: Notification) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            email?.let {
+                adminRef.document(it)
+                    .collection("notifications")
+                    .document(notification.id)
+                    .delete()
+                    .await()
+            }
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "deleteNotificationForAdmin -> $e")
+        }
+    }
+
+    fun deleteAllNotificationsForAdmin() = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            email?.let {
+                adminRef.document(it)
+                    .collection("notifications")
+                    .get().await().also { querySnapshot ->
+                        val documents = querySnapshot.documents
+                        documents.forEach { document ->
+                            document.reference.delete()
+                        }
+                    }
+            }
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "deleteNotificationForAdmin -> $e")
+        }
+    }
+
 
     fun checkRegistrationStatus(status: MutableLiveData<String?>) = CoroutineScope(ioDispatcher).launch {
         try {
