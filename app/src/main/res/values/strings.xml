@@ -262,7 +262,7 @@
     <string name="homeDebtInfoText">Sakinler tarafından tahsil edilen işlem özetleri</string>
     <string name="line">-</string>
     <string name="homeRequestInfo">Sakinler tarafından oluşturulan öneri veya şikayet listesi</string>
-    <string name="homeVoteInfo">Açılan ve sonuçlanan oylama listesi</string>
+    <string name="homeVoteInfo">Açılan oylama listesi</string>
     <string name="homeMyDebtInfo">Aidat ve ekstra gider tutarı</string>
     <string name="homeRequestResidentInfo">Yöneticiyle paylaşılan öneri ve şikayet listem</string>
     <string name="homeNotificationInfo">Yönetici tarafından yapılan işlem bildirimleri</string>
@@ -284,8 +284,9 @@
     <string name="application">UYGULAMA</string>
     <string name="hakkinda">Hakkında</string>
     <string name="referans">Referans</string>
-    <string name="referenceFirstText"><b>Freepik</b> tarafından</string>
-    <string name="referenceSecondText"><b>www.flaticon.com</b> dan yapılan simge.</string>
+    <string name="referenceFirstText">Bu uygulamada kullanılan animasyonlu ikonlar <b>Freepik</b> tarafından</string>
+    <string name="referenceSecondText"><b>www.flaticon.com</b> üzerinden alınmıştır.</string>
+    <string name="referenceThirdText">Sakin tarafında açılan onay bekleme sayfasında kullanılan animasyonlu ikon <b>https://icons8.com</b> adresi üzerinden alınmıştır.</string>
     <string name="activation">Erişim</string>
     <string name="meetingInfoText">Sakinlerle video-konferans görüşmesi yapmak için toplantı planlayabilirsiniz. Toplantıyı oluşturduktan sonra linki sakinlerle paylaşmayı unutmayınız.</string>
     <string name="meetingResidentInfoText">Yönetici tarafından açılan toplantıya buradan bağlanabilirsiniz.</string>
