@@ -64,6 +64,10 @@ class MeetingAdminViewModel: ViewModel() {
         UserOperations.retrieveResidentsInSpecificSite(_residents)
     }
 
+    fun linkShared() {
+        _isLinkShared.value = null
+    }
+
     fun saveViewHolderData(meeting: Meeting) {
         _meeting.value = meeting
         _meetingID.value = meeting.id

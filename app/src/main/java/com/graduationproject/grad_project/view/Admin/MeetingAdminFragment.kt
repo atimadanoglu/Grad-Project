@@ -94,11 +94,14 @@ class MeetingAdminFragment : Fragment() {
             }
         }
         viewModel.isLinkShared.observe(viewLifecycleOwner) {
-            Snackbar.make(
-                requireView(),
-                "Toplantı linki sakinlerle paylaşıldı!",
-                Snackbar.LENGTH_LONG
-            ).show()
+            it?.let {
+                Snackbar.make(
+                    requireView(),
+                    "Toplantı linki sakinlerle paylaşıldı!",
+                    Snackbar.LENGTH_LONG
+                ).show()
+                viewModel.linkShared()
+            }
         }
         return binding.root
     }
