@@ -12,7 +12,7 @@
 
     <TextView
         android:id="@+id/nameInfoText"
-        android:layout_width="360dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginTop="60dp"

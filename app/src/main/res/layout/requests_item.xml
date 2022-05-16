@@ -35,6 +35,7 @@
                     android:layout_height="35dp"
                     android:fontFamily="@font/roboto_medium"
                     android:hint="@string/title"
+                    android:lines="1"
                     android:text="@{request.title}"
                     android:textColor="@color/primary_color"
                     android:textColorHint="@color/primary_color"
