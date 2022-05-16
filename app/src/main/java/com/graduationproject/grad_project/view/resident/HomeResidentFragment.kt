@@ -22,22 +22,14 @@ class HomeResidentFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentHomeResidentBinding.inflate(inflater, container, false)
-        viewModel.retrieveResidentInformation()
-        viewModel.myDebt.observe(viewLifecycleOwner) {
-            binding.myDebtAmountText.text = it.toString()
-        }
-        viewModel.myNotificationsCount.observe(viewLifecycleOwner) {
-            binding.notificationsAmount.text = it.toString()
-        }
-        viewModel.myRequestsAmount.observe(viewLifecycleOwner) {
-            binding.myRequestsAmountText.text = it.toString()
-        }
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+        viewModel.retrieveMyDebtInfo()
+        viewModel.retrieveMyNotificationsCount()
+        viewModel.retrieveMyRequestsCount()
         binding.request.setOnClickListener { goToRequestsPage() }
-        binding.notificationText.setOnClickListener { goToNotificationsPage() }
+        binding.notificationsResidentHome.setOnClickListener { goToNotificationsPage() }
         binding.myDebt.setOnClickListener { goToPayDebtPage() }
-        binding.myRequestsAmountText.setOnClickListener { goToRequestsPage() }
-        binding.myDebtAmountText.setOnClickListener { goToPayDebtPage() }
-        binding.notificationsAmount.setOnClickListener { goToNotificationsPage() }
         return binding.root
     }
 
@@ -55,5 +47,4 @@ class HomeResidentFragment : Fragment() {
         val action = HomeResidentFragmentDirections.actionHomeResidentFragmentToRequestsFragment()
         findNavController().navigate(action)
     }
-
 }

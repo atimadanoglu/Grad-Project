@@ -111,7 +111,8 @@ object SiteOperations: FirebaseConstants() {
             val email = FirebaseAuth.getInstance().currentUser?.email
             email?.let {
                 adminRef.document(it)
-                    .collection("requests")
+                    .collection("voting")
+                    .whereEqualTo("finished", true)
                     .addSnapshotListener { value, error ->
                         if (error != null) {
                             Log.e(TAG, "retrieveTotalVotingCount --> $error")

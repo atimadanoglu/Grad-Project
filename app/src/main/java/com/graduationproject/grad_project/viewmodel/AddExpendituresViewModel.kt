@@ -2,6 +2,7 @@ package com.graduationproject.grad_project.viewmodel
 
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Timestamp
@@ -30,6 +31,7 @@ class AddExpendituresViewModel(
     val amount = MutableLiveData("")
     private var _downloadUri = ""
     private val _selectedImage = MutableLiveData<Uri?>()
+    val selectedImage: LiveData<Uri?> get() = _selectedImage
 
     fun uploadImageAndShareExpenditure(selectedPicture: Uri?) = CoroutineScope(Dispatchers.IO).launch {
         val uuid = UUID.randomUUID()

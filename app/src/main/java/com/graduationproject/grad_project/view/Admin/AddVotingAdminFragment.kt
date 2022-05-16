@@ -35,7 +35,6 @@ class AddVotingAdminFragment : Fragment() {
             goBackToVotingPage()
         }
         viewModel.chosenDate.observe(viewLifecycleOwner) {
-            println("$it böyle")
             binding.datePicker.text = it
         }
         return binding.root

@@ -36,6 +36,68 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
+    fun retrieveResidentDebt(debt: MutableLiveData<Long?>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            email?.let {
+                residentRef.document(it)
+                    .addSnapshotListener { value, error ->
+                        if (error != null) {
+                            Log.e(TAG, "retrieveResidentDebt -> $error")
+                            return@addSnapshotListener
+                        }
+                        value?.get("debt").toString().toLong().also { myDebt ->
+                            debt.postValue(myDebt)
+                        }
+                    }
+            }
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "retrieveResidentDebt -> $e")
+        }
+    }
+
+    fun retrieveResidentNotificationCount(count: MutableLiveData<Long?>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            email?.let {
+                residentRef.document(it)
+                    .collection("notifications")
+                    .addSnapshotListener { value, error ->
+                        if (error != null) {
+                            Log.e(TAG, "retrieveResidentNotificationCount -> $error")
+                            return@addSnapshotListener
+                        }
+                        value?.documents.also { list ->
+                            count.postValue(list?.size?.toLong())
+                        }
+                    }
+            }
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "retrieveResidentNotificationCount -> $e")
+        }
+    }
+
+    fun retrieveResidentRequestsCount(count: MutableLiveData<Long?>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            email?.let {
+                residentRef.document(it)
+                    .collection("requests")
+                    .addSnapshotListener { value, error ->
+                        if (error != null) {
+                            Log.e(TAG, "retrieveResidentRequestsCount -> $error")
+                            return@addSnapshotListener
+                        }
+                        value?.documents.also { list ->
+                            count.postValue(list?.size?.toLong())
+                        }
+                    }
+            }
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "retrieveResidentRequestsCount -> $e")
+        }
+    }
+
     fun retrieveSiteNameAndUserNameForAdmin(
         siteName: MutableLiveData<String?>,
         userName: MutableLiveData<String?>

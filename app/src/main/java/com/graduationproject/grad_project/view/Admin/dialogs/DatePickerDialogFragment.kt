@@ -20,6 +20,7 @@ class DatePickerDialogFragment(private val viewModel: AddVotingViewModel)
     }
     // two weeks in milliseconds
     private val twoWeeks = 604800000L * 2
+    private val oneDay = 604800000L / 7
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
@@ -28,7 +29,7 @@ class DatePickerDialogFragment(private val viewModel: AddVotingViewModel)
             val day = calendar.get(Calendar.DAY_OF_MONTH)
             val newDialog = DatePickerDialog(it, this, year, month, day)
             newDialog.create()
-            newDialog.datePicker.minDate = calendar.timeInMillis
+            newDialog.datePicker.minDate = calendar.timeInMillis + oneDay
             newDialog.datePicker.maxDate = calendar.timeInMillis + twoWeeks
             newDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setText(R.string.tamam)
             newDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setText(R.string.iptal)

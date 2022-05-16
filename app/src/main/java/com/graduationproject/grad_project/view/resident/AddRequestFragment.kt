@@ -40,11 +40,20 @@ class AddRequestFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAddRequestBinding.inflate(inflater, container, false)
+        binding.photoAddText.visibility = View.GONE
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         registerLauncher()
         observe()
         setOnClickListeners()
+        viewModel.selectedImage.observe(viewLifecycleOwner) {
+            if (it == null) {
+                binding.photoAddText.visibility = View.GONE
+            }
+            it?.let {
+                binding.photoAddText.visibility = View.VISIBLE
+            }
+        }
         return binding.root
     }
 

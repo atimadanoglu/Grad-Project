@@ -38,6 +38,7 @@ class AddExpendituresFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentAddExpendituresBinding.inflate(inflater, container, false)
+        binding.billAddText.visibility = View.GONE
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         registerLauncher()
@@ -53,6 +54,14 @@ class AddExpendituresFragment : Fragment() {
                 ).show()
             } else {
                 shareButtonClicked()
+            }
+        }
+        viewModel.selectedImage.observe(viewLifecycleOwner) {
+            if (it == null) {
+                binding.billAddText.visibility = View.GONE
+            }
+            it?.let {
+                binding.billAddText.visibility = View.VISIBLE
             }
         }
         binding.backButtonToAnnouncement.setOnClickListener { backToExpendituresFragment() }

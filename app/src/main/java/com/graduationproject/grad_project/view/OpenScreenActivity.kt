@@ -7,6 +7,7 @@ import android.os.Handler
 import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.ActivityOpenScreenBinding
 import com.graduationproject.grad_project.view.admin.HomePageAdminActivity
@@ -26,7 +27,6 @@ class OpenScreenActivity : AppCompatActivity() {
         setContentView(view)
         val bottomAnimation = AnimationUtils.loadAnimation(this, R.anim.bottom_animation)
         val topAnimation = AnimationUtils.loadAnimation(this, R.anim.top_animation)
-
         binding.mainIcon.animation = topAnimation
         binding.mainText.animation = bottomAnimation
         binding.appTypeText.animation = bottomAnimation
@@ -43,6 +43,9 @@ class OpenScreenActivity : AppCompatActivity() {
 
     private fun observe(intent: Intent, options: ActivityOptions) {
         viewModel.isSignedIn.observe(this) {
+            if (it == null) {
+                startActivity(intent, options.toBundle())
+            }
             it?.let {
                 if (it) {
                     viewModel.isResident()

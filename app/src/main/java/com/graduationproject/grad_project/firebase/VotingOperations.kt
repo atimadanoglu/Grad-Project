@@ -119,7 +119,11 @@ object VotingOperations: FirebaseConstants() {
                                 document.toObject<Voting>()
                             )
                         }.also {
-                            votingList.postValue(retrievedList)
+                            retrievedList.sortBy { voting ->
+                                voting?.date
+                            }.also {
+                                votingList.postValue(retrievedList)
+                            }
                         }
                     }
             }
@@ -150,7 +154,11 @@ object VotingOperations: FirebaseConstants() {
                                 document.toObject<Voting>()
                             )
                         }.also {
-                            votingList.postValue(retrievedList)
+                            retrievedList.sortBy { voting ->
+                                voting?.date
+                            }.also {
+                                votingList.postValue(retrievedList)
+                            }
                         }
                     }
             }
@@ -189,7 +197,11 @@ object VotingOperations: FirebaseConstants() {
                                 document.toObject<Voting>()
                             )
                         }.also {
-                            votingList.postValue(retrievedList)
+                            retrievedList.sortBy { voting ->
+                                voting?.date
+                            }.also {
+                                votingList.postValue(retrievedList)
+                            }
                         }
                     }
             }
@@ -223,7 +235,11 @@ object VotingOperations: FirebaseConstants() {
                                 document.toObject<Voting>()
                             )
                         }.also {
-                            votingList.postValue(retrievedList)
+                            retrievedList.sortBy { voting ->
+                                voting?.date
+                            }.also {
+                                votingList.postValue(retrievedList)
+                            }
                         }
                     }
             }

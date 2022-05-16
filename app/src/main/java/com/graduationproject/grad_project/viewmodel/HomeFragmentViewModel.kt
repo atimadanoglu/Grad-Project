@@ -7,13 +7,13 @@ import com.graduationproject.grad_project.firebase.SiteOperations
 
 class HomeFragmentViewModel: ViewModel() {
 
-    private val _requestsCount = MutableLiveData<Long?>()
+    private val _requestsCount = MutableLiveData<Long?>(0)
     val requestsCount: LiveData<Long?> get() = _requestsCount
 
-    private val _totalCollectedMoney = MutableLiveData<Long?>()
+    private val _totalCollectedMoney = MutableLiveData<Long?>(0)
     val totalCollectedMoney: LiveData<Long?> get() = _totalCollectedMoney
 
-    private val _votingCount = MutableLiveData<Long?>()
+    private val _votingCount = MutableLiveData<Long?>(0)
     val votingCount: LiveData<Long?> get() = _votingCount
 
     fun retrieveTotalCollectedMoney() {

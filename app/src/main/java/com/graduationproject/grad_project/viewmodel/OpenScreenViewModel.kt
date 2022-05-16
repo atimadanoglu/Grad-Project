@@ -23,7 +23,7 @@ class OpenScreenViewModel: ViewModel() {
     private val _isResident = MutableLiveData<Boolean?>()
     val isResident: LiveData<Boolean?> get() = _isResident
 
-    private val _isSignedIn = MutableLiveData(false)
+    private val _isSignedIn = MutableLiveData<Boolean?>()
     val isSignedIn: LiveData<Boolean?> get() = _isSignedIn
 
     private val _registrationStatus = MutableLiveData("")
