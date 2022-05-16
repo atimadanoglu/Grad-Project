@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-       android:layout_margin="10dp">
+        android:layout_margin="10dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -75,6 +75,22 @@
                     android:textSize="14sp"
                     app:layout_constraintStart_toEndOf="@+id/block_no_text_list_item"
                     app:layout_constraintTop_toBottomOf="@+id/account_name_text_list_item" />
+
+                <TextView
+                    android:id="@+id/transactionDateText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center_vertical"
+                    android:hint="@string/tarih"
+                    android:text="@{@string/sakinDaireNo(resident.flatNo)}"
+                    android:textColor="@color/primary_color"
+                    android:textColorHint="@color/primary_color"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/block_no_text_list_item" />
 
                 <TextView
                     android:id="@+id/debtAmount"

@@ -108,7 +108,7 @@
             app:startIconDrawable="@drawable/phone_icon"
             app:startIconTint="@color/secondary_color"
             app:counterEnabled="true"
-            app:counterMaxLength="11"
+            app:counterMaxLength="10"
             app:counterTextColor="@color/secondary_color"
             app:boxStrokeColor="@color/secondary_color"
             app:hintTextColor="@color/secondary_color"
@@ -125,6 +125,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="phone"
+                android:maxLength="10"
                 android:text="@={viewModel.phoneNumber}"
                 android:textColor="@color/white"
                 tools:ignore="TextContrastCheck" />

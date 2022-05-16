@@ -274,7 +274,7 @@
 
     <string name="dosyaİndiriliyor">Dosya indiriliyor…</string>
     <string name="dosyaİndirmeBaşarısız">Dosya indirme başarısız!</string>
-    <string name="fotograf_ekle">FOTOĞRAF EKLE</string>
+    <string name="fotograf_ekle">Fotoğraf ekle</string>
 
     <string name="oturumu_kapat"><u>Oturumu Kapat</u></string>
     <string name="şifreDeğiştirmeBaşarılı">Şifre değiştirme işlemi başarılı!</string>
@@ -298,5 +298,7 @@
     <string name="toplantıyaSon15Dakika">Toplantınız 15 dakika içinde başlayacaktır!</string>
     <string name="servicePhoneNumber">+90%s</string>
     <string name="collectedMoney">%d TL</string>
+    <string name="bills_added">Fatura eklendi.</string>
+    <string name="photoAdded">Fotoğraf eklendi.</string>
 
 </resources>

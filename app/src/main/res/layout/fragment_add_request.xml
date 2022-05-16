@@ -153,19 +153,34 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <TextView
             android:id="@+id/addPhotoButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/fotograf_ekle"
+            android:padding="10dp"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:drawablePadding="6dp"
             android:textColor="@color/primary_color"
+            android:background="@drawable/textview_box"
             android:fontFamily="@font/roboto_medium"
-            android:drawableStart="@drawable/videocam_icon"
-            android:drawablePadding="5dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutContent" />
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutContent"
+            app:drawableStartCompat="@drawable/videocam_icon" />
+
+        <TextView
+            android:id="@+id/photoAddText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/photoAdded"
+            app:layout_constraintStart_toStartOf="@+id/addPhotoButton"
+            app:layout_constraintTop_toBottomOf="@+id/addPhotoButton" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

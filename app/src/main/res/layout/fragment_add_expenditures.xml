@@ -133,7 +133,6 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginTop="25dp"
                 android:background="@drawable/textview_box"
-                android:backgroundTint="#878585"
                 android:drawablePadding="6dp"
                 android:gravity="center"
                 android:padding="10dp"
@@ -142,11 +141,18 @@
                 android:textColor="@color/primary_color"
                 android:textSize="14sp"
                 app:drawableStartCompat="@drawable/attach_file_icon"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayoutContent" />
 
-<!--            picture_view-->
+        <TextView
+            android:id="@+id/billAddText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/bills_added"
+            app:layout_constraintStart_toStartOf="@+id/addDocument"
+            app:layout_constraintTop_toBottomOf="@+id/addDocument" />
+
         <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
