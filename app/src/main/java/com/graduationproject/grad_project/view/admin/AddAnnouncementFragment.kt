@@ -40,12 +40,21 @@ class AddAnnouncementFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentAddAnnouncementBinding.inflate(inflater, container, false)
         val view = binding.root
+        binding.isDocumentAdded.visibility = View.GONE
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         registerLauncher()
         auth = FirebaseAuth.getInstance()
         binding.shareAnnouncementButton.setOnClickListener {
             viewModel.shareAnnouncementClicked()
+        }
+        viewModel.selectedPicture.observe(viewLifecycleOwner) {
+            if (it == null) {
+                binding.isDocumentAdded.visibility = View.GONE
+            }
+            it?.let {
+                binding.isDocumentAdded.visibility = View.VISIBLE
+            }
         }
         viewModel.isShareAnnouncementButtonClicked.observe(viewLifecycleOwner) {
             it?.let {

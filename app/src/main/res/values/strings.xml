@@ -301,5 +301,6 @@
     <string name="myDebt">%d TL</string>
     <string name="bills_added">Fatura eklendi.</string>
     <string name="photoAdded">Fotoğraf eklendi.</string>
+    <string name="belge_eklendi">Belge eklendi.</string>
 
 </resources>

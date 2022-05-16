@@ -21,6 +21,7 @@ class AddAnnouncementViewModel: ViewModel() {
     val title = MutableLiveData("")
     val content = MutableLiveData("")
     private val _selectedPicture = MutableLiveData<Uri?>()
+    val selectedPicture: LiveData<Uri?> get() = _selectedPicture
     fun setSelectedPicture(value: Uri?) { _selectedPicture.value = value }
     private var _downloadUri = ""
 
