@@ -147,9 +147,9 @@ class ResidentSiteInformationViewModel(
     private fun areNull() = inputSiteName.value == null && inputCity.value == null
             && inputDistrict.value == null && inputBlockName.value == null && inputFlatNo.value == null
 
-    suspend fun updateUserDisplayName() {
+   /* suspend fun updateUserDisplayName() {
         UserOperations.updateFullNameForResident(_resident["fullName"] as String)
-    }
+    }*/
 
     suspend fun saveResidentIntoDB(
         fullName: String,

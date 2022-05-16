@@ -161,17 +161,16 @@ class ResidentSiteInformationFragment(
                 )
             }
             if (b.await()) {
-                updateUserInfo()
                 withContext(Dispatchers.Main) {
                     goToWaitingApprovalPage()
                 }
             }
         }
     }
-
+/*
     private fun updateUserInfo() {
         runBlocking {
             viewModel.updateUserDisplayName()
         }
-    }
+    }*/
 }

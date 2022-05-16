@@ -73,10 +73,10 @@ class AdminSiteInformationViewModel: ViewModel() {
             && inputDistrict.value == null && inputBlockName.value == null && inputFlatCount.value == null
             && inputMonthlyPayment.value == null
 
-    fun updateUserDisplayName() = viewModelScope.launch {
+   /* fun updateUserDisplayName() = viewModelScope.launch {
         UserOperations.updateFullNameForAdmin(_admin["fullName"] as String)
     }
-
+*/
     fun saveAdminInfoToDB() = viewModelScope.launch {
         UserOperations.saveAdminIntoDB(admin)
     }

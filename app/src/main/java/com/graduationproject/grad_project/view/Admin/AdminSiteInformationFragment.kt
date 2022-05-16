@@ -64,7 +64,7 @@ class AdminSiteInformationFragment : Fragment() {
                 if (it) {
                     viewModel.saveAdminInfoToDB()
                     viewModel.saveSiteIntoDB()
-                    viewModel.updateUserDisplayName()
+                    /*viewModel.updateUserDisplayName()*/
                     goToAdminHomePage()
                 }
             }
