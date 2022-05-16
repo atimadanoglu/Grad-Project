@@ -297,5 +297,6 @@
     <string name="toplantıSaatiYaklaştıResident">Toplantı başlamak üzere. Katılmanız önemle rica olunur!</string>
     <string name="toplantıyaSon15Dakika">Toplantınız 15 dakika içinde başlayacaktır!</string>
     <string name="servicePhoneNumber">+90%s</string>
+    <string name="collectedMoney">%d TL</string>
 
 </resources>

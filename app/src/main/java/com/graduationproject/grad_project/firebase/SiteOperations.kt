@@ -35,6 +35,100 @@ object SiteOperations: FirebaseConstants() {
         }
     }
 
+    fun retrievePayments(meetings: MutableLiveData<List<Payment?>>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = auth.currentUser?.email
+            val admin = async {
+                email?.let { UserOperations.getAdmin(it) }
+            }
+            siteRef.document("siteName:${admin.await()?.get("siteName")}" +
+                    "-city:${admin.await()?.get("city")}" +
+                    "-district:${admin.await()?.get("district")}")
+                .collection("payments")
+                .orderBy("date", Query.Direction.DESCENDING)
+                .addSnapshotListener { value, error ->
+                    if (error != null) {
+                        Log.e(TAG, "retrieveMeetings --> $error")
+                        return@addSnapshotListener
+                    }
+                    value?.toObjects<Payment>().also {
+                        meetings.postValue(it)
+                    }
+                }
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "saveMeetingInfo --> $e")
+        }
+    }
+
+    fun retrieveTotalPayment(totalPayment: MutableLiveData<Long?>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = auth.currentUser?.email
+            val admin = async {
+                email?.let { UserOperations.getAdmin(it) }
+            }
+            siteRef.document("siteName:${admin.await()?.get("siteName")}" +
+                    "-city:${admin.await()?.get("city")}" +
+                    "-district:${admin.await()?.get("district")}")
+                .addSnapshotListener { value, error ->
+                    if (error != null) {
+                        Log.e(TAG, "retrieveMeetings --> $error")
+                        return@addSnapshotListener
+                    }
+                    totalPayment.postValue(
+                        value?.get("collectedMoney").toString().toLong()
+                    )
+                }
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "saveMeetingInfo --> $e")
+        }
+    }
+
+    fun retrieveRequestsCount(totalRequestCount: MutableLiveData<Long?>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            email?.let {
+                adminRef.document(it)
+                    .collection("requests")
+                    .addSnapshotListener { value, error ->
+                        if (error != null) {
+                            Log.e(TAG, "retrieveMeetings --> $error")
+                            return@addSnapshotListener
+                        }
+                        val documents = value?.documents
+                        totalRequestCount.postValue(
+                            documents?.size?.toLong()
+                        )
+                    }
+            }
+
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "saveMeetingInfo --> $e")
+        }
+    }
+
+    fun retrieveTotalVotingCount(totalVotingCount: MutableLiveData<Long?>) = CoroutineScope(ioDispatcher).launch {
+        try {
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            email?.let {
+                adminRef.document(it)
+                    .collection("requests")
+                    .addSnapshotListener { value, error ->
+                        if (error != null) {
+                            Log.e(TAG, "retrieveTotalVotingCount --> $error")
+                            return@addSnapshotListener
+                        }
+                        val documents = value?.documents
+                        totalVotingCount.postValue(
+                            documents?.size?.toLong()
+                        )
+                    }
+            }
+
+        } catch (e: FirebaseException) {
+            Log.e(TAG, "saveMeetingInfo --> $e")
+        }
+    }
+
     fun retrieveMeetings(meetings: MutableLiveData<List<Meeting?>>) = CoroutineScope(ioDispatcher).launch {
         try {
             val email = auth.currentUser?.email

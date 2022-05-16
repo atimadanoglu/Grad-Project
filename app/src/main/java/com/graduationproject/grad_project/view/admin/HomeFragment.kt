@@ -5,13 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.graduationproject.grad_project.databinding.FragmentHomeBinding
+import com.graduationproject.grad_project.viewmodel.HomeFragmentViewModel
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: HomeFragmentViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -19,9 +22,14 @@ class HomeFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.request.setOnClickListener { goToRequestsPage() }
         binding.votingCardView.setOnClickListener { goToVotingPage() }
         binding.collectionOfDebt.setOnClickListener { goToPaymentsListPage() }
+        viewModel.retrieveTotalCollectedMoney()
+        viewModel.retrieveRequestsCount()
+        viewModel.retrieveTotalVotingMoney()
         return binding.root
     }
 

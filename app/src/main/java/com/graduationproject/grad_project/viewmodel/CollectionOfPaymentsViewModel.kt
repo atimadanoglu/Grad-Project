@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.graduationproject.grad_project.firebase.PaymentOperations
+import com.graduationproject.grad_project.firebase.SiteOperations
 import com.graduationproject.grad_project.model.Payment
 
 class CollectionOfPaymentsViewModel: ViewModel() {
@@ -18,7 +19,7 @@ class CollectionOfPaymentsViewModel: ViewModel() {
     val openMenuOptions: LiveData<Boolean?> get() = _openMenuOptions
 
     fun retrievePayments() {
-        PaymentOperations.retrievePayments(_payments)
+        SiteOperations.retrievePayments(_payments)
     }
 
     fun savePaymentInfo(payment: Payment) {
