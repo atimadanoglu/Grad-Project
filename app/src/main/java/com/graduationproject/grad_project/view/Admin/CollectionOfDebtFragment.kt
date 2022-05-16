@@ -1,14 +1,11 @@
 package com.graduationproject.grad_project.view.admin
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.PopupMenu
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.adapter.CollectionOfPaymentsAdapter
 import com.graduationproject.grad_project.databinding.FragmentCollectionOfDebtBinding
 import com.graduationproject.grad_project.viewmodel.CollectionOfPaymentsViewModel
@@ -40,14 +37,14 @@ class CollectionOfDebtFragment : Fragment() {
                 adapter.submitList(it)
             }
         }
-        viewModel.openMenuOptions.observe(viewLifecycleOwner) {
+        /*viewModel.openMenuOptions.observe(viewLifecycleOwner) {
             it?.let {
                 chooseAction()
             }
-        }
+        }*/
         return binding.root
     }
-
+/*
     private fun createPopUpMenu(): PopupMenu? {
         val popupMenu = paymentOptionsMenu?.let { PopupMenu(requireContext(), it) }
         val inflater = popupMenu?.menuInflater
@@ -72,5 +69,5 @@ class CollectionOfDebtFragment : Fragment() {
                 else -> false
             }
         }
-    }
+    }*/
 }

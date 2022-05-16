@@ -26,7 +26,7 @@ class OpenScreenActivity : AppCompatActivity() {
         setContentView(view)
         val bottomAnimation = AnimationUtils.loadAnimation(this, R.anim.bottom_animation)
         val topAnimation = AnimationUtils.loadAnimation(this, R.anim.top_animation)
-
+        /*FirebaseAuth.getInstance().signOut()*/
         binding.mainIcon.animation = topAnimation
         binding.mainText.animation = bottomAnimation
         binding.appTypeText.animation = bottomAnimation
@@ -43,6 +43,9 @@ class OpenScreenActivity : AppCompatActivity() {
 
     private fun observe(intent: Intent, options: ActivityOptions) {
         viewModel.isSignedIn.observe(this) {
+            if (it == null) {
+                startActivity(intent, options.toBundle())
+            }
             it?.let {
                 if (it) {
                     viewModel.isResident()
