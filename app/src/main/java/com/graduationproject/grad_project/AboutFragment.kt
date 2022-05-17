@@ -26,7 +26,9 @@ class AboutFragment : Fragment() {
         binding.referenceSecond.setOnClickListener {
             goToFlaticonAuthorsPage()
         }
-
+        binding.referenceThird.setOnClickListener {
+            goToIcon8Page()
+        }
         return binding.root
     }
 
@@ -37,6 +39,10 @@ class AboutFragment : Fragment() {
 
     private fun goToFlaticonAuthorsPage() {
         val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.flaticon.com/authors/freepik"))
+        startActivity(webIntent)
+    }
+    private fun goToIcon8Page() {
+        val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://icons8.com/"))
         startActivity(webIntent)
     }
 }
