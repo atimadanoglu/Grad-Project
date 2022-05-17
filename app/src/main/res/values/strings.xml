@@ -303,5 +303,6 @@
     <string name="bills_added">Fatura eklendi.</string>
     <string name="photoAdded">Fotoğraf eklendi.</string>
     <string name="belge_eklendi">Belge eklendi.</string>
+    <string name="borc_adi">Borç Adı</string>
 
 </resources>
