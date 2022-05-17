@@ -36,7 +36,7 @@ class ServicesAdminAdapter(
                 "Taksi" -> R.drawable.taxi_icon
                 "Elektrikçi" -> R.drawable.electric_icon
                 "Tesisatçı" -> R.drawable.plumber_icon
-                "Çilingir" -> R.drawable.password_icon
+                "Çilingir" -> R.drawable.locksmith
                 else -> 0
             }
             if (resourceId != 0) {
