@@ -36,7 +36,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="40dp"
                 android:layout_marginEnd="20dp"
-                android:hint="@string/borc_adi"
+                android:hint="@string/gider_baslıgı"
                 app:boxStrokeColor="@color/primary_color"
                 app:hintTextColor="@color/primary_color"
                 app:endIconMode="clear_text"

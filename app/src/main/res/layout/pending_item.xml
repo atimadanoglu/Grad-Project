@@ -43,14 +43,16 @@
 
                 <TextView
                     android:id="@+id/pendingText"
-                    android:layout_width="230dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="15dp"
-                    android:text="@{@string/sakinOnayBekliyor(siteResident.fullName)}"
+                    android:layout_marginEnd="20dp"
                     android:fontFamily="@font/roboto_regular"
+                    android:text="@{@string/sakinOnayBekliyor(siteResident.fullName)}"
                     android:textColor="@color/primary_color"
                     android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@+id/rejectButton"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

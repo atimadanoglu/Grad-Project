@@ -15,27 +15,18 @@
         android:layout_height="match_parent"
         android:background="@color/background_settings">
 
-        <ImageView
-            android:id="@+id/hamburgerIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/hamburger_icon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/homePageTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
             android:fontFamily="@font/nunito_sans_bold"
             android:text="@string/home_page"
             android:textColor="@color/primary_color"
             android:textSize="32sp"
-            app:layout_constraintBottom_toBottomOf="@+id/hamburgerIcon"
-            app:layout_constraintStart_toEndOf="@+id/hamburgerIcon" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/homePageInfoText"

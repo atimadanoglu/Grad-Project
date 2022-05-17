@@ -34,11 +34,12 @@
                     android:layout_height="35dp"
                     android:fontFamily="@font/roboto_medium"
                     android:hint="@string/title"
+                    android:lines="1"
                     android:text="@{notification.title}"
                     android:layout_marginEnd="40dp"
                     android:textColor="@color/primary_color"
                     android:textColorHint="@color/primary_color"
-                    android:textSize="22sp"
+                    android:textSize="20sp"
                     app:layout_constraintEnd_toStartOf="@+id/notification_options"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
