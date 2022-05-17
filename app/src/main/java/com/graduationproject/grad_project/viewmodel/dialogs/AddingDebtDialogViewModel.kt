@@ -23,16 +23,16 @@ class AddingDebtDialogViewModel(
     private var _debtTitle = ""
     val debtTitle get() = _debtTitle
 
-    private var _debtAmount = 0.0
+    private var _debtAmount = 0L
     val debtAmount get() = _debtAmount
 
     private var _isDebtUpdated = false
     val isDebtUpdated get() = _isDebtUpdated
 
     fun setTitle(title: String) { _debtTitle = title }
-    fun setAmount(amount: Double) { _debtAmount = amount }
+    fun setAmount(amount: Long) { _debtAmount = amount }
 
-    suspend fun addDebt(email: String, debtAmount: Double) {
+    suspend fun addDebt(email: String, debtAmount: Long) {
         CoroutineScope(ioDispatcher).launch {
             try {
                 UserOperations.addDebt(email, debtAmount)

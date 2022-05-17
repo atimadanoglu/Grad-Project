@@ -35,7 +35,15 @@ class ResidentSiteInformationFragment(
         val view = binding.root
         binding.backToResidentNewAccountFragmentButton.setOnClickListener { goBackToResidentNewAccountFragment() }
         binding.signUpButton.setOnClickListener {
-            viewModel.checkEmailAddress(args.email)
+            if (!viewModel.isEmpty()) {
+                viewModel.checkEmailAddress(args.email)
+            } else {
+                Snackbar.make(
+                    requireView(),
+                    "Lütfen boşlukları doldurunuz!",
+                    Snackbar.LENGTH_LONG
+                ).show()
+            }
         }
         viewModel.isThereAnyResident.observe(viewLifecycleOwner) {
             it?.let {

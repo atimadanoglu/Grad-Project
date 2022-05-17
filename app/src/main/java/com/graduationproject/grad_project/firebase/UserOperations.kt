@@ -485,11 +485,11 @@ object UserOperations: FirebaseConstants() {
     }
 
 
-    suspend fun addDebt(email: String, debtAmount: Double) {
+    suspend fun addDebt(email: String, debtAmount: Long) {
         withContext(ioDispatcher) {
             try {
                 residentRef.document(email)
-                    .update("debt", FieldValue.increment(debtAmount.toLong()))
+                    .update("debt", FieldValue.increment(debtAmount))
                     .await()
             } catch (e: FirebaseFirestoreException) {
                 Log.e(TAG, "updateDebtAmount ---> $e")
@@ -497,11 +497,11 @@ object UserOperations: FirebaseConstants() {
         }
     }
 
-    suspend fun deleteDebt(email: String, debtAmount: Double) {
+    suspend fun deleteDebt(email: String, debtAmount: Long) {
         withContext(ioDispatcher) {
             try {
                 residentRef.document(email)
-                    .update("debt", FieldValue.increment(-debtAmount.toLong()))
+                    .update("debt", FieldValue.increment(-debtAmount))
                     .await()
             } catch (e: FirebaseFirestoreException) {
                 Log.e(TAG, "updateDebtAmount ---> $e")

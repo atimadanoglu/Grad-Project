@@ -31,6 +31,7 @@ class AddVotingAdminFragment : Fragment() {
         _binding = FragmentAddVotingAdminBinding.inflate(inflater, container, false)
         datePickerSetOnClickListener()
         shareVotingButtonSetOnClickListener()
+        viewModel.retrievePlayerIDs()
         binding.backButtonVoting.setOnClickListener {
             goBackToVotingPage()
         }
@@ -60,6 +61,9 @@ class AddVotingAdminFragment : Fragment() {
             viewModel.setValues(title, content)
             checkTheInputsAreNotEmpty(title, content, date)
             if (isAllValid()) {
+                if (viewModel.playerIDs.value?.isNotEmpty() == true) {
+                    viewModel.sendPushNotification()
+                }
                 viewModel.saveVotingIntoDB(title, content)
                 goBackToVotingPage()
             }

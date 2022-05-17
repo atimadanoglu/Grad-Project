@@ -5,12 +5,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.Timestamp
+import com.graduationproject.grad_project.firebase.NotificationOperations
+import com.graduationproject.grad_project.firebase.UserOperations
 import com.graduationproject.grad_project.firebase.VotingOperations
+import com.graduationproject.grad_project.model.Notification
 import com.graduationproject.grad_project.model.Voting
+import com.graduationproject.grad_project.onesignal.OneSignalOperations
 import kotlinx.coroutines.launch
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class AddVotingViewModel: ViewModel() {
 
@@ -26,6 +32,9 @@ class AddVotingViewModel: ViewModel() {
     private val _chosenDate = MutableLiveData<String?>()
     val chosenDate: LiveData<String?> get() = _chosenDate
 
+    private val _playerIDs = MutableLiveData<ArrayList<String?>>()
+    val playerIDs: LiveData<ArrayList<String?>> get() = _playerIDs
+
     fun setDateLongValue(value: Long) { _dateLongValue.value = value }
 
     fun saveVotingIntoDB(title: String, content: String) {
@@ -40,6 +49,26 @@ class AddVotingViewModel: ViewModel() {
                     _dateLongValue.value!!
                 )
                 VotingOperations.saveVotingIntoDB(voting)
+            }
+        }
+    }
+
+    fun retrievePlayerIDs() {
+        UserOperations.retrieveResidentsPlayerIDs(_playerIDs)
+    }
+
+    fun sendPushNotification() {
+        val uuid = UUID.randomUUID()
+        if (checkTheValuesAreNotNull()) {
+            val notification = Notification(
+                "Oylama açıldı",
+                _content.value.toString(),
+                "",
+                uuid.toString(),
+                Timestamp.now()
+            )
+            _playerIDs.value?.let {
+                OneSignalOperations.postNotification(it, notification)
             }
         }
     }

@@ -76,6 +76,11 @@ class AddExpendituresFragment : Fragment() {
     private fun shareButtonClicked() {
         if (!viewModel.isNull()) {
             viewModel.uploadImageAndShareExpenditure(selectedPicture)
+            Snackbar.make(
+                requireView(),
+                "Gider sakinlerle paylaşılıyor...",
+                Snackbar.LENGTH_LONG
+            ).show()
             backToExpendituresFragment()
         } else {
             Snackbar.make(

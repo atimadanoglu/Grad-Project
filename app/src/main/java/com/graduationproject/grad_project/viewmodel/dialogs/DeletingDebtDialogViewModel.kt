@@ -23,16 +23,16 @@ class DeletingDebtDialogViewModel(
     private var _deletingCause = ""
     val deletingCause get() = _deletingCause
 
-    private var _deletedAmount = 0.0
+    private var _deletedAmount = 0L
     val deletedAmount get() = _deletedAmount
 
     private var _isDebtUpdated = false
     val isDebtUpdated get() = _isDebtUpdated
 
     fun setCause(deletingCause: String) { _deletingCause = deletingCause }
-    fun setDeletedAmount(deletedAmount: Double) { _deletedAmount = deletedAmount }
+    fun setDeletedAmount(deletedAmount: Long) { _deletedAmount = deletedAmount }
 
-    suspend fun deleteDebt(email: String, deletedAmount: Double) {
+    suspend fun deleteDebt(email: String, deletedAmount: Long) {
         CoroutineScope(ioDispatcher).launch {
             try {
                 UserOperations.deleteDebt(email, deletedAmount)

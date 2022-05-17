@@ -90,11 +90,15 @@ class ResidentSiteInformationViewModel(
         }
     }
 
+    fun isEmpty() = inputCity.value.isNullOrBlank() || inputSiteName.value.isNullOrBlank()
+            || inputBlockName.value.isNullOrBlank() || inputDistrict.value.isNullOrBlank()
+            || inputFlatNo.value.isNullOrBlank()
+
     /**
      * It can be used to check these items are null before getting block names
      * */
-    private fun areTheyNull() = inputSiteName.value == null && inputCity.value == null
-            && inputDistrict.value == null
+    private fun areTheyNull() = inputSiteName.value == null || inputCity.value == null
+            || inputDistrict.value == null
 
     fun getBlockNames() {
         _blockNames.value?.forEach {

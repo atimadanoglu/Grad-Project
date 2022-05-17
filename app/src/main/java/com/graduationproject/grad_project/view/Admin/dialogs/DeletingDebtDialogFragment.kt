@@ -47,13 +47,18 @@ class DeletingDebtDialogFragment(
     private fun positiveButtonClicked() {
         CoroutineScope(mainDispatcher).launch {
             val deletingReason = binding.reasonOfDeleteDebtText.text.toString()
-            val deletedAmount = binding.deletedAmountDeleteDebt.text.toString().toDouble()
-            viewModel.setDeletedAmount(deletedAmount)
+            val deletedAmount = binding.deletedAmountDeleteDebt.text.toString()
+            val newAmount = if (deletedAmount.isNotEmpty()) {
+                deletedAmount.toLong()
+            } else {
+                0
+            }
+            viewModel.setDeletedAmount(newAmount)
             viewModel.setCause(deletingReason)
             try {
                 withContext(ioDispatcher) {
-                    viewModel.deleteDebt(resident.email, viewModel.deletedAmount)
-                    if (viewModel.isDebtUpdated) {
+                    viewModel.deleteDebt(resident.email, newAmount)
+                    if (viewModel.isDebtUpdated && deletedAmount.isNotEmpty()) {
                         viewModel.takePlayerIdAndSendPostNotification(resident)
                     }
                 }
