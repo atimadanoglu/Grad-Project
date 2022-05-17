@@ -41,6 +41,12 @@ class AdminSiteInformationFragment : Fragment() {
             if (!viewModel.isEmpty()) {
                 viewModel.setAdminInfo(args.fullName, args.phoneNumber, args.email)
                 viewModel.checkEmailAddress(args.email)
+            } else {
+                Snackbar.make(
+                    requireView(),
+                    "Lütfen boşlukları doldurunuz!",
+                    Snackbar.LENGTH_LONG
+                ).show()
             }
         }
 
@@ -76,6 +82,8 @@ class AdminSiteInformationFragment : Fragment() {
         if (binding.sites.text.isNullOrBlank()) {
             val error = resources.getString(R.string.lütfenBirSiteAdıYazınız)
             binding.sitesLayout.error = error
+        } else {
+            binding.sitesLayout.error = null
         }
     }
 
@@ -83,13 +91,17 @@ class AdminSiteInformationFragment : Fragment() {
         if (binding.blockNo.text.isNullOrBlank()) {
             val error = resources.getString(R.string.lütfenBlokAdınıYazınız)
             binding.blockNoLayout.error = error
+        } else {
+            binding.blockNoLayout.error = null
         }
     }
 
     private fun checkFlatCount() {
         if (binding.flatNo.text.isNullOrBlank()) {
             val error = resources.getString(R.string.lütfenDaireSayınısıYazınız)
-            binding.blockNoLayout.error = error
+            binding.flatNoLayout.error = error
+        } else {
+            binding.flatNoLayout.error = null
         }
     }
 
@@ -97,6 +109,8 @@ class AdminSiteInformationFragment : Fragment() {
         if (binding.monthlyPayment.text.isNullOrBlank()) {
             val error = resources.getString(R.string.lütfenAidatMiktarınıYazınız)
             binding.monthlyPaymentLayout.error = error
+        } else {
+            binding.monthlyPaymentLayout.error = null
         }
     }
 
