@@ -108,6 +108,11 @@ class AddRequestFragment : Fragment(){
         if (!viewModel.isNull()) {
             viewModel.getResidentInfo()
             viewModel.createNotification()
+            Snackbar.make(
+                requireView(),
+                "Talep yöneticiye iletiliyor...",
+                Snackbar.LENGTH_LONG
+            ).show()
         }
     }
 

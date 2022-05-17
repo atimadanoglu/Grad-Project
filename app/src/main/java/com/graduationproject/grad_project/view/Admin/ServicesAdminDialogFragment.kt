@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
 import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.FragmentServicesAdminDialogBinding
@@ -50,6 +51,11 @@ class ServicesAdminDialogFragment : DialogFragment() {
                 Timestamp(Date())
                 )
             )
+            Snackbar.make(
+                requireView(),
+                "Service ekleniyor...",
+                Snackbar.LENGTH_LONG
+            ).show()
         }
     }
 

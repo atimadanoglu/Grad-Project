@@ -54,13 +54,18 @@ class AddingDebtDialogFragment(
     private fun positiveButtonClicked() {
         CoroutineScope(mainDispatcher).launch {
             val debtTitle = binding.debtName.text.toString()
-            val debtAmount = binding.deletedAmount.text.toString().toDouble()
-            viewModel.setAmount(debtAmount)
+            val debtAmount = binding.deletedAmount.text.toString()
+            val newValue = if (debtAmount.isEmpty()) {
+                0
+            } else {
+                debtAmount.toLong()
+            }
+            viewModel.setAmount(newValue)
             viewModel.setTitle(debtTitle)
             try {
                 withContext(ioDispatcher) {
-                    viewModel.addDebt(resident.email, viewModel.debtAmount)
-                    if (viewModel.isDebtUpdated) {
+                    viewModel.addDebt(resident.email, newValue)
+                    if (viewModel.isDebtUpdated && debtAmount.isNotEmpty()) {
                         viewModel.takePlayerIdAndSendPostNotification(resident)
                     }
                 }

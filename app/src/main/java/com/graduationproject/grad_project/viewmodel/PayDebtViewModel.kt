@@ -94,7 +94,7 @@ class PayDebtViewModel(
             val email = FirebaseAuth.getInstance().currentUser?.email
             _amount.value?.toDouble()?.let { value ->
                 if (email != null) {
-                    UserOperations.deleteDebt(email, value)
+                    UserOperations.deleteDebt(email, value.toLong())
                 }
             }
         }
