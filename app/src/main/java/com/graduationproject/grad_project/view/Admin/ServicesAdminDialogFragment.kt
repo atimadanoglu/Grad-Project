@@ -51,11 +51,6 @@ class ServicesAdminDialogFragment : DialogFragment() {
                 Timestamp(Date())
                 )
             )
-            Snackbar.make(
-                requireView(),
-                "Service ekleniyor...",
-                Snackbar.LENGTH_LONG
-            ).show()
         }
     }
 
