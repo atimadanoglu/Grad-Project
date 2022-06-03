@@ -304,5 +304,6 @@
     <string name="photoAdded">Fotoğraf eklendi.</string>
     <string name="belge_eklendi">Belge eklendi.</string>
     <string name="borc_adi">Borç Adı</string>
+    <string name="borcunuz_bulunmamaktadır">Borcunuz bulunmamaktadır!</string>
 
 </resources>

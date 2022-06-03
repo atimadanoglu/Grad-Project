@@ -31,6 +31,9 @@ class PayDebtFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentPayDebtBinding.inflate(inflater, container, false)
+        binding.innerConstraintLayout.visibility = View.GONE
+        binding.youDontHaveDebt.visibility = View.VISIBLE
+        binding.picturesContraintLayout.visibility = View.VISIBLE
         viewModel.setHighestValue()
         binding.paymentButton.setOnClickListener {
             lifecycleScope.launch {
@@ -39,6 +42,19 @@ class PayDebtFragment : Fragment() {
         }
         binding.amountEditText.addTextChangedListener {
             checkValidityOfAmount(it)
+        }
+        viewModel.currentDebtAmount.observe(viewLifecycleOwner) {
+            it?.let {
+                if (it == 0L) {
+                    binding.innerConstraintLayout.visibility = View.GONE
+                    binding.youDontHaveDebt.visibility = View.VISIBLE
+                    binding.picturesContraintLayout.visibility = View.VISIBLE
+                } else {
+                    binding.innerConstraintLayout.visibility = View.VISIBLE
+                    binding.youDontHaveDebt.visibility = View.GONE
+                    binding.picturesContraintLayout.visibility = View.VISIBLE
+                }
+            }
         }
         return binding.root
     }
@@ -53,13 +69,13 @@ class PayDebtFragment : Fragment() {
                 setValues()
                 if (isChecked()) {
                     if (isAllValid()) {
-                        viewModel.payDebt()
-                        viewModel.savePayment()
                         val text = "İşleminiz gerçekleştiriliyor..."
                         Snackbar.make(requireView(), text, 2000)
                             .setAnchorView(bottomNavigationView)
                             .show()
                         delay(2500L)
+                        viewModel.payDebt()
+                        viewModel.savePayment()
                         goToPayDebtPage()
                         return@launch
                     }
@@ -81,7 +97,7 @@ class PayDebtFragment : Fragment() {
         val highestAmount = viewModel.highestAmount.value
         if (text?.isNotEmpty() == true) {
             highestAmount?.let { value ->
-                if (text.toString().toInt() <= value) {
+                if (text.toString().toInt() in 1..value) {
                     binding.textInputLayoutAmount.error = null
                     viewModel.setIsValidAmount(true)
                 } else {
