@@ -22,4 +22,12 @@ class HomePageAdminViewModel: ViewModel() {
     fun signOut() {
         UserOperations.signOut(_isSignedOut)
     }
+
+    init {
+        checkDeviceID()
+    }
+
+    private fun checkDeviceID() {
+        UserOperations.checkDeviceIDForAdmin()
+    }
 }
