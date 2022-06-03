@@ -52,6 +52,9 @@ class PayDebtViewModel(
     private val _siteResident = MutableLiveData<SiteResident?>()
     val siteResident: LiveData<SiteResident?> get() = _siteResident
 
+    private val _currentDebtAmount = MutableLiveData<Long?>()
+    val currentDebtAmount: LiveData<Long?> get() = _currentDebtAmount
+
     fun setIsValidAmount(value: Int) {
         viewModelScope.launch {
             val email = FirebaseAuth.getInstance().currentUser?.email
@@ -112,6 +115,7 @@ class PayDebtViewModel(
 
     init {
         retrieveResident()
+        retrieveCurrentDebtAmount()
     }
 
     fun setHighestValue() {
@@ -137,6 +141,10 @@ class PayDebtViewModel(
         _cardNumber.value = cardNumber
         _expirationDate.value = expirationDate
         _cvc.value = cvc
+    }
+
+    private fun retrieveCurrentDebtAmount() {
+        UserOperations.retrieveResidentDebt(_currentDebtAmount)
     }
 
 }

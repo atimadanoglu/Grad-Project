@@ -14,6 +14,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import com.graduationproject.grad_project.model.*
+import com.onesignal.OneSignal
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 
@@ -33,6 +34,36 @@ object UserOperations: FirebaseConstants() {
         } catch (e: Exception) {
             Log.e(TAG, "getAdmin --> $e")
             null
+        }
+    }
+
+    fun checkDeviceIDForAdmin() = CoroutineScope(ioDispatcher).launch {
+        try {
+            val deviceState = OneSignal.getDeviceState()
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            val admin = email?.let {
+                getAdmin(it)
+            }
+            if (admin?.get("player_id").toString() != deviceState?.userId) {
+                admin?.reference?.update("player_id", deviceState?.userId)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "checkDeviceID -> $e")
+        }
+    }
+
+    fun checkDeviceIDForResident() = CoroutineScope(ioDispatcher).launch {
+        try {
+            val deviceState = OneSignal.getDeviceState()
+            val email = FirebaseAuth.getInstance().currentUser?.email
+            val resident = email?.let {
+                getResident(it)
+            }
+            if (resident?.get("player_id").toString() != deviceState?.userId) {
+                resident?.reference?.update("player_id", deviceState?.userId)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "checkDeviceID -> $e")
         }
     }
 

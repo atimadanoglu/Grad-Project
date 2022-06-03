@@ -109,22 +109,24 @@ object SiteOperations: FirebaseConstants() {
     fun retrieveTotalVotingCount(totalVotingCount: MutableLiveData<Long?>) = CoroutineScope(ioDispatcher).launch {
         try {
             val email = FirebaseAuth.getInstance().currentUser?.email
-            email?.let {
-                adminRef.document(it)
-                    .collection("voting")
-                    .whereEqualTo("finished", true)
-                    .addSnapshotListener { value, error ->
-                        if (error != null) {
-                            Log.e(TAG, "retrieveTotalVotingCount --> $error")
-                            return@addSnapshotListener
-                        }
-                        val documents = value?.documents
-                        totalVotingCount.postValue(
-                            documents?.size?.toLong()
-                        )
-                    }
+            val admin = async {
+                email?.let { UserOperations.getAdmin(it) }
             }
-
+            siteRef.document("siteName:${admin.await()?.get("siteName")}" +
+                    "-city:${admin.await()?.get("city")}" +
+                    "-district:${admin.await()?.get("district")}")
+                .collection("voting")
+                .whereEqualTo("finished", true)
+                .addSnapshotListener { value, error ->
+                    if (error != null) {
+                        Log.e(TAG, "retrieveTotalVotingCount --> $error")
+                        return@addSnapshotListener
+                    }
+                    val documents = value?.documents
+                    totalVotingCount.postValue(
+                        documents?.size?.toLong()
+                    )
+                }
         } catch (e: FirebaseException) {
             Log.e(TAG, "saveMeetingInfo --> $e")
         }
