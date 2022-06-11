@@ -130,6 +130,7 @@ class ResidentSiteInformationFragment(
         }
         viewModel.blockNames.observe(viewLifecycleOwner) {
             if (!it.isNullOrEmpty()) {
+                viewModel.clearBlockNames()
                 viewModel.getBlockNames()
                 val arrayAdapterForBlockNames = ArrayAdapter(requireContext(), R.layout.request_dropdown_item, viewModel.listOfBlocks)
                 binding.blockNo.inputType = InputType.TYPE_NULL
