@@ -58,6 +58,8 @@ class ResidentSiteInformationViewModel(
         _listOfBlocks.clear()
     }
 
+    fun clearBlockNames() = _listOfBlocks.clear()
+
     fun retrieveAllSitesBasedOnCityAndDistrict() {
         if (inputCity.value != null && inputDistrict.value != null) {
             _allSites.value?.clear()
