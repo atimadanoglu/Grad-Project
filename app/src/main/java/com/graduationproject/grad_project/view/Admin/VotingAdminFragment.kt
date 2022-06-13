@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.adapter.ContinuesVotingAdminAdapter
 import com.graduationproject.grad_project.adapter.FinishedVotingAdminAdapter
 import com.graduationproject.grad_project.databinding.FragmentVotingAdminBinding
