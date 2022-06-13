@@ -13,6 +13,9 @@ class PendingApprovalsViewModel: ViewModel() {
     private val _awaitingResidents = MutableLiveData<MutableList<SiteResident?>>()
     val awaitingResidents: LiveData<MutableList<SiteResident?>> get() = _awaitingResidents
 
+    private val _clickedResident = MutableLiveData<SiteResident>()
+    val clickedResident: LiveData<SiteResident> get() = _clickedResident
+
     private val _navigateToPhoneDial = MutableLiveData<Boolean?>()
     val navigateToPhoneDial: LiveData<Boolean?> get() = _navigateToPhoneDial
     private var _phoneNumber: String = ""
@@ -24,6 +27,10 @@ class PendingApprovalsViewModel: ViewModel() {
         }
     }
 
+    fun saveClickedResident(resident: SiteResident) {
+        _clickedResident.value = resident
+    }
+
     fun navigateToPhoneDial(phoneNumber: String) {
         _phoneNumber = phoneNumber
         _navigateToPhoneDial.value = true
@@ -31,5 +38,13 @@ class PendingApprovalsViewModel: ViewModel() {
 
     fun navigatedToPhoneDial() {
         _navigateToPhoneDial.value = null
+    }
+
+    fun acceptResident() {
+        clickedResident.value?.let { UserOperations.acceptResident(it) }
+    }
+
+    fun rejectResident() {
+        clickedResident.value?.let { UserOperations.rejectResident(it) }
     }
 }
