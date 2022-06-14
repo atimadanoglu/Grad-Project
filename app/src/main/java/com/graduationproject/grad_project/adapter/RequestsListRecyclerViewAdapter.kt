@@ -1,26 +1,16 @@
 package com.graduationproject.grad_project.adapter
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.PopupMenu
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.RequestsItemBinding
-import com.graduationproject.grad_project.firebase.RequestsOperations
 import com.graduationproject.grad_project.model.Request
-import com.graduationproject.grad_project.view.resident.dialogs.ShowRequestInfoResidentDialogFragment
 
 class RequestsListRecyclerViewAdapter(
-    private val fragmentManager: FragmentManager,
-    private val context: Context
+    private val clickListener: (request: Request, anchor: View) -> Unit
 ): ListAdapter<Request, RequestsListRecyclerViewAdapter.RequestViewHolder>(RequestsDiff()) {
 
     companion object {
@@ -28,33 +18,18 @@ class RequestsListRecyclerViewAdapter(
     }
     class RequestViewHolder(val binding: RequestsItemBinding): RecyclerView.ViewHolder(binding.root) {
         companion object {
-
-            private const val RED = "#8f170e"
-            private const val GREEN = "#284443"
-            private const val SUGGESTION = "Öneri"
-            private const val COMPLAINT = "Şikayet"
-
             fun inflateFrom(parent: ViewGroup): RequestViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = RequestsItemBinding.inflate(layoutInflater, parent, false)
                 return RequestViewHolder(binding)
             }
         }
-        @SuppressLint("ResourceAsColor")
-        private fun setColor(request: Request) {
-            if (request.type == SUGGESTION) {
-                binding.itemType.setBackgroundColor(R.color.primary_color)
-                binding.itemType.setTextColor(Color.WHITE)
-            }
-            if (request.type == COMPLAINT) {
-                binding.itemType.setBackgroundColor(R.color.warning_color)
-                binding.itemType.setTextColor(Color.WHITE)
-            }
-        }
 
-        fun bind(request: Request) {
+        fun bind(request: Request, clickListener: (request: Request, anchor: View) -> Unit) {
             binding.request = request
-            setColor(request)
+            binding.requestOptions.setOnClickListener {
+                clickListener(request, it)
+            }
             binding.executePendingBindings()
         }
     }
@@ -66,32 +41,7 @@ class RequestsListRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: RequestViewHolder, position: Int) {
         val request = getItem(position)
-        holder.bind(request)
-        holder.binding.requestOptions.setOnClickListener { view ->
-            val popUpMenu = createPopUpMenu(view)
-            popUpMenu.setOnMenuItemClickListener { menuItem ->
-                when(menuItem.itemId) {
-                    R.id.requestInfo -> {
-                        val showRequest = ShowRequestInfoResidentDialogFragment(request)
-                        showRequest.show(fragmentManager, "showRequestDialog")
-                        true
-                    }
-                    R.id.deleteRequest -> {
-                        RequestsOperations.deleteRequestFromResidentDB(request)
-                        true
-                    }
-                    else -> false
-                }
-            }
-        }
-    }
-
-    private fun createPopUpMenu(view: View): PopupMenu {
-        val popUpMenu = PopupMenu(context, view)
-        val inflater: MenuInflater = popUpMenu.menuInflater
-        inflater.inflate(R.menu.request_menu, popUpMenu.menu)
-        popUpMenu.show()
-        return popUpMenu
+        holder.bind(request, clickListener)
     }
 }
 

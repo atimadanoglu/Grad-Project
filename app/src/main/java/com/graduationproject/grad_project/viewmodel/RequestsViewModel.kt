@@ -10,6 +10,13 @@ class RequestsViewModel: ViewModel() {
     private val _requests = MutableLiveData<ArrayList<Request?>>()
     val requests: LiveData<ArrayList<Request?>> get() = _requests
 
+    private val _clickedRequest = MutableLiveData<Request>()
+    val request: LiveData<Request> get() = _clickedRequest
+
+    fun saveClickedRequest(request: Request) {
+        _clickedRequest.value = request
+    }
+
     fun retrieveRequests() {
         RequestsOperations.retrieveRequestsForResident(_requests)
     }

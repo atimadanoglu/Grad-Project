@@ -22,9 +22,7 @@ class PendingApprovalsViewModel: ViewModel() {
     val phoneNumber get() = _phoneNumber
 
     fun retrieveAwaitingResidents() {
-        viewModelScope.launch {
-            UserOperations.retrieveAwaitingResidents(_awaitingResidents)
-        }
+        UserOperations.retrieveAwaitingResidents(_awaitingResidents)
     }
 
     fun saveClickedResident(resident: SiteResident) {
