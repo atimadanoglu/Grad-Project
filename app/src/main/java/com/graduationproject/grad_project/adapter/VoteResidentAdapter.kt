@@ -3,23 +3,20 @@ package com.graduationproject.grad_project.adapter
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.VotingContinuesAdminItemBinding
 import com.graduationproject.grad_project.model.Voting
-import com.graduationproject.grad_project.view.resident.dialogs.ShowVoteResidentDialogFragment
 import java.util.*
 
 class VoteResidentAdapter(
-    private val fragmentManager: FragmentManager
+    private val clickListener: (voting: Voting) -> Unit
 ): ListAdapter<Voting, VoteResidentAdapter.VotingViewHolder>(VoteResidentDiffUtil()) {
 
-    private lateinit var auth: FirebaseAuth
     class VotingViewHolder(val binding: VotingContinuesAdminItemBinding): RecyclerView.ViewHolder(binding.root) {
+        private lateinit var auth: FirebaseAuth
         companion object {
             fun inflateFrom(parent: ViewGroup): VotingViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
@@ -27,9 +24,10 @@ class VoteResidentAdapter(
                 return VotingViewHolder(binding)
             }
         }
-        fun bind(voting: Voting) {
+        fun bind(voting: Voting, clickListener: (voting: Voting) -> Unit) {
             binding.duration.text = calculateDuration(voting)
             binding.voting = voting
+            setIsVoted(voting, clickListener)
             binding.executePendingBindings()
         }
 
@@ -41,6 +39,24 @@ class VoteResidentAdapter(
             val hours = minutes / 60
             return "$hours (s)"
         }
+
+        private fun setIsVoted(item: Voting, clickListener: (voting: Voting) -> Unit) {
+            auth = FirebaseAuth.getInstance()
+            val filtered = item.residentsWhoVoted.filter {
+                it?.id == auth.currentUser?.email
+            }
+            if (filtered.isNotEmpty()) {
+                binding.root.isEnabled = false
+                binding.constraintOfCardViewVoting
+                    .setBackgroundColor(Color.parseColor("#3B284443"))
+            }
+
+            if (filtered.isEmpty() || item.residentsWhoVoted.isEmpty()) {
+                binding.root.setOnClickListener {
+                    clickListener(item)
+                }
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VotingViewHolder {
@@ -49,24 +65,7 @@ class VoteResidentAdapter(
 
     override fun onBindViewHolder(holder: VotingViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
-        auth = FirebaseAuth.getInstance()
-        val filtered = item.residentsWhoVoted.filter {
-            it?.id == auth.currentUser?.email
-        }
-        if (filtered.isNotEmpty()) {
-            holder.binding.root.isEnabled = false
-            holder.binding.constraintOfCardViewVoting
-                .setBackgroundColor(Color.parseColor("#3B284443"))
-        }
-
-        if (filtered.isEmpty() || item.residentsWhoVoted.isEmpty()) {
-            holder.binding.root.setOnClickListener {
-                val dialog = ShowVoteResidentDialogFragment(item)
-                dialog.show(fragmentManager, "showVoteResidentDialog")
-                holder.binding.executePendingBindings()
-            }
-        }
+        holder.bind(item, clickListener)
     }
 }
 
