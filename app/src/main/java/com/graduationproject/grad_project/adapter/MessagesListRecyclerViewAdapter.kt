@@ -1,24 +1,16 @@
 package com.graduationproject.grad_project.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.MessageRowLayoutBinding
-import com.graduationproject.grad_project.firebase.MessagesOperations
 import com.graduationproject.grad_project.model.Message
-import com.graduationproject.grad_project.view.resident.dialogs.ShowMessageDialogFragment
 
 class MessagesListRecyclerViewAdapter(
-    private val context: Context,
-    private val fragmentManager: FragmentManager,
+    private val clickListener: (message: Message, anchor: View) -> Unit
 ): ListAdapter<Message, MessagesListRecyclerViewAdapter.MessageViewHolder>(MessagesDiffUtil()) {
 
     class MessageViewHolder(val binding: MessageRowLayoutBinding): RecyclerView.ViewHolder(binding.root) {
@@ -29,8 +21,11 @@ class MessagesListRecyclerViewAdapter(
                 return MessageViewHolder(binding)
             }
         }
-        fun bind(message: Message) {
+        fun bind(message: Message, clickListener: (message: Message, anchor: View) -> Unit) {
             binding.message = message
+            binding.messageOptions.setOnClickListener {
+                clickListener(message, it)
+            }
             binding.executePendingBindings()
         }
     }
@@ -41,32 +36,7 @@ class MessagesListRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
-        holder.binding.messageOptions.setOnClickListener { view ->
-            val popupMenu = createPopUpMenu(view)
-            popupMenu.setOnMenuItemClickListener { menuItem ->
-                when (menuItem.itemId) {
-                    R.id.announcementInfo -> {
-                        val showMessageDialogFragment = ShowMessageDialogFragment(item)
-                        showMessageDialogFragment.show(fragmentManager, "dialog")
-                        true
-                    }
-                    R.id.deleteAnnouncement -> {
-                        MessagesOperations.deleteMessageInSpecificPosition(item)
-                        true
-                    }
-                    else -> false
-                }
-            }
-        }
-    }
-
-    private fun createPopUpMenu(view: View): PopupMenu {
-        val popupMenu = PopupMenu(context, view)
-        val inflater: MenuInflater = popupMenu.menuInflater
-        inflater.inflate(R.menu.announcement_more_menu, popupMenu.menu)
-        popupMenu.show()
-        return popupMenu
+        holder.bind(item, clickListener)
     }
 }
 

@@ -1,20 +1,17 @@
 package com.graduationproject.grad_project.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.graduationproject.grad_project.R
 import com.graduationproject.grad_project.databinding.PendingItemBinding
-import com.graduationproject.grad_project.firebase.UserOperations
 import com.graduationproject.grad_project.model.SiteResident
 
 class PendingApprovalAdapter(
-    private val context: Context,
-    private val clickListener: (phoneNumber: String) -> Unit
+    private val phoneTextClickListener: (phoneNumber: String) -> Unit,
+    private val acceptButtonClickListener: (siteResident: SiteResident) -> Unit,
+    private val rejectButtonClickListener: (siteResident: SiteResident) -> Unit
 ):
     ListAdapter<SiteResident, PendingApprovalAdapter.PendingApprovalViewHolder>(PendingApprovalDiffUtil()) {
     class PendingApprovalViewHolder(val binding: PendingItemBinding): RecyclerView.ViewHolder(binding.root) {
@@ -25,10 +22,21 @@ class PendingApprovalAdapter(
                 return PendingApprovalViewHolder(binding)
             }
         }
-        fun bind(siteResident: SiteResident, clickListener: (phoneNumber: String) -> Unit) {
+        fun bind(
+            siteResident: SiteResident,
+            phoneTextClickListener: (phoneNumber: String) -> Unit,
+            acceptButtonClickListener: (siteResident: SiteResident) -> Unit,
+            rejectButtonClickListener: (siteResident: SiteResident) -> Unit
+        ) {
             binding.siteResident = siteResident
             binding.phoneText.setOnClickListener {
-                clickListener(siteResident.phoneNumber)
+                phoneTextClickListener(siteResident.phoneNumber)
+            }
+            binding.acceptButton.setOnClickListener {
+                acceptButtonClickListener(siteResident)
+            }
+            binding.rejectButton.setOnClickListener {
+                rejectButtonClickListener(siteResident)
             }
             binding.executePendingBindings()
         }
@@ -40,33 +48,7 @@ class PendingApprovalAdapter(
 
     override fun onBindViewHolder(holder: PendingApprovalViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item, clickListener)
-        holder.binding.acceptButton.setOnClickListener {
-            showAlertMessageForAcceptButton(item)
-        }
-        holder.binding.rejectButton.setOnClickListener {
-            showAlertMessageForRejectButton(item)
-        }
-    }
-    private fun showAlertMessageForAcceptButton(resident: SiteResident) {
-        val text = context.resources.getString(R.string.siteSakinOnayı, resident.fullName)
-        MaterialAlertDialogBuilder(context)
-            .setMessage(text)
-            .setPositiveButton(R.string.evet) { _, _ ->
-                UserOperations.acceptResident(resident)
-            }.setNegativeButton(R.string.hayır) { _, _ -> }
-            .create().show()
-    }
-
-    private fun showAlertMessageForRejectButton(resident: SiteResident) {
-        val text = context.resources.getString(R.string.siteSakinReddi, resident.fullName)
-        MaterialAlertDialogBuilder(context)
-            .setMessage(text)
-            .setPositiveButton(R.string.evet) { _, _ ->
-                UserOperations.rejectResident(resident)
-            }
-            .setNegativeButton(R.string.hayır) { _, _ -> }
-            .create().show()
+        holder.bind(item, phoneTextClickListener, acceptButtonClickListener, rejectButtonClickListener)
     }
 }
 

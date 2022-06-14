@@ -57,11 +57,7 @@ class FinishedVotingAdminAdapter:
     override fun onBindViewHolder(holder: FinishedVotingViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
-        holder.binding.root.setOnClickListener {
-
-        }
     }
-
 }
 
 class FinishedVotingDiffUtil: DiffUtil.ItemCallback<Voting>() {

@@ -343,7 +343,7 @@ object UserOperations: FirebaseConstants() {
 
 
 
-    suspend fun retrieveAwaitingResidents(awaitingResidents: MutableLiveData<MutableList<SiteResident?>>)
+    fun retrieveAwaitingResidents(awaitingResidents: MutableLiveData<MutableList<SiteResident?>>)
         = CoroutineScope(ioDispatcher).launch {
         try {
             currentUserEmail?.let {

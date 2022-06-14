@@ -16,9 +16,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-class ResidentsListViewModel(
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
-): ViewModel() {
+class ResidentsListViewModel: ViewModel() {
 
     companion object {
         const val TAG = "ResidentsListViewModel"
@@ -27,6 +25,13 @@ class ResidentsListViewModel(
     val residentsList: LiveData<List<SiteResident?>> get() = _residentsList
 
     private var copiedData = listOf<SiteResident?>()
+
+    private val _clickedResident = MutableLiveData<SiteResident>()
+    val clickedResident: LiveData<SiteResident> get() = _clickedResident
+
+    fun saveClickedResident(resident: SiteResident) {
+        _clickedResident.value = resident
+    }
 
     fun filter(newText: String?) {
         viewModelScope.launch {
@@ -50,7 +55,7 @@ class ResidentsListViewModel(
     }
 
     fun getResidentsInASpecificSiteWithSnapshot() {
-        viewModelScope.launch(ioDispatcher) {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val db = FirebaseFirestore.getInstance()
                 val auth = FirebaseAuth.getInstance()

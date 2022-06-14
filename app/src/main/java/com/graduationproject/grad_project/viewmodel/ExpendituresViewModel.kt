@@ -11,8 +11,14 @@ class ExpendituresViewModel: ViewModel() {
     private var _expenditures = MutableLiveData<MutableList<Expenditure?>>()
     val expenditures: LiveData<MutableList<Expenditure?>> get() = _expenditures
 
-    fun retrieveAllExpendituresWithSnapshot() {
+    private val _expenditure = MutableLiveData<Expenditure>()
+    val expenditure: LiveData<Expenditure> get() = _expenditure
+
+    fun retrieveAllExpenditures() {
         ExpendituresOperations.retrieveExpendituresForAdmin(_expenditures)
     }
 
+    fun saveExpenditure(value: Expenditure) {
+        _expenditure.value = value
+    }
 }

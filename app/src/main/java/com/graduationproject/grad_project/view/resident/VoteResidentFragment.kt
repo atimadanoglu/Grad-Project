@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.graduationproject.grad_project.adapter.VoteResidentAdapter
 import com.graduationproject.grad_project.databinding.FragmentVoteResidentBinding
+import com.graduationproject.grad_project.view.resident.dialogs.ShowVoteResidentDialogFragment
 import com.graduationproject.grad_project.viewmodel.VoteResidentViewModel
 
 class VoteResidentFragment : Fragment() {
@@ -28,7 +29,13 @@ class VoteResidentFragment : Fragment() {
             adapter.submitList(it)
         }
         viewModel.retrieveContinuesVoting()
-        adapter = VoteResidentAdapter(parentFragmentManager)
+        adapter = VoteResidentAdapter { voting ->
+            viewModel.saveClickedVoting(voting)
+            val dialog = viewModel.clickedVoting.value?.let {
+                ShowVoteResidentDialogFragment(it)
+            }
+            dialog?.show(parentFragmentManager, "showVoteResidentDialog")
+        }
         binding.continuesRecyclerView.adapter = adapter
         binding.lifecycleOwner = viewLifecycleOwner
         return view
