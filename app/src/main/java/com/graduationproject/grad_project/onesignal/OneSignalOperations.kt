@@ -61,7 +61,7 @@ object OneSignalOperations {
      * It will be used to send push notification to residents by using
      * their player_ids
      * @param adminEmail It's for taking the administrator's info from db
-     * * */
+     * */
     suspend fun takeAdminPlayerIDAndEmail(
         adminEmail: String,
         ioDispatcher: CoroutineDispatcher = Dispatchers.IO

@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Grad-Project</string>
+    <string name="project_name">Apartopolis</string>
+    <string name="site_name">Site Adı</string>
+    <string name="password">Şifre</string>
+    <string name="log_in">GİRİŞ</string>
+    <string name="admin">Yönetici</string>
+    <string name="resident">Sakin</string>
+    <string name="log_in_click">logInClick</string>
+    <string name="you_don_t_have_an_account">Hesabın yok mu?</string>
+    <string name="sign_up_here">Buradan kayıt ol</string>
+    <string name="sign_up_here_click">SignUpHereClick</string>
+    <string name="new_account">Yeni Hesap</string>
+    <string name="full_name">Ad-Soyad</string>
+    <string name="phone_number">Cep Telefonu</string>
+    <string name="next">İLERİ</string>
+    <string name="next_click">nextClick</string>
+    <string name="not_the_first_time_here">Buraya ilk defa gelmiyor musun?</string>
+    <string name="log_in.">Giriş.</string>
+    <string name="log_in_Clickable">logInClickable</string>
+    <string name="site_information">Site Bilgisi</string>
+    <string name="city">Şehir</string>
+    <string name="county">İlçe</string>
+    <string name="block_no">Blok No</string>
+    <string name="flat_count">Daire Sayısı</string>
+    <string name="block_count">Blok Sayısı</string>
+    <string name="flat_no">Daire No</string>
+    <string name="sign_up">Kayıt ol</string>
+    <string name="ap">AP</string>
+    <string name="account_name">Hesap Adı</string>
+    <string name="collection_of_debt">Borç Tahsilatı</string>
+    <string name="incomes">Gelirler</string>
+    <string name="expenditures">Giderler</string>
+    <string name="requests">Talepler</string>
+    <string name="home">Ana Sayfa</string>
+    <string name="announcements">Duyurular</string>
+    <string name="residents">Sakinler</string>
+    <string name="add_new_announcement">Yeni Duyuru Ekle</string>
+    <string name="todo">TODO</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title">Başlık</string>
+    <string name="content">İçerik</string>
+    <string name="share">paylaş</string>
+    <string name="take_photo">Fotoğraf çek</string>
+    <string name="account">HESAP</string>
+    <string name="setting">Ayarlar</string>
+    <string name="log_out">Oturumu kapat</string>
+    <string name="notification">Bildirimler</string>
+    <string name="voting">Oylama</string>
+    <string name="services">Servisler</string>
+    <string name="meeting">Toplantı</string>
+    <string name="pending_approval">Onay bekleyenler</string>
+    <string name="open_nav_drawer">nav drawer aç</string>
+    <string name="close_nav_drawer">nav drawer kapat</string>
+    <string name="başlık">Başlık</string>
+    <string name="içerik">İçerik</string>
+    <string name="account_type">Hesap Tipi</string>
+    <string name="x_blok">X-Blok</string>
+    <string name="no_01">No: 01</string>
+    <string name="buradan_ara">Buradan Ara</string>
+    <string name="herkes">Herkes</string>
+    <string name="tutar">Tutar</string>
+    <string name="ekle">Ekle</string>
+    <string name="borç_ekle">BORÇ EKLE</string>
+    <string name="tl">TL</string>
+    <string name="iptal">iptal</string>
+    <string name="mesaj_gönder">MESAJ GÖNDER</string>
+    <string name="gönder">Gönder</string>
+    <string name="mesaj_g_nder">Gönder</string>
+    <string name="sil">SİL</string>
+    <string name="bilgi">BİLGİ</string>
+    <string name="duyuru_bilgisi">Duyuru Bilgisi</string>
+    <string name="gider_ekle">gider ekle</string>
+    <string name="tarih">Tarih</string>
+    <string name="fatura_ekle">Fatura ekle</string>
+    <string name="gider_tipi">Gider Tipi</string>
+    <string name="Gider_Ekle">Gider Ekle</string>
+    <string name="borç_sil">BORÇ SİL</string>
+    <string name="talep_oluştur">Talep Oluştur</string>
+    <string name="borc_odeme">Borç ödeme</string>
+    <string name="oylama">Oylama</string>
+    <string name="borcum">Borcum</string>
+    <string name="taleplerim">Taleplerim</string>
+    <string name="fab_add_request">fab_add_request</string>
+    <string name="konu">Konu</string>
+    <string name="oneri">Öneri</string>
+    <string name="sikayet">Şikayet</string>
+    <string name="turu">Türü</string>
+    <string name="talep_bilgisi">Talep Bilgisi</string>
+    <string name="gider_baslıgı">Gider Başlığı</string>
+    <string name="borc_sıl">BORÇ SİL</string>
+    <string name="silme_nedeni">Silme nedeni</string>
+    <string name="gelen_mesajlar">Gelen Mesajlar</string>
+    <string name="site_giderleri">Site giderleri</string>
+    <string name="oylama_sonuclar">Oylama Sonuçları</string>
+    <string name="bildirimleri_temizle">Bildirimleri temizle</string>
+    <string name="mesajlar_sil">Mesajları sil</string>
+    <string name="aç">Aç</string>
+    <string name="kapat">Kapat</string>
+    <string name="yönetici">Yönetici</string>
+    <string name="sakin">Sakin</string>
+    <string name="add_voting">Oylama Ekle</string>
+    <string name="surec">Süreç</string>
+    <string name="gun">gün</string>
+    <string name="baslik_ekle">Başlık ekle</string>
+    <string name="Icerik_ekle">İçerik ekle</string>
+    <string name="devam_edenler">Devam edenler</string>
+    <string name="bitenler">Bitenler</string>
+    <string name="yes">Evet</string>
+    <string name="_66">%66</string>
+    <string name="test">test</string>
+    <string name="boşluklarıDoldur">Lütfen boşlukları doldurunuz!</string>
+    <string name="tamam">Tamam</string>
+    <string name="required">Gerekli*</string>
+    <string name="yanlışAktivasyonKodu">Aktivasyon kodunu doğru giriniz!</string>
+    <string name="geçersizEmailAdresi">Geçersiz email adresi!</string>
+    <string name="siteBilgisiYazdırılamadı">Site bilgisi veritabanına yazdırılamadı!</string>
+    <string name="kullanıcıVerisiYazdırılamadı">Kullanıcı bilgisi veritabanına yazdırılamadı!</string>
+
+    <string name="borçSilmeİptalEdildi">Borç silme işlemi iptal edildi!</string>
+    <string name="borçEklemeİptalEdildi">Borç ekleme işlemi iptal edildi!</string>
+    <string name="borçSilmeBaşarılı">Borç silme işlemi başarıyla gerçekleşti!</string>
+    <string name="borçSilmeBaşarısız">Borç silme işlemi gerçekleştirilemedi!</string>
+    <string name="borçEklemeBaşarılı">Borç ekleme işlemi başarıyla gerçekleşti!</string>
+    <string name="borçEklemeBaşarısız">Borç ekleme işlemi gerçekleştirilemedi!</string>
+
+    <string name="odeme_bilgileri">Ödeme Bilgileri</string>
+    <string name="kart_sahibinin_ad">Kart sahibinin adı</string>
+    <string name="kart_numaras">Kart numarası</string>
+    <string name="aa_yy">AA/YY</string>
+    <string name="cvc">CVC</string>
+    <string name="terms"><b>Şartları ve Koşulları</b> okudum,kabul ediyorum.</string>
+    <string name="odeme_yap">Ödeme yap</string>
+
+    <string name="öneri">Öneri</string>
+    <string name="talepGöster">Talep Bilgisi</string>
+    <string name="bildirimler">Bildirimler</string>
+    <string name="çizgi">-</string>
+    <string name="sure">Süre</string>
+    <string name="belge_ekle">Belge ekle</string>
+    <string name="onayla">Onayla</string>
+    <string name="reddet">Reddet</string>
+    <string name="durations">Süre:</string>
+    <string name="_16_s">16(s)</string>
+    <string name="site_management_app">Site yönetim uygulaması</string>
+    <string name="site_Giderleri">Site Giderleri</string>
+    <string name="isleminiz_tamamlandi">İşleminiz Tamamlandı</string>
+    <string name="check_account_info">Yöneticinizle iletişime geçip tekrar deneyiniz.</string>
+    <string name="reject_message">Talebiniz Reddedildi</string>
+
+    <string-array name="type_list">
+        <item>Öneri</item>
+        <item>Şikayet</item>
+    </string-array>
+    <string name="geçersiz">Geçersiz!</string>
+    <string name="işleminizGerçekleştiriliyor">İşleminiz gerçekleştiriliyor…</string>
+    <string name="eminMisiniz">"Hesabınızdan çıkış yapmak istediğinize emin misiniz?"</string>
+    <string name="evet">Evet</string>
+    <string name="hayır">Hayır</string>
+
+    <string name="settings_info">Sitenizde kayıtlı olan hesap bilgilerinizi bu menüden güncelleyebilirsiniz.</string>
+    <string name="hesap_ayarlar">Hesap Ayarları</string>
+    <string name="ad_soyad">Ad-Soyad</string>
+    <string name="batuhan_goren">Batuhan Gören</string>
+    <string name="_90_555_333_12_08">+90 (555) 333 12 08</string>
+    <string name="cep_telefonu">Cep Telefonu</string>
+    <string name="batuhangoren_hotmail_com">batuhangoren@hotmail.com</string>
+    <string name="sifre">Şifre</string>
+    <string name="passwordStars">***********</string>
+    <string name="settingsNameInfo">Yöneticinin sizi tanıyabilmesi için lütfen takma ad, lakap vb. takılar kullanmayınız.</string>
+    <string name="guncelle">güncelle</string>
+    <string name="settingsPhoneInfo">Lütfen kullanmakta olduğunuz telefon numaranızı giriniz.</string>
+    <string name="settingsEmailInfo">Lütfen kullanmakta olduğunuz mail adresinizi giriniz.</string>
+    <string name="settingsPasswordInfo">Lütfen şifrenizi belirlerken özel karakterler (.!/_) kullanmaya özen gösterin. Bu, hesabınızın üçüncü kişiler tarafından erişilmesine engel olacaktır.</string>
+    <string name="mail_adresi">Mail Adresi</string>
+    <string name="yeni_şifre">Yeni Şifre</string>
+    <string name="sakinBlokNo">Blok: %s</string>
+    <string name="sakinDaireNo">Daire: %d</string>
+    <string name="sakinBorc">%d TL</string>
+    <string name="sifreyi_yinele">Şifreyi yinele</string>
+    <string name="eski_sifre">Eski şifre</string>
+    <string name="tarih_seciniz">Tarih seçiniz</string>
+    <string name="pending_info">Sitenizdeki askıda bekleyen sakinleri buradan görüntüleyebilirsiniz. Onaylanan sakinler siteye aidat bilgileriyle beraber otomatik olarak eklenir.</string>
+    <string name="tumunu_onayla">Tümünü onayla</string>
+    <string name="sakinOnayBekliyor">%s sakini onay için bekliyor.</string>
+    <string name="waitingApprovalInfo">Sitenize kayıt olma talebinizi yöneticinize bildirdik. Bilgileriniz, yönetici tarafından doğrulandıktan sonra uygulamaya giriş yapabilirsiniz.</string>
+    <string name="announcementInfo">Sitenizde bulunan sakinlere genel bir bilgilendirme, hatırlatma yapmak için duyuru paylaşabilirsiniz.</string>
+    <string name="sakin_onaylanıyor">Sakin Onaylanıyor!</string>
+    <string name="expendituresInfo">Sitenizde oluşan ekstra harcamaları gider olarak ekleyebilirsiniz. Sakinlerin bu gideri inceleyebilmeleri için fatura veya dekont ile belgelendirmeye özen gösteriniz.</string>
+    <string name="incomingMessagesInfo">Yönetici tarafından sadece sizinle paylaşılan mesajlar burada listelenir.</string>
+    <string name="notificationAdminInfo">Sakinler tarafından yapılan işlemlerin tümü burada listelenir.</string>
+    <string name="notificationResidentInfo">Yönetici tarafından yapılan işlemlerin tümü burada bildirim olarak listelenir.</string>
+    <string name="siteExpendituresInfo">Site içerisinde yer alan ekstra harcama ve giderleri buradan dekont veya faturasıyla beraber inceleyebilirsiniz.</string>
+    <string name="voteResidentInfo">Site içerisinde alınacak kararları belirlemek için açılan oylamalar burada listelenir. Yalnızca yönetici tarafından belirlenen süre içerisinde oy kullanabilirsiniz. Her sakinin sadece bir oy kullanma hakkı olduğunu unutmayınız.</string>
+    <string name="votingContinueAdminInfo">Site içerisinde alınacak kararları belirlemek için buradan genel bir oylama açabilirsiniz. Oylama süresini belirlerken, tüm sakinlerin oy kullanabilmesi için minimum 2 gün süre vermeniz tavsiye edilir.</string>
+    <string name="votingDoneAdminInfo">Biten oylamaları buradan görüntüleyebilirsiniz. Oylama sonuçlarını, alınan karar uygulandıktan en erken 1 hafta sonra silmeniz tavsiye edilir.</string>
+    <string name="voteResultResidentInfo">Biten oylamalar burada listelenir. Sonuçları % lik oranlarıyla beraber inceleyebilirsiniz.</string>
+    <string name="serviceResidentInfo">Yöneticinin site için seçtiği servisler burada listelenir. İhtiyacınız anında ilgili servis ile iletişime geçebilirsiniz.</string>
+    <string name="siteSakinOnayı">%s adlı kişiyi sitenize dahil etmek istediğinize emin misiniz?</string>
+    <string name="siteSakinReddi">%s adlı kişiyi sitenize dahil etmek istemediğinize emin misiniz?</string>
+    <string name="serviceAdminInfo">Bu alanda, sakinlerin ihtiyaç anında iletişme geçmesi için yer alan servisler listelenir. Sakinlere kolaylık sunmak için bu bölümü güncel tutmayı unutmayınız.</string>
+    <string name="requestAdminInfo">Bu alanda, sakinler tarafından paylaşılan öneri ve şikayetler yer alır. Sakinlerle etkileşimde kalmak için bu alanı sık ziyaret etmeniz önerilir.</string>
+    <string name="requestResidentInfo">Bu alanda, site hakkında yöneticiyle paylaşmak istediğiniz öneri veya şikayetleriniz yer alır.</string>
+    <string name="servis_adi">Servis adı</string>
+    <string name="servis_tipi">Servis Tipi</string>
+    <string name="textview">TextView</string>
+    <string name="gelen_talepler">Gelen Talepler</string>
+    <string name="confirmationInfo">Ahmet Tekin sakinini sitenize eklemek üzeresiniz.</string>
+
+    <string-array name="serviceType_list">
+        <item>Taksi</item>
+        <item>Tesisatçı</item>
+        <item>Elektrikçi</item>
+        <item>Çilingir</item>
+    </string-array>
+
+    <string name="kalanSure">Kalan Süre: %s</string>
+    <string name="expenditureAmount">%d TL</string>
+    <string name="aidat">Aidat</string>
+    <string name="blok_adı">Blok Adı</string>
+    <string name="buEmailAdresiKullanıldı">Bu email adresi başka bir kullanıcı tarafından kullanılmaktadır!</string>
+    <string name="geçersizTelefonNo">Geçersiz Telefon No!</string>
+    <string name="şifreBilgi">En az bir adet küçük ve büyük harf, sayı ve noktalama işaretleri kullanın!</string>
+    <string name="lütfenBirŞehirSeçiniz">Lütfen bir şehir seçiniz!</string>
+    <string name="lütfenBirİlçeSeçiniz">Lütfen bir ilçe seçiniz!</string>
+    <string name="lütfenBirSiteSeçiniz">Lütfen bir site seçiniz!</string>
+    <string name="lütfenBirSiteAdıYazınız">Lütfen bir site adı yazınız!</string>
+    <string name="lütfenBirBlokAdıSeçiniz">Lütfen bir blok adı seçiniz!</string>
+    <string name="lütfenBirDaireSeçiniz">Lütfen bir daire seçiniz!</string>
+    <string name="lütfenDaireSayınısıYazınız">Lütfen daire sayısını yazınız!</string>
+    <string name="lütfenBlokAdınıYazınız">Lütfen blok adını yazınız!</string>
+    <string name="lütfenAidatMiktarınıYazınız">Lütfen aidat miktarını giriniz!</string>
+
+    <string-array name="cities">
+        <item>İzmir</item>
+        <item>İstanbul</item>
+        <item>Ankara</item>
+    </string-array>
+    <string-array name="izmirDistricts">
+        <item>Bayraklı</item>
+        <item>Bornova</item>
+        <item>Buca</item>
+        <item>Çiğli</item>
+        <item>Konak</item>
+    </string-array>
+    <string-array name="istanbulDistricts">
+        <item>Beşiktaş</item>
+        <item>Beykoz</item>
+        <item>Kadıköy</item>
+        <item>Şişli</item>
+    </string-array>
+    <string-array name="ankaraDistricts">
+        <item>Altındağ</item>
+        <item>Akyurt</item>
+        <item>Beypazarı</item>
+        <item>Çankaya</item>
+    </string-array>
+
+    <string name="home_page">Ana Sayfa</string>
+    <string name="homePageInfo">Sitenizdeki genel işlemleri buradan görüntüleyebilir ve içerik bilgilerine ulaşabilirsiniz.</string>
+    <string name="oylamalar">Oylamalar</string>
+    <string name="homeDebtInfoText">Sakinler tarafından tahsil edilen işlem özetleri</string>
+    <string name="line">-</string>
+    <string name="homeRequestInfo">Sakinler tarafından oluşturulan öneri veya şikayet listesi</string>
+    <string name="homeVoteInfo">Açılan oylama listesi</string>
+    <string name="homeMyDebtInfo">Aidat ve ekstra gider tutarı</string>
+    <string name="homeRequestResidentInfo">Yöneticiyle paylaşılan öneri ve şikayet listem</string>
+    <string name="homeNotificationInfo">Yönetici tarafından yapılan işlem bildirimleri</string>
+
+    <string name="phoneHelperText">5** *** ** **</string>
+    <string name="email">Email</string>
+    <string name="lütfenEmailVeŞifreniziKontrolEdiniz">Lütfen email adresinizi ve şifrenizi kontrol ediniz!</string>
+    <string name="oturumKapatılamadı">Oturum kapatılamadı. Bir daha deneyiniz!</string>
+
+    <string name="dosyaİndiriliyor">Dosya indiriliyor…</string>
+    <string name="dosyaİndirmeBaşarısız">Dosya indirme başarısız!</string>
+    <string name="fotograf_ekle">Fotoğraf ekle</string>
+
+    <string name="oturumu_kapat"><u>Oturumu Kapat</u></string>
+    <string name="şifreDeğiştirmeBaşarılı">Şifre değiştirme işlemi başarılı!</string>
+    <string name="şifreDeğiştirmeBaşarısız">Şifre değiştirme işlemi başarısız!</string>
+    <string name="telefonNoDeğiştirilemedi">Telefon numarası değiştirilemedi. Bir süre sonra bir daha deneyiniz!</string>
+
+    <string name="application">UYGULAMA</string>
+    <string name="hakkinda">Hakkında</string>
+    <string name="referans">Referans</string>
+    <string name="referenceFirstText">Bu uygulamada kullanılan animasyonlu ikonlar <b>Freepik</b> tarafından</string>
+    <string name="referenceSecondText"><b>www.flaticon.com</b> üzerinden alınmıştır.</string>
+    <string name="referenceThirdText">Sakin tarafında açılan onay bekleme sayfasında kullanılan animasyonlu ikon <b>https://icons8.com</b> adresi üzerinden alınmıştır.</string>
+    <string name="activation">Erişim</string>
+    <string name="meetingInfoText">Sakinlerle video-konferans görüşmesi yapmak için toplantı planlayabilirsiniz. Toplantıyı oluşturduktan sonra linki sakinlerle paylaşmayı unutmayınız.</string>
+    <string name="meetingResidentInfoText">Yönetici tarafından açılan toplantıya buradan bağlanabilirsiniz.</string>
+    <string name="toplant_planla">Toplantı Planla</string>
+    <string name="toplant_linki">Toplantı Linki</string>
+    <string name="createMeeting">Toplantı Oluştur</string>
+    <string name="meetingTime">Toplanti Saati: %d:%d</string>
+    <string name="noMeetingText">Yönetici tarafından açılmış herhangi bir toplantı bulunamadı</string>
+    <string name="toplantıSaatiYaklaştıResident">Toplantı başlamak üzere. Katılmanız önemle rica olunur!</string>
+    <string name="toplantıyaSon15Dakika">Toplantınız 15 dakika içinde başlayacaktır!</string>
+    <string name="servicePhoneNumber">+90%s</string>
+    <string name="collectedMoney">%d TL</string>
+    <string name="myDebt">%d TL</string>
+    <string name="bills_added">Fatura eklendi.</string>
+    <string name="photoAdded">Fotoğraf eklendi.</string>
+    <string name="belge_eklendi">Belge eklendi.</string>
+    <string name="borc_adi">Borç Adı</string>
+    <string name="borcunuz_bulunmamaktadır">Borcunuz bulunmamaktadır!</string>
+
+</resources>
